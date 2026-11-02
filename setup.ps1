@@ -1,11 +1,9 @@
-# One-time setup for Windows. Run from this folder in PowerShell:
-#   powershell -ExecutionPolicy Bypass -File .\setup.ps1
-$ErrorActionPreference = "Stop"
+# One-time setup for Windows. Easiest: double-click setup.bat
+$ErrorActionPreference = "Continue"
 Set-Location $PSScriptRoot
 
 function Have($cmd) { [bool](Get-Command $cmd -ErrorAction SilentlyContinue) }
 
-# --- Node.js (>= 22 required by HyperFrames) ---
 if (-not (Have node)) {
     Write-Host "Node.js not found. Install Node 22 LTS or newer:  winget install OpenJS.NodeJS.LTS" -ForegroundColor Red
     exit 1
@@ -16,32 +14,35 @@ if ($nodeMajor -lt 22) {
     exit 1
 }
 
-# --- pnpm ---
-if (-not (Have pnpm)) {
-    Write-Host "Installing pnpm..." -ForegroundColor Cyan
-    npm install -g pnpm@12
-}
-
-# --- uv ---
+# --- uv (Python packages: pretty_midi, pedalboard, numpy) ---
 if (-not (Have uv)) {
     Write-Host "Installing uv..." -ForegroundColor Cyan
     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
     $env:Path = "$env:USERPROFILE\.local\bin;$env:Path"
 }
 
-# --- FFmpeg (HyperFrames needs it on PATH; Remotion bundles its own) ---
-if (-not (Have ffmpeg)) {
-    Write-Host "FFmpeg not found (needed by HyperFrames). Install with:  winget install Gyan.FFmpeg" -ForegroundColor Yellow
+Write-Host "`nInstalling JS packages..." -ForegroundColor Cyan
+$ok = $false
+if (Have pnpm) {
+    pnpm install
+    if ($LASTEXITCODE -eq 0) { $ok = $true } else { Write-Host "pnpm failed, trying npm..." -ForegroundColor Yellow }
 }
-
-Write-Host "`nInstalling JS packages (pnpm)..." -ForegroundColor Cyan
-pnpm install
+if (-not $ok) {
+    npm install --no-audit --no-fund
+    if ($LASTEXITCODE -ne 0) { Write-Host "npm install failed." -ForegroundColor Red; exit 1 }
+}
 
 Write-Host "`nInstalling Python packages (uv)..." -ForegroundColor Cyan
 uv sync
 
-Write-Host "`nDone. Try:" -ForegroundColor Green
-Write-Host "  pnpm studio                 # Remotion Studio (live preview)"
-Write-Host "  pnpm render                 # render the Remotion sample to out/"
-Write-Host "  pnpm hf:preview             # HyperFrames Studio"
-Write-Host "  uv run audio/make_jingle.py # MIDI + effects audio test"
+Write-Host "`nDownloading the headless browser Remotion renders with (one time)..." -ForegroundColor Cyan
+node node_modules/@remotion/cli/remotion-cli.js browser ensure
+
+if (-not (Have ffmpeg)) {
+    Write-Host "`nOptional: FFmpeg is not on PATH. The story pipeline works without it, but HyperFrames renders need it:  winget install Gyan.FFmpeg" -ForegroundColor Yellow
+}
+
+Write-Host "`nChecking..." -ForegroundColor Cyan
+node pipeline/cli.mjs doctor
+
+Write-Host "`nDone. Make a video:  make-video.bat demo-game" -ForegroundColor Green

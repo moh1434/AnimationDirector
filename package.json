@@ -1,6 +1,6 @@
 {
   "name": "my-custom-setup",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@12.16.1",
@@ -10,6 +10,9 @@
   "scripts": {
     "postinstall": "node scripts/vendor.mjs",
     "vendor": "node scripts/vendor.mjs",
+    "video": "node pipeline/cli.mjs",
+    "make": "node pipeline/cli.mjs make",
+    "doctor": "node pipeline/cli.mjs doctor",
     "studio": "remotion studio remotion/index.ts",
     "render": "remotion render remotion/index.ts DidYouKnow out/did-you-know.mp4",
     "hf:preview": "hyperframes preview hyperframes",
@@ -18,16 +21,20 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@remotion/bundler": "4.0.539",
     "@remotion/cli": "4.0.539",
-    "gsap": "^3.15.0",
+    "@remotion/renderer": "4.0.539",
+    "gsap": "3.15.0",
     "hyperframes": "0.8.230",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1",
+    "puppeteer-core": "25.16.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "remotion": "4.0.539",
-    "tone": "^15.1.22"
+    "tone": "15.1.22"
   },
   "devDependencies": {
-    "@types/react": "^19.3.0",
-    "typescript": "^5.9.0"
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3"
   }
 }

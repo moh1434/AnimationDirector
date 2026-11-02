@@ -1,0 +1,95 @@
+// Exports a project as a standalone HyperFrames composition (HTML + GSAP timeline) that renders
+// the exact same scenes as Remotion. Open it in HyperFrames Studio, edit, or render it there.
+import { build as esbuild } from "esbuild";
+import { mkdirSync, writeFileSync, cpSync, copyFileSync, existsSync, readFileSync } from "node:fs";
+import { join, basename, dirname } from "node:path";
+import { spawnSync } from "node:child_process";
+import { ROOT, IS_WIN, binOf } from "./env.mjs";
+
+const FORMATS = { youtube: [1920, 1080], shorts: [1080, 1920], square: [1080, 1080] };
+
+export async function exportHyperframes(dir, { format = "youtube", render = false, props }) {
+  const name = basename(dir);
+  const build = join(dir, "build");
+  const out = join(build, `hyperframes-${format}`);
+  mkdirSync(join(out, "assets", "fonts"), { recursive: true });
+  const [W, H] = FORMATS[format] ?? FORMATS.youtube;
+  const story = { ...props, width: W, height: H };
+  const duration = story.storyboard.duration;
+
+  await esbuild({
+    entryPoints: [join(ROOT, "remotion", "story", "hf-entry.tsx")],
+    bundle: true, minify: true, format: "iife", target: "es2020", outfile: join(out, "story.js"),
+    jsx: "automatic", define: { "process.env.NODE_ENV": '"production"' }, logLevel: "error",
+    plugins: [{
+      name: "engine-alias",
+      setup(b) {
+        b.onResolve({ filter: /^\.\/engine$/ }, (a) => ({ path: join(a.resolveDir, "engine-hf.tsx") }));
+      },
+    }],
+  });
+
+  // library code (React scheduler, GSAP internals) mentions Math.random/Date.now; make them deterministic
+  const js = readFileSync(join(out, "story.js"), "utf8").replace(/Math\.random\(\)/g, "__hfRand()").replace(/Date\.now\(\)/g, "__hfNow()");
+  const prelude = "var __hfS=1234567,__hfT=0;function __hfRand(){__hfS|=0;__hfS=__hfS+0x6D2B79F5|0;var t=Math.imul(__hfS^__hfS>>>15,1|__hfS);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}function __hfNow(){return __hfT+=1}\n";
+  writeFileSync(join(out, "story.js"), prelude + js, "utf8");
+  cpSync(join(ROOT, "assets", "fonts"), join(out, "assets", "fonts"), { recursive: true });
+  copyFileSync(join(ROOT, "assets", "grain.png"), join(out, "assets", "grain.png"));
+  const audio = existsSync(join(build, "mix.wav")) ? "mix.wav" : "voice.wav";
+  copyFileSync(join(build, audio), join(out, "audio.wav"));
+  // user images referenced by the storyboard
+  for (const s of story.storyboard.scenes) {
+    for (const src of [s.image?.src, typeof s.bg === "object" ? s.bg?.image : null, ...(s.items ?? []).map((i) => i.image)]) {
+      if (src && existsSync(join(build, src))) { mkdirSync(dirname(join(out, src)), { recursive: true }); copyFileSync(join(build, src), join(out, src)); }
+    }
+  }
+
+  const fontFaces = [
+    ["Baloo Bhaijaan 2", "baloo-bhaijaan-2-arabic-800-normal.woff2", 800], ["Baloo Bhaijaan 2", "baloo-bhaijaan-2-latin-800-normal.woff2", 800],
+    ["Baloo Bhaijaan 2", "baloo-bhaijaan-2-arabic-700-normal.woff2", 700], ["Baloo Bhaijaan 2", "baloo-bhaijaan-2-latin-700-normal.woff2", 700],
+    ["Baloo Bhaijaan 2", "baloo-bhaijaan-2-arabic-500-normal.woff2", 500], ["Baloo Bhaijaan 2", "baloo-bhaijaan-2-latin-500-normal.woff2", 500],
+    ["Lalezar", "lalezar-arabic-400-normal.woff2", 400], ["Lalezar", "lalezar-latin-400-normal.woff2", 400],
+  ].map(([f, file, w]) => `@font-face{font-family:'${f}';src:url(assets/fonts/${file}) format('woff2');font-weight:${w};font-display:block}`).join("\n");
+
+  const html = `<!doctype html>
+<html lang="${story.storyboard.language ?? "en"}">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=${W}, height=${H}" />
+<title>${name}</title>
+<style>
+${fontFaces}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:${W}px;height:${H}px;overflow:hidden;background:#111}
+#root{position:relative;width:${W}px;height:${H}px;overflow:hidden}
+#stage{position:absolute;inset:0}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="story" data-start="0" data-duration="${duration}" data-width="${W}" data-height="${H}" data-fps="${story.storyboard.fps ?? 30}">
+  <div id="stage" class="clip" data-start="0" data-duration="${duration}" data-track-index="0"></div>
+  <audio id="soundtrack" src="audio.wav" data-start="0" data-duration="${duration}" data-track-index="1" data-volume="1"></audio>
+</div>
+<script>window.__STORY = ${JSON.stringify(story)};</script>
+<script src="story.js"></script>
+</body>
+</html>
+`;
+  writeFileSync(join(out, "index.html"), html, "utf8");
+  writeFileSync(join(out, "meta.json"), JSON.stringify({ id: `story-${name}-${format}`, name: `${name} (${format})` }, null, 2));
+  writeFileSync(join(out, "hyperframes.json"), JSON.stringify({ $schema: "https://hyperframes.heygen.com/schema/hyperframes.json", paths: { blocks: "compositions", components: "compositions/components", assets: "assets" } }, null, 2));
+  writeFileSync(join(out, "README.md"), `# ${name} — HyperFrames export\n\nGenerated by \`pipeline/cli.mjs hyperframes\`. The scenes are the same React scene code as the Remotion render,\nmounted in the page and driven by the paused GSAP timeline \`window.__timelines.story\`.\n\n- Preview / edit:  npx hyperframes preview .\n- Check:           npx hyperframes check .\n- Render:          npx hyperframes render . -o ../../out/${name}-${format}-hyperframes.mp4\n\nRe-exporting replaces this folder. Edit storyboard.json in the project for lasting changes.\n`);
+  console.log(`• HyperFrames project: ${out}`);
+
+  const hf = binOf("hyperframes", "hyperframes");
+  const chk = spawnSync(process.execPath, [hf, "lint", out], { cwd: ROOT, encoding: "utf8" });
+  console.log((chk.stdout || chk.stderr || "").split("\n").filter((l) => /error|warn|✓|✔|pass/i.test(l)).slice(0, 12).join("\n"));
+  if (render) {
+    const mp4 = join(dir, "out", `${name}-${format}-hyperframes.mp4`);
+    mkdirSync(join(dir, "out"), { recursive: true });
+    console.log(`• Rendering with HyperFrames → ${mp4}`);
+    const r = spawnSync(process.execPath, [hf, "render", out, "-o", mp4, "-q", "standard"], { cwd: ROOT, stdio: "inherit" });
+    if (r.status !== 0) throw new Error("hyperframes render failed (it needs FFmpeg on PATH: winget install Gyan.FFmpeg)");
+  }
+  return out;
+}

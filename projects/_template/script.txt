@@ -1,0 +1,11 @@
+# Your story, cut into time segments that match voice.wav.
+# One line per segment:   start | end | the words spoken in that segment
+# Times: seconds (4.5) or minutes:seconds (1:04.5). Lines starting with # are ignored.
+# Other accepted formats: an .srt file, "0:00-0:04.5 text", "[0:04.5] text" (start only),
+# or timing lines "0 | 4.5" with the story written below as one paragraph per segment.
+#
+# Optional: give a segment a title by writing it in a JSON script instead (see STORYBOARD_GUIDE.md).
+
+0    | 4.2  | Did you know that the Earth is hotter inside than the surface of the Sun?
+4.2  | 9.0  | Scientists think the core is about 6000 degrees. But how do we know that?
+9.0  | 14.5 | Nobody has ever been there. The deepest hole we ever dug is only 12 kilometres deep.

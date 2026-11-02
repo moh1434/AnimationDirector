@@ -1,0 +1,10 @@
+{
+  "title": "My video",
+  "language": "auto",
+  "formats": ["youtube", "shorts"],
+  "captions": "auto",
+  "music": "auto",
+  "host": "host",
+  "sfx": true,
+  "watermark": ""
+}
