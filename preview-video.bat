@@ -3,5 +3,5 @@ rem  preview-video.bat <project> [--format shorts]  ->  opens Remotion Studio on
 cd /d "%~dp0"
 set "P=%~1"
 if "%P%"=="" set /p "P=Project name: "
-node pipeline\cli.mjs plan "%P%" && node pipeline\cli.mjs studio "%P%" %2 %3
+call pnpm video plan "%P%" && call pnpm video studio "%P%" %2 %3
 pause

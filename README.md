@@ -78,7 +78,7 @@ assets/                 bundled fonts (Baloo Bhaijaan 2, Lalezar — OFL) and pa
 STORYBOARD_GUIDE.md     every layout, pose, expression, prop and setting
 ```
 
-Command line (any OS): `node pipeline/cli.mjs <new|plan|audio|render|make|stills|studio|hyperframes|doctor> <project> [options]`.
+Command line (any OS): `pnpm video <new|plan|audio|render|make|stills|studio|hyperframes|doctor> <project> [options]`.
 
 ## Original toolkit commands (still work)
 

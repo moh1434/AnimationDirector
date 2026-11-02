@@ -4,6 +4,6 @@ cd /d "%~dp0"
 set "P=%~1"
 if "%P%"=="" set /p "P=Name for the new video project: "
 if "%P%"=="" exit /b 1
-node pipeline\cli.mjs new "%P%"
+call pnpm video new "%P%"
 if not errorlevel 1 start "" "%~dp0projects\%P%"
 pause
