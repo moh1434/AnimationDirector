@@ -1,5 +1,10 @@
 # My_Custom_Setup — notes for Claude
 
+Read [AGENTS.md](AGENTS.md) for package-manager rules, installed Remotion skill
+routing, compatibility checks, and project-specific overrides to generic effects.
+For padding, whitespace, alignment, or portrait framing issues, use
+[LAYOUT_REVIEW.md](LAYOUT_REVIEW.md) before changing scene coordinates.
+
 This folder is a voice-led cartoon video pipeline (Remotion + GSAP + HyperFrames + Tone.js +
 pretty_midi + pedalboard). The user supplies a narration `.wav`, the story text and time segments;
 the pipeline makes YouTube (16:9) and Shorts (9:16) videos in the style of
