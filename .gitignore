@@ -1,0 +1,45 @@
+# ---------- Node / pnpm ----------
+node_modules/
+.pnpm-store/
+.pnpm-debug.log*
+npm-debug.log*
+*.tsbuildinfo
+
+# ---------- Python / uv ----------
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# ---------- Render output & caches ----------
+out/
+renders/
+build/
+dist/
+.remotion/
+.hyperframes/
+hyperframes/renders/
+hyperframes/vendor/
+*.tmp
+
+# ---------- Secrets ----------
+.env
+.env.*
+!.env.example
+
+# ---------- Editors / OS ----------
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Large media (uncomment if you don't want assets in git) ----------
+# assets/**/*.mp4
+# assets/**/*.mov
+# assets/**/*.wav

@@ -1,0 +1,12 @@
+[project]
+name = "my-custom-setup-audio"
+version = "0.1.0"
+description = "Python audio tools for the animation pipeline (MIDI generation + audio effects)."
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "pedalboard>=0.9.26",
+    "pretty-midi>=0.2.11",
+]
+
+[tool.uv]
+package = false
