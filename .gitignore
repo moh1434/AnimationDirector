@@ -39,6 +39,12 @@ hyperframes/vendor/
 Thumbs.db
 desktop.ini
 
+# Ignore everything inside /DEV
+/DEV/*
+# But do not ignore /DEV/public and anything inside it
+!/DEV/public/
+!/DEV/public/**
+
 # ---------- Large media (uncomment if you don't want assets in git) ----------
 # assets/**/*.mp4
 # assets/**/*.mov
