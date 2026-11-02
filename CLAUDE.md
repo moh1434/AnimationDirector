@@ -27,7 +27,7 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 ## Running things
 
 * The user is on **Windows**. `node_modules` and `.venv` are Windows installs made by `setup.bat`.
-  Never run `npm install`/`uv sync` in this folder from a Linux shell (it would replace Windows binaries).
+  Never run `pnpm install`/`uv sync` in this folder from a Linux shell (it would replace Windows binaries).
 * Pure-JS steps (`plan`'s parsing/directing, `compile`) run anywhere with Node ≥ 20, but the audio
   steps need the Python venv and rendering needs Remotion's browser — run those on Windows
   (`make-video.bat`, or `node pipeline\cli.mjs ...` in PowerShell).
