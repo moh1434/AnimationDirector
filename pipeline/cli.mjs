@@ -80,8 +80,16 @@ function formatsOf(settings) {
   return (Array.isArray(f) ? f : String(f).split(",")).map((x) => x.trim()).filter(Boolean);
 }
 
+/* per-project buttons (make-video.bat etc.) — copied from the template if missing */
+function ensureProjectBats(dir) {
+  const t = join(ROOT, "projects", "_template");
+  if (!existsSync(t) || resolve(dir) === resolve(t)) return;
+  for (const f of readdirSync(t)) if (f.endsWith(".bat") && !existsSync(join(dir, f))) copyFileSync(join(t, f), join(dir, f));
+}
+
 /* ---------------- plan ---------------- */
 async function plan(dir, { force = false } = {}) {
+  ensureProjectBats(dir);
   const settings = settingsOf(dir);
   const build = join(dir, "build");
   mkdirSync(build, { recursive: true });
@@ -364,7 +372,8 @@ function newProject(name) {
   if (existsSync(d)) die(`projects/${name} already exists`);
   cpSync(join(ROOT, "projects", "_template"), d, { recursive: true });
   log(`Created ${d}`);
-  log("Now: put your narration in it as voice.wav, write script.txt (story + time segments), then run make-video.bat " + name);
+  log("Now: put your narration in it as voice.wav, write script.txt (story + time segments),");
+  log("then double-click make-video.bat inside that folder.");
 }
 
 function doctor() {

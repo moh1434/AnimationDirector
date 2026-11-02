@@ -15,8 +15,10 @@ objects with faces, flat colourful grounds, pop-in animation, music and sound ef
    4.2  | 9.0  | Scientists think the core is about 6000 degrees. But how do we know that?
    ```
    (seconds or `m:ss.s`; an `.srt` file also works. Arabic and English are both supported.)
-4. Double-click **make-video.bat** and type the name. The videos appear in `projects\earth-age\out\`:
+4. Double-click **make-video.bat inside the project folder**. When it finishes, the `out` folder opens:
    `earth-age-youtube.mp4`, `earth-age-shorts.mp4`, and `earth-age.srt`.
+   Each project folder also has **stills.bat** (one picture per scene) and **preview-video.bat** (Remotion Studio).
+   The root `make-video.bat` still works too: it asks for the project name.
 
 Options (add after the name): `--format youtube|shorts|both` · `--draft` (fast half-size test) ·
 `--replan` (rebuild the storyboard from scratch) · `--mood epic` · `--no-music`.

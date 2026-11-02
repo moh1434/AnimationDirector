@@ -41,7 +41,7 @@ export const TitleText: React.FC<{ text: string; t: number; at: number; size: nu
       {words.map((w, i) => {
         const e = enterStyle(t, at + i * stagger, "pop");
         return (
-          <span key={i} style={{ display: "inline-block", margin: `0 ${size * 0.14}px`, transform: `scale(${e.sx}, ${e.sy}) translateY(${(1 - Math.min(1, e.sy)) * 20}px)`, opacity: e.opacity }}>
+          <span key={i} style={{ display: "inline-block", margin: `0 ${size * 0.24}px`, transform: `scale(${e.sx}, ${e.sy}) translateY(${(1 - Math.min(1, e.sy)) * 20}px)`, opacity: e.opacity }}>
             {w}
           </span>
         );

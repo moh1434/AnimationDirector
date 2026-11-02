@@ -41,7 +41,7 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard) 
 
   switch (layout) {
     case "hero":
-      stage = portrait ? { x: 0.5, y: 0.38, s: 0.85 } : { x: 0.5, y: 0.47, s: 0.72 };
+      stage = portrait ? { x: 0.5, y: 0.27, s: 0.62 } : { x: 0.5, y: 0.47, s: 0.72 };
       charSlots.push(portrait ? { x: 0.2, y: 0.985, s: 0.5 } : { x: 0.13, y: 0.98, s: 0.48 });
       break;
     case "duo":
