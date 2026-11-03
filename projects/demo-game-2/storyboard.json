@@ -24,7 +24,7 @@
       ],
       "actions": [
         { "at": "@game", "who": "host", "pose": "point" },
-        { "at": "@it", "who": "host", "pose": "shrug", "expression": "smug", "emote": "question" }
+        { "at": "@from", "who": "host", "pose": "shrug", "expression": "smug", "emote": "question" }
       ],
       "camera": { "zoom": [1, 1.05], "punch": ["@money"] }
     },

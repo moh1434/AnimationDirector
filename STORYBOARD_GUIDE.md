@@ -214,7 +214,8 @@ ending lands after the last word (see `build/spotting.json`). Set `"music"` in v
 7. Never invent facts, maps or real people's likenesses; use `image` with the user's own pictures.
 8. Keep on-screen text readable: a sentence needs words ÷ 3 + 1 s on screen (less if the voice says
    it at the same time); labels 1–3 words; titles ≤ ~6 words; ≤ 6 things in a scene.
-9. Run `pnpm video check <name>` (Shorts; `--format both` adds YouTube stills) and fix every error;
+9. Run `pnpm video validate <name>` and fix every error (it names the scene, the field and a fix).
+   Then run `pnpm video check <name>` (Shorts; `--format both` adds YouTube stills) and fix every error;
    look at `out/check/` stills.
    See `.claude/skills/layout-composition/SKILL.md` for spacing, sizes and safe areas.
 10. `make-video.bat` in the project folder, then read `out/final-pass.md` and the frame sheets.
