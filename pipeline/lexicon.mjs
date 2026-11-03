@@ -127,6 +127,10 @@ export const CAST_WORDS = {
   chef: ["chef", "cook", "kitchen", "طباخ", "طبخ", "مطبخ"],
   grandpa: ["grandfather", "old man", "elder", "جد", "عجوز", "شيخ كبير"],
   student: ["student", "students", "pupil", "طالب", "طلاب", "تلميذ"],
+  adventurer: ["hiker", "camping", "explorer girl", "girl scout", "رحله تخييم", "مخيم", "مستكشفه", "مغامره"],
+  bookworm: ["nerd", "geek", "bookworm", "reader", "programmer", "smart guy", "دافور", "قارئ", "مبرمج", "ذكي"],
+  buddy: ["friend", "buddy", "brother", "صديق", "صاحب", "اخ"],
+  ponytail_girl: ["sister", "little girl", "her friend", "اخت", "صديقتها"],
 };
 
 export const BG_WORDS = {

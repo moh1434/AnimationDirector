@@ -97,12 +97,16 @@ Word references keep things in sync with the voice, so prefer them.
 
 * **who** – a cast id. Cast presets: `host` (default narrator), `scientist`, `student`, `girl`, `woman`,
   `kid`, `king`, `sage`, `soldier`, `worker`, `boss`, `explorer`, `pharaoh`, `bedouin`, `chef`,
-  `wizard`, `grandpa`, `robotguy`. A cast entry can override the look:
+  `wizard`, `grandpa`, `robotguy`, and the user's own designs: `adventurer` (explorer girl with a safari
+  hat and backpack), `ponytail_girl` (pink side ponytail, bow, frilled dress), `buddy` (spiky orange
+  hair, blue shirt, red scarf), `bookworm` (curly hair, round glasses, sweater vest). Their sheet
+  folder names also work (`first_female`, `second_female`, `second_male`, `third_male`; `main_male` =
+  `host`). A cast entry can override the look:
   `"look": {"skin":"#fff","hair":"curly","hairColor":"#3a2a20","hat":"turban","facial":"beard","outfit":"robe","shirt":"#3fa58c","accessory":"glasses","accent":"#ffc83d","blush":true,"height":0.8}`
-  * hair: none tuft spiky curly long bob bun side messy bald wavy ponytail
-  * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh
-  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic
-  * accessory: glasses sunglasses monocle scarf tie bowtie medal
+  * hair: none tuft spiky curly curlytop long bob bun side messy bald wavy ponytail flowing sideponytail
+  * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh safari bow
+  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic belted frilldress sweatervest
+  * accessory: glasses sunglasses monocle scarf tie bowtie medal neckerchief · extras: `["backpack", "flower_necklace"]`
 * **pose** – idle talk explain point point_up point_down wave think shrug celebrate cheer hips scared
   present cross hold hold_up facepalm walk run bow fist write phone
 * **expression** – neutral happy excited laughing proud sad crying angry determined surprised shocked

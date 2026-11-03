@@ -155,6 +155,44 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
           <path d={`M-44 ${top + 4} Q0 ${top + 46} 44 ${top + 4}`} stroke={acc} strokeWidth={12} fill="none" />
         </g>
       );
+    case "belted": // short safari tunic with a belt and a square buckle
+      return (
+        <g>
+          <path d={body(bottom + 26, 54, 72)} fill={c} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+          <rect x={-66} y={bottom - 44} width={132} height={20} rx={4} fill="#8a5a35" stroke={INK} strokeWidth={5} />
+          <rect x={-15} y={bottom - 48} width={30} height={28} rx={4} fill="none" stroke={INK} strokeWidth={6} />
+          <path d={`M-30 ${bottom + 2} v20 M30 ${bottom + 2} v20`} stroke={INK} strokeWidth={4} opacity={0.35} strokeLinecap="round" />
+        </g>
+      );
+    case "frilldress": { // dress with a white scalloped hem
+      const hemY = bottom + 30;
+      const n = 8;
+      const w = 94;
+      const scallops = Array.from({ length: n }, (_, i) => {
+        const x0 = -w + (2 * w * i) / n, x1 = -w + (2 * w * (i + 1)) / n;
+        return `Q${(x0 + x1) / 2} ${hemY + 46} ${x1} ${hemY + 22}`;
+      }).join(" ");
+      return (
+        <g>
+          <path d={`M${-w + 4} ${hemY - 6} L${-w} ${hemY + 22} ${scallops} L${w - 4} ${hemY - 6}Z`} fill="#ffffff" stroke={INK} strokeWidth={5.5} strokeLinejoin="round" />
+          <path d={body(hemY + 6, 50, 90)} fill={c} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+        </g>
+      );
+    }
+    case "sweatervest": // white collared shirt under a V-neck sweater vest with argyle diamonds
+      return (
+        <g>
+          <path d={body(bottom)} fill={c} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+          <path d={`M-28 ${top + 1} L0 ${top + 58} L28 ${top + 1}Z`} fill="#ffffff" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+          <path d={`M-30 ${top - 1} L-4 ${top + 18} L-26 ${top + 30}Z M30 ${top - 1} L4 ${top + 18} L26 ${top + 30}Z`} fill="#ffffff" stroke={INK} strokeWidth={4.5} strokeLinejoin="round" />
+          <g fill={acc} stroke={INK} strokeWidth={3}>
+            {[[-26, top + 98], [26, top + 98], [0, top + 132]].map(([x, y], i) => (
+              <path key={i} d={`M${x} ${y - 22} L${x + 13} ${y} L${x} ${y + 22} L${x - 13} ${y}Z`} />
+            ))}
+          </g>
+          <path d={`M-62 ${bottom - 16} Q0 ${bottom - 10} 62 ${bottom - 16}`} stroke={INK} strokeWidth={4} fill="none" opacity={0.5} />
+        </g>
+      );
     default:
       return (
         <g>
@@ -164,6 +202,41 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
       );
   }
 };
+
+/** Extras drawn behind the body (a backpack) or over it (straps, a necklace). */
+const ExtrasBack: React.FC<{ look: Look; top: number }> = ({ look, top }) =>
+  look.extras?.includes("backpack") ? (
+    <g stroke={INK} strokeWidth={6} strokeLinejoin="round">
+      <rect x={-96} y={top + 22} width={150} height={150} rx={30} fill="#9a6337" />
+      <path d={`M-96 ${top + 70} Q-120 ${top + 110} -100 ${top + 150}`} fill="#8a5530" />
+    </g>
+  ) : null;
+
+const ExtrasFront: React.FC<{ look: Look; top: number }> = ({ look, top }) => (
+  <g>
+    {look.extras?.includes("backpack") && (
+      <g fill="none" strokeLinecap="round">
+        {[-1, 1].map((s) => (
+          <g key={s}>
+            <path d={`M${s * 40} ${top + 4} Q${s * 46} ${top + 60} ${s * 38} ${top + 118}`} stroke={INK} strokeWidth={20} />
+            <path d={`M${s * 40} ${top + 4} Q${s * 46} ${top + 60} ${s * 38} ${top + 118}`} stroke="#9a6337" strokeWidth={10} />
+          </g>
+        ))}
+      </g>
+    )}
+    {look.extras?.includes("flower_necklace") && (
+      <g>
+        <path d={`M-30 ${top + 2} Q0 ${top + 70} 30 ${top + 2}`} stroke={INK} strokeWidth={3.5} fill="none" />
+        <g transform={`translate(0 ${top + 52})`} stroke={INK} strokeWidth={3.5}>
+          {[0, 72, 144, 216, 288].map((a) => (
+            <circle key={a} cx={Math.sin((a * Math.PI) / 180) * 13} cy={-Math.cos((a * Math.PI) / 180) * 13} r={10} fill="#ffffff" />
+          ))}
+          <circle r={8} fill="#ffd23f" />
+        </g>
+      </g>
+    )}
+  </g>
+);
 
 /* ---------------- hair & hats (head centred at 0,0, r=100) ---------------- */
 const HairBack: React.FC<{ look: Look }> = ({ look }) => {
@@ -176,6 +249,25 @@ const HairBack: React.FC<{ look: Look }> = ({ look }) => {
       return <path d="M-106 -10 Q-122 50 -100 80 Q-80 100 -60 84 L60 84 Q80 100 100 80 Q122 50 106 -10 Q100 -110 0 -112 Q-100 -110 -106 -10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
     case "ponytail":
       return <path d="M60 -80 Q150 -60 130 40 Q120 80 96 60 Q120 0 80 -40Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "flowing": // chin-length hair with curled ends; the middle stays behind the head
+      return <path d="M-104 -20 Q-122 36 -116 82 Q-134 112 -108 126 Q-84 134 -82 106 Q-60 88 0 86 Q60 88 82 106 Q84 134 108 126 Q134 112 116 82 Q122 36 104 -20 Q100 -112 0 -114 Q-100 -112 -104 -20Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "sideponytail": { // two big ponytails high on the head, curling down to the shoulders (symmetrical)
+      const tail = "M-50 -92 Q-110 -150 -158 -100 Q-198 -40 -166 34 Q-148 86 -104 112 Q-138 50 -130 -10 Q-126 -46 -84 -58Z"; // inner edge: one smooth curve
+      return (
+        <g fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round">
+          <path d={tail} />
+          <path d={tail} transform="scale(-1 1)" />
+        </g>
+      );
+    }
+    case "curlytop": { // curls on top and at the temples, ears free
+      const blobs = [[-90, -36], [-74, -80], [-34, -108], [14, -114], [58, -98], [90, -58], [98, -16]];
+      return (
+        <g fill={hc} stroke={INK} strokeWidth={sw}>
+          {blobs.map(([x, y], i) => <circle key={i} cx={x} cy={y} r={34} />)}
+        </g>
+      );
+    }
     case "curly": {
       const blobs = [[-92, -30], [-98, 20], [-70, -80], [-30, -108], [20, -110], [64, -88], [96, -40], [100, 14], [-80, 60], [84, 60]];
       return (
@@ -213,6 +305,10 @@ const HairFront: React.FC<{ look: Look }> = ({ look }) => {
       );
     case "ponytail":
       return <path d={cap(-56)} fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "flowing": // side-swept fringe
+      return <path d="M-102 -4 Q-106 -108 0 -112 Q106 -108 102 -14 Q86 -50 50 -62 Q10 -70 -24 -46 Q-60 -36 -102 -4Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "sideponytail": // fringe
+      return <path d={cap(-46)} fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
     case "messy":
       return (
         <g fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round">
@@ -231,6 +327,12 @@ const HairFront: React.FC<{ look: Look }> = ({ look }) => {
       return (
         <g fill={hc} stroke={INK} strokeWidth={sw}>
           {[[-50, -96], [0, -108], [50, -96]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r={34} />)}
+        </g>
+      );
+    case "curlytop":
+      return (
+        <g fill={hc} stroke={INK} strokeWidth={sw}>
+          {[[-66, -78], [-26, -96], [16, -100], [56, -86], [-84, -48]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r={28} />)}
         </g>
       );
     default:
@@ -319,6 +421,24 @@ const Hat: React.FC<{ look: Look; facing: number }> = ({ look, facing }) => {
           <rect x={-66} y={-152} width={132} height={40} stroke="none" />
         </g>
       );
+    case "safari": // wide-brimmed explorer hat with a band and a little leaf
+      return (
+        <g stroke={INK} strokeWidth={sw} strokeLinejoin="round">
+          <ellipse cx={0} cy={-74} rx={156} ry={34} fill={c} />
+          <path d="M-86 -82 Q-90 -176 0 -178 Q90 -176 86 -82 Q0 -66 -86 -82Z" fill={c} />
+          <path d="M-88 -106 Q0 -90 88 -106 L86 -84 Q0 -68 -88 -84Z" fill="#8a5a35" strokeWidth={5} />
+          <path d="M38 -170 Q60 -224 112 -214 Q100 -166 38 -170Z" fill="#8fd14f" strokeWidth={5} />
+          <path d="M44 -172 Q70 -190 96 -206" fill="none" strokeWidth={3.5} />
+        </g>
+      );
+    case "bow": // a hair bow on top of the head
+      return (
+        <g stroke={INK} strokeWidth={6} strokeLinejoin="round" fill={c} transform="translate(0 -116)">
+          <path d="M0 0 L-58 -34 Q-74 0 -58 34Z" />
+          <path d="M0 0 L58 -34 Q74 0 58 34Z" />
+          <rect x={-14} y={-16} width={28} height={32} rx={9} />
+        </g>
+      );
     case "fez":
       return (
         <g stroke={INK} strokeWidth={sw} strokeLinejoin="round">
@@ -387,6 +507,15 @@ const Accessory: React.FC<{ look: Look; top: number; t: number }> = ({ look, top
         </g>
       );
     }
+    case "neckerchief": // knotted triangle scarf
+      return (
+        <g stroke={INK} strokeWidth={5.5} strokeLinejoin="round" fill={acc}>
+          <path d={`M-58 ${top - 4} Q0 ${top + 22} 58 ${top - 4} L54 ${top + 16} Q0 ${top + 42} -54 ${top + 16}Z`} />
+          <path d={`M-30 ${top + 22} L4 ${top + 86} L34 ${top + 22}Z`} />
+          <path d={`M4 ${top + 26} L-18 ${top + 72} L-2 ${top + 70}Z M8 ${top + 26} L30 ${top + 70} L14 ${top + 72}Z`} />
+          <circle cx={4} cy={top + 26} r={11} />
+        </g>
+      );
     case "tie":
       return <path d={`M0 ${top + 6} L-10 ${top + 22} L-4 ${top + 90} L0 ${top + 100} L4 ${top + 90} L10 ${top + 22}Z`} fill={acc} stroke={INK} strokeWidth={4.5} strokeLinejoin="round" />;
     case "bowtie":
@@ -495,7 +624,9 @@ export const Character: React.FC<CharacterProps> = (p) => {
 
   // body motion
   const breath = Math.sin(t * Math.PI * 0.9 + seed) * 3;
-  const bodyY = lerp(from.bodyY ?? 0, to.bodyY ?? 0, k) + (poseName === "celebrate" ? -Math.abs(Math.sin(t * 7)) * 30 : 0);
+  const bodyY = lerp(from.bodyY ?? 0, to.bodyY ?? 0, k);
+  const jumpWeight = lerp(p.fromPose === "celebrate" ? 1 : 0, poseName === "celebrate" ? 1 : 0, k);
+  const jumpY = -Math.abs(Math.sin(t * 7)) * 30 * jumpWeight;
   const walkPhase = p.walking || poseName === "run" ? t * (poseName === "run" ? 14 : 8) : 0;
   const stepBob = p.walking || poseName === "run" ? -Math.abs(Math.sin(walkPhase)) * 10 : 0;
   const lean = lerp(from.lean ?? 0, to.lean ?? 0, k) + (p.talking ? Math.sin(t * 3.1) * 1.2 + m * 2 : 0);
@@ -520,9 +651,13 @@ export const Character: React.FC<CharacterProps> = (p) => {
     const sw = Math.sin(walkPhase + (side === 1 ? 0 : Math.PI)) * 26;
     const fx = side * 32 + sw * facing;
     const fy = -6 - Math.max(0, Math.sin(walkPhase + (side === 1 ? 0 : Math.PI))) * 18;
+    // Follow the hip through the torso's breathing/lean transforms while feet stay planted.
+    // Jumping is a separate whole-character transform below, so both feet leave the ground.
+    const hipX = side * 22 * Math.cos(rad(lean)) - breath * 0.3 * Math.sin(rad(lean));
+    const hipY = legTop + side * 22 * Math.sin(rad(lean)) + breath * 0.3 * Math.cos(rad(lean)) + bodyY + breath * 0.4;
     return (
       <g key={side}>
-        <path d={`M${side * 22} ${legTop} L${fx} ${fy}`} stroke={INK} strokeWidth={10} strokeLinecap="round" />
+        <path d={`M${hipX} ${hipY} L${fx} ${fy}`} stroke={INK} strokeWidth={10} strokeLinecap="round" />
         <ellipse cx={fx + facing * 10} cy={fy + 2} rx={24} ry={11} fill={INK} />
       </g>
     );
@@ -549,13 +684,16 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const hold = p.holding;
 
   return (
-    <g transform={`scale(${hs}) translate(0 ${stepBob}) scale(${facing === -1 ? -1 : 1} 1)`}>
+    <g transform={`scale(${hs}) scale(${facing === -1 ? -1 : 1} 1)`}>
       {/* ground shadow */}
       <ellipse cx={0} cy={0} rx={90} ry={12} fill="#000" opacity={0.12} />
+      <g transform={`translate(0 ${stepBob + jumpY})`}>
       {poseName !== "sit" && [leg(-1), leg(1)]}
       <g transform={`translate(0 ${bodyY + breath * 0.4}) rotate(${lean} 0 ${legTop})`}>
         <g transform={`translate(0 ${breath * 0.3})`}>
+          <ExtrasBack look={look} top={top} />
           <Torso look={look} top={top} bottom={legTop} />
+          <ExtrasFront look={look} top={top} />
           <Accessory look={look} top={top} t={t} />
         </g>
         <g transform={`translate(0 ${headY + breath}) rotate(${headTilt}) scale(${HEAD})`}>
@@ -591,6 +729,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
             <PropArt name={hold} size={130} />
           </g>
         )}
+      </g>
       </g>
     </g>
   );
