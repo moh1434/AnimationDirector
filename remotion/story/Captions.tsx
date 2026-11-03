@@ -1,8 +1,9 @@
 import React from "react";
 import type { Word, Storyboard } from "./types";
 import { FONT, INK } from "./theme";
-import { prog, ease } from "./anim";
+import { prog } from "./anim";
 import { dirOf } from "./Elements";
+import { frameSpec, rcx, rcy, rw } from "./frame";
 
 type Group = { words: Word[]; s: number; e: number };
 
@@ -45,22 +46,23 @@ export const Captions: React.FC<{ sb: Storyboard; words: Word[]; time: number; W
   const hideAt = Math.min(g.e + 0.6, next ? next.s - 0.05 : Infinity);
   if (time > hideAt) return null;
   const size = portrait ? 74 : 58;
-  const y = (cfg.position ?? (portrait ? 0.53 : 0.885)) * H;
-  const enter = prog(time, g.s - 0.05, 0.22, "back.out(2)");
+  const band = frameSpec(W, H, true).captionBand!;
+  const y = cfg.position !== undefined ? cfg.position * H : rcy(band);
+  const enter = prog(time, g.s - 0.05, 0.22, "sine.out");
   const style = cfg.style ?? (portrait ? "pop" : "box");
   return (
-    <div style={{ position: "absolute", left: 0, right: 0, top: y, transform: "translateY(-50%)", display: "flex", justifyContent: "center", zIndex: 50, pointerEvents: "none" }}>
+    <div style={{ position: "absolute", left: rcx(band), width: rw(band), top: y, transform: "translate(-50%, -50%)", display: "flex", justifyContent: "center", zIndex: 50, pointerEvents: "none" }}>
       <div
         data-box="captions"
         dir={dir}
         style={{
-          maxWidth: portrait ? W * 0.88 : W * 0.7,
+          maxWidth: rw(band),
           textAlign: "center",
           fontFamily: FONT.body,
           fontWeight: 800,
           fontSize: size,
           lineHeight: 1.25,
-          transform: `scale(${0.85 + 0.15 * enter})`,
+          transform: `scale(${0.97 + 0.03 * enter})`,
           opacity: Math.min(1, enter * 1.5),
           padding: style === "box" ? `${size * 0.1}px ${size * 0.45}px ${size * 0.02}px` : 0,
           background: style === "box" ? "rgba(20,18,24,0.72)" : "transparent",
@@ -70,17 +72,18 @@ export const Captions: React.FC<{ sb: Storyboard; words: Word[]; time: number; W
         {g.words.map((w, i) => {
           const active = time >= w.s - 0.03 && time < (g.words[i + 1]?.s ?? w.e + 0.3);
           const spoken = time >= w.s;
-          const k = active ? ease("back.out(3)")(Math.min(1, (time - w.s + 0.03) / 0.16)) : 0;
+          const end = g.words[i + 1]?.s ?? w.e + 0.3;
+          const k = prog(time, w.s - 0.03, 0.12, "sine.inOut") * (1 - prog(time, end - 0.06, 0.14, "sine.inOut"));
           return (
             <span
               key={i}
               style={{
                 display: "inline-block",
-                margin: `0 ${size * 0.28}px`,
-                color: active ? "#ffd23f" : style === "box" ? (spoken ? "#ffffff" : "rgba(255,255,255,0.75)") : "#ffffff",
+                margin: `0 ${size * 0.22}px`,
+                color: style === "box" ? (active ? "#ffd23f" : spoken ? "#ffffff" : "rgba(255,255,255,0.75)") : `rgb(255, ${255 - 45 * k}, ${255 - 192 * k})`,
                 WebkitTextStroke: style === "box" ? undefined : `${size * 0.14}px ${INK}`,
                 paintOrder: "stroke fill",
-                transform: `scale(${1 + 0.12 * k}) translateY(${-4 * k}px)`,
+                transform: `scale(${1 + 0.035 * k}) translateY(${-2 * k}px)`,
                 textShadow: style === "box" ? undefined : `0 ${size * 0.08}px 0 rgba(0,0,0,0.35)`,
               }}
             >

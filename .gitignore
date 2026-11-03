@@ -13,8 +13,10 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 
+projects/*/voice.wav
 # ---------- Render output & caches ----------
 out/
+out_old/
 renders/
 build/
 dist/

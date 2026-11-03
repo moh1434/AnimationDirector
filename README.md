@@ -15,8 +15,12 @@ objects with faces, flat colourful grounds, pop-in animation, music and sound ef
    4.2  | 9.0  | Scientists think the core is about 6000 degrees. But how do we know that?
    ```
    (seconds or `m:ss.s`; an `.srt` file also works. Arabic and English are both supported.)
-4. Double-click **make-video.bat inside the project folder**. When it finishes, the `out` folder opens:
-   `earth-age-youtube.mp4`, `earth-age-shorts.mp4`, and `earth-age.srt`.
+4. Double-click **make-video.bat inside the project folder** to make both videos. When it finishes,
+   the `out` folder opens: `earth-age-youtube.mp4`, `earth-age-shorts.mp4`, and `earth-age.srt`.
+   To make just one format (about half the time), use **make-short-video.bat** (9:16 Shorts) or
+   **make-landscape-video.bat** (16:9 YouTube) in the same folder.
+   Videos render at **60 fps**. From the command line, `pnpm video make <name>` makes only the Shorts
+   video (the `formats` setting); AI agents never render the YouTube version unless you ask.
    Each project folder also has **stills.bat** (one picture per scene) and **preview-video.bat** (Remotion Studio).
    The root `make-video.bat` still works too: it asks for the project name.
 
@@ -41,9 +45,11 @@ storyboard.json yourself — it is kept between runs unless you use `--replan`.
 `video.json` in each project holds settings:
 
 ```json
-{ "title": "How old is the Earth?", "language": "auto", "formats": ["youtube", "shorts"],
+{ "title": "How old is the Earth?", "language": "auto", "formats": ["shorts"], "fps": 60,
   "captions": "auto", "music": "auto", "host": "host", "sfx": true, "watermark": "@mychannel" }
 ```
+* `formats`: what `pnpm video make` renders by default (`["shorts"]`); the .bat buttons choose for you.
+* `fps`: 60 by default (smoother; renders take about twice as long as 30).
 * `captions`: `"auto"` = burned-in word captions on Shorts only; `true`/`false`; or `{"youtube": true}`.
 * `music`: `"auto"`, a mood (`playful curious epic space upbeat calm`), `"none"`, or a path to your own track.
 * `host`: the narrator's look (`host`, `scientist`, `girl`, `sage`, … see the guide), or `"hostLook": {...}`.
@@ -86,10 +92,19 @@ Command line (any OS): `pnpm video <new|plan|audio|render|make|stills|check|qc|s
 
 ## Quality checks
 
-* **`pnpm video check <name>`** — renders every scene (settled + midpoint) in each format, measures
+Shared motion uses frame-derived easing rather than CSS transitions. `remotion/story/motion.ts`
+sets gesture, expression, dissolve and speech-smoothing durations in seconds. Interrupted gestures
+preserve position and velocity; non-cut transitions overlap scenes instead of exposing the backdrop.
+Faces blend between expression drawings, and captions/props use restrained emphasis. Existing
+narration and word triggers remain the timing source. The pipeline renders at 60 fps by default.
+
+* **`pnpm video check <name>`** — samples settled poses, midpoints, entrance overshoot, gestures,
+  punch zooms and the last hold before each transition in each format, measures
   where each element really is, and reports layout problems: text outside the safe area or under the
   Shorts buttons, collisions, anything in the caption band, text too small, subjects too small,
-  empty halves. Report: `out/check-youtube.md`, `out/check-shorts.md`, stills in `out/check/`.
+  empty halves, and characters crossing the bottom margin. Character/text collision checks use
+  component geometry, so empty space beside an emote is not counted as solid artwork.
+  Report: `out/check-youtube.md`, `out/check-shorts.md`, stills in `out/check/`.
 * **`pnpm video qc <name>`** (also runs at the end of `make`) — checks the finished MP4s: size, fps,
   duration, black or frozen picture, loudness (−14 LUFS) and peak, and makes a one-frame-per-second
   sheet. Report: `out/final-pass.md`.

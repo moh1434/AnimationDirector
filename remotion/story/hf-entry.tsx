@@ -11,7 +11,7 @@ declare global {
   interface Window { __timelines: Record<string, any>; __STORY: any }
 }
 const props = window.__STORY;
-const fps = props.storyboard.fps ?? 30;
+const fps = props.storyboard.fps ?? 60;
 const width = props.width, height = props.height;
 const duration = props.storyboard.duration;
 const durationInFrames = Math.ceil(duration * fps);

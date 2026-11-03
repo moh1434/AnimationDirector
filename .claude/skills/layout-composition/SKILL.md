@@ -20,10 +20,10 @@ Both formats are 1080 px on their short side (`U`), so type sizes are comparable
 
 | | YouTube 1920×1080 | Shorts 1080×1920 |
 |---|---|---|
-| safe (art) | 5 % each side, bottom open for feet | 5.5 % sides, 6.5 % top, bottom open |
+| safe (art) | 5 % each side, bottom open for feet | 5.5 % sides, 6.5 % top, 5 % bottom |
 | text-safe | 5 % all round | x 6.5 %–88 %, y 7.5 %–80 % (right column + bottom 20 % are app UI) |
-| caption band | 15–85 % wide, 83.5–94 % high (only if captions on) | 6–94 % wide, 48.5–57.5 % high |
-| ground (feet) | 97 % | 98.5 % |
+| caption band | 15–85 % wide, 83.5–94 % high (only if captions on) | 6.5–88 % wide, 10.5–22.5 % high |
+| ground (feet) | 92 % before camera motion | 89 % before camera motion |
 | label / body / h2 / h1 / display | 48 / 50 / 74 / 94 / 150 px | 56 / 56 / 80 / 100 / 136 px |
 | gaps xs/s/m/l/xl | 10/20/36/56/88 | 12/24/40/64/96 |
 
@@ -31,9 +31,10 @@ Layout also insets the safe areas by 2 % W / 1.5 % H, because the default slow p
 zooms scale the frame from the centre and carry edge elements outwards.
 
 Rules that follow from the grid:
-- **Text never goes outside text-safe**, art never outside safe (characters' feet may touch the bottom).
-- **The caption band is reserved.** In Shorts nothing but captions goes in 48.5–57.5 % of the height;
-  the story area is above it (the "stage"), the narrator stands below it.
+- **Text never goes outside text-safe**, art never outside safe. Portrait full-body characters retain
+  bottom clearance even at maximum camera zoom; intentional crops require a deliberate shot choice.
+- **The caption band is reserved.** Shorts captions occupy a consistent upper band. The illustration
+  and character share the space below it; do not force every layout into three disconnected rows.
 - **Minimum text size:** 48 px in Shorts, 40 px in YouTube (check warns below that). Labels are the
   smallest text in a frame; nothing explanatory is smaller than a label.
 - **Spacing comes from the gap tokens**: object → its label = `xs`; between labels/rows = `s`–`m`;
@@ -71,15 +72,16 @@ Rules that follow from the grid:
 other two thirds; steps/compare run as one row across the upper 2/3 with the narrator small below.
 Captions are off by default; if on, the bottom band is reserved.
 
-**Shorts (9:16)** — stacked: stage (story) on top, captions in the middle band, narrator at the
-bottom (size ≈0.66 U). Never shrink the wide layout into the tall frame: `Layout.ts` lays out portrait
-separately. Prefer 1–2 objects big over 4 small; 3–4 items become a 2×2 grid. Speech bubbles go in
-the stage, not over the narrator's head (which sits behind the captions).
+**Shorts (9:16)** — captions above the illustration. Presenter shots use a larger host; hero shots
+give the object priority and use a supporting host. Three traits form a vertical list beside their
+character; four steps use a larger 2×2 grid with a small host immediately below. Speech bubbles sit
+between captions and heads. Never shrink a wide layout into portrait. Keep word-triggered reveals.
 
 ## 4. Workflow
 
 1. Write or edit `storyboard.json` (see the `story-video-direction` skill).
-2. `pnpm video check <name>` — renders each scene once settled and at its midpoint, in every
+2. `pnpm video check <name>` — samples settled/midpoint frames, pop overshoot, action changes,
+   punch peaks and the last hold before the outgoing transition, in every
    format, reads the real on-screen box of each element (`data-box` tags, measured in the browser
    with the real fonts) and writes `out/check-<format>.md` + stills in `out/check/`.
 3. **Errors must be fixed**: text outside text-safe, text collisions, anything in the caption band.

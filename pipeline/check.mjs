@@ -12,8 +12,8 @@ function spec(W, H, captionsOn) {
   const portrait = H > W * 1.1;
   if (portrait)
     return {
-      portrait, safe: [W * 0.055, H * 0.065, W * 0.945, H * 0.995], textSafe: [W * 0.065, H * 0.075, W * 0.88, H * 0.8],
-      band: captionsOn ? [W * 0.06, H * 0.485, W * 0.94, H * 0.575] : null, minFont: 48, U: W,
+      portrait, safe: [W * 0.055, H * 0.065, W * 0.945, H * 0.95], textSafe: [W * 0.065, H * 0.075, W * 0.88, H * 0.8],
+      band: captionsOn ? [W * 0.065, H * 0.105, W * 0.88, H * 0.225] : null, minFont: 48, U: W,
     };
   return {
     portrait, safe: [W * 0.05, H * 0.05, W * 0.95, H * 0.995], textSafe: [W * 0.05, H * 0.05, W * 0.95, H * 0.95],
@@ -34,18 +34,20 @@ export function judge(audit, sceneInfo, captionsOn) {
   const fg = boxes.filter((b) => b.kind !== "captions");
   // 1. safe areas
   for (const b of boxes) {
-    if (b.kind === "captions") continue;
     const r = TEXTY.test(b.kind) ? S.textSafe : S.safe;
     const isChar = b.kind.startsWith("char");
     const tol = 4;
-    const out = [b.x0 < r[0] - tol && "left", b.x1 > r[2] + tol && "right", b.y0 < r[1] - (isChar ? H * 0.04 : tol) && "top", !isChar && b.y1 > r[3] + tol && "bottom"].filter(Boolean);
+    const out = [b.x0 < r[0] - tol && "left", b.x1 > r[2] + tol && "right", b.y0 < r[1] - (isChar ? H * 0.04 : tol) && "top", b.y1 > r[3] + tol && "bottom"].filter(Boolean);
     if (out.length) add(TEXTY.test(b.kind) ? "error" : "warn", "safe-area", `${name(b)} leaves the ${TEXTY.test(b.kind) ? "text-" : ""}safe area (${out.join(", ")}) at ${fmt(b)}`);
   }
   // 2. collisions: text against anything; art against art (heavy overlap only)
-  for (let i = 0; i < fg.length; i++)
-    for (let j = i + 1; j < fg.length; j++) {
-      const a = fg[i], b = fg[j];
-      const ov = inter(a, b);
+  for (let i = 0; i < boxes.length; i++)
+    for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i], b = boxes[j];
+      const char = a.kind.startsWith("char") ? a : b.kind.startsWith("char") ? b : null;
+      const other = char === a ? b : a;
+      const ov = char?.parts?.length && TEXTY.test(other.kind)
+        ? Math.max(...char.parts.map((part) => inter(part, other))) : inter(a, b);
       if (!ov) continue;
       const small = Math.min(area(a), area(b));
       const r = ov / small;
@@ -58,7 +60,6 @@ export function judge(audit, sceneInfo, captionsOn) {
   if (S.band && sceneInfo.layout !== "title") {
     const band = { x0: S.band[0], y0: S.band[1], x1: S.band[2], y1: S.band[3] };
     for (const b of fg) {
-      if (b.kind.startsWith("char")) continue;
       const ov = inter(b, band);
       if (ov / Math.max(1, area(b)) > 0.08) add("error", "caption-band", `${name(b)} enters the caption band`);
     }
@@ -97,7 +98,7 @@ export function judge(audit, sceneInfo, captionsOn) {
 
 /** Pick the moments to check: each scene once everything has appeared, and its midpoint. */
 export function checkFrames(sb) {
-  const fps = sb.fps ?? 30;
+  const fps = sb.fps ?? 60;
   const out = [];
   sb.scenes.forEach((s, i) => {
     const end = sb.scenes[i + 1]?.start ?? sb.duration;
@@ -108,8 +109,16 @@ export function checkFrames(sb) {
     // stay clear of the outgoing transition (whip / zoom / fade move the whole frame)
     const settled = Math.min(dur - 0.32, Math.max(0.6, ...ats.map((a) => a + 0.55)));
     const mid = dur * 0.5;
-    const times = Math.abs(settled - mid) < 0.5 ? [settled] : [mid, settled].sort((a, b) => a - b);
-    for (const tt of times) out.push({ scene: i, id: s.id ?? `s${i + 1}`, layout: s.layout, frame: Math.round((s.start + Math.max(0.05, tt)) * fps), t: +(s.start + tt).toFixed(2) });
+    // Check pose extensions, pop overshoot, punch peaks, and the final camera position.
+    // Whole-scene transitions are reviewed separately: off-screen movement there is intentional.
+    const candidates = [mid, settled, dur - 0.32,
+      ...ats.map((a) => a + 0.28),
+      ...(s.actions ?? []).map((a) => a.at + 0.25),
+      ...(s.camera?.punch ?? []).flatMap((a) => [a + 0.1, a + 0.2]),
+    ];
+    const frames = [...new Set(candidates.filter((t) => t >= 0.32 && t <= dur - 0.3).map((t) => Math.round((s.start + t) * fps)))].sort((a, b) => a - b);
+    if (!frames.length) frames.push(Math.round((s.start + dur / 2) * fps));
+    for (const frame of frames) out.push({ scene: i, id: s.id ?? `s${i + 1}`, layout: s.layout, frame, t: +(frame / fps).toFixed(2) });
   });
   return out;
 }

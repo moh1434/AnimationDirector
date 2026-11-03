@@ -32,7 +32,7 @@ the layout, which is laid out separately for each shape. Only give `x`/`y` when 
   "version": 1,
   "title": "How old is the Earth?",
   "language": "en",                // "ar" switches text to right-to-left
-  "fps": 30,
+  "fps": 60,                       // follows video.json (default 60)
   "duration": 31.2,                // filled in from the voice
   "cast": {
     "host": { "preset": "host" },
@@ -97,12 +97,16 @@ Word references keep things in sync with the voice, so prefer them.
 
 * **who** – a cast id. Cast presets: `host` (default narrator), `scientist`, `student`, `girl`, `woman`,
   `kid`, `king`, `sage`, `soldier`, `worker`, `boss`, `explorer`, `pharaoh`, `bedouin`, `chef`,
-  `wizard`, `grandpa`, `robotguy`. A cast entry can override the look:
+  `wizard`, `grandpa`, `robotguy`, and the user's own designs: `adventurer` (explorer girl with a safari
+  hat and backpack), `ponytail_girl` (pink side ponytail, bow, frilled dress), `buddy` (spiky orange
+  hair, blue shirt, red scarf), `bookworm` (curly hair, round glasses, sweater vest). Their sheet
+  folder names also work (`first_female`, `second_female`, `second_male`, `third_male`; `main_male` =
+  `host`). A cast entry can override the look:
   `"look": {"skin":"#fff","hair":"curly","hairColor":"#3a2a20","hat":"turban","facial":"beard","outfit":"robe","shirt":"#3fa58c","accessory":"glasses","accent":"#ffc83d","blush":true,"height":0.8}`
-  * hair: none tuft spiky curly long bob bun side messy bald wavy ponytail
-  * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh
-  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic
-  * accessory: glasses sunglasses monocle scarf tie bowtie medal
+  * hair: none tuft spiky curly curlytop long bob bun side messy bald wavy ponytail flowing sideponytail
+  * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh safari bow
+  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic belted frilldress sweatervest
+  * accessory: glasses sunglasses monocle scarf tie bowtie medal neckerchief · extras: `["backpack", "flower_necklace"]`
 * **pose** – idle talk explain point point_up point_down wave think shrug celebrate cheer hips scared
   present cross hold hold_up facepalm walk run bow fist write phone
 * **expression** – neutral happy excited laughing proud sad crying angry determined surprised shocked
@@ -181,6 +185,7 @@ ending lands after the last word (see `build/spotting.json`). Set `"music"` in v
 7. Never invent facts, maps or real people's likenesses; use `image` with the user's own pictures.
 8. Keep on-screen text readable: a sentence needs words ÷ 3 + 1 s on screen (less if the voice says
    it at the same time); labels 1–3 words; titles ≤ ~6 words; ≤ 6 things in a scene.
-9. Run `pnpm video check <name>` (both formats) and fix every error; look at `out/check/` stills.
+9. Run `pnpm video check <name>` (Shorts; `--format both` adds YouTube stills) and fix every error;
+   look at `out/check/` stills.
    See `.claude/skills/layout-composition/SKILL.md` for spacing, sizes and safe areas.
 10. `make-video.bat` in the project folder, then read `out/final-pass.md` and the frame sheets.

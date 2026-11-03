@@ -45,36 +45,16 @@ const useFonts = () => {
   return ready;
 };
 
+import { MOTION } from "./motion";
+
 /* ---------- transitions ---------- */
 const TransitionWrap: React.FC<{ scene: Scene; next?: Scene; durFrames: number; W: number; H: number; children: React.ReactNode }> = ({ scene, next, durFrames, W, H, children }) => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const inK = scene.transition ?? "cut";
-  const outK = next?.transition ?? "cut";
-  const tIn = f / fps;
-  const tOut = (durFrames - f) / fps; // seconds until the cut
-  let tx = 0, ty = 0, sc = 1, blur = 0, overlay: React.ReactNode = null;
-  const D = 0.2;
-  if (inK === "whip" && tIn < D) { const p = prog(tIn, 0, D, "power3.out"); tx = (1 - p) * W * 0.7; blur = (1 - p) * 26; }
-  if (outK === "whip" && tOut < D) { const p = 1 - tOut / D; tx = -p * p * W * 0.7; blur = p * 26; }
-  if (inK === "slide" && tIn < 0.28) { const p = prog(tIn, 0, 0.28, "power3.out"); ty = (1 - p) * H; }
-  if (inK === "zoom" && tIn < 0.3) { const p = prog(tIn, 0, 0.3, "power3.out"); sc = 1.6 - 0.6 * p; blur = (1 - p) * 10; }
-  if (outK === "zoom" && tOut < 0.18) { const p = 1 - tOut / 0.18; sc = 1 + p * 0.5; blur = p * 10; }
-  if (inK === "flash" && tIn < 0.25) overlay = <AbsoluteFill style={{ background: "#fff", opacity: 1 - prog(tIn, 0, 0.25, "power1.out"), zIndex: 90 }} />;
-  if (inK === "fade" && tIn < 0.3) overlay = <AbsoluteFill style={{ background: "#000", opacity: 1 - prog(tIn, 0, 0.3), zIndex: 90 }} />;
-  if (outK === "fade" && tOut < 0.25) overlay = <AbsoluteFill style={{ background: "#000", opacity: 1 - tOut / 0.25, zIndex: 90 }} />;
-  const iris = (r: number) => {
-    const R = Math.hypot(W, H) * 0.55 * r;
-    return <AbsoluteFill style={{ zIndex: 90, background: `radial-gradient(circle at 50% 50%, transparent ${R}px, ${INK} ${R + 1}px)` }} />;
-  };
-  if (inK === "iris" && tIn < 0.35) overlay = iris(prog(tIn, 0, 0.35, "power2.in"));
-  if (outK === "iris" && tOut < 0.3) overlay = iris(1 - prog(0.3 - tOut, 0, 0.3, "power2.in"));
-  return (
-    <AbsoluteFill>
-      <AbsoluteFill style={{ transform: `translate(${tx}px, ${ty}px) scale(${sc})`, filter: blur > 0.5 ? `blur(${blur}px)` : undefined }}>{children}</AbsoluteFill>
-      {overlay}
-    </AbsoluteFill>
-  );
+  // The outgoing scene remains underneath during this reveal. Never expose the root backdrop.
+  const duration = Math.min(MOTION.transition, durFrames / fps * 0.4);
+  const opacity = scene.transition && scene.transition !== "cut" ? prog(f / fps, 0, duration, "sine.inOut") : 1;
+  return <AbsoluteFill style={{ opacity }}>{children}</AbsoluteFill>;
 };
 
 const Watermark: React.FC<{ text: string; W: number; H: number }> = ({ text, W, H }) => (
@@ -103,7 +83,14 @@ const useLayoutAudit = (enabled: boolean, frame: number, W: number, H: number) =
         while ((n = w.nextNode())) if ((n.textContent ?? "").trim() && n.parentElement) { fs = parseFloat(getComputedStyle(n.parentElement).fontSize) * k || 0; break; }
       }
       const text = ((el as HTMLElement).innerText ?? el.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 40);
-      boxes.push({ kind: el.getAttribute("data-box"), x0: (r.left - root.left) * k, y0: (r.top - root.top) * k, x1: (r.right - root.left) * k, y1: (r.bottom - root.top) * k, fs, text });
+      const bounds = (b: DOMRect) => ({ x0: (b.left - root.left) * k, y0: (b.top - root.top) * k, x1: (b.right - root.left) * k, y1: (b.bottom - root.top) * k });
+      // A raised hand or emote makes a large, mostly empty union rectangle. Keep component
+      // geometry for collision checks so a label beside the head is not mistaken for an overlap.
+      const parts = (el.getAttribute("data-box") ?? "").startsWith("char")
+        ? Array.from(el.querySelectorAll("path,ellipse,circle,rect,polygon,polyline,line,text"))
+          .map((part) => part.getBoundingClientRect()).filter((b) => b.width > 1 && b.height > 1).map(bounds)
+        : undefined;
+      boxes.push({ kind: el.getAttribute("data-box"), ...bounds(r), fs, text, parts });
     });
     console.log("LAYOUT_AUDIT " + JSON.stringify({ frame, W, H, root: [rr.left, rr.top, rr.width, rr.height], boxes }));
   });
@@ -135,7 +122,7 @@ export const StoryVideo: React.FC<RenderProps & { audit?: boolean }> = (props) =
         const to = i < scenes.length - 1 ? Math.round(scenes[i + 1].start * fps) : Math.round(Math.max(s.end, sb.duration) * fps);
         const d = Math.max(1, to - from);
         return (
-          <Sequence key={s.id ?? i} from={from} durationInFrames={d} name={`${i + 1}. ${s.layout ?? ""} ${(s.text ?? "").slice(0, 30)}`}>
+          <Sequence key={s.id ?? i} from={from} durationInFrames={d + (scenes[i+1]?.transition && scenes[i+1].transition !== "cut" ? Math.round(Math.min(MOTION.transition, ((scenes[i+1].end - scenes[i+1].start) * 0.4)) * fps) : 0)} name={`${i + 1}. ${s.layout ?? ""} ${(s.text ?? "").slice(0, 30)}`}>
             <TransitionWrap scene={s} next={scenes[i + 1]} durFrames={d} W={W} H={H}>
               <SceneView scene={s} sb={sb} mouth={mouth} startFrame={from} index={i} W={W} H={H} captionsOn={captionsOn} />
             </TransitionWrap>

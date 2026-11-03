@@ -66,7 +66,7 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:#111}
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="story" data-start="0" data-duration="${duration}" data-width="${W}" data-height="${H}" data-fps="${story.storyboard.fps ?? 30}">
+<div id="root" data-composition-id="story" data-start="0" data-duration="${duration}" data-width="${W}" data-height="${H}" data-fps="${story.storyboard.fps ?? 60}">
   <div id="stage" class="clip" data-start="0" data-duration="${duration}" data-track-index="0"></div>
   <audio id="soundtrack" src="audio.wav" data-start="0" data-duration="${duration}" data-track-index="1" data-volume="1"></audio>
 </div>

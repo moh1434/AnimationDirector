@@ -7,7 +7,7 @@
   "directedBy": "claude",
   "cast": {
     "host": { "preset": "host" },
-    "hero": { "preset": "kid", "look": { "shirt": "#4f7bff", "hair": "spiky", "hairColor": "#ff8a3d", "accessory": "scarf", "accent": "#e53950", "height": 0.85 } },
+    "hero": { "preset": "buddy" },
     "fan1": { "preset": "student" },
     "fan2": { "preset": "girl" },
     "fan3": { "preset": "grandpa" }

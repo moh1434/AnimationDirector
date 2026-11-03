@@ -93,10 +93,10 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
   const flipX = (x: number) => (mirror ? W - x : x);
   const flipR = (r: Rect): Rect => (mirror ? { x0: W - r.x1, y0: r.y0, x1: W - r.x0, y1: r.y1 } : r);
 
-  // the bottom of the upper (stage) region in portrait: above the captions / the characters' heads
-  const pStageBottom = F.captionBand ? F.captionBand.y0 - gap.s : H * 0.55;
+  // Portrait illustrations sit below the caption band; each layout allocates its own stage depth.
+  const pStageBottom = H * 0.55;
   const lStageBottom = F.captionBand ? F.captionBand.y0 - gap.s : H * 0.86;
-  const pStage: Rect = { x0: textSafe.x0, y0: textSafe.y0, x1: W - textSafe.x0, y1: pStageBottom };
+  const pStage: Rect = { x0: textSafe.x0, y0: F.captionBand ? F.captionBand.y1 + gap.m : textSafe.y0, x1: textSafe.x1, y1: pStageBottom };
 
   type Slot = { x: number; s: number; y?: number; facing?: "left" | "right" };
   const slots: Slot[] = [];
@@ -111,13 +111,13 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
 
   switch (layout) {
     case "hero":
-      stage = portrait ? pStage : { x0: W * 0.24, y0: safe.y0, x1: W * 0.78, y1: lStageBottom };
-      slots.push(portrait ? { x: W * 0.19, s: 0.5 } : { x: W * 0.12, s: 0.5 });
+      stage = portrait ? { ...pStage, y1: H * 0.62 } : { x0: W * 0.24, y0: safe.y0, x1: W * 0.78, y1: lStageBottom };
+      slots.push(portrait ? { x: W * 0.24, s: 0.48 } : { x: W * 0.12, s: 0.5 });
       break;
     case "duo":
-      slots.push({ x: W * (portrait ? 0.28 : 0.27), s: portrait ? 0.56 : 0.64, facing: "right" });
-      slots.push({ x: W * (portrait ? 0.73 : 0.73), s: portrait ? 0.56 : 0.64, facing: "left" });
-      stage = portrait ? pStage : { x0: W * 0.3, y0: safe.y0, x1: W * 0.7, y1: H * 0.3 };
+      slots.push({ x: W * (portrait ? 0.28 : 0.27), s: 0.64, facing: "right" });
+      slots.push({ x: W * (portrait ? 0.70 : 0.73), s: 0.64, facing: "left" });
+      stage = portrait ? { ...pStage, y1: H * 0.44 } : { x0: W * 0.3, y0: safe.y0, x1: W * 0.7, y1: H * 0.3 };
       break;
     case "thought":
       slots.push(portrait ? { x: W * 0.5, s: 0.66 } : { x: W * 0.27, s: 0.74 });
@@ -138,8 +138,8 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
     case "compare":
     case "transform":
     case "steps":
-      stage = portrait ? pStage : { x0: textSafe.x0, y0: safe.y0, x1: textSafe.x1, y1: H * 0.64 };
-      slots.push(portrait ? { x: W * 0.5, s: layout === "steps" ? 0.52 : 0.6 } : { x: W * 0.5, s: 0.42, y: H * 1.02 });
+      stage = portrait ? { ...pStage, y1: H * (layout === "steps" && (scene.items?.length ?? 0) > 3 ? 0.66 : 0.50) } : { x0: textSafe.x0, y0: safe.y0, x1: textSafe.x1, y1: H * 0.64 };
+      slots.push(portrait ? { x: W * 0.5, s: layout === "steps" && (scene.items?.length ?? 0) > 3 ? 0.39 : 0.65 } : { x: W * 0.5, s: 0.34, y: H * 0.93 });
       break;
     case "number":
       slots.push(portrait ? { x: W * 0.5, s: 0.64 } : { x: W * 0.22, s: 0.76 });
@@ -155,7 +155,7 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
       const span = portrait ? [0.16, 0.84] : [0.13, 0.87];
       for (let i = 0; i < n; i++) {
         const x = n === 1 ? 0.5 : span[0] + ((span[1] - span[0]) * i) / (n - 1);
-        slots.push({ x: W * x, y: portrait ? H * (0.86 + (i % 2) * 0.07) : F.ground, s: portrait ? 0.46 : Math.min(0.66, 2.1 / n), facing: x < 0.5 ? "right" : "left" });
+        slots.push({ x: W * x, y: portrait ? H * (0.81 + (i % 2) * 0.06) : F.ground, s: portrait ? 0.46 : Math.min(0.66, 2.1 / n), facing: x < 0.5 ? "right" : "left" });
       }
       stage = portrait ? { ...pStage, y1: Math.min(pStageBottom, H * 0.47) } : { x0: W * 0.2, y0: safe.y0, x1: W * 0.8, y1: H * 0.4 };
       break;
@@ -165,8 +165,13 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
       break;
     case "host_talk":
     default:
-      slots.push(portrait ? { x: W * 0.5, s: 0.66 } : { x: W * 0.235, s: 0.72 });
-      stage = portrait ? pStage : { x0: W * 0.43, y0: safe.y0, x1: textSafe.x1, y1: lStageBottom };
+      slots.push(portrait ? { x: W * 0.48, s: 0.78 } : { x: W * 0.235, s: 0.72 });
+      stage = portrait ? { ...pStage, y1: H * 0.40 } : { x0: W * 0.43, y0: safe.y0, x1: textSafe.x1, y1: lStageBottom };
+  }
+  // Three traits read as a compact list beside their subject; four steps get a large grid.
+  if (portrait && layout === "steps" && scene.items?.length === 3) {
+    stage = { ...pStage, x1: W * 0.45, y1: H * 0.76 };
+    slots[0] = { x: W * 0.70, s: 0.66, y: H * 0.87 };
   }
   stage = layout === "duo" || portrait ? stage : flipR(stage);
   if (thought) thought = { ...thought, x: rcx(stage), y: rcy(stage) };
@@ -238,8 +243,8 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
     const pair = layout === "compare" || layout === "transform";
     const between = pair ? (layout === "compare" ? 0.2 * U : 0.16 * U) : !portrait && layout === "steps" ? 0.06 * U : 0;
     const pk = pack(its.length, stage, {
-      label: its.some((i) => i.label || i.text) ? labelSize : 0, labelW: Math.max(0, ...its.map((i) => (i.label || i.text ? tagWidth((i.label || i.text)!, labelSize) : 0))), gapX: gap.l, gapY: portrait ? gap.m : gap.l, between, preferRow: seq || pair,
-      maxSize: (pair ? 0.4 : 0.36) * U, minSize: 0.15 * U, rtl,
+      label: its.some((i) => i.label || i.text) ? labelSize : 0, labelW: Math.max(0, ...its.map((i) => (i.label || i.text ? tagWidth((i.label || i.text)!, labelSize) : 0))), gapX: gap.l, gapY: portrait && layout === "steps" && its.length === 3 ? gap.l : portrait ? gap.m : gap.l, between, preferRow: seq || pair,
+      maxSize: (portrait && layout === "steps" ? (its.length === 3 ? 0.18 : 0.26) : pair ? 0.4 : 0.36) * U, minSize: 0.15 * U, rtl,
     });
     its.forEach((it, i) => items.push({ ...it, idx: i, px: pk.centers[i].x, py: pk.centers[i].y, ps: pk.size }));
     if (layout === "compare" && its.length > 1) {
@@ -284,7 +289,9 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
     const labW = p.label ? tagWidth(p.label, labelSize) / 2 : 0;
     const half = Math.max(p.ps / 2, labW);
     const down = p.ps / 2 + (p.label ? tagHeight(labelSize) + gap.xs : 0);
-    const k = keepIn(p.px, p.py, half, half, p.ps / 2, down, p.label ? textSafe : safe);
+    const bounds = { ...(p.label ? textSafe : safe) };
+    if (portrait && F.captionBand && layout !== "title") bounds.y0 = F.captionBand.y1 + gap.m;
+    const k = keepIn(p.px, p.py, half, half, p.ps / 2, down, bounds);
     p.px = k.x; p.py = k.y;
   }
   for (const it of items) {

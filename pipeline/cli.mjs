@@ -11,7 +11,7 @@
 //   node pipeline/cli.mjs hyperframes <name> [--render]     export an editable HyperFrames project
 //   node pipeline/cli.mjs doctor                     check the toolchain
 // options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>
-import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync } from "node:fs";
 import { join, resolve, basename, extname } from "node:path";
 import { spawnSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -71,7 +71,7 @@ const py = (script, args) => run(findPython(), [join(ROOT, "audio", script), ...
 
 function settingsOf(dir) {
   const s = readJson(join(dir, "video.json"), {});
-  return { title: basename(dir), language: "auto", formats: ["youtube", "shorts"], captions: "auto", music: "auto", host: "host", sfx: true, fps: 30, ...s };
+  return { title: basename(dir), language: "auto", formats: ["shorts"], captions: "auto", music: "auto", host: "host", sfx: true, fps: 60, ...s };
 }
 
 function formatsOf(settings) {
@@ -148,7 +148,8 @@ function storyboardMd(sb) {
     const bg = typeof s.bg === "string" ? s.bg : s.bg?.type;
     return `| ${i + 1} | ${s.start.toFixed(2)}–${s.end.toFixed(2)} | ${(s.text ?? "").replace(/\|/g, "/")} | ${what} | ${bg ?? ""} |`;
   });
-  return `# ${sb.title}\n\nAuto-directed storyboard (${sb.scenes.length} scenes). Edit \`storyboard.json\`; see STORYBOARD_GUIDE.md in the tool folder.\n\n| # | time | narration | visuals | ground |\n|---|---|---|---|---|\n${rows.join("\n")}\n`;
+  const who = sb.directedBy && sb.directedBy !== "auto" ? `Directed by ${sb.directedBy}` : "Auto-directed (keyword draft — ask Claude to direct it for a better video)";
+  return `# ${sb.title}\n\n${who} · ${sb.scenes.length} scenes · ${sb.fps ?? 60} fps. Generated from \`storyboard.json\` (edit that file, not this one); see STORYBOARD_GUIDE.md in the tool folder.\n\n| # | time | narration | visuals | ground |\n|---|---|---|---|---|\n${rows.join("\n")}\n`;
 }
 
 /* optional: whisper.cpp word timestamps for exact caption timing */
@@ -331,6 +332,8 @@ function renderProps(dir, format) {
   const analysis = readJson(join(build, "analysis.json"));
   const { storyboard, warnings } = compile(sb, analysis, { format });
   warnings.forEach((w) => warn(w));
+  // keep the human-readable summary in step with the storyboard that is actually rendered
+  try { writeFileSync(join(dir, "STORYBOARD.md"), storyboardMd({ ...storyboard, title: sb.title ?? storyboard.title }), "utf8"); } catch {}
   const custom = customProps(dir);
   if (Object.keys(custom).length) storyboard.customProps = custom;
   const props = { storyboard, words: analysis.words.map(({ w, s, e }) => ({ w, s, e })), mouth: analysis.mouth, audio: existsSync(join(build, "mix.wav")) ? "mix.wav" : "voice.wav", format };
@@ -347,6 +350,7 @@ async function render(dir, ctx) {
   const { renderVideo } = await import("./remotion-render.mjs");
   const name = basename(dir);
   const draft = !!flags.draft;
+  const renamed = {};
   for (const fmt of formatsOf(settings)) {
     const { props, storyboard } = renderProps(dir, fmt);
     copyUserImages(dir, build, storyboard);
@@ -354,27 +358,50 @@ async function render(dir, ctx) {
     log(`Rendering ${fmt}${draft ? " (draft, half size)" : ""} → ${file}`);
     let last = -1;
     const t0 = Date.now();
-    await renderVideo({ publicDir: build, inputProps: props, out: file, draft, concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
+    // render to a fresh temp name, then swap it in: on Windows the old video cannot be replaced
+    // while it is open in a player, and the finished render must not be lost because of that
+    const tmp = file.replace(/\.mp4$/, `.rendering-${process.pid}.mp4`);
+    await renderVideo({ publicDir: build, inputProps: props, out: tmp, draft, concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
     process.stdout.write(`\r  done in ${Math.round((Date.now() - t0) / 1000)}s${" ".repeat(30)}\n`);
+    const saved = replaceFile(tmp, file);
+    if (saved !== file) {
+      warn(`${basename(file)} is open in another program (a video player?), so it could not be replaced.`);
+      warn(`The new video was saved as ${basename(saved)} — close the player and run again to get the usual name.`);
+      renamed[fmt] = saved;
+    }
   }
   const analysis = readJson(join(build, "analysis.json"));
   writeFileSync(join(out, `${name}.srt`), srt(analysis.words), "utf8");
   log(`Subtitles: ${join(out, name + ".srt")} (${analysis.word_timing ?? "estimated"} timing)`);
-  await qc(dir, settings, draft);
+  await qc(dir, settings, draft, renamed);
 }
 
 /* final pass on the rendered files */
-async function qc(dir, settings = settingsOf(dir), draft = !!flags.draft) {
+/** Move src over dst; if dst is locked (open in a player on Windows), keep src under a new free name. */
+function replaceFile(src, dst) {
+  for (let i = 0; i < 4; i++) {
+    try { renameSync(src, dst); return dst; } catch (e) {
+      if (!["EPERM", "EBUSY", "EACCES"].includes(e.code)) throw e;
+      const until = Date.now() + 700; while (Date.now() < until) {} // brief wait, then retry
+    }
+  }
+  let k = 2, alt;
+  do { alt = dst.replace(/\.mp4$/, ` (${k++}).mp4`); } while (existsSync(alt));
+  renameSync(src, alt);
+  return alt;
+}
+
+async function qc(dir, settings = settingsOf(dir), draft = !!flags.draft, renamed = {}) {
   const { qcVideo, writeQc } = await import("./qc.mjs");
   const name = basename(dir);
   const sizes = { youtube: [1920, 1080], shorts: [1080, 1920], square: [1080, 1080] };
   const analysis = readJson(join(dir, "build", "analysis.json"), {});
   const results = [];
   for (const fmt of formatsOf(settings)) {
-    const file = join(dir, "out", `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
+    const file = renamed[fmt] ?? join(dir, "out", `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
     if (!existsSync(file)) continue;
     const [w, h] = sizes[fmt] ?? [];
-    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 30, duration: analysis.duration, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
+    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 60, duration: analysis.duration, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
     results.push(r);
     log(`Final pass ${fmt}: ${r.checks.map((c) => `${c.ok ? "✔" : "✖"} ${c.name}`).join("  ")}`);
   }

@@ -9,13 +9,15 @@ A video is not done because the render finished. Check the actual MP4 the user w
 
 ## 1. Machine checks (automatic)
 
-`pnpm video make <name>` ends with a final pass; run it alone with `pnpm video qc <name>`.
+`pnpm video make <name>` renders the Shorts video and ends with a final pass; run it alone with
+`pnpm video qc <name>`. Do not render the YouTube version unless the user asks — they use
+`make-landscape-video.bat` for that.
 It writes `out/final-pass.md` and a one-frame-per-second sheet `out/<name>-<format>-sheet.jpg`
 (`pipeline/qc.mjs`):
 
 | check | pass when |
 |---|---|
-| format | 1920×1080 (YouTube) / 1080×1920 (Shorts), 30 fps, audio stream present |
+| format | 1080×1920 (Shorts) / 1920×1080 (YouTube, only when the user renders it), 60 fps, audio stream present |
 | duration | within max(0.15 s, 2 %) of the voice length |
 | black | no stretch of black ≥0.25 s (blackdetect) |
 | frozen | no identical picture ≥2.5 s (freezedetect) — fine only for a designed hold |

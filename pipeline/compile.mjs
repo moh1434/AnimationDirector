@@ -30,7 +30,8 @@ const AT_KEYS = ["at", "out", "emoteAt"];
 export function compile(storyboard, analysis, { format }) {
   const sb = JSON.parse(JSON.stringify(storyboard));
   const words = analysis.words ?? [];
-  sb.fps = sb.fps ?? analysis.fps ?? 30;
+  // the lip-sync curve is sampled at the analysis fps, so the render must use the same rate
+  sb.fps = analysis.fps ?? sb.fps ?? 60;
   sb.duration = Math.max(sb.duration ?? 0, analysis.duration ?? 0);
   // scene starts may be given as a global word index ("w:12") so they follow re-timed words
   for (const sc of sb.scenes ?? []) {

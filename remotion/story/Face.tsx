@@ -40,6 +40,7 @@ export const EXPR: Record<Expression, Spec> = {
 
 export type FaceProps = {
   expression?: Expression;
+  weights?: number[];
   mouth?: number; // lip-sync openness 0..1 (when talking)
   blink?: boolean;
   look?: { x: number; y: number };
@@ -125,7 +126,9 @@ const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number }> = ({ spe
     const sad = kind === "frown" || kind === "wavy" || kind === "teeth" && !talkingOpen;
     const base = kind === "grin" ? 0.55 : kind === "open" ? 0.75 : kind === "o" ? 0.5 : kind === "teeth" ? 0.35 : 0;
     const open = Math.max(m, talkingOpen ? 0 : base);
-    const h = 6 + open * 42;
+    // talking opens the mouth less than a shocked/open expression does (max 30 vs 48 units)
+    const TALK_MAX = 24;
+    const h = 6 + open * (talkingOpen ? TALK_MAX : 42);
     const w = kind === "o" ? 20 + open * 6 : kind === "grin" || kind === "smile" ? 50 - open * 6 : 40 - open * 4;
     if (kind === "o" && !talkingOpen) {
       return <ellipse cx={0} cy={y + 4} rx={w * 0.55} ry={h * 0.5} fill={dark} stroke={INK} strokeWidth={sw} />;
@@ -177,7 +180,7 @@ const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number }> = ({ spe
 };
 
 /** A cartoon face centered at (0,0) for a head of radius ≈100 (use `scale` for others). */
-export const Face: React.FC<FaceProps> = ({
+const FaceLayer: React.FC<FaceProps> = ({
   expression = "neutral", mouth = 0, blink, look = { x: 0, y: 0 }, skin = "#fff", scale = 1,
   stroke = 5.5, eyeSpacing = 34, eyeY = -10, mouthY = 40,
 }) => {
@@ -204,6 +207,15 @@ export const Face: React.FC<FaceProps> = ({
       )}
     </g>
   );
+};
+
+// Crossfade discrete eye/mouth drawings; weighted layers remain continuous on interruptions.
+export const Face: React.FC<FaceProps> = (props) => {
+  if (!props.weights) return <FaceLayer {...props} />;
+  const names = Object.keys(EXPR) as Expression[];
+  const weights = props.weights.map((w) => Math.max(0,w));
+  const total = weights.reduce((a,b) => a+b,0) || 1;
+  return <g>{names.map((expression,i) => weights[i] > 0.001 ? <g key={expression} opacity={weights[i]/total}><FaceLayer {...props} expression={expression} /></g> : null)}</g>;
 };
 
 /** Deterministic blink schedule: closed for ~4 frames every few seconds. */
