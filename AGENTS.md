@@ -37,17 +37,32 @@ storyboard decisions, original narration, timings, and flat illustrated art dire
 - Narration remains the timing source. Do not retime speech to music beats or
   fabricate word alignment. Preserve Arabic shaping and direction.
 
+## Project skills (`.claude/skills/`)
+
+Written for this pipeline and its real commands; read the one that matches the task:
+
+- `story-video-direction` — turning narration into storyboard scenes (shots, layouts, timing, acting).
+- `layout-composition` — the grid (`remotion/story/frame.ts`), spacing tokens, type sizes, safe areas,
+  Shorts vs YouTube framing, and the `pnpm video check` loop.
+- `music-scoring` — spotting map, tempo fitting, harmony-locked melody in speech gaps, intensity,
+  mix targets, sound-effect restraint.
+- `assets` — drawing new props in the house style (library or `projects/<name>/props/*.svg`),
+  references without tracing, licensed images with `SOURCES.md`.
+- `final-pass` — `pnpm video qc` checks plus looking at and listening to the MP4s before reporting.
+
 ## Layout and visual review
 
 For padding, gaps, whitespace, clipping, small subjects, or bottom-heavy frames,
 follow [LAYOUT_REVIEW.md](LAYOUT_REVIEW.md). Review composition as well as technical
 validity; a passing renderer or overlap check does not prove balanced framing.
 
-Use the existing pipeline's still generation when appropriate:
+Use the existing pipeline's still generation and the measured layout check:
 
 ```powershell
 pnpm video stills demo-game --format youtube
 pnpm video stills demo-game --format shorts
+pnpm video check demo-game      # both formats → out/check-*.md + out/check/*.jpg
+pnpm video qc demo-game         # finished MP4s → out/final-pass.md
 ```
 
 Inspect the generated images. Also sample settled, middle, and exit frames where

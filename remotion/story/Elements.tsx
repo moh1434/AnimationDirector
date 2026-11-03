@@ -153,8 +153,8 @@ export const Arrow: React.FC<{ x1: number; y1: number; x2: number; y2: number; t
 };
 
 export const Badge: React.FC<{ text: string; size: number; bg?: string; color?: string }> = ({ text, size, bg = "#e53950", color = "#fff" }) => (
-  <div style={{ width: size, height: size, borderRadius: "50%", background: bg, border: `${size * 0.06}px solid ${INK}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONT.display, fontSize: size * 0.42, color, boxShadow: `0 ${size * 0.06}px 0 rgba(0,0,0,0.2)` }}>
-    <span style={{ ...outlineText(size * 0.42), lineHeight: 1, marginTop: size * 0.06 }}>{text}</span>
+  <div style={{ width: size, height: size, borderRadius: "50%", background: bg, border: `${size * 0.06}px solid ${INK}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONT.display, fontSize: size * 0.5, color, boxShadow: `0 ${size * 0.06}px 0 rgba(0,0,0,0.2)` }}>
+    <span style={{ ...outlineText(size * 0.5), lineHeight: 1, marginTop: size * 0.06 }}>{text}</span>
   </div>
 );
 

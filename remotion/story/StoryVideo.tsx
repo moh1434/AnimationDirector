@@ -1,10 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef, useLayoutEffect, useState } from "react";
 import { AbsoluteFill, Sequence, Audio, staticFile, useCurrentFrame, useVideoConfig, delayRender, continueRender, ENGINE } from "./engine";
 import type { RenderProps, Scene } from "./types";
 import { SceneView } from "./Scene";
 import { Captions, groupWords } from "./Captions";
 import { prog } from "./anim";
 import { FONT, INK } from "./theme";
+import { setCustomProps } from "./Props";
 
 /* ---------- fonts (bundled, offline) ---------- */
 const FONT_FILES: [string, string, string][] = [
@@ -17,17 +18,31 @@ const FONT_FILES: [string, string, string][] = [
   ["Lalezar", "assets/fonts/lalezar-arabic-400-normal.woff2", "400"],
   ["Lalezar", "assets/fonts/lalezar-latin-400-normal.woff2", "400"],
 ];
-let fontsRequested = false;
+let fontsPromise: Promise<void> | null = null;
+let fontsReady = false;
 const loadFonts = () => {
-  if (fontsRequested || typeof document === "undefined") return;
-  fontsRequested = true;
-  const handle = delayRender("fonts");
-  Promise.all(
+  if (fontsPromise || typeof document === "undefined") return fontsPromise;
+  fontsPromise = Promise.all(
     FONT_FILES.map(([fam, file, weight]) => {
       const ff = new FontFace(fam, `url(${staticFile(file)})`, { weight });
       return ff.load().then((f) => (document as any).fonts.add(f)).catch(() => null);
     }),
-  ).then(() => continueRender(handle));
+  ).then(() => { fontsReady = true; });
+  return fontsPromise;
+};
+
+/** Holds the frame until the fonts are in, then re-renders once so text is measured with them. */
+const useFonts = () => {
+  const [ready, setReady] = useState(fontsReady);
+  useLayoutEffect(() => {
+    if (ready) return;
+    const h = delayRender("fonts");
+    (loadFonts() ?? Promise.resolve()).then(() => {
+      setReady(true);
+      requestAnimationFrame(() => continueRender(h));
+    });
+  }, [ready]);
+  return ready;
 };
 
 /* ---------- transitions ---------- */
@@ -66,9 +81,39 @@ const Watermark: React.FC<{ text: string; W: number; H: number }> = ({ text, W, 
   <div style={{ position: "absolute", right: W * 0.025, top: H * 0.03, fontFamily: FONT.body, fontWeight: 800, fontSize: Math.min(W, H) * 0.03, color: "#fff", opacity: 0.85, WebkitTextStroke: `4px ${INK}`, paintOrder: "stroke fill", zIndex: 60 }}>{text}</div>
 );
 
-export const StoryVideo: React.FC<RenderProps> = (props) => {
-  loadFonts();
+/** Layout audit: report the real on-screen box of every tagged element (read by `pnpm video check`). */
+const useLayoutAudit = (enabled: boolean, frame: number, W: number, H: number) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    if (!enabled || !ref.current) return;
+    const rr = ref.current.getBoundingClientRect();
+    // the page may be scaled; fall back to the element's layout size if the rect is degenerate
+    const root = { left: rr.left, top: rr.top, width: rr.width > 1 ? rr.width : ref.current.offsetWidth || W };
+    const k = W / root.width;
+    const boxes: any[] = [];
+    ref.current.querySelectorAll("[data-box]").forEach((el) => {
+      const target = el.tagName.toLowerCase() === "svg" && el.firstElementChild ? el.firstElementChild : el;
+      const r = (target as Element).getBoundingClientRect();
+      if (r.width < 1 || r.height < 1) return;
+      let fs = 0;
+      if (!/^(char|prop|item)/.test(el.getAttribute("data-box") ?? "")) {
+        // font size of the first real text in the element (ignores wrappers)
+        const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        let n: Node | null;
+        while ((n = w.nextNode())) if ((n.textContent ?? "").trim() && n.parentElement) { fs = parseFloat(getComputedStyle(n.parentElement).fontSize) * k || 0; break; }
+      }
+      const text = ((el as HTMLElement).innerText ?? el.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 40);
+      boxes.push({ kind: el.getAttribute("data-box"), x0: (r.left - root.left) * k, y0: (r.top - root.top) * k, x1: (r.right - root.left) * k, y1: (r.bottom - root.top) * k, fs, text });
+    });
+    console.log("LAYOUT_AUDIT " + JSON.stringify({ frame, W, H, root: [rr.left, rr.top, rr.width, rr.height], boxes }));
+  });
+  return ref;
+};
+
+export const StoryVideo: React.FC<RenderProps & { audit?: boolean }> = (props) => {
+  const fontsIn = useFonts();
   const { storyboard: sb, words = [], mouth = [], audio } = props;
+  setCustomProps(sb.customProps);
   const { width: W, height: H, fps } = useVideoConfig();
   const frame = useCurrentFrame();
   const time = frame / fps;
@@ -79,10 +124,12 @@ export const StoryVideo: React.FC<RenderProps> = (props) => {
   }, [words, scenes, W, H, sb.captions?.maxChars]);
   // no captions over title cards (the words are already on screen)
   const inTitle = scenes.some((s, i) => s.layout === "title" && time >= s.start && time < (scenes[i + 1]?.start ?? sb.duration));
-  const showCaptions = (sb.captions?.enabled ?? H > W) && !inTitle;
+  const captionsOn = sb.captions?.enabled ?? H > W;
+  const showCaptions = captionsOn && !inTitle;
+  const auditRef = useLayoutAudit(!!props.audit && fontsIn, frame, W, H);
 
   return (
-    <AbsoluteFill style={{ background: "#111", fontFamily: FONT.body }}>
+    <AbsoluteFill ref={auditRef} style={{ background: "#111", fontFamily: FONT.body }}>
       {scenes.map((s, i) => {
         const from = Math.round(s.start * fps);
         const to = i < scenes.length - 1 ? Math.round(scenes[i + 1].start * fps) : Math.round(Math.max(s.end, sb.duration) * fps);
@@ -90,7 +137,7 @@ export const StoryVideo: React.FC<RenderProps> = (props) => {
         return (
           <Sequence key={s.id ?? i} from={from} durationInFrames={d} name={`${i + 1}. ${s.layout ?? ""} ${(s.text ?? "").slice(0, 30)}`}>
             <TransitionWrap scene={s} next={scenes[i + 1]} durFrames={d} W={W} H={H}>
-              <SceneView scene={s} sb={sb} mouth={mouth} startFrame={from} index={i} W={W} H={H} />
+              <SceneView scene={s} sb={sb} mouth={mouth} startFrame={from} index={i} W={W} H={H} captionsOn={captionsOn} />
             </TransitionWrap>
           </Sequence>
         );

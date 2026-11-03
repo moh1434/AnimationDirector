@@ -960,6 +960,134 @@ export const PROPS: Record<string, Art> = {
     ),
     aliases: ["user", "human", "people_icon"],
   },
+  bug: {
+    // a round beetle: two-tone shell split down the middle, six bent legs, two antennae
+    draw: (t) => (
+      <g {...st}>
+        {[-1, 1].map((d) => [-30, 4, 38].map((y, i) => (
+          <path key={`${d}${i}`} d={`M${d * 40} ${y} L${d * 78} ${y - 14 + Math.sin(t * 9 + i) * 4} L${d * 90} ${y + 12}`} fill="none" strokeWidth={6} />
+        )))}
+        <path d="M-14 -64 Q-30 -96 -50 -92 M14 -64 Q30 -96 50 -92" fill="none" />
+        <circle cx={-50} cy={-92} r={7} fill={INK} />
+        <circle cx={50} cy={-92} r={7} fill={INK} />
+        <ellipse cy={-48} rx={36} ry={26} fill="#3a3f4b" />
+        <ellipse cy={14} rx={64} ry={66} fill="#e5483a" />
+        <line x1={0} y1={-50} x2={0} y2={80} />
+        <circle cx={-30} cy={0} r={10} fill={INK} stroke="none" />
+        <circle cx={32} cy={30} r={12} fill={INK} stroke="none" />
+        <circle cx={-26} cy={44} r={8} fill={INK} stroke="none" />
+        <path d="M-40 -18 Q-34 -34 -18 -40" fill="none" stroke="#fff" strokeWidth={7} opacity={0.7} />
+      </g>
+    ),
+    face: { x: 0, y: -48, s: 0.32 },
+    aliases: ["beetle", "insect", "glitch", "debug", "ladybug"],
+  },
+  palette: {
+    // a painter's palette with a thumb hole and five paint blobs, a brush across it
+    draw: () => (
+      <g {...st}>
+        <path d="M-6 -82 Q78 -82 88 -12 Q94 30 56 34 Q30 36 36 58 Q40 84 4 84 Q-86 84 -88 0 Q-88 -82 -6 -82Z" fill="#f2d3a2" />
+        <ellipse cx={20} cy={46} rx={14} ry={11} fill="#ffffff" />
+        <circle cx={-46} cy={-30} r={15} fill="#e53950" />
+        <circle cx={-6} cy={-50} r={15} fill="#ffc83d" />
+        <circle cx={40} cy={-40} r={15} fill="#3ddc97" />
+        <circle cx={-56} cy={18} r={15} fill="#3b8df0" />
+        <circle cx={-26} cy={52} r={15} fill="#6a35d6" />
+        <g transform="rotate(38 30 0)">
+          <rect x={-8} y={-96} width={16} height={92} rx={6} fill="#c98b4a" />
+          <rect x={-10} y={-14} width={20} height={20} rx={3} fill="#b0bec5" />
+          <path d="M-10 6 Q-12 36 0 44 Q12 36 10 6Z" fill="#e53950" />
+        </g>
+      </g>
+    ),
+    face: { x: -10, y: 10, s: 0.34 },
+    aliases: ["paint", "art", "graphics", "design", "colors", "colours", "drawing", "artist"],
+  },
+  level_map: {
+    // a game level map: a winding dotted path between round stages, ending at a flag
+    draw: () => (
+      <g {...st}>
+        <rect x={-92} y={-80} width={184} height={160} rx={22} fill="#8fd16a" />
+        <path d="M-62 52 Q-20 64 -10 24 Q0 -10 40 0 Q76 10 60 -46" fill="none" stroke="#fff6d6" strokeWidth={14} strokeDasharray="2 22" />
+        <circle cx={-62} cy={52} r={16} fill="#ffc83d" />
+        <circle cx={-10} cy={22} r={16} fill="#ffc83d" />
+        <circle cx={40} cy={0} r={16} fill="#ffffff" />
+        <line x1={60} y1={-40} x2={60} y2={-78} />
+        <path d="M60 -78 L92 -68 L60 -56Z" fill="#e53950" />
+        <circle cx={60} cy={-40} r={8} fill={INK} />
+        <path d="M-80 -60 l14 -14 l14 14 Z M-60 -44 l12 -12 l12 12 Z" fill="#4c9a3a" strokeWidth={4} />
+      </g>
+    ),
+    face: { x: -30, y: -30, s: 0.3 },
+    aliases: ["levels", "level", "stages", "world_map", "progress", "journey", "roadmap"],
+  },
+  puzzle: {
+    // one jigsaw piece with knobs on two sides
+    draw: () => (
+      <g {...st}>
+        <path d="M-70 -70 H-16 Q-22 -100 0 -100 Q22 -100 16 -70 H70 V-16 Q100 -22 100 0 Q100 22 70 16 V70 H-70 Z" fill="#3b8df0" />
+        <path d="M-50 -50 Q-50 -56 -44 -56 H-20" fill="none" stroke="#fff" strokeWidth={7} opacity={0.6} />
+      </g>
+    ),
+    face: { x: 0, y: 6, s: 0.5 },
+    aliases: ["piece", "solution", "fit", "missing_piece", "jigsaw", "problem"],
+  },
+  target: {
+    // a dartboard target with an arrow in the bullseye
+    draw: (t) => (
+      <g {...st}>
+        <circle r={86} fill="#ffffff" />
+        <circle r={62} fill="#e53950" />
+        <circle r={38} fill="#ffffff" />
+        <circle r={16} fill="#e53950" />
+        <g transform={`rotate(${-35 + Math.sin(t * 20) * 1.5})`}>
+          <line x1={0} y1={0} x2={96} y2={0} strokeWidth={7} />
+          <path d="M80 0 L104 -16 L98 0 L104 16Z" fill="#ffc83d" strokeWidth={4} />
+        </g>
+      </g>
+    ),
+    aliases: ["goal", "aim", "bullseye", "objective", "focus"],
+  },
+  megaphone: {
+    // a cone megaphone with sound arcs
+    draw: (t) => (
+      <g {...st}>
+        <path d="M-70 -18 L40 -66 V66 L-70 18 Z" fill="#ffc83d" />
+        <rect x={-90} y={-22} width={24} height={44} rx={8} fill="#e53950" />
+        <ellipse cx={40} rx={14} ry={66} fill="#ffb000" />
+        <path d="M-40 20 L-34 58 H-12 L-18 12" fill="#e53950" />
+        <g fill="none" strokeWidth={6} opacity={0.6 + 0.4 * Math.sin(t * 8)}>
+          <path d="M70 -30 Q86 0 70 30" />
+          <path d="M84 -50 Q110 0 84 50" />
+        </g>
+      </g>
+    ),
+    face: { x: -6, y: 0, s: 0.34 },
+    aliases: ["announce", "announcement", "loud", "marketing", "promote", "advertise", "shout", "bullhorn"],
+  },
+  code_window: {
+    // an editor window with a title bar and coloured lines of code (no real logos)
+    draw: (t) => (
+      <g {...st}>
+        <rect x={-92} y={-74} width={184} height={148} rx={16} fill="#25283d" />
+        <path d="M-92 -44 V-58 Q-92 -74 -76 -74 H76 Q92 -74 92 -58 V-44 Z" fill="#e8e8f0" />
+        <circle cx={-72} cy={-59} r={6} fill="#e53950" strokeWidth={3} />
+        <circle cx={-52} cy={-59} r={6} fill="#ffc83d" strokeWidth={3} />
+        <circle cx={-32} cy={-59} r={6} fill="#3ddc97" strokeWidth={3} />
+        <g stroke="none">
+          <rect x={-74} y={-28} width={40} height={10} rx={5} fill="#ff7ab6" />
+          <rect x={-28} y={-28} width={60} height={10} rx={5} fill="#7fd1ff" />
+          <rect x={-58} y={-8} width={70} height={10} rx={5} fill="#ffc83d" />
+          <rect x={-58} y={12} width={44} height={10} rx={5} fill="#3ddc97" />
+          <rect x={-8} y={12} width={50} height={10} rx={5} fill="#7fd1ff" />
+          <rect x={-74} y={32} width={30} height={10} rx={5} fill="#ff7ab6" />
+          {Math.floor(t * 2.5) % 2 === 0 && <rect x={-38} y={30} width={6} height={16} fill="#ffffff" />}
+        </g>
+      </g>
+    ),
+    face: { x: 30, y: 30, s: 0.3 },
+    aliases: ["code", "coding", "programming", "script", "editor", "software", "program", "developer"],
+  },
   bacteria: {
     draw: (t) => (
       <g {...st}>
@@ -1103,7 +1231,12 @@ for (const [k, v] of Object.entries(PROPS)) {
   ALIAS[k] = k;
   for (const a of v.aliases ?? []) ALIAS[a] = k;
 }
-export const resolveProp = (name: string) => ALIAS[name?.toLowerCase?.().replace(/[\s-]+/g, "_")] ?? null;
+// the project's own drawings (projects/<name>/props/*.svg), registered by StoryVideo before it renders
+let CUSTOM: Record<string, string> = {};
+export const setCustomProps = (m: Record<string, string> | undefined) => { CUSTOM = m ?? {}; };
+const keyOf = (name: string) => String(name ?? "").toLowerCase().replace(/\.svg$/, "").replace(/^(file:|props\/)/, "").replace(/[\s-]+/g, "_");
+export const isCustomProp = (name: string) => keyOf(name) in CUSTOM;
+export const resolveProp = (name: string) => (isCustomProp(name) ? keyOf(name) : ALIAS[name?.toLowerCase?.().replace(/[\s-]+/g, "_")] ?? null);
 export const PROP_NAMES = Object.keys(PROPS);
 
 export type PropArtProps = {
@@ -1122,8 +1255,23 @@ export type PropArtProps = {
 /** Draws a prop centred at (0,0). */
 export const PropArt: React.FC<PropArtProps> = ({ name, size = 200, face, mouth = 0, blink, t = 0, color, color2, glow, look }) => {
   const key = resolveProp(name) ?? "question";
-  const art = PROPS[key];
   const s = size / 200;
+  if (key in CUSTOM && !(key in PROPS)) {
+    // a drawing from the project's props/ folder, fitted into the same 200×200 box as library props
+    const svg = CUSTOM[key].replace(/<svg\b([^>]*)>/i, (_m, attrs: string) => `<svg${attrs.replace(/\s(width|height|x|y|preserveAspectRatio)\s*=\s*("[^"]*"|'[^']*')/gi, "")} x="-100" y="-100" width="200" height="200" preserveAspectRatio="xMidYMid meet" overflow="visible">`);
+    const expr: Expression | null = face === true ? "happy" : face ? (face as Expression) : null;
+    return (
+      <g transform={`scale(${s})`}>
+        <g dangerouslySetInnerHTML={{ __html: svg }} />
+        {expr && (
+          <g transform="translate(0 0) scale(0.4)">
+            <Face expression={expr} mouth={mouth} blink={blink} look={look ?? { x: 0, y: 0.1 }} stroke={7} />
+          </g>
+        )}
+      </g>
+    );
+  }
+  const art = PROPS[key];
   const f = art.face ?? { x: 0, y: 0, s: 0.4 };
   const expr: Expression | null = face === true ? "happy" : face ? (face as Expression) : null;
   return (

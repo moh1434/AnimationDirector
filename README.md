@@ -47,7 +47,8 @@ storyboard.json yourself — it is kept between runs unless you use `--replan`.
 * `captions`: `"auto"` = burned-in word captions on Shorts only; `true`/`false`; or `{"youtube": true}`.
 * `music`: `"auto"`, a mood (`playful curious epic space upbeat calm`), `"none"`, or a path to your own track.
 * `host`: the narrator's look (`host`, `scientist`, `girl`, `sage`, … see the guide), or `"hostLook": {...}`.
-* `mix`: `{"music_db": -12, "sfx_db": -14, "duck_db": 8, "lufs": -14}` to rebalance the sound.
+* `mix`: `{"music_db": -8, "sfx_db": -14, "duck_db": 12, "lufs": -14}` to rebalance the sound
+  (music ≈18 dB under the voice while it talks, ≈11–13 dB in its pauses; see `build/audio_report.json`).
 
 ## What each tool does here
 
@@ -71,16 +72,35 @@ multilingual model there (e.g. `ggml-small.bin`); `ggml-base.en.bin` only covers
 ## Folders
 
 ```
-projects/<name>/        voice.wav, script.txt, video.json, storyboard.json (yours to edit), out/ (videos)
-projects/<name>/build/  generated: cleaned voice, analysis, score.mid, music/sfx stems, mix.wav
+projects/<name>/        voice.wav, script.txt, video.json, storyboard.json (yours to edit), props/*.svg (optional), out/ (videos)
+projects/<name>/build/  generated: cleaned voice, analysis, score.mid, spotting.json, music/sfx stems, mix.wav
 remotion/story/         the cartoon library: Character, Face, Props, Backgrounds, Scene layouts, captions
 pipeline/               cli.mjs (all commands), parse, director, lexicon, compile, renderers, Tone.js
 audio/                  analyze_voice.py, compose_music.py, mix.py (+ the original make_jingle.py)
 assets/                 bundled fonts (Baloo Bhaijaan 2, Lalezar — OFL) and paper grain
 STORYBOARD_GUIDE.md     every layout, pose, expression, prop and setting
+.claude/skills/         how Claude directs, lays out, scores, draws and checks videos here
 ```
 
-Command line (any OS): `pnpm video <new|plan|audio|render|make|stills|studio|hyperframes|doctor> <project> [options]`.
+Command line (any OS): `pnpm video <new|plan|audio|render|make|stills|check|qc|studio|hyperframes|doctor> <project> [options]`.
+
+## Quality checks
+
+* **`pnpm video check <name>`** — renders every scene (settled + midpoint) in each format, measures
+  where each element really is, and reports layout problems: text outside the safe area or under the
+  Shorts buttons, collisions, anything in the caption band, text too small, subjects too small,
+  empty halves. Report: `out/check-youtube.md`, `out/check-shorts.md`, stills in `out/check/`.
+* **`pnpm video qc <name>`** (also runs at the end of `make`) — checks the finished MP4s: size, fps,
+  duration, black or frozen picture, loudness (−14 LUFS) and peak, and makes a one-frame-per-second
+  sheet. Report: `out/final-pass.md`.
+* `plan`/`make` also warn when on-screen text is up too briefly to read, labels are too long, or a
+  scene has too many things in it.
+
+## Your own drawings
+
+Put SVG drawings in `projects/<name>/props/` (e.g. `props/game-engine.svg`) and use them by name in
+the storyboard like any library prop: `{ "prop": "game-engine" }`. Draw them in the same flat style
+(see `.claude/skills/assets/SKILL.md`).
 
 ## Original toolkit commands (still work)
 

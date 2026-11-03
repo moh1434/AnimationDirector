@@ -96,6 +96,8 @@ export type Storyboard = {
   language?: string; // "ar" | "en" | ...
   fps?: number;
   duration: number;
+  /** The project's own drawings (props/*.svg), filled in by the pipeline: name → SVG text. */
+  customProps?: Record<string, string>;
   cast: Record<string, CastMember>;
   scenes: Scene[];
   captions?: { enabled?: boolean; style?: "pop" | "box" | "plain"; position?: number; maxChars?: number };
