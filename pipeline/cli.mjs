@@ -11,7 +11,7 @@
 //   node pipeline/cli.mjs hyperframes <name> [--render]     export an editable HyperFrames project
 //   node pipeline/cli.mjs doctor                     check the toolchain
 // options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>
-import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync } from "node:fs";
 import { join, resolve, basename, extname } from "node:path";
 import { spawnSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -347,6 +347,7 @@ async function render(dir, ctx) {
   const { renderVideo } = await import("./remotion-render.mjs");
   const name = basename(dir);
   const draft = !!flags.draft;
+  const renamed = {};
   for (const fmt of formatsOf(settings)) {
     const { props, storyboard } = renderProps(dir, fmt);
     copyUserImages(dir, build, storyboard);
@@ -354,24 +355,47 @@ async function render(dir, ctx) {
     log(`Rendering ${fmt}${draft ? " (draft, half size)" : ""} → ${file}`);
     let last = -1;
     const t0 = Date.now();
-    await renderVideo({ publicDir: build, inputProps: props, out: file, draft, concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
+    // render to a fresh temp name, then swap it in: on Windows the old video cannot be replaced
+    // while it is open in a player, and the finished render must not be lost because of that
+    const tmp = file.replace(/\.mp4$/, `.rendering-${process.pid}.mp4`);
+    await renderVideo({ publicDir: build, inputProps: props, out: tmp, draft, concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
     process.stdout.write(`\r  done in ${Math.round((Date.now() - t0) / 1000)}s${" ".repeat(30)}\n`);
+    const saved = replaceFile(tmp, file);
+    if (saved !== file) {
+      warn(`${basename(file)} is open in another program (a video player?), so it could not be replaced.`);
+      warn(`The new video was saved as ${basename(saved)} — close the player and run again to get the usual name.`);
+      renamed[fmt] = saved;
+    }
   }
   const analysis = readJson(join(build, "analysis.json"));
   writeFileSync(join(out, `${name}.srt`), srt(analysis.words), "utf8");
   log(`Subtitles: ${join(out, name + ".srt")} (${analysis.word_timing ?? "estimated"} timing)`);
-  await qc(dir, settings, draft);
+  await qc(dir, settings, draft, renamed);
 }
 
 /* final pass on the rendered files */
-async function qc(dir, settings = settingsOf(dir), draft = !!flags.draft) {
+/** Move src over dst; if dst is locked (open in a player on Windows), keep src under a new free name. */
+function replaceFile(src, dst) {
+  for (let i = 0; i < 4; i++) {
+    try { renameSync(src, dst); return dst; } catch (e) {
+      if (!["EPERM", "EBUSY", "EACCES"].includes(e.code)) throw e;
+      const until = Date.now() + 700; while (Date.now() < until) {} // brief wait, then retry
+    }
+  }
+  let k = 2, alt;
+  do { alt = dst.replace(/\.mp4$/, ` (${k++}).mp4`); } while (existsSync(alt));
+  renameSync(src, alt);
+  return alt;
+}
+
+async function qc(dir, settings = settingsOf(dir), draft = !!flags.draft, renamed = {}) {
   const { qcVideo, writeQc } = await import("./qc.mjs");
   const name = basename(dir);
   const sizes = { youtube: [1920, 1080], shorts: [1080, 1920], square: [1080, 1080] };
   const analysis = readJson(join(dir, "build", "analysis.json"), {});
   const results = [];
   for (const fmt of formatsOf(settings)) {
-    const file = join(dir, "out", `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
+    const file = renamed[fmt] ?? join(dir, "out", `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
     if (!existsSync(file)) continue;
     const [w, h] = sizes[fmt] ?? [];
     const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 30, duration: analysis.duration, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
