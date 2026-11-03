@@ -4,6 +4,17 @@ This is the user's existing voice-led cartoon production pipeline. Read README.m
 STORYBOARD_GUIDE.md and CLAUDE.md before changing it. Preserve the user's edits,
 storyboard decisions, original narration, timings, and flat illustrated art direction.
 
+## Which instructions to follow
+
+- **Local / smaller models** (running in Ollama, LM Studio, etc.): follow
+  [LOCAL_MODEL_GUIDE.md](LOCAL_MODEL_GUIDE.md) step by step. It is the whole job in 8 steps,
+  with templates, and you never need to read or edit code.
+- **Stronger models** (Claude, ChatGPT, …): that guide is optional, a safe default and not a limit.
+  Direct freely with STORYBOARD_GUIDE.md and `.claude/skills/`.
+- Every model: `pnpm video plan <name>` writes `build/brief.md` (the narration with word times,
+  good cut points and every valid name); `pnpm video validate <name>` lists exact fixes for
+  storyboard.json; `pnpm video catalog` lists every layout, prop, background, pose and expression.
+
 ## Tools and packages
 
 - Use pnpm for JavaScript/TypeScript. Use `pnpm exec` for installed CLI tools;

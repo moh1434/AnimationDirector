@@ -6,6 +6,7 @@ For padding, whitespace, alignment, or portrait framing issues, use
 [LAYOUT_REVIEW.md](LAYOUT_REVIEW.md) before changing scene coordinates.
 Project skills in `.claude/skills/`: story-video-direction, layout-composition, music-scoring,
 assets, final-pass — use them when directing, laying out, scoring, drawing or checking a video.
+A smaller local model should follow [LOCAL_MODEL_GUIDE.md](LOCAL_MODEL_GUIDE.md) instead; for you it is optional.
 
 This folder is a voice-led cartoon video pipeline (Remotion + GSAP + HyperFrames + Tone.js +
 pretty_midi + pedalboard). The user supplies a narration `.wav`, the story text and time segments;
@@ -20,12 +21,13 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
    stretch or edit the voice.
 2. `pnpm video plan <name>` — validates timings, analyses the voice, writes an automatic
    `storyboard.json`. Read its warnings.
-3. **Direct it yourself.** Read the narration and `build/analysis.json` (`words` have times) and
+3. **Direct it yourself.** Read `build/brief.md` (narration with word times, cut points, valid names) and
    rewrite `storyboard.json` following the checklist at the end of STORYBOARD_GUIDE.md: one idea per
    scene (3–7 s, scene starts on a word start), varied layouts and ground colours, objects that pop
    on the word that names them (`"at": "@word"`), faces with expressions that comment on the line,
    narrator reactions via `actions`, title cards for punchlines, `number` scenes for figures.
    Do not invent facts, maps, or likenesses of real people; use `image` scenes with the user's files.
+   Then `pnpm video validate <name>` and fix every error it lists.
 4. `pnpm video check <name>` → read `out/check-shorts.md` and look at `out/check/*.jpg`.
    Fix every error; judge each warning (layout-composition skill). `stills` gives a quick contact sheet.
    Add `--format both` only when the user wants the YouTube layout checked too (stills, not a render).

@@ -9,6 +9,9 @@
 //   node pipeline/cli.mjs stills <name>              one still per scene -> out/stills (quick review)
 //   node pipeline/cli.mjs studio <name> [--format shorts]   open Remotion Studio on the project
 //   node pipeline/cli.mjs hyperframes <name> [--render]     export an editable HyperFrames project
+//   node pipeline/cli.mjs brief <name>               build/brief.md: narration with word times + every valid name
+//   node pipeline/cli.mjs validate <name>            check storyboard.json and list exact fixes
+//   node pipeline/cli.mjs catalog                    list layouts, props, backgrounds, poses, expressions…
 //   node pipeline/cli.mjs doctor                     check the toolchain
 // options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync } from "node:fs";
@@ -19,6 +22,7 @@ import { ROOT, IS_WIN, findPython, findFfmpeg, findChrome, binOf } from "./env.m
 import { parseScript, detectLanguage } from "./parse.mjs";
 import { direct } from "./director.mjs";
 import { compile, sfxCues } from "./compile.mjs";
+import { writeBrief, validateProject } from "./storyboard-tools.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -124,6 +128,7 @@ async function plan(dir, { force = false } = {}) {
   if (existing && !force && !flags.replan) {
     if (existing.inputsHash && existing.inputsHash !== inputsHash) warn("Voice or script changed since storyboard.json was made. Use --replan to rebuild it (your edits would be replaced).");
     log("Keeping existing storyboard.json (use --replan to rebuild it).");
+    briefOf(dir, { analysis, segments, settings: { ...settings, language: lang }, storyboard: existing });
     return { settings, analysis, storyboard: existing, lang };
   }
   const sb = direct({ segments, words: analysis.words, duration: analysis.duration, settings: { ...settings, language: lang } });
@@ -132,7 +137,19 @@ async function plan(dir, { force = false } = {}) {
   writeJson(sbPath, sb);
   writeFileSync(join(dir, "STORYBOARD.md"), storyboardMd(sb), "utf8");
   log(`storyboard.json written: ${sb.scenes.length} scenes (auto-directed — edit it or ask Claude to direct it).`);
+  briefOf(dir, { analysis, segments, settings: { ...settings, language: lang }, storyboard: sb });
   return { settings, analysis, storyboard: sb, lang };
+}
+
+function briefOf(dir, ctx) {
+  try { const p = writeBrief(dir, ctx); log(`Director brief: ${p}`); } catch (e) { warn(`Could not write build/brief.md (${e.message.split("\n")[0]})`); }
+}
+
+/** Stop early, with exact fixes, when storyboard.json names something the renderer does not have. */
+function validateOrDie(dir, analysis) {
+  const res = validateProject(dir, { analysis, customProps: customProps(dir) });
+  if (res.errors.length) die(`storyboard.json has problems:\n${res.report}\n\nFix them (or run: pnpm video validate ${basename(dir)}).`);
+  return res;
 }
 
 function captionsByFormat(settings) {
@@ -330,6 +347,7 @@ function renderProps(dir, format) {
   const build = join(dir, "build");
   const sb = readJson(join(dir, "storyboard.json")) ?? die("No storyboard.json — run plan first.");
   const analysis = readJson(join(build, "analysis.json"));
+  validateOrDie(dir, analysis);
   const { storyboard, warnings } = compile(sb, analysis, { format });
   warnings.forEach((w) => warn(w));
   // keep the human-readable summary in step with the storyboard that is actually rendered
@@ -496,6 +514,21 @@ try {
     case "studio": { const d = projectDir(pos[0]); studio(d); break; }
     case "hyperframes": { const d = projectDir(pos[0]); const { exportHyperframes } = await import("./hyperframes.mjs"); await exportHyperframes(d, { render: !!flags.render, format: formatsOf(settingsOf(d))[0], props: renderProps(d, formatsOf(settingsOf(d))[0]).props }); break; }
     case "doctor": doctor(); break;
+    case "catalog": {
+      const { catalog, catalogText } = await import("./catalog.mjs");
+      console.log(flags.json ? JSON.stringify({ ...catalog(), resolveProp: undefined }, null, 1) : catalogText());
+      break;
+    }
+    case "brief": { const d = projectDir(pos[0]); await plan(d); break; }
+    case "validate": {
+      const d = projectDir(pos[0]);
+      const analysis = readJson(join(d, "build", "analysis.json"), null);
+      if (!analysis) warn("No build/analysis.json yet (run plan first): word references (\"@word\") are not checked.");
+      const res = validateProject(d, { analysis: analysis ?? {}, customProps: customProps(d) });
+      console.log(res.report);
+      if (res.errors.length) process.exit(1);
+      break;
+    }
     case "check": { const d = projectDir(pos[0]); await plan(d); await check(d); break; }
     case "qc": { const d = projectDir(pos[0]); await qc(d); break; }
     case "make": {

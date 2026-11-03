@@ -88,7 +88,15 @@ STORYBOARD_GUIDE.md     every layout, pose, expression, prop and setting
 .claude/skills/         how Claude directs, lays out, scores, draws and checks videos here
 ```
 
-Command line (any OS): `pnpm video <new|plan|audio|render|make|stills|check|qc|studio|hyperframes|doctor> <project> [options]`.
+Command line (any OS): `pnpm video <new|plan|brief|validate|catalog|audio|render|make|stills|check|qc|studio|hyperframes|doctor> <project> [options]`.
+
+* `pnpm video brief <name>` → `build/brief.md`: the narration with every word's time, good scene
+  start times, the cast and every valid name (also written by `plan`). The one file a director needs.
+* `pnpm video validate <name>` → checks `storyboard.json` against what the renderer has and lists
+  exact fixes ("scene s3, props[0].name: "chatbot" is not a drawing. Did you mean: …"). Rendering
+  stops with the same list when the storyboard has errors.
+* `pnpm video catalog` → every layout, prop, background, character, pose, expression, emote.
+* Using a local AI model? Point it at **LOCAL_MODEL_GUIDE.md**.
 
 ## Quality checks
 
