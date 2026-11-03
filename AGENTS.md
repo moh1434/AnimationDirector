@@ -59,11 +59,13 @@ validity; a passing renderer or overlap check does not prove balanced framing.
 Use the existing pipeline's still generation and the measured layout check:
 
 ```powershell
-pnpm video stills demo-game --format youtube
 pnpm video stills demo-game --format shorts
-pnpm video check demo-game      # both formats → out/check-*.md + out/check/*.jpg
+pnpm video check demo-game      # Shorts → out/check-shorts.md + out/check/*.jpg (add --format both for YouTube stills)
 pnpm video qc demo-game         # finished MP4s → out/final-pass.md
 ```
+
+**Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
+The pipeline default is 60 fps (`video.json` → `"fps"`); do not lower it unless the user asks.
 
 Inspect the generated images. Also sample settled, middle, and exit frames where
 the single per-scene still misses the reported problem. A review request alone

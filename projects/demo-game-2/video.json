@@ -1,9 +1,10 @@
 {
   "title": "Make a game with AI",
   "language": "en",
-  "formats": ["youtube", "shorts"],
+  "formats": ["shorts"],
   "captions": "auto",
   "music": "upbeat",
   "host": "host",
-  "sfx": true
+  "sfx": true,
+  "fps": 60
 }

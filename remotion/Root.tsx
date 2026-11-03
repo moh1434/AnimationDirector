@@ -10,7 +10,7 @@ import { DEMO_PROPS } from "./story/demo";
 // builds its props (storyboard + word timings + lip-sync) and renders it.
 // In Studio, the project's render.json is passed with --props.
 const meta = ({ props }: { props: RenderProps }) => {
-  const fps = props.storyboard?.fps ?? 30;
+  const fps = props.storyboard?.fps ?? 60;
   const f = FORMATS[props.format ?? "youtube"] ?? FORMATS.youtube;
   return {
     durationInFrames: Math.max(1, Math.ceil((props.storyboard?.duration ?? 5) * fps)),
@@ -26,8 +26,8 @@ export const RemotionRoot = () => {
       <Composition
         id="StoryVideo"
         component={StoryVideo as any}
-        durationInFrames={300}
-        fps={30}
+        durationInFrames={600}
+        fps={60}
         width={1920}
         height={1080}
         defaultProps={DEMO_PROPS as any}
@@ -36,8 +36,8 @@ export const RemotionRoot = () => {
       <Composition
         id="StoryVideoShorts"
         component={StoryVideo as any}
-        durationInFrames={300}
-        fps={30}
+        durationInFrames={600}
+        fps={60}
         width={1080}
         height={1920}
         defaultProps={{ ...DEMO_PROPS, format: "shorts" } as any}

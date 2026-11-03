@@ -26,10 +26,12 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
    on the word that names them (`"at": "@word"`), faces with expressions that comment on the line,
    narrator reactions via `actions`, title cards for punchlines, `number` scenes for figures.
    Do not invent facts, maps, or likenesses of real people; use `image` scenes with the user's files.
-4. `pnpm video check <name>` → read `out/check-*.md` and look at `out/check/*.jpg` (both formats).
+4. `pnpm video check <name>` → read `out/check-shorts.md` and look at `out/check/*.jpg`.
    Fix every error; judge each warning (layout-composition skill). `stills` gives a quick contact sheet.
-5. `pnpm video make <name>` → `out/<name>-youtube.mp4`, `-shorts.mp4`, `.srt`, then read
-   `out/final-pass.md` and the frame sheets (final-pass skill). Use `--draft` for quick checks.
+   Add `--format both` only when the user wants the YouTube layout checked too (stills, not a render).
+5. `pnpm video make <name>` → `out/<name>-shorts.mp4` and `.srt`, then read `out/final-pass.md` and
+   the frame sheet (final-pass skill). Use `--draft` for quick checks.
+   **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
 
 ## Running things
 

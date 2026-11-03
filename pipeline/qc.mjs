@@ -4,7 +4,7 @@ import { spawnSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { findFfmpeg } from "./env.mjs";
 
-export function qcVideo(file, { width, height, fps = 30, duration, lufs = -14, truePeak = -1, sheet }) {
+export function qcVideo(file, { width, height, fps = 60, duration, lufs = -14, truePeak = -1, sheet }) {
   const ff = findFfmpeg("ffmpeg"), fp = findFfmpeg("ffprobe");
   const res = { file, checks: [] };
   const add = (name, ok, detail) => res.checks.push({ name, ok, detail });

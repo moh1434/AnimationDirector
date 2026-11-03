@@ -153,7 +153,7 @@ def distribute_words(segments, voiced):
 
 def main():
     voice, seg_path, build = sys.argv[1], sys.argv[2], Path(sys.argv[3])
-    fps = int(sys.argv[4]) if len(sys.argv) > 4 else 30
+    fps = int(sys.argv[4]) if len(sys.argv) > 4 else 60
     build.mkdir(parents=True, exist_ok=True)
     segments = json.loads(Path(seg_path).read_text(encoding="utf-8"))
 

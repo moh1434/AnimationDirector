@@ -2,16 +2,18 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "./engine";
 import type { Scene, Storyboard, CharRef, PropRef, TextRef, Item, Action } from "./types";
 import { Background, BgSpec } from "./Backgrounds";
-import { Character, Pose } from "./Character";
+import { Character, Pose, POSES } from "./Character";
 import { PropArt } from "./Props";
 import type { Expression } from "./Face";
-import { isBlinking } from "./Face";
+import { EXPR, isBlinking } from "./Face";
 import { lookFor, resolveColor, INK, BG, SHIRTS } from "./theme";
 import { prog, rand, Enter, enterStyle, exitStyle, clamp } from "./anim";
 import { layoutScene, Placed } from "./Layout";
 import { tagHeight, rcx, rcy, rh } from "./frame";
 import { Pop, TitleText, Tag, Note, Bubble, NameCard, NumberReveal, Arrow, Badge, ImageCard, NewsCard, dirOf, textColorOn } from "./Elements";
 
+
+import { MOTION, sampleTrack, speechEnvelope } from "./motion";
 
 const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
 
@@ -40,7 +42,22 @@ function charState(c: CharRef, actions: Action[], t: number) {
     if (a.facing) facing = a.facing;
     if (a.lookAt) lookAt = a.lookAt;
   }
-  return { pose, prevPose, poseT: prog(t, poseAt, 0.28, "power2.inOut"), expression, emote, emoteAt, facing, lookAt };
+  const names = Object.keys(EXPR) as Expression[];
+  const vector = (pose: Pose, expression: Expression, facing: string, look: {x:number;y:number}) => {
+    const p = POSES[pose] ?? POSES.idle;
+    return [...p.l, ...p.r, p.bodyY ?? 0, p.lean ?? 0, pose === "celebrate" ? 1 : 0, facing === "left" ? -1 : 1, look.x, look.y, ...names.map((n) => n === expression ? 1 : 0), pose === "talk" || pose === "explain" ? 1 : 0, pose === "explain" ? 1 : 0, pose === "wave" ? 1 : 0];
+  };
+  let state = { pose: c.pose ?? "idle" as Pose, expression: c.expression ?? "happy" as Expression, facing: c.facing ?? "right", look: c.lookAt ?? {x:0.25,y:0} };
+  const initial = vector(state.pose, state.expression, state.facing, state.look);
+  const events = actions.filter((a) => a.who === c.who && (a.pose || a.expression || a.facing || a.lookAt)).map((a) => {
+    state = { pose:a.pose ?? state.pose, expression:a.expression ?? state.expression, facing:a.facing ?? state.facing, look:a.lookAt ?? state.look };
+    return {at:a.at,value:vector(state.pose,state.expression,state.facing,state.look)};
+  });
+  const motion = sampleTrack(initial, events, t, MOTION.gesture);
+  const face = sampleTrack(initial.slice(10,10+names.length), events.map((e) => ({at:e.at,value:e.value.slice(10,10+names.length)})), t, MOTION.expression);
+  motion.splice(10,names.length,...face);
+  return { pose, prevPose, poseT: prog(t, poseAt, MOTION.gesture, "sine.inOut"), expression, emote, emoteAt, facing, lookAt, motion };
+
 }
 
 const speakerAt = (scene: Scene, t: number) => {
@@ -54,7 +71,7 @@ const motionOf = (p: PropRef, t: number, seed: number) => {
     case "spin": return { dx: 0, dy: 0, r: t * 40, s: 1 };
     case "pulse": return { dx: 0, dy: 0, r: 0, s: 1 + Math.sin(t * 5) * 0.04 };
     case "shake": return { dx: Math.sin(t * 50) * 4, dy: 0, r: Math.sin(t * 40) * 3, s: 1 };
-    case "bounce": return { dx: 0, dy: -Math.abs(Math.sin(t * 4)) * 24, r: 0, s: 1 };
+    case "bounce": return { dx: 0, dy: -(1 - Math.cos(t * 4)) * 8, r: 0, s: 1 };
     case "orbit": return { dx: Math.cos(t * 1.2 + seed) * 30, dy: Math.sin(t * 1.2 + seed) * 14, r: 0, s: 1 };
     case "none": return { dx: 0, dy: 0, r: 0, s: 1 };
     case "float":
@@ -74,16 +91,16 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
   const bgColor = resolveColor(bg.color, BG.mint);
   const textCol = ["space", "night", "dark", "burst", "grid"].includes(bg.type ?? "") ? "#fff" : textColorOn(bgColor);
   const gf = startFrame + frame;
-  const mouthNow = (mouth[gf] ?? 0) / 100;
+  const mouthNow = speechEnvelope(mouth, gf, fps);
   const speaker = speakerAt(scene, t);
   const actions = (scene.actions ?? []).slice().sort((a, b) => a.at - b.at);
 
   // camera
   const cam = scene.camera ?? {};
-  const z0 = cam.zoom?.[0] ?? 1, z1 = cam.zoom?.[1] ?? 1.04;
+  const z0 = cam.zoom?.[0] ?? 1, z1 = cam.zoom?.[1] ?? 1.02;
   let zoom = z0 + (z1 - z0) * prog(t, 0, Math.max(dur, 0.5), "sine.inOut");
   for (const p of cam.punch ?? []) {
-    if (t >= p) zoom += 0.09 * Math.exp(-(t - p) * 5) * prog(t, p, 0.12, "power2.out");
+    if (t >= p) zoom += 0.035 * prog(t, p, 0.20, "sine.inOut") * (1 - prog(t, p + 0.20, 0.35, "sine.inOut"));
   }
   let shx = 0, shy = 0;
   for (const s of cam.shake ?? []) {
@@ -110,7 +127,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
       const HC = ["#3a2a20", "#ffb300", "#5a3825", "#9aa0a6", "#2b1d16"];
       look = { ...look, shirt: SHIRTS[(dupIdx * 3 + index) % SHIRTS.length], hair: look.hat ? look.hair : HAIRS[(dupIdx + index) % HAIRS.length], hairColor: look.hairColor === "#cfd4da" ? look.hairColor : HC[dupIdx % HC.length], ...(cast.look ?? {}) };
     }
-    const talking = speaker === c.who && mouthNow > 0.02;
+    const talking = speaker === c.who;
     const walkIn = c.walkFrom !== undefined;
     const walkP = walkIn ? prog(t, c.at ?? 0, 1.2, "power1.inOut") : 1;
     const x = walkIn ? (c.walkFrom! * W) + (c.px - c.walkFrom! * W) * walkP : c.px;
@@ -124,6 +141,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
         <svg data-box={`char:${c.who}`} width={vbW * s} height={vbH * s} viewBox={`${-vbW / 2} -760 ${vbW} ${vbH}`} style={{ overflow: "visible" }}>
           <Character
             look={look}
+            motion={st.motion}
             expression={st.expression ?? (talking ? "happy" : "neutral")}
             pose={walkIn && walkP < 1 ? "walk" : st.pose ?? (speaker === c.who ? "talk" : "idle")}
             fromPose={st.prevPose}
@@ -155,7 +173,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
           <PropArt name={p.name} size={200} face={p.face} mouth={isSpeaker ? mouthNow : 0} t={t} color={p.color} color2={p.color2} blink={isBlinking(gf, fps, 3 + i)} />
         </svg>
         {p.label && (
-          <div data-box="label" style={{ position: "absolute", left: "50%", top: p.ps * 1.1 + F.gap.xs, transform: `translateX(-50%) scale(${prog(t, (p.at ?? 0) + 0.25, 0.35, "back.out(2)")})`, transformOrigin: "50% 0%" }}>
+          <div data-box="label" style={{ position: "absolute", left: "50%", top: p.ps * 1.1 + F.gap.xs, transform: `translateX(-50%) scale(${prog(t, (p.at ?? 0) + 0.25, 0.35, "sine.out")})`, transformOrigin: "50% 0%" }}>
             <Tag text={p.label} size={L.labelSize} dir={dir} />
           </div>
         )}
@@ -185,7 +203,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
             )}
           </div>
           {(it.label || it.text) && (
-            <div data-box="label" style={{ position: "absolute", left: "50%", top: it.ps + F.gap.xs, transform: `translateX(-50%) scale(${prog(t, at + 0.2, 0.35, "back.out(2)")})`, transformOrigin: "50% 0%" }}>
+            <div data-box="label" style={{ position: "absolute", left: "50%", top: it.ps + F.gap.xs, transform: `translateX(-50%) scale(${prog(t, at + 0.2, 0.35, "sine.out")})`, transformOrigin: "50% 0%" }}>
               <Tag text={(it.label || it.text)!} size={L.labelSize} dir={dir} />
             </div>
           )}
