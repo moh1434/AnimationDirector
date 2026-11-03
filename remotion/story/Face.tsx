@@ -125,7 +125,9 @@ const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number }> = ({ spe
     const sad = kind === "frown" || kind === "wavy" || kind === "teeth" && !talkingOpen;
     const base = kind === "grin" ? 0.55 : kind === "open" ? 0.75 : kind === "o" ? 0.5 : kind === "teeth" ? 0.35 : 0;
     const open = Math.max(m, talkingOpen ? 0 : base);
-    const h = 6 + open * 42;
+    // talking opens the mouth less than a shocked/open expression does (max 30 vs 48 units)
+    const TALK_MAX = 24;
+    const h = 6 + open * (talkingOpen ? TALK_MAX : 42);
     const w = kind === "o" ? 20 + open * 6 : kind === "grin" || kind === "smile" ? 50 - open * 6 : 40 - open * 4;
     if (kind === "o" && !talkingOpen) {
       return <ellipse cx={0} cy={y + 4} rx={w * 0.55} ry={h * 0.5} fill={dark} stroke={INK} strokeWidth={sw} />;
