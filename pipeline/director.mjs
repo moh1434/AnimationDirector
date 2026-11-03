@@ -294,7 +294,7 @@ export function direct({ segments, words, duration, settings = {} }) {
     version: 1,
     title: settings.title ?? "Untitled",
     language: lang,
-    fps: settings.fps ?? 30,
+    fps: settings.fps ?? 60,
     duration: +duration.toFixed(3),
     cast,
     captions: settings.captions === undefined || settings.captions === "auto" ? undefined : { enabled: !!settings.captions },

@@ -32,7 +32,7 @@ the layout, which is laid out separately for each shape. Only give `x`/`y` when 
   "version": 1,
   "title": "How old is the Earth?",
   "language": "en",                // "ar" switches text to right-to-left
-  "fps": 30,
+  "fps": 60,                       // follows video.json (default 60)
   "duration": 31.2,                // filled in from the voice
   "cast": {
     "host": { "preset": "host" },
@@ -185,6 +185,7 @@ ending lands after the last word (see `build/spotting.json`). Set `"music"` in v
 7. Never invent facts, maps or real people's likenesses; use `image` with the user's own pictures.
 8. Keep on-screen text readable: a sentence needs words ÷ 3 + 1 s on screen (less if the voice says
    it at the same time); labels 1–3 words; titles ≤ ~6 words; ≤ 6 things in a scene.
-9. Run `pnpm video check <name>` (both formats) and fix every error; look at `out/check/` stills.
+9. Run `pnpm video check <name>` (Shorts; `--format both` adds YouTube stills) and fix every error;
+   look at `out/check/` stills.
    See `.claude/skills/layout-composition/SKILL.md` for spacing, sizes and safe areas.
 10. `make-video.bat` in the project folder, then read `out/final-pass.md` and the frame sheets.

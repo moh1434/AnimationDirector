@@ -71,7 +71,7 @@ const py = (script, args) => run(findPython(), [join(ROOT, "audio", script), ...
 
 function settingsOf(dir) {
   const s = readJson(join(dir, "video.json"), {});
-  return { title: basename(dir), language: "auto", formats: ["youtube", "shorts"], captions: "auto", music: "auto", host: "host", sfx: true, fps: 30, ...s };
+  return { title: basename(dir), language: "auto", formats: ["shorts"], captions: "auto", music: "auto", host: "host", sfx: true, fps: 60, ...s };
 }
 
 function formatsOf(settings) {
@@ -148,7 +148,8 @@ function storyboardMd(sb) {
     const bg = typeof s.bg === "string" ? s.bg : s.bg?.type;
     return `| ${i + 1} | ${s.start.toFixed(2)}–${s.end.toFixed(2)} | ${(s.text ?? "").replace(/\|/g, "/")} | ${what} | ${bg ?? ""} |`;
   });
-  return `# ${sb.title}\n\nAuto-directed storyboard (${sb.scenes.length} scenes). Edit \`storyboard.json\`; see STORYBOARD_GUIDE.md in the tool folder.\n\n| # | time | narration | visuals | ground |\n|---|---|---|---|---|\n${rows.join("\n")}\n`;
+  const who = sb.directedBy && sb.directedBy !== "auto" ? `Directed by ${sb.directedBy}` : "Auto-directed (keyword draft — ask Claude to direct it for a better video)";
+  return `# ${sb.title}\n\n${who} · ${sb.scenes.length} scenes · ${sb.fps ?? 60} fps. Generated from \`storyboard.json\` (edit that file, not this one); see STORYBOARD_GUIDE.md in the tool folder.\n\n| # | time | narration | visuals | ground |\n|---|---|---|---|---|\n${rows.join("\n")}\n`;
 }
 
 /* optional: whisper.cpp word timestamps for exact caption timing */
@@ -331,6 +332,8 @@ function renderProps(dir, format) {
   const analysis = readJson(join(build, "analysis.json"));
   const { storyboard, warnings } = compile(sb, analysis, { format });
   warnings.forEach((w) => warn(w));
+  // keep the human-readable summary in step with the storyboard that is actually rendered
+  try { writeFileSync(join(dir, "STORYBOARD.md"), storyboardMd({ ...storyboard, title: sb.title ?? storyboard.title }), "utf8"); } catch {}
   const custom = customProps(dir);
   if (Object.keys(custom).length) storyboard.customProps = custom;
   const props = { storyboard, words: analysis.words.map(({ w, s, e }) => ({ w, s, e })), mouth: analysis.mouth, audio: existsSync(join(build, "mix.wav")) ? "mix.wav" : "voice.wav", format };
@@ -398,7 +401,7 @@ async function qc(dir, settings = settingsOf(dir), draft = !!flags.draft, rename
     const file = renamed[fmt] ?? join(dir, "out", `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
     if (!existsSync(file)) continue;
     const [w, h] = sizes[fmt] ?? [];
-    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 30, duration: analysis.duration, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
+    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 60, duration: analysis.duration, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
     results.push(r);
     log(`Final pass ${fmt}: ${r.checks.map((c) => `${c.ok ? "✔" : "✖"} ${c.name}`).join("  ")}`);
   }

@@ -244,7 +244,7 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
     const between = pair ? (layout === "compare" ? 0.2 * U : 0.16 * U) : !portrait && layout === "steps" ? 0.06 * U : 0;
     const pk = pack(its.length, stage, {
       label: its.some((i) => i.label || i.text) ? labelSize : 0, labelW: Math.max(0, ...its.map((i) => (i.label || i.text ? tagWidth((i.label || i.text)!, labelSize) : 0))), gapX: gap.l, gapY: portrait && layout === "steps" && its.length === 3 ? gap.l : portrait ? gap.m : gap.l, between, preferRow: seq || pair,
-      maxSize: (portrait && layout === "steps" && its.length === 3 ? 0.18 : pair ? 0.4 : 0.36) * U, minSize: 0.15 * U, rtl,
+      maxSize: (portrait && layout === "steps" ? (its.length === 3 ? 0.18 : 0.26) : pair ? 0.4 : 0.36) * U, minSize: 0.15 * U, rtl,
     });
     its.forEach((it, i) => items.push({ ...it, idx: i, px: pk.centers[i].x, py: pk.centers[i].y, ps: pk.size }));
     if (layout === "compare" && its.length > 1) {

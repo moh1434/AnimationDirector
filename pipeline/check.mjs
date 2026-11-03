@@ -98,7 +98,7 @@ export function judge(audit, sceneInfo, captionsOn) {
 
 /** Pick the moments to check: each scene once everything has appeared, and its midpoint. */
 export function checkFrames(sb) {
-  const fps = sb.fps ?? 30;
+  const fps = sb.fps ?? 60;
   const out = [];
   sb.scenes.forEach((s, i) => {
     const end = sb.scenes[i + 1]?.start ?? sb.duration;
