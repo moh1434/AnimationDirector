@@ -88,6 +88,13 @@ Command line (any OS): `pnpm video <new|plan|audio|render|make|stills|check|qc|s
 
 ## Quality checks
 
+Shared motion uses frame-derived easing rather than CSS transitions. `remotion/story/motion.ts`
+sets gesture, expression, dissolve and speech-smoothing durations in seconds. Interrupted gestures
+preserve position and velocity; non-cut transitions overlap scenes instead of exposing the backdrop.
+Faces blend between expression drawings, and captions/props use restrained emphasis. Existing
+narration and word triggers remain the timing source. The current demo stays at 30 fps; the user's
+preference for future video tasks is 60 fps (do not silently retime existing projects).
+
 * **`pnpm video check <name>`** — samples settled poses, midpoints, entrance overshoot, gestures,
   punch zooms and the last hold before each transition in each format, measures
   where each element really is, and reports layout problems: text outside the safe area or under the

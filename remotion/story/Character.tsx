@@ -43,6 +43,8 @@ export const POSES: Record<Pose, PoseSpec> = {
 };
 
 export type CharacterProps = {
+  /** Arms (4), body Y, lean, jump, facing, gaze (2), expression weights, gesture weights. */
+  motion?: number[];
   look: Look;
   expression?: Expression;
   pose?: Pose;
@@ -610,28 +612,28 @@ export const Emote: React.FC<{ kind: string; t: number }> = ({ kind, t }) => {
 export const Character: React.FC<CharacterProps> = (p) => {
   const look = p.look;
   const t = p.t;
-  const facing = p.facing === "left" ? -1 : 1;
+  const facing = p.motion ? (p.motion[7] < 0 ? -1 : 1) : p.facing === "left" ? -1 : 1;
   const hs = look.height ?? 1;
   const poseName = p.walking ? "walk" : p.pose ?? (p.talking ? "talk" : "idle");
   const to = POSES[poseName] ?? POSES.idle;
   const from = POSES[p.fromPose ?? poseName] ?? to;
   const k = p.poseT ?? 1;
   const mix = (a: ArmSpec, b: ArmSpec): ArmSpec => [lerp(a[0], b[0], k), lerp(a[1], b[1], k)];
-  const L = mix(from.l, to.l);
-  const R = mix(from.r, to.r);
+  const L: ArmSpec = p.motion ? [p.motion[0], p.motion[1]] : mix(from.l, to.l);
+  const R: ArmSpec = p.motion ? [p.motion[2], p.motion[3]] : mix(from.r, to.r);
   const m = p.talking ? p.mouth ?? 0 : 0;
   const seed = p.seed ?? 1;
 
   // body motion
   const breath = Math.sin(t * Math.PI * 0.9 + seed) * 3;
-  const bodyY = lerp(from.bodyY ?? 0, to.bodyY ?? 0, k);
-  const jumpWeight = lerp(p.fromPose === "celebrate" ? 1 : 0, poseName === "celebrate" ? 1 : 0, k);
-  const jumpY = -Math.abs(Math.sin(t * 7)) * 30 * jumpWeight;
+  const bodyY = p.motion?.[4] ?? lerp(from.bodyY ?? 0, to.bodyY ?? 0, k);
+  const jumpWeight = p.motion?.[6] ?? lerp(p.fromPose === "celebrate" ? 1 : 0, poseName === "celebrate" ? 1 : 0, k);
+  const jumpY = -(1 - Math.cos(t * 7)) * 12 * Math.max(0, jumpWeight);
   const walkPhase = p.walking || poseName === "run" ? t * (poseName === "run" ? 14 : 8) : 0;
-  const stepBob = p.walking || poseName === "run" ? -Math.abs(Math.sin(walkPhase)) * 10 : 0;
-  const lean = lerp(from.lean ?? 0, to.lean ?? 0, k) + (p.talking ? Math.sin(t * 3.1) * 1.2 + m * 2 : 0);
-  const exprTilt = EXPR[p.expression ?? "neutral"]?.tilt ?? 0;
-  const headTilt = exprTilt + (p.talking ? Math.sin(t * 4.3 + seed) * 2.5 + m * 3 : Math.sin(t * 1.3 + seed) * 1.2);
+  const stepBob = p.walking || poseName === "run" ? -(1 - Math.cos(walkPhase * 2)) * 4 : 0;
+  const lean = (p.motion?.[5] ?? lerp(from.lean ?? 0, to.lean ?? 0, k)) + m * (Math.sin(t * 3.1) * 0.6 + 1);
+  const exprTilt = p.motion ? Object.values(EXPR).reduce((sum, spec, i) => sum + (spec.tilt ?? 0) * p.motion![10+i], 0) : EXPR[p.expression ?? "neutral"]?.tilt ?? 0;
+  const headTilt = exprTilt + (Math.sin(t * 1.3 + seed) * 0.7 + m * Math.sin(t * 3 + seed) * 1.5);
 
   const legTop = -150;
   const top = -322;
@@ -640,10 +642,11 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const sx = 56, sy = top + 22;
 
   // talking gesture wiggle on the forearm
-  const wig = p.talking && (poseName === "talk" || poseName === "explain") ? Math.sin(t * 5.2 + seed) * 10 + m * 14 : 0;
-  const waveWig = poseName === "wave" ? Math.sin(t * 12) * 22 : 0;
+  const motionIndex = 10 + Object.keys(EXPR).length;
+  const wig = (p.motion?.[motionIndex] ?? (poseName === "talk" || poseName === "explain" ? 1 : 0)) * m * (Math.sin(t * 3.2 + seed) * 6 + 8);
+  const waveWig = (p.motion?.[motionIndex+2] ?? (poseName === "wave" ? 1 : 0)) * Math.sin(t * 7) * 14;
   const ra = armPoints(1, R, sx, sy, 86, 82, wig + waveWig);
-  const la = armPoints(-1, L, -sx, sy, 86, 82, poseName === "explain" ? wig * 0.7 : 0);
+  const la = armPoints(-1, L, -sx, sy, 86, 82, (p.motion?.[motionIndex+1] ?? (poseName === "explain" ? 1 : 0)) * wig * 0.7);
   const sleeve = ["robe", "coat", "suit", "hoodie", "armor", "tunic"].includes(look.outfit ?? "");
   const sleeveColor = look.outfit === "coat" ? "#fbfbfb" : look.shirt ?? "#ffd23f";
 
@@ -676,7 +679,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
     </g>
   );
 
-  const pupilLook = p.lookAt ?? { x: 0.25, y: 0 };
+  const pupilLook = p.motion ? {x:p.motion[8],y:p.motion[9]} : p.lookAt ?? { x: 0.25, y: 0 };
   const blink = isBlinking(p.frame, p.fps, seed);
   const hasWrap = ["headscarf", "keffiyeh", "pharaoh"].includes(look.hat ?? "");
   const headRx = look.head === "egg" ? 92 : look.head === "wide" ? 108 : 100;
@@ -684,7 +687,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const hold = p.holding;
 
   return (
-    <g transform={`scale(${hs}) scale(${facing === -1 ? -1 : 1} 1)`}>
+    <g transform={`scale(${hs}) scale(${p.motion ? Math.max(-1, Math.min(1, p.motion[7])) : facing} 1)`}>
       {/* ground shadow */}
       <ellipse cx={0} cy={0} rx={90} ry={12} fill="#000" opacity={0.12} />
       <g transform={`translate(0 ${stepBob + jumpY})`}>
@@ -708,7 +711,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
           )}
           {look.facial !== "mustache" && <Facial look={look} />}
           <g transform={`scale(${hasWrap ? 0.86 : 1})`}>
-            <Face expression={p.expression} mouth={m} blink={blink} look={pupilLook} skin={look.skin ?? "#fff"} />
+            <Face weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} mouth={m} blink={blink} look={pupilLook} skin={look.skin ?? "#fff"} />
           </g>
           {look.facial === "mustache" && <Facial look={{ ...look }} />}
           <Glasses kind={look.accessory} />

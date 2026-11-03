@@ -91,7 +91,7 @@ export const Bubble: React.FC<{ text: string; size: number; dir: string; maxWidt
 };
 
 export const NameCard: React.FC<{ name: string; subtitle?: string; detail?: string; t: number; at: number; dir: string; scale: number; align: "start" | "end" | "center" }> = ({ name, subtitle, detail, t, at, dir, scale, align }) => {
-  const p1 = prog(t, at, 0.45, "back.out(1.6)");
+  const p1 = prog(t, at, 0.45, "sine.out");
   const p2 = prog(t, at + 0.25, 0.4, "power2.out");
   const p3 = prog(t, at + 0.45, 0.4, "power2.out");
   return (
@@ -112,7 +112,7 @@ export const NumberReveal: React.FC<{ value: number; from?: number; prefix?: str
   const p = prog(t, at, 1.3, "power3.out");
   const v = from + (value - from) * p;
   const e = enterStyle(t, at, "pop");
-  const pl = prog(t, at + 0.9, 0.4, "back.out(1.7)");
+  const pl = prog(t, at + 0.9, 0.4, "sine.out");
   return (
     <div style={{ textAlign: "center" }}>
       <div dir="ltr" style={{ fontFamily: FONT.display, fontSize: size, color, ...outlineText(size), lineHeight: 1, transform: `scale(${e.sx}, ${e.sy})`, textShadow: `0 ${size * 0.06}px 0 rgba(0,0,0,0.25)` }}>

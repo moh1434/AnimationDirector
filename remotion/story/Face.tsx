@@ -40,6 +40,7 @@ export const EXPR: Record<Expression, Spec> = {
 
 export type FaceProps = {
   expression?: Expression;
+  weights?: number[];
   mouth?: number; // lip-sync openness 0..1 (when talking)
   blink?: boolean;
   look?: { x: number; y: number };
@@ -179,7 +180,7 @@ const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number }> = ({ spe
 };
 
 /** A cartoon face centered at (0,0) for a head of radius ≈100 (use `scale` for others). */
-export const Face: React.FC<FaceProps> = ({
+const FaceLayer: React.FC<FaceProps> = ({
   expression = "neutral", mouth = 0, blink, look = { x: 0, y: 0 }, skin = "#fff", scale = 1,
   stroke = 5.5, eyeSpacing = 34, eyeY = -10, mouthY = 40,
 }) => {
@@ -206,6 +207,15 @@ export const Face: React.FC<FaceProps> = ({
       )}
     </g>
   );
+};
+
+// Crossfade discrete eye/mouth drawings; weighted layers remain continuous on interruptions.
+export const Face: React.FC<FaceProps> = (props) => {
+  if (!props.weights) return <FaceLayer {...props} />;
+  const names = Object.keys(EXPR) as Expression[];
+  const weights = props.weights.map((w) => Math.max(0,w));
+  const total = weights.reduce((a,b) => a+b,0) || 1;
+  return <g>{names.map((expression,i) => weights[i] > 0.001 ? <g key={expression} opacity={weights[i]/total}><FaceLayer {...props} expression={expression} /></g> : null)}</g>;
 };
 
 /** Deterministic blink schedule: closed for ~4 frames every few seconds. */

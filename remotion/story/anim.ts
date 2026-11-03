@@ -63,18 +63,18 @@ export const enterStyle = (t: number, at: number, kind: Enter = "pop", dist = 40
       return { opacity: 1, sx: p, sy: p, x: 0, y: 0, r: 0 };
     }
     case "spin": {
-      const p = prog(t, at, 0.55, "back.out(1.6)");
+      const p = prog(t, at, 0.55, "sine.out");
       return { opacity: 1, sx: p, sy: p, x: 0, y: 0, r: (1 - p) * -200 };
     }
     case "drop": {
-      const p = prog(t, at, 0.55, "bounce.out");
-      return { opacity: 1, sx: 1, sy: 1, x: 0, y: (1 - p) * -dist * 1.6, r: 0 };
+      const p = prog(t, at, 0.42, "sine.out");
+      return { opacity: prog(t, at, 0.18, "sine.out"), sx: 1, sy: 1, x: 0, y: (1 - p) * -dist * 0.18, r: 0 };
     }
     case "slide-left":
     case "slide-right":
     case "slide-up":
     case "slide-down": {
-      const p = prog(t, at, 0.5, "back.out(1.2)");
+      const p = prog(t, at, 0.5, "sine.inOut");
       const d = (1 - p) * dist;
       const x = kind === "slide-left" ? -d : kind === "slide-right" ? d : 0;
       const y = kind === "slide-up" ? d : kind === "slide-down" ? -d : 0;
@@ -82,8 +82,8 @@ export const enterStyle = (t: number, at: number, kind: Enter = "pop", dist = 40
     }
     default: {
       // pop with squash & stretch
-      const p = prog(t, at, 0.42, "back.out(2.2)");
-      const sq = Math.sin(clamp(dt / 0.42) * Math.PI) * 0.12;
+      const p = prog(t, at, 0.42, "back.out(0.5)");
+      const sq = Math.sin(clamp(dt / 0.42) * Math.PI) * 0.035;
       return { opacity: 1, sx: p * (1 + sq), sy: p * (1 - sq * 0.8), x: 0, y: 0, r: 0 };
     }
   }
