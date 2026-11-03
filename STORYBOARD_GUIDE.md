@@ -119,6 +119,11 @@ Word references keep things in sync with the voice, so prefer them.
 
 ## Props (all original drawings; any of them can have a face)
 
+Unknown prop names stop preview/rendering with an error listing the scene and field. Check the
+Library catalogue first, or add a matching SVG under the project's `props/` folder. This also
+applies to held objects, items and thought-bubble props, including scenes later in the video.
+Use `question` explicitly when a question-mark drawing is intended; it is never a missing-asset fallback.
+
 sun moon earth planet star blackhole galaxy rocket meteor atom dna flask magnifier microscope
 lightbulb brain heart book closedbook scroll tablet letter newspaper coin coins money moneybag chart
 chart_down clock hourglass calendar phone laptop gamepad robot gear key lock crown sword shield flag

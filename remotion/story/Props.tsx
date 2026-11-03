@@ -1,6 +1,7 @@
 import React from "react";
 import { INK } from "./theme";
 import { Face, Expression } from "./Face";
+import { assetKey } from "./asset-validation";
 
 /**
  * Original prop library. Every prop is drawn in a 200×200 box centred on (0,0)
@@ -1226,7 +1227,7 @@ export const PROPS: Record<string, Art> = {
 };
 
 // alias index
-const ALIAS: Record<string, string> = {};
+const ALIAS: Record<string, string> = Object.create(null);
 for (const [k, v] of Object.entries(PROPS)) {
   ALIAS[k] = k;
   for (const a of v.aliases ?? []) ALIAS[a] = k;
@@ -1234,9 +1235,9 @@ for (const [k, v] of Object.entries(PROPS)) {
 // the project's own drawings (projects/<name>/props/*.svg), registered by StoryVideo before it renders
 let CUSTOM: Record<string, string> = {};
 export const setCustomProps = (m: Record<string, string> | undefined) => { CUSTOM = m ?? {}; };
-const keyOf = (name: string) => String(name ?? "").toLowerCase().replace(/\.svg$/, "").replace(/^(file:|props\/)/, "").replace(/[\s-]+/g, "_");
-export const isCustomProp = (name: string) => keyOf(name) in CUSTOM;
-export const resolveProp = (name: string) => (isCustomProp(name) ? keyOf(name) : ALIAS[name?.toLowerCase?.().replace(/[\s-]+/g, "_")] ?? null);
+const keyOf = assetKey;
+export const isCustomProp = (name: string) => Object.hasOwn(CUSTOM, keyOf(name));
+export const resolveProp = (name: string) => (isCustomProp(name) ? keyOf(name) : ALIAS[keyOf(name)] ?? null);
 export const PROP_NAMES = Object.keys(PROPS);
 
 export type PropArtProps = {
@@ -1254,7 +1255,8 @@ export type PropArtProps = {
 
 /** Draws a prop centred at (0,0). */
 export const PropArt: React.FC<PropArtProps> = ({ name, size = 200, face, mouth = 0, blink, t = 0, color, color2, glow, look }) => {
-  const key = resolveProp(name) ?? "question";
+  const key = resolveProp(name);
+  if (!key) throw new Error(`Unknown drawing asset ${JSON.stringify(name)}. Choose a Library prop or add its SVG to the project's props folder.`);
   const s = size / 200;
   if (key in CUSTOM && !(key in PROPS)) {
     // a drawing from the project's props/ folder, fitted into the same 200×200 box as library props
