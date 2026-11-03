@@ -15,6 +15,7 @@ __pycache__/
 
 # ---------- Render output & caches ----------
 out/
+out_old/
 renders/
 build/
 dist/
