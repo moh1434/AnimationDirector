@@ -1,5 +1,5 @@
 import { bundle } from "@remotion/bundler";
-import { renderMedia, renderStill, selectComposition } from "@remotion/renderer";
+import { renderMedia, renderStill, selectComposition, openBrowser } from "@remotion/renderer";
 import { join } from "node:path";
 import { ROOT, remotionBrowser } from "./env.mjs";
 
@@ -33,10 +33,16 @@ export async function renderStills({ publicDir, inputProps, frames, outPattern, 
   const serveUrl = await getBundle(publicDir);
   const composition = await selectComposition({ serveUrl, id: compositionId, inputProps, ...common() });
   const outs = [];
-  for (const f of frames) {
-    const output = outPattern.replace("{f}", String(f).padStart(5, "0"));
-    await renderStill({ serveUrl, composition, inputProps, frame: Math.min(f, composition.durationInFrames - 1), output, imageFormat: "jpeg", jpegQuality: 85, scale, onBrowserLog: onLog ? (l) => onLog(l.text, f) : undefined, ...common() });
-    outs.push(output);
+  // Expanded motion audits render many frames. Reuse Chrome instead of launching it for each one.
+  const browser = await openBrowser("chrome", common());
+  try {
+    for (const f of frames) {
+      const output = outPattern.replace("{f}", String(f).padStart(5, "0"));
+      await renderStill({ serveUrl, composition, inputProps, puppeteerInstance: browser, frame: Math.min(f, composition.durationInFrames - 1), output, imageFormat: "jpeg", jpegQuality: 85, scale, onBrowserLog: onLog ? (l) => onLog(l.text, f) : undefined, ...common() });
+      outs.push(output);
+    }
+  } finally {
+    await browser.close({ silent: true });
   }
   return outs;
 }

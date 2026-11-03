@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 export const IS_WIN = process.platform === "win32";
@@ -23,6 +24,19 @@ export function findFfmpeg(name = "ffmpeg") {
   if (env) return env;
   const r = spawnSync(name, ["-version"], { encoding: "utf8" });
   if (r.status === 0) return name;
+  // A desktop process may have an older PATH than a recently installed WinGet FFmpeg.
+  // Prefer the full build: Remotion's minimal binary omits QC and contact-sheet filters.
+  if (IS_WIN && process.env.LOCALAPPDATA) {
+    try {
+      const packages = join(process.env.LOCALAPPDATA, "Microsoft", "WinGet", "Packages");
+      for (const pkg of readdirSync(packages).filter((p) => /^Gyan\.FFmpeg/.test(p))) {
+        for (const version of readdirSync(join(packages, pkg))) {
+          const p = join(packages, pkg, version, "bin", `${name}.exe`);
+          if (existsSync(p)) return p;
+        }
+      }
+    } catch {}
+  }
   // Remotion ships an ffmpeg binary inside @remotion/compositor-*
   try {
     const nm = join(ROOT, "node_modules", "@remotion");
@@ -31,6 +45,14 @@ export function findFfmpeg(name = "ffmpeg") {
       const p = join(nm, d, IS_WIN ? `${name}.exe` : name);
       if (existsSync(p)) return p;
     }
+  } catch {}
+  // pnpm keeps transitive dependencies beside the renderer, not at node_modules/@remotion.
+  try {
+    const require = createRequire(import.meta.url);
+    const rendererRequire = createRequire(require.resolve("@remotion/renderer"));
+    const platform = IS_WIN ? `win32-${process.arch}-msvc` : `${process.platform}-${process.arch}`;
+    const p = join(dirname(rendererRequire.resolve(`@remotion/compositor-${platform}`)), IS_WIN ? `${name}.exe` : name);
+    if (existsSync(p)) return p;
   } catch {}
   return null;
 }

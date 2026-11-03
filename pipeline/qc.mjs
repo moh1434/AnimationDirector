@@ -23,20 +23,21 @@ export function qcVideo(file, { width, height, fps = 30, duration, lufs = -14, t
   const log = bf.stderr ?? "";
   const blacks = [...log.matchAll(/black_start:([\d.]+) black_end:([\d.]+)/g)].map((m) => [+m[1], +m[2]]);
   const freezes = [...log.matchAll(/freeze_start: ([\d.]+)[\s\S]*?freeze_end: ([\d.]+)/g)].map((m) => [+m[1], +m[2]]);
-  add("black", blacks.length === 0, blacks.length ? `black at ${blacks.map(([s, e]) => `${s.toFixed(1)}–${e.toFixed(1)}s`).join(", ")}` : "no black stretches");
-  add("frozen", freezes.length === 0, freezes.length ? `frozen picture at ${freezes.map(([s, e]) => `${s.toFixed(1)}–${e.toFixed(1)}s`).join(", ")} (fine only if it is a designed hold)` : "picture keeps moving");
+  add("black", bf.status === 0 && blacks.length === 0, bf.status !== 0 ? "check could not run; use a full FFmpeg build with blackdetect/freezedetect" : blacks.length ? `black at ${blacks.map(([s, e]) => `${s.toFixed(1)}–${e.toFixed(1)}s`).join(", ")}` : "no black stretches");
+  add("frozen", bf.status === 0 && freezes.length === 0, bf.status !== 0 ? "check could not run; use a full FFmpeg build with blackdetect/freezedetect" : freezes.length ? `frozen picture at ${freezes.map(([s, e]) => `${s.toFixed(1)}–${e.toFixed(1)}s`).join(", ")} (fine only if it is a designed hold)` : "picture keeps moving");
   // loudness
   const lr = spawnSync(ff, ["-hide_banner", "-nostats", "-i", file, "-vn", "-af", "ebur128=peak=true", "-f", "null", "-"], { encoding: "utf8", maxBuffer: 1 << 26 });
   const sum = (lr.stderr ?? "").split("Summary:").pop() ?? "";
   const I = parseFloat((sum.match(/I:\s+(-?[\d.]+) LUFS/) ?? [])[1]);
   const TP = parseFloat((sum.match(/Peak:\s+(-?[\d.]+) dBFS/) ?? [])[1]);
-  add("loudness", Math.abs(I - lufs) <= 1, `${I} LUFS integrated (target ${lufs})`);
-  add("true-peak", TP <= truePeak + 0.05, `${TP} dBTP (ceiling ${truePeak})`);
+  add("loudness", lr.status === 0 && Math.abs(I - lufs) <= 1, Number.isFinite(I) ? `${I} LUFS integrated (target ${lufs})` : "measurement unavailable; use a full FFmpeg build with ebur128");
+  add("true-peak", lr.status === 0 && TP <= truePeak + 0.05, Number.isFinite(TP) ? `${TP} dBTP (ceiling ${truePeak})` : "measurement unavailable; use a full FFmpeg build with ebur128");
   if (sheet && dur > 0) {
     const cols = width && height && height > width ? 10 : 6;
     const count = Math.max(1, Math.round(dur));
-    spawnSync(ff, ["-hide_banner", "-loglevel", "error", "-y", "-i", file, "-vf", `fps=${count / dur},scale=${height > width ? 200 : 320}:-2,tile=${cols}x${Math.ceil(count / cols)}:padding=4:color=white`, "-frames:v", "1", "-update", "1", sheet], { encoding: "utf8" });
-    res.sheet = sheet;
+    const sr = spawnSync(ff, ["-hide_banner", "-loglevel", "error", "-y", "-i", file, "-vf", `fps=${count / dur},scale=${height > width ? 200 : 320}:-2,tile=${cols}x${Math.ceil(count / cols)}:padding=4:color=white`, "-frames:v", "1", "-update", "1", sheet], { encoding: "utf8" });
+    if (sr.status === 0) res.sheet = sheet;
+    else add("sheet", false, "contact sheet failed; an existing sheet may be stale");
   }
   res.ok = res.checks.every((c) => c.ok);
   return res;

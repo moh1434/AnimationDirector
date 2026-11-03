@@ -88,10 +88,13 @@ Command line (any OS): `pnpm video <new|plan|audio|render|make|stills|check|qc|s
 
 ## Quality checks
 
-* **`pnpm video check <name>`** — renders every scene (settled + midpoint) in each format, measures
+* **`pnpm video check <name>`** — samples settled poses, midpoints, entrance overshoot, gestures,
+  punch zooms and the last hold before each transition in each format, measures
   where each element really is, and reports layout problems: text outside the safe area or under the
   Shorts buttons, collisions, anything in the caption band, text too small, subjects too small,
-  empty halves. Report: `out/check-youtube.md`, `out/check-shorts.md`, stills in `out/check/`.
+  empty halves, and characters crossing the bottom margin. Character/text collision checks use
+  component geometry, so empty space beside an emote is not counted as solid artwork.
+  Report: `out/check-youtube.md`, `out/check-shorts.md`, stills in `out/check/`.
 * **`pnpm video qc <name>`** (also runs at the end of `make`) — checks the finished MP4s: size, fps,
   duration, black or frozen picture, loudness (−14 LUFS) and peak, and makes a one-frame-per-second
   sheet. Report: `out/final-pass.md`.

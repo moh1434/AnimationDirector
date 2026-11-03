@@ -243,8 +243,8 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     const bx = who ? clamp(who.px + (right ? 1 : -1) * who.ps * 0.45, ts.x0 + bubW / 2, ts.x1 - bubW / 2) : W / 2;
     // the bubble's bottom sits above the head; in portrait it must also clear the caption band
     const limit = F.captionBand ? F.captionBand.y0 - F.gap.l : H;
-    // portrait: the bubble belongs to the empty upper stage, not squeezed above a head
-    const by = L.portrait ? Math.min(limit, rcy(L.stage) + rh(L.stage) * 0.2) : Math.max(ts.y0 + F.type.body * 3, Math.min(limit, headTop - F.gap.l));
+    // Portrait stage is below the captions; its lower edge anchors the bubble above the heads.
+    const by = L.portrait ? L.stage.y1 : Math.max(ts.y0 + F.type.body * 3, Math.min(limit, headTop - F.gap.l));
     return (
       <Pop key="bub" x={bx} y={by} t={t} at={at} enter="pop" z={7} anchor="bottom">
         <div data-box="bubble"><Bubble text={b.text} size={L.portrait ? F.type.h3 : F.type.body} dir={dir} maxWidth={bubW} kind={kind} tail={right ? "down-left" : "down-right"} /></div>

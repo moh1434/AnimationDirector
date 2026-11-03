@@ -3,6 +3,7 @@ import type { Word, Storyboard } from "./types";
 import { FONT, INK } from "./theme";
 import { prog, ease } from "./anim";
 import { dirOf } from "./Elements";
+import { frameSpec, rcx, rcy, rw } from "./frame";
 
 type Group = { words: Word[]; s: number; e: number };
 
@@ -45,16 +46,17 @@ export const Captions: React.FC<{ sb: Storyboard; words: Word[]; time: number; W
   const hideAt = Math.min(g.e + 0.6, next ? next.s - 0.05 : Infinity);
   if (time > hideAt) return null;
   const size = portrait ? 74 : 58;
-  const y = (cfg.position ?? (portrait ? 0.53 : 0.885)) * H;
+  const band = frameSpec(W, H, true).captionBand!;
+  const y = cfg.position !== undefined ? cfg.position * H : rcy(band);
   const enter = prog(time, g.s - 0.05, 0.22, "back.out(2)");
   const style = cfg.style ?? (portrait ? "pop" : "box");
   return (
-    <div style={{ position: "absolute", left: 0, right: 0, top: y, transform: "translateY(-50%)", display: "flex", justifyContent: "center", zIndex: 50, pointerEvents: "none" }}>
+    <div style={{ position: "absolute", left: rcx(band), width: rw(band), top: y, transform: "translate(-50%, -50%)", display: "flex", justifyContent: "center", zIndex: 50, pointerEvents: "none" }}>
       <div
         data-box="captions"
         dir={dir}
         style={{
-          maxWidth: portrait ? W * 0.88 : W * 0.7,
+          maxWidth: rw(band),
           textAlign: "center",
           fontFamily: FONT.body,
           fontWeight: 800,
@@ -76,7 +78,7 @@ export const Captions: React.FC<{ sb: Storyboard; words: Word[]; time: number; W
               key={i}
               style={{
                 display: "inline-block",
-                margin: `0 ${size * 0.28}px`,
+                margin: `0 ${size * 0.22}px`,
                 color: active ? "#ffd23f" : style === "box" ? (spoken ? "#ffffff" : "rgba(255,255,255,0.75)") : "#ffffff",
                 WebkitTextStroke: style === "box" ? undefined : `${size * 0.14}px ${INK}`,
                 paintOrder: "stroke fill",

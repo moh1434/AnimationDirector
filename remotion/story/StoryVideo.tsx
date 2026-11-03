@@ -103,7 +103,14 @@ const useLayoutAudit = (enabled: boolean, frame: number, W: number, H: number) =
         while ((n = w.nextNode())) if ((n.textContent ?? "").trim() && n.parentElement) { fs = parseFloat(getComputedStyle(n.parentElement).fontSize) * k || 0; break; }
       }
       const text = ((el as HTMLElement).innerText ?? el.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 40);
-      boxes.push({ kind: el.getAttribute("data-box"), x0: (r.left - root.left) * k, y0: (r.top - root.top) * k, x1: (r.right - root.left) * k, y1: (r.bottom - root.top) * k, fs, text });
+      const bounds = (b: DOMRect) => ({ x0: (b.left - root.left) * k, y0: (b.top - root.top) * k, x1: (b.right - root.left) * k, y1: (b.bottom - root.top) * k });
+      // A raised hand or emote makes a large, mostly empty union rectangle. Keep component
+      // geometry for collision checks so a label beside the head is not mistaken for an overlap.
+      const parts = (el.getAttribute("data-box") ?? "").startsWith("char")
+        ? Array.from(el.querySelectorAll("path,ellipse,circle,rect,polygon,polyline,line,text"))
+          .map((part) => part.getBoundingClientRect()).filter((b) => b.width > 1 && b.height > 1).map(bounds)
+        : undefined;
+      boxes.push({ kind: el.getAttribute("data-box"), ...bounds(r), fs, text, parts });
     });
     console.log("LAYOUT_AUDIT " + JSON.stringify({ frame, W, H, root: [rr.left, rr.top, rr.width, rr.height], boxes }));
   });
