@@ -15,7 +15,7 @@ import { Pop, TitleText, Tag, Note, Bubble, NameCard, NumberReveal, Arrow, Badge
 
 import { MOTION, sampleTrack, speechEnvelope } from "./motion";
 
-const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
+const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["office", "airport", "forest", "garden", "kitchen", "workshop", "space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
 
 /** State of a character at time t after applying actions. */
 function charState(c: CharRef, actions: Action[], t: number) {

@@ -1,4 +1,6 @@
 import React from "react";
+import { LIFE_PROPS } from "./LifeProps";
+import { EVERYDAY_PROPS } from "./EverydayProps";
 import { INK } from "./theme";
 import { Face, Expression } from "./Face";
 import { assetKey } from "./asset-validation";
@@ -7,7 +9,7 @@ import { assetKey } from "./asset-validation";
  * Original prop library. Every prop is drawn in a 200×200 box centred on (0,0)
  * with the same thick outline as the characters, so anything can be given a face.
  */
-type Art = { draw: (t: number, o: Opts) => React.ReactNode; face?: { x: number; y: number; s: number }; aliases?: string[] };
+export type Art = { draw: (t: number, o: Opts) => React.ReactNode; face?: { x: number; y: number; s: number }; aliases?: string[] };
 type Opts = { color?: string; color2?: string; glow?: boolean };
 
 const sw = 6;
@@ -34,6 +36,8 @@ const spiky = (r: number, ri: number, n: number, wob = 0, t = 0) => {
 };
 
 export const PROPS: Record<string, Art> = {
+  ...EVERYDAY_PROPS,
+  ...LIFE_PROPS,
   sun: {
     draw: (t, o) => (
       <g>

@@ -2,6 +2,7 @@ import React from "react";
 import { Composition } from "remotion";
 import { DidYouKnow, type DidYouKnowProps } from "./compositions/DidYouKnow";
 import { StoryVideo, FORMATS } from "./story/StoryVideo";
+import { AssetExpansionLibrary } from "./story/AssetExpansionLibrary";
 import { Library } from "./story/Library";
 import type { RenderProps } from "./story/types";
 import { DEMO_PROPS } from "./story/demo";
@@ -45,6 +46,10 @@ export const RemotionRoot = () => {
       />
       <Composition id="Library" component={Library as any} durationInFrames={240} fps={30} width={1920} height={1080} defaultProps={{ page: "props" }} />
       <Composition id="LibraryCharacters" component={Library as any} durationInFrames={240} fps={30} width={1920} height={1080} defaultProps={{ page: "characters" }} />
+      <Composition id="LibraryNewProps" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"props", portrait:false}} />
+      <Composition id="LibraryBackgrounds" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"backgrounds", portrait:false}} />
+      <Composition id="LibraryLifeProps" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"props", portrait:false, batch:2}} />
+      <Composition id="LibraryLifeBackgrounds" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"backgrounds", portrait:false, batch:2}} />
       {/* Original sample, unchanged */}
       <Composition
         id="DidYouKnow"

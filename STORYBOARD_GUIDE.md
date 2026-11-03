@@ -132,8 +132,32 @@ wave snowflake rock gem camera music question exclamation check cross warning gl
 bomb magnet battery car ship plane skull ghost cat dog fish bird person_icon bacteria pill oil factory
 explosion speech eye arrow_up arrow_down telescope satellite well camel sword_crossed bug palette
 level_map puzzle target megaphone code_window
+egg meat chicken flower lamp joystick goldbar sand seedling leaf mushroom bread wrench hammer scissors backpack
+medicine_bottle firstaid taxi ambulance suitcase passport office_chair clipboard love_letter anger new_idea
+briefcase wallet cash_stack credit_card storefront birthday_cake juice
 
 Open **Remotion Studio → Library** to see them all.
+
+**Everyday additions:** `LibraryNewProps` shows the 16 new drawings alongside existing book/key references.
+Aliases include `steak`, `hen`, `table_lamp`, `arcade_stick`, `gold_bar`, `sand_pile`, `sprout`,
+`loaf`, `spanner`, and `schoolbag`. Existing `gold` / `diamond` retain their coin / gem meanings.
+English and Arabic narration keywords are registered in `pipeline/lexicon.mjs`.
+
+**New settings:** `forest`, `garden`, `kitchen`, `workshop`. Use `"bg": "garden"` or
+`"bg": {"type":"garden","color":"#e3f5de","color2":"#9edb9c"}` (wall/sky and floor).
+They use flat fills, low ground lines, and edge scenery with a clear centre in Shorts and YouTube.
+Browse `LibraryBackgrounds` in Studio; set `portrait: true` for vertical previews.
+Preview sheets: `out/asset-library/props.jpg`, `backgrounds-wide.jpg`, `backgrounds-vertical.jpg`.
+
+**Medicine, travel, office and business additions:** `LibraryLifeProps` shows the next 18 props.
+`medicine_bottle` is a bottle, `firstaid` a medical kit, `love_letter` an envelope with a heart,
+`birthday_cake` a celebration cake with candles, `juice` a glass with a straw and orange slice,
+`anger` an anger-mark speech bubble, and `new_idea` a bulb with idea rays. Existing `medicine`,
+`heart`, `car`, `idea`, and `cash` still select their original drawings.
+Use `bg: "office"` or `bg: "airport"` for the two new settings; `color` and `color2` override
+wall and floor as with the other flat settings. Browse `LibraryLifeBackgrounds` (set `portrait: true`
+for Shorts). The second-batch preview sheets are `out/asset-library/life-props.jpg`,
+`life-backgrounds-wide.jpg`, and `life-backgrounds-vertical.jpg`.
 
 **Your own drawings:** an SVG saved as `projects/<name>/props/<prop-name>.svg` is used by its file
 name anywhere a prop name goes (`{"name": "game-engine"}`, `{"prop": "game-engine"}`), and can have a
