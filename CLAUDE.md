@@ -4,6 +4,8 @@ Read [AGENTS.md](AGENTS.md) for package-manager rules, installed Remotion skill
 routing, compatibility checks, and project-specific overrides to generic effects.
 For padding, whitespace, alignment, or portrait framing issues, use
 [LAYOUT_REVIEW.md](LAYOUT_REVIEW.md) before changing scene coordinates.
+Project skills in `.claude/skills/`: story-video-direction, layout-composition, music-scoring,
+assets, final-pass — use them when directing, laying out, scoring, drawing or checking a video.
 
 This folder is a voice-led cartoon video pipeline (Remotion + GSAP + HyperFrames + Tone.js +
 pretty_midi + pedalboard). The user supplies a narration `.wav`, the story text and time segments;
@@ -24,10 +26,10 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
    on the word that names them (`"at": "@word"`), faces with expressions that comment on the line,
    narrator reactions via `actions`, title cards for punchlines, `number` scenes for figures.
    Do not invent facts, maps, or likenesses of real people; use `image` scenes with the user's files.
-4. `pnpm video stills <name>` (and `--format shorts`) → look at `out/contact-*.jpg`.
-   Fix overlaps or empty-looking scenes.
-5. `pnpm video make <name>` → `out/<name>-youtube.mp4`, `-shorts.mp4`, `.srt`.
-   Use `--draft` for quick checks. Inspect a few frames of the final MP4.
+4. `pnpm video check <name>` → read `out/check-*.md` and look at `out/check/*.jpg` (both formats).
+   Fix every error; judge each warning (layout-composition skill). `stills` gives a quick contact sheet.
+5. `pnpm video make <name>` → `out/<name>-youtube.mp4`, `-shorts.mp4`, `.srt`, then read
+   `out/final-pass.md` and the frame sheets (final-pass skill). Use `--draft` for quick checks.
 
 ## Running things
 
@@ -40,5 +42,6 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 * The look lives in `remotion/story/` (Character.tsx, Face.tsx, Props.tsx, Backgrounds.tsx,
   Scene.tsx layouts). Remotion Studio → `Library` / `LibraryCharacters` shows every prop and preset.
   New props: add to `PROPS` in Props.tsx (200×200 box, centred, 6px outline) and to
-  `pipeline/lexicon.mjs` so the auto-director can find them.
+  `pipeline/lexicon.mjs` so the auto-director can find them — or, for one video only, an SVG in
+  `projects/<name>/props/` (assets skill).
 * Always tell the user clearly when they need to do something (run a file, approve a step).

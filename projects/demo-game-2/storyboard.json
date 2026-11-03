@@ -15,7 +15,7 @@
   "captionsByFormat": { "youtube": false, "shorts": true, "square": true },
   "scenes": [
     {
-      "id": "hook", "start": 0, "end": 2.4, "layout": "host_talk", "bg": "yellow", "speaker": "host",
+      "id": "hook", "start": 0, "end": 2.46, "layout": "host_talk", "bg": "yellow", "speaker": "host",
       "text": "Want to create your own game and make money from it?",
       "characters": [{ "who": "host", "pose": "explain", "expression": "excited" }],
       "props": [
@@ -29,7 +29,7 @@
       "camera": { "zoom": [1, 1.05], "punch": ["@money"] }
     },
     {
-      "id": "ai-helps", "start": 2.4, "end": 4.5, "layout": "hero", "bg": "lilac", "transition": "whip", "speaker": "host",
+      "id": "ai-helps", "start": 2.46, "end": 4.5, "layout": "hero", "bg": "lilac", "transition": "whip", "speaker": "host",
       "text": "Here's how AI can help you do it!",
       "characters": [{ "who": "host", "pose": "point", "expression": "happy" }],
       "props": [{ "name": "robot", "at": "@AI", "face": "excited", "label": "AI", "motion": "bounce" }],
@@ -47,7 +47,7 @@
       "actions": [{ "at": "@character", "who": "host", "pose": "point", "expression": "surprised" }]
     },
     {
-      "id": "describe", "start": 8.1, "end": 11.1, "layout": "steps", "bg": "peach", "speaker": "host",
+      "id": "describe", "start": 8.1, "end": 11.3, "layout": "steps", "bg": "peach", "speaker": "host",
       "text": "Describe its appearance, personality, and abilities.",
       "characters": [{ "who": "hero", "pose": "hips", "expression": "proud" }],
       "items": [
@@ -58,39 +58,39 @@
       "actions": [{ "at": "@abilities", "who": "hero", "pose": "fist", "expression": "determined" }]
     },
     {
-      "id": "give-claude", "start": 11.1, "end": 15.5, "layout": "transform", "bg": "sky", "transition": "whip", "speaker": "host",
+      "id": "give-claude", "start": 11.3, "end": 15.5, "layout": "transform", "bg": "sky", "transition": "whip", "speaker": "host",
       "text": "Next, give your character to Claude and ask it to build a 2D game using Godot.",
       "characters": [{ "who": "host", "pose": "present", "expression": "happy" }],
       "items": [
         { "prop": "person_icon", "label": "Character", "at": "@character", "color": "#4f7bff" },
-        { "prop": "gamepad", "label": "2D game", "at": "@build", "face": "excited" }
+        { "prop": "game-engine", "label": "2D game", "at": "@build" }
       ]
     },
     {
-      "id": "ai-codes", "start": 15.5, "end": 17.4, "layout": "host_talk", "bg": "lime", "speaker": "host", "mirror": true,
+      "id": "ai-codes", "start": 15.5, "end": 17.58, "layout": "host_talk", "bg": "lime", "speaker": "host", "mirror": true,
       "text": "Yes, let AI write the code!",
       "characters": [{ "who": "host", "pose": "cheer", "expression": "excited" }],
       "props": [
-        { "name": "laptop", "at": "@write", "face": "laughing", "label": "code!" },
+        { "name": "code_window", "at": "@write", "label": "code!" },
         { "name": "robot", "at": "@AI", "face": "proud" }
       ],
       "camera": { "punch": ["@Yes"] }
     },
     {
-      "id": "play-it", "start": 17.4, "end": 18.2, "layout": "title", "bg": { "type": "burst", "color": "black", "color2": "#4b2a7a" }, "transition": "flash", "speaker": "none",
+      "id": "play-it", "start": 17.58, "end": 18.29, "layout": "title", "bg": { "type": "burst", "color": "black", "color2": "#4b2a7a" }, "transition": "flash", "speaker": "none",
       "text": "Now play it!", "title": "Now play it!",
-      "props": [{ "name": "gamepad", "x": 0.5, "y": 0.78, "size": 0.26, "at": 0.2, "face": "laughing", "motion": "shake" }],
+      "props": [{ "name": "gamepad", "x": 0.5, "y": 0.78, "size": 0.26, "at": 0.05, "face": "laughing", "motion": "shake" }],
       "characters": []
     },
     {
-      "id": "polish", "start": 18.2, "end": 23.6, "layout": "steps", "bg": "aqua", "speaker": "host",
+      "id": "polish", "start": 18.29, "end": 23.6, "layout": "steps", "bg": "aqua", "speaker": "host",
       "text": "Test the gameplay, fix bugs, add levels, improve the graphics, and keep making it more fun.",
       "characters": [{ "who": "host", "pose": "talk", "expression": "happy" }],
       "items": [
         { "prop": "gamepad", "label": "Test", "at": "@Test" },
-        { "prop": "bacteria", "label": "Fix bugs", "at": "@bugs", "face": "scared" },
-        { "prop": "arrow_up", "label": "Levels", "at": "@levels" },
-        { "prop": "star", "label": "Graphics", "at": "@graphics", "face": "happy" }
+        { "prop": "bug", "label": "Fix bugs", "at": "@bugs", "face": "scared" },
+        { "prop": "level_map", "label": "Levels", "at": "@levels" },
+        { "prop": "palette", "label": "Graphics", "at": "@graphics", "face": "happy" }
       ],
       "actions": [{ "at": "@fun", "who": "host", "pose": "celebrate", "expression": "laughing", "emote": "sparkle" }]
     },
@@ -102,7 +102,7 @@
       "camera": { "punch": ["@publish"] }
     },
     {
-      "id": "business", "start": 25.5, "end": 29.0, "layout": "crowd", "bg": "cream", "speaker": "none",
+      "id": "business", "start": 25.5, "end": 29.45, "layout": "crowd", "bg": "cream", "speaker": "none",
       "text": "let people download it, and turn your little idea into a real game business.",
       "characters": [
         { "who": "fan1", "pose": "phone", "expression": "happy", "at": "@people", "enter": "pop" },
@@ -116,7 +116,7 @@
       ]
     },
     {
-      "id": "outro", "start": 29.0, "end": 30.862, "layout": "host_talk", "bg": "sky", "transition": "zoom", "speaker": "host",
+      "id": "outro", "start": 29.45, "end": 30.862, "layout": "host_talk", "bg": "sky", "transition": "zoom", "speaker": "host",
       "text": "Your journey starts today!",
       "characters": [{ "who": "host", "pose": "wave", "expression": "excited", "emote": "sparkle", "emoteAt": "@today" }],
       "props": [{ "name": "rocket", "at": "@journey", "motion": "bounce" }],

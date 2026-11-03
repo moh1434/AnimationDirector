@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A generic 2D game editor (no real product's logo): scene tree on the left, a viewport with a
+       little platform level on the right. Drawn in the house style: 6px ink outline, flat fills. -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="8" y="26" width="184" height="148" rx="16" fill="#2f3247"/>
+    <path d="M8 56 V42 Q8 26 24 26 H176 Q192 26 192 42 V56 Z" fill="#e8e8f0"/>
+    <circle cx="28" cy="41" r="6" fill="#e53950" stroke-width="3"/>
+    <circle cx="48" cy="41" r="6" fill="#ffc83d" stroke-width="3"/>
+    <circle cx="68" cy="41" r="6" fill="#3ddc97" stroke-width="3"/>
+    <line x1="66" y1="56" x2="66" y2="174"/>
+    <rect x="72" y="62" width="114" height="106" rx="8" fill="#8fd3ff"/>
+    <rect x="72" y="140" width="114" height="28" fill="#6cc04a"/>
+    <rect x="128" y="112" width="40" height="12" rx="4" fill="#c98b4a" stroke-width="4"/>
+    <circle cx="98" cy="122" r="10" fill="#ffffff" stroke-width="4"/>
+    <rect x="92" y="130" width="12" height="12" rx="3" fill="#ffd23f" stroke-width="4"/>
+    <path d="M150 104 l6 -10 l6 10 z" fill="#ffc83d" stroke-width="3"/>
+  </g>
+  <g fill="#9aa0c8">
+    <rect x="18" y="66" width="38" height="8" rx="4"/>
+    <rect x="26" y="82" width="30" height="8" rx="4" fill="#ffd23f"/>
+    <rect x="26" y="98" width="26" height="8" rx="4"/>
+    <rect x="34" y="114" width="20" height="8" rx="4" fill="#3ddc97"/>
+    <rect x="26" y="130" width="28" height="8" rx="4"/>
+  </g>
+  <rect x="72" y="62" width="114" height="106" rx="8" fill="none" stroke="#1d1b20" stroke-width="6"/>
+</svg>

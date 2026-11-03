@@ -8,183 +8,12 @@ import type { Expression } from "./Face";
 import { isBlinking } from "./Face";
 import { lookFor, resolveColor, INK, BG, SHIRTS } from "./theme";
 import { prog, rand, Enter, enterStyle, exitStyle, clamp } from "./anim";
+import { layoutScene, Placed } from "./Layout";
+import { tagHeight, rcx, rcy, rh } from "./frame";
 import { Pop, TitleText, Tag, Note, Bubble, NameCard, NumberReveal, Arrow, Badge, ImageCard, NewsCard, dirOf, textColorOn } from "./Elements";
 
-type Placed<T> = T & { px: number; py: number; ps: number };
 
 const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
-
-/** Slot geometry per layout and orientation (fractions of the frame; sizes in units of min(W,H)). */
-export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard) {
-  const portrait = H > W * 1.1;
-  const U = Math.min(W, H);
-  const layout = scene.layout ?? "host_talk";
-  const rtl = dirOf(sb.language) === "rtl";
-  const mirror = !!scene.mirror;
-  const mx = (x: number) => (mirror ? 1 - x : x);
-  const chars: Placed<CharRef>[] = [];
-  const props: Placed<PropRef>[] = [];
-  const texts: Placed<TextRef & { maxW?: number }>[] = [];
-  const items: Placed<Item & { idx: number }>[] = [];
-  let stage = { x: 0.5, y: 0.45, s: 0.6 };
-  let bubbleAt: { x: number; y: number; w: number } | null = null;
-  let symbolAt: { x: number; y: number; s: number } | null = null;
-  let arrowsBetween = false;
-  let numberAt: { x: number; y: number; s: number } | null = null;
-  let imageAt: { x: number; y: number; w: number } | null = null;
-  let newsAt: { x: number; y: number; w: number } | null = null;
-  let cardAt: { x: number; y: number; align: "start" | "end" | "center" } | null = null;
-  let titleAt = { x: 0.5, y: portrait ? 0.1 : 0.12, size: portrait ? 92 : 96 };
-
-  const sideChar = (L: { x: number; y: number; s: number }, P: { x: number; y: number; s: number }) => (portrait ? P : L);
-  const charSlots: { x: number; y: number; s: number; facing?: "left" | "right" }[] = [];
-
-  switch (layout) {
-    case "hero":
-      stage = portrait ? { x: 0.5, y: 0.27, s: 0.62 } : { x: 0.5, y: 0.47, s: 0.72 };
-      charSlots.push(portrait ? { x: 0.2, y: 0.985, s: 0.5 } : { x: 0.13, y: 0.98, s: 0.48 });
-      break;
-    case "duo":
-      charSlots.push(portrait ? { x: 0.28, y: 0.93, s: 0.58, facing: "right" } : { x: 0.27, y: 0.97, s: 0.64, facing: "right" });
-      charSlots.push(portrait ? { x: 0.73, y: 0.93, s: 0.58, facing: "left" } : { x: 0.73, y: 0.97, s: 0.64, facing: "left" });
-      stage = portrait ? { x: 0.5, y: 0.3, s: 0.5 } : { x: 0.5, y: 0.25, s: 0.32 };
-      break;
-    case "thought":
-      charSlots.push(sideChar({ x: 0.27, y: 0.96, s: 0.74 }, { x: 0.5, y: 0.985, s: 0.72 }));
-      stage = portrait ? { x: 0.5, y: 0.29, s: 0.5 } : { x: 0.64, y: 0.36, s: 0.42 };
-      bubbleAt = portrait ? { x: 0.5, y: 0.29, w: 0.86 } : { x: 0.64, y: 0.36, w: 0.62 };
-      break;
-    case "title":
-      stage = { x: 0.5, y: 0.47, s: 0.5 };
-      titleAt = { x: 0.5, y: 0.47, size: portrait ? 132 : 150 };
-      charSlots.push(portrait ? { x: 0.5, y: 0.99, s: 0.55 } : { x: 0.14, y: 0.98, s: 0.5 });
-      break;
-    case "name_card":
-      charSlots.push(sideChar({ x: rtl ? 0.7 : 0.3, y: 0.96, s: 0.8 }, { x: 0.5, y: 0.985, s: 0.74 }));
-      cardAt = portrait ? { x: 0.5, y: 0.24, align: "center" } : { x: rtl ? 0.32 : 0.68, y: 0.45, align: "start" };
-      stage = portrait ? { x: 0.5, y: 0.24, s: 0.4 } : { x: rtl ? 0.32 : 0.68, y: 0.45, s: 0.4 };
-      break;
-    case "compare":
-    case "transform":
-      stage = portrait ? { x: 0.5, y: 0.3, s: 0.85 } : { x: 0.5, y: 0.37, s: 0.9 };
-      symbolAt = portrait ? { x: 0.5, y: 0.3, s: 0.16 } : { x: 0.5, y: 0.37, s: 0.18 };
-      charSlots.push(portrait ? { x: 0.5, y: 0.99, s: 0.6 } : { x: 0.5, y: 1.02, s: 0.42 });
-      break;
-    case "steps":
-      stage = portrait ? { x: 0.5, y: 0.36, s: 0.9 } : { x: 0.5, y: 0.36, s: 0.9 };
-      charSlots.push(portrait ? { x: 0.5, y: 0.99, s: 0.5 } : { x: 0.5, y: 1.02, s: 0.42 });
-      arrowsBetween = true;
-      break;
-    case "number":
-      numberAt = portrait ? { x: 0.5, y: 0.37, s: 210 } : { x: 0.63, y: 0.6, s: 230 };
-      stage = portrait ? { x: 0.5, y: 0.15, s: 0.26 } : { x: 0.63, y: 0.24, s: 0.3 };
-      charSlots.push(sideChar({ x: 0.22, y: 0.96, s: 0.76 }, { x: 0.5, y: 0.985, s: 0.68 }));
-      break;
-    case "image":
-      imageAt = portrait ? { x: 0.5, y: 0.3, w: 0.84 } : { x: 0.63, y: 0.46, w: 0.92 };
-      charSlots.push(sideChar({ x: 0.2, y: 0.96, s: 0.74 }, { x: 0.5, y: 0.985, s: 0.66 }));
-      break;
-    case "news":
-      newsAt = portrait ? { x: 0.5, y: 0.3, w: 0.86 } : { x: 0.63, y: 0.46, w: 0.85 };
-      charSlots.push(sideChar({ x: 0.2, y: 0.96, s: 0.74 }, { x: 0.5, y: 0.985, s: 0.66 }));
-      break;
-    case "crowd": {
-      const n = Math.max(1, scene.characters?.length ?? 1);
-      for (let i = 0; i < n; i++) {
-        const x = n === 1 ? 0.5 : 0.14 + (0.72 * i) / (n - 1);
-        charSlots.push({ x, y: portrait ? 0.84 + (i % 2) * 0.07 : 0.97, s: portrait ? 0.46 : Math.min(0.66, 2.1 / n), facing: x < 0.5 ? "right" : "left" });
-      }
-      stage = portrait ? { x: 0.5, y: 0.26, s: 0.5 } : { x: 0.5, y: 0.2, s: 0.3 };
-      break;
-    }
-    case "free":
-      stage = { x: 0.5, y: 0.45, s: 0.5 };
-      break;
-    case "host_talk":
-    default:
-      charSlots.push(portrait ? { x: 0.5, y: 0.985, s: 0.72 } : { x: 0.24, y: 0.97, s: 0.74 });
-      stage = portrait ? { x: 0.5, y: 0.29, s: 0.66 } : { x: 0.655, y: 0.46, s: 0.62 };
-      titleAt = portrait ? { x: 0.5, y: 0.07, size: 80 } : { x: 0.655, y: 0.12, size: 90 };
-  }
-
-  // characters
-  (scene.characters ?? []).forEach((c, i) => {
-    const slot = charSlots[Math.min(i, charSlots.length - 1)] ?? { x: 0.5, y: 0.96, s: 0.7 };
-    const x = mx(c.x ?? slot.x);
-    chars.push({
-      ...c,
-      px: x * W,
-      py: (c.y ?? slot.y) * H,
-      ps: (c.size ?? slot.s) * U,
-      facing: c.facing ?? (mirror && slot.facing ? (slot.facing === "left" ? "right" : "left") : slot.facing) ?? (x < 0.5 ? "right" : "left"),
-    });
-  });
-
-  // stage props
-  const sp = (scene.props ?? []).filter((p) => p.x === undefined || p.y === undefined);
-  const n = sp.length;
-  const grid: [number, number, number][] =
-    n <= 1 ? [[0, 0, 0.8]] :
-    n === 2 ? [[-0.29, 0, 0.56], [0.29, 0, 0.56]] :
-    n === 3 ? [[-0.36, 0.1, 0.44], [0, -0.14, 0.44], [0.36, 0.1, 0.44]] :
-    [[-0.22, -0.2, 0.34], [0.22, -0.2, 0.34], [-0.22, 0.2, 0.34], [0.22, 0.2, 0.34], [0, 0, 0.3], [0, 0.4, 0.3]];
-  let si = 0;
-  (scene.props ?? []).forEach((p) => {
-    if (p.x !== undefined && p.y !== undefined) {
-      props.push({ ...p, px: mx(p.x) * W, py: p.y * H, ps: (p.size ?? 0.3) * U });
-    } else {
-      const g = grid[Math.min(si, grid.length - 1)];
-      const sx = rtl && layout !== "hero" ? -g[0] : g[0];
-      si++;
-      props.push({ ...p, px: mx(stage.x) * W + sx * stage.s * U, py: stage.y * H + g[1] * stage.s * U, ps: (p.size ?? stage.s * g[2]) * U });
-    }
-  });
-
-  // items (compare / transform / steps)
-  const its = scene.items ?? [];
-  if (its.length) {
-    const m = its.length;
-    its.forEach((it, i) => {
-      let x: number, y: number, s: number;
-      if (layout === "compare" || layout === "transform") {
-        const d = portrait ? 0.27 : 0.25;
-        const ord = rtl ? (i === 0 ? 1 : -1) : i === 0 ? -1 : 1;
-        x = 0.5 + ord * d;
-        y = stage.y;
-        s = portrait ? 0.38 : 0.36;
-      } else if (portrait) {
-        const cols = m <= 2 ? 1 : 2;
-        const rows = Math.ceil(m / cols);
-        const c = i % cols, r = Math.floor(i / cols);
-        const lastAlone = cols === 2 && m % 2 === 1 && i === m - 1;
-        x = cols === 1 || lastAlone ? 0.5 : (rtl ? 0.74 - c * 0.48 : 0.26 + c * 0.48);
-        y = 0.05 + (0.39 * (r + 0.5)) / rows;
-        s = Math.min(0.34, 0.5 / rows);
-      } else {
-        const span = 0.78;
-        const pos = m === 1 ? 0.5 : 0.11 + (span * i) / (m - 1);
-        x = rtl ? 1 - pos : pos;
-        y = stage.y;
-        s = Math.min(0.34, 0.86 / m);
-      }
-      items.push({ ...it, idx: i, px: mx(x) * W, py: y * H, ps: s * U });
-    });
-  }
-
-  // free texts
-  (scene.texts ?? []).forEach((tx) => {
-    const isTitle = tx.style === "title" || tx.style === "big";
-    texts.push({
-      ...tx,
-      px: (tx.x ?? (isTitle ? titleAt.x : stage.x)) * W,
-      py: (tx.y ?? (isTitle ? titleAt.y : stage.y + stage.s * 0.55)) * H,
-      ps: tx.size ?? (tx.style === "big" ? (portrait ? 220 : 260) : isTitle ? titleAt.size : 54),
-      maxW: (portrait ? 0.9 : layout === "title" ? 0.85 : 0.6) * W,
-    });
-  });
-
-  return { portrait, U, W, H, chars, props, texts, items, stage, bubbleAt, symbolAt, arrowsBetween, numberAt, imageAt, newsAt, cardAt, titleAt, rtl, layout };
-}
 
 /** State of a character at time t after applying actions. */
 function charState(c: CharRef, actions: Action[], t: number) {
@@ -233,13 +62,13 @@ const motionOf = (p: PropRef, t: number, seed: number) => {
   }
 };
 
-export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]; startFrame: number; index: number; W: number; H: number }> = ({ scene, sb, mouth, startFrame, index, W, H }) => {
+export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]; startFrame: number; index: number; W: number; H: number; captionsOn?: boolean }> = ({ scene, sb, mouth, startFrame, index, W, H, captionsOn }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
   const dur = scene.end - scene.start;
-  const L = layoutScene(scene, W, H, sb);
-  const { U } = L;
+  const L = layoutScene(scene, W, H, sb, captionsOn ?? H > W);
+  const { U, frame: F } = L;
   const dir = dirOf(sb.language);
   const bg = bgOf(scene.bg);
   const bgColor = resolveColor(bg.color, BG.mint);
@@ -264,7 +93,8 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
       shy += Math.cos(t * 77) * 12 * k;
     }
   }
-  const fx = (cam.focus?.x ?? 0.5) * 100, fy = (cam.focus?.y ?? 0.5) * 100;
+  // zoom toward the content, not the frame centre, so the push-in doesn't carry objects off the edge
+  const fx = (cam.focus?.x ?? (0.5 + (rcx(L.stage) / W - 0.5) * 0.6)) * 100, fy = (cam.focus?.y ?? (0.5 + (rcy(L.stage) / H - 0.5) * 0.6)) * 100;
   const panX = (cam.pan?.[0] ?? 0) * W * prog(t, 0, Math.max(dur, 0.5), "sine.inOut");
   const panY = (cam.pan?.[1] ?? 0) * H * prog(t, 0, Math.max(dur, 0.5), "sine.inOut");
 
@@ -291,7 +121,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     const vbW = 760, vbH = 820;
     return (
       <div key={`c${i}`} style={{ position: "absolute", left: x - (vbW / 2) * s + e.x, top: c.py - 760 * s + e.y, width: vbW * s, height: vbH * s, zIndex: 5, opacity: e.opacity, transform: `scale(${e.sx * o}, ${e.sy * o})`, transformOrigin: "50% 92%" }}>
-        <svg width={vbW * s} height={vbH * s} viewBox={`${-vbW / 2} -760 ${vbW} ${vbH}`} style={{ overflow: "visible" }}>
+        <svg data-box={`char:${c.who}`} width={vbW * s} height={vbH * s} viewBox={`${-vbW / 2} -760 ${vbW} ${vbH}`} style={{ overflow: "visible" }}>
           <Character
             look={look}
             expression={st.expression ?? (talking ? "happy" : "neutral")}
@@ -321,12 +151,12 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     const isSpeaker = p.talking || speaker === p.name;
     return (
       <Pop key={`p${i}`} x={p.px + m.dx} y={p.py + m.dy} t={t} at={p.at ?? 0} out={p.out} enter={p.enter ?? "pop"} rotate={(p.rotate ?? 0) + m.r} z={4}>
-        <svg width={p.ps * 1.2} height={p.ps * 1.2} viewBox="-120 -120 240 240" style={{ overflow: "visible", display: "block", transform: `scale(${(p.flip ? -1 : 1) * m.s}, ${m.s})` }}>
+        <svg data-box={`prop:${p.name}`} width={p.ps * 1.2} height={p.ps * 1.2} viewBox="-120 -120 240 240" style={{ overflow: "visible", display: "block", transform: `scale(${(p.flip ? -1 : 1) * m.s}, ${m.s})` }}>
           <PropArt name={p.name} size={200} face={p.face} mouth={isSpeaker ? mouthNow : 0} t={t} color={p.color} color2={p.color2} blink={isBlinking(gf, fps, 3 + i)} />
         </svg>
         {p.label && (
-          <div style={{ position: "absolute", left: "50%", top: "100%", transform: `translate(-50%, ${-p.ps * 0.02}px) scale(${prog(t, (p.at ?? 0) + 0.25, 0.35, "back.out(2)")})` }}>
-            <Tag text={p.label} size={Math.max(30, Math.min(56, p.ps * 0.17))} dir={dir} />
+          <div data-box="label" style={{ position: "absolute", left: "50%", top: p.ps * 1.1 + F.gap.xs, transform: `translateX(-50%) scale(${prog(t, (p.at ?? 0) + 0.25, 0.35, "back.out(2)")})`, transformOrigin: "50% 0%" }}>
+            <Tag text={p.label} size={L.labelSize} dir={dir} />
           </div>
         )}
       </Pop>
@@ -344,19 +174,19 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
             {it.image ? (
               <ImageCard src={it.image} w={it.ps * 0.9} h={it.ps * 0.9} t={t} dir={dir} />
             ) : (
-              <svg width={it.ps} height={it.ps} viewBox="-115 -115 230 230" style={{ overflow: "visible", transform: `translateY(${Math.sin(t * 1.8 + i) * 5}px)` }}>
+              <svg data-box={`item:${it.prop ?? "question"}`} width={it.ps} height={it.ps} viewBox="-104 -104 208 208" style={{ overflow: "visible", transform: `translateY(${Math.sin(t * 1.8 + i) * 5}px)` }}>
                 <PropArt name={it.prop ?? "question"} size={200} face={it.face} t={t} color={it.color} blink={isBlinking(gf, fps, 11 + i)} />
               </svg>
             )}
             {L.layout === "steps" && (
-              <div style={{ position: "absolute", top: -it.ps * 0.08, [L.rtl ? "right" : "left"]: -it.ps * 0.08 }}>
-                <Badge text={String(i + 1)} size={Math.max(60, it.ps * 0.3)} bg={["#ff6b8b", "#4f7bff", "#3ddc97", "#ffc83d", "#b05cff", "#ff8a3d"][i % 6]} />
+              <div style={{ position: "absolute", top: -Math.max(F.type.label * 1.2, it.ps * 0.26) * 0.3, [L.rtl ? "right" : "left"]: -Math.max(F.type.label * 1.2, it.ps * 0.26) * 0.3 }}>
+                <Badge text={String(i + 1)} size={Math.max(F.type.label * 1.2, it.ps * 0.26)} bg={["#ff6b8b", "#4f7bff", "#3ddc97", "#ffc83d", "#b05cff", "#ff8a3d"][i % 6]} />
               </div>
             )}
           </div>
           {(it.label || it.text) && (
-            <div style={{ position: "absolute", left: "50%", top: "100%", transform: `translate(-50%, ${it.ps * 0.06}px) scale(${prog(t, at + 0.2, 0.35, "back.out(2)")})` }}>
-              <Tag text={(it.label || it.text)!} size={Math.max(32, Math.min(58, it.ps * 0.16))} dir={dir} />
+            <div data-box="label" style={{ position: "absolute", left: "50%", top: it.ps + F.gap.xs, transform: `translateX(-50%) scale(${prog(t, at + 0.2, 0.35, "back.out(2)")})`, transformOrigin: "50% 0%" }}>
+              <Tag text={(it.label || it.text)!} size={L.labelSize} dir={dir} />
             </div>
           )}
         </Pop>,
@@ -369,15 +199,16 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
         if (L.portrait && L.layout === "steps") continue;
         const dx = Math.sign(b.px - a.px) || 1;
         const at = (b.at ?? 0.3 + (i + 1) * 0.6) - 0.25;
-        out.push(<Arrow key={`ar${i}`} x1={a.px + dx * a.ps * 0.55} y1={a.py} x2={b.px - dx * b.ps * 0.55} y2={b.py} t={t} at={at} width={L.layout === "steps" ? 12 : 20} color={L.layout === "steps" ? "#ffffff" : "#e53950"} curve={-0.12} />);
+        if (Math.abs(b.py - a.py) > a.ps * 0.5) continue; // only between items on the same row
+        out.push(<Arrow key={`ar${i}`} x1={a.px + dx * (a.ps * 0.5 + F.gap.s)} y1={a.py} x2={b.px - dx * (b.ps * 0.5 + F.gap.s)} y2={b.py} t={t} at={at} width={L.layout === "steps" ? 12 : 20} color={L.layout === "steps" ? "#ffffff" : "#e53950"} curve={-0.12} />);
       }
     }
-    if (L.layout === "compare" && L.symbolAt && L.items.length > 1) {
+    if (L.layout === "compare" && L.symbol && L.items.length > 1) {
       const sym = scene.symbol ?? "VS";
       const at = (L.items[1].at ?? 0.9) - 0.15;
       out.push(
-        <Pop key="sym" x={L.symbolAt.x * W} y={L.symbolAt.y * H} t={t} at={at} enter="spin" z={6}>
-          <Badge text={sym} size={L.symbolAt.s * U} bg={sym === "=" ? "#3ddc97" : sym === "≠" ? "#e53950" : "#ffc83d"} color={sym === "VS" ? INK : "#fff"} />
+        <Pop key="sym" x={L.symbol.x} y={L.symbol.y} t={t} at={at} enter="spin" z={6}>
+          <Badge text={sym} size={L.symbol.s} bg={sym === "=" ? "#3ddc97" : sym === "≠" ? "#e53950" : "#ffc83d"} color={sym === "VS" ? INK : "#fff"} />
         </Pop>,
       );
     }
@@ -391,28 +222,32 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     const kind = b.kind ?? (L.layout === "thought" ? "thought" : "speech");
     const who = L.chars.find((c) => c.who === (b.who ?? speaker)) ?? L.chars[0];
     const at = b.at ?? 0.3;
-    if (L.bubbleAt && kind === "thought") {
-      const w = L.bubbleAt.w * (L.portrait ? W : W * 0.5);
+    if (L.thought && kind === "thought") {
+      const w = L.thought.w;
       return (
-        <Pop key="bub" x={L.bubbleAt.x * W} y={L.bubbleAt.y * H} t={t} at={at} enter="pop" z={7}>
-          <Bubble text={b.text} size={L.portrait ? 50 : 46} dir={dir} maxWidth={w} minW={w * 0.7} minH={w * 0.4} kind="thought" tail={L.portrait ? "down-left" : "down-left"}>
+        <Pop key="bub" x={L.thought.x} y={L.thought.y} t={t} at={at} enter="pop" z={7}>
+          <div data-box="bubble"><Bubble text={b.text} size={F.type.body} dir={dir} maxWidth={w} minW={w * 0.7} minH={w * 0.4} kind="thought" tail={L.portrait ? "down-left" : "down-left"}>
             {b.prop ? (
               <svg width={w * 0.38} height={w * 0.38} viewBox="-110 -110 220 220" style={{ overflow: "visible" }}>
                 <PropArt name={b.prop} size={200} t={t} />
               </svg>
             ) : undefined}
-          </Bubble>
+          </Bubble></div>
         </Pop>
       );
     }
     const headTop = who ? who.py - who.ps * 0.98 : H * 0.3;
     const right = who ? who.facing !== "left" : true;
-    const bx = who ? clamp(who.px + (right ? 1 : -1) * who.ps * 0.45, W * 0.22, W * 0.78) : W / 2;
-    // portrait: keep bubbles in the upper half, clear of the caption band
-    const by = L.portrait ? Math.min(H * 0.44, Math.max(H * 0.12, headTop - 70)) : Math.max(H * 0.1, headTop - 70);
+    const bubW = L.portrait ? W * 0.78 : W * 0.4;
+    const ts = F.textSafe;
+    const bx = who ? clamp(who.px + (right ? 1 : -1) * who.ps * 0.45, ts.x0 + bubW / 2, ts.x1 - bubW / 2) : W / 2;
+    // the bubble's bottom sits above the head; in portrait it must also clear the caption band
+    const limit = F.captionBand ? F.captionBand.y0 - F.gap.l : H;
+    // portrait: the bubble belongs to the empty upper stage, not squeezed above a head
+    const by = L.portrait ? Math.min(limit, rcy(L.stage) + rh(L.stage) * 0.2) : Math.max(ts.y0 + F.type.body * 3, Math.min(limit, headTop - F.gap.l));
     return (
       <Pop key="bub" x={bx} y={by} t={t} at={at} enter="pop" z={7} anchor="bottom">
-        <Bubble text={b.text} size={L.portrait ? 54 : 52} dir={dir} maxWidth={L.portrait ? W * 0.8 : W * 0.4} kind={kind} tail={right ? "down-left" : "down-right"} />
+        <div data-box="bubble"><Bubble text={b.text} size={L.portrait ? F.type.h3 : F.type.body} dir={dir} maxWidth={bubW} kind={kind} tail={right ? "down-left" : "down-right"} /></div>
       </Pop>
     );
   };
@@ -424,7 +259,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     let el: React.ReactNode;
     if (st === "title" || st === "big") {
       el = <TitleText text={tx.text} t={t} at={at} size={tx.ps} dir={dir} maxWidth={tx.maxW ?? W * 0.8} color={tx.color ? resolveColor(tx.color) : st === "big" ? "#fff" : "#fff"} />;
-      return <div key={`tx${i}`} style={{ position: "absolute", left: tx.px, top: tx.py, transform: `translate(-50%,-50%) rotate(${tx.rotate ?? 0}deg)`, zIndex: 8, opacity: exitStyle(t, tx.out) }}>{el}</div>;
+      return <div data-box="text" key={`tx${i}`} style={{ position: "absolute", left: tx.px, top: tx.py, transform: `translate(-50%,-50%) rotate(${tx.rotate ?? 0}deg)`, zIndex: 8, opacity: exitStyle(t, tx.out) }}>{el}</div>;
     }
     if (st === "note" || st === "quote") {
       el = <Note text={tx.text} size={tx.ps} dir={dir} maxWidth={tx.maxW ?? W * 0.6} color={tx.color ? resolveColor(tx.color) : textCol} />;
@@ -435,65 +270,52 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     }
     return (
       <Pop key={`tx${i}`} x={tx.px} y={tx.py} t={t} at={at} out={tx.out} enter={tx.enter ?? "pop"} z={8}>
-        {el}
+        <div data-box="text">{el}</div>
       </Pop>
     );
   });
 
   // layout specific blocks
   const extra: React.ReactNode[] = [];
-  if (L.layout === "title" && scene.title) {
+  if (L.title && scene.title) {
     extra.push(
-      <div key="title" style={{ position: "absolute", left: L.titleAt.x * W, top: L.titleAt.y * H, transform: "translate(-50%,-50%)", zIndex: 8 }}>
-        <TitleText text={scene.title} t={t} at={0.1} size={L.titleAt.size} dir={dir} maxWidth={W * 0.86} color={textCol === "#fff" ? "#fff" : "#fff"} />
-        {scene.subtitle && (
-          <div style={{ textAlign: "center", marginTop: 20, opacity: prog(t, 0.6, 0.4) }}>
-            <Note text={scene.subtitle} size={L.titleAt.size * 0.36} dir={dir} maxWidth={W * 0.8} color={textCol} />
+      <div key="title" style={{ position: "absolute", left: L.title.x, top: L.title.y, transform: "translate(-50%,-50%)", zIndex: 8 }}>
+        <div data-box="title"><TitleText text={scene.title} t={t} at={0.1} size={L.title.size} dir={dir} maxWidth={L.title.maxW} /></div>
+        {L.layout === "title" && scene.subtitle && (
+          <div style={{ textAlign: "center", marginTop: F.gap.m, opacity: prog(t, 0.6, 0.4) }}>
+            <Note text={scene.subtitle} size={F.type.h3} dir={dir} maxWidth={L.title.maxW} color={textCol} />
           </div>
         )}
       </div>,
     );
-  } else if (L.layout === "name_card" && L.cardAt) {
+  }
+  if (L.card) {
     extra.push(
-      <div key="card" style={{ position: "absolute", left: L.cardAt.x * W, top: L.cardAt.y * H, transform: "translate(-50%,-50%)", zIndex: 8, width: L.portrait ? W * 0.9 : W * 0.5 }}>
-        <NameCard name={scene.title ?? ""} subtitle={scene.subtitle} detail={scene.detail} t={t} at={0.25} dir={dir} scale={L.portrait ? 0.95 : 1} align={L.cardAt.align} />
-      </div>,
-    );
-  } else if (scene.title && L.layout !== "news" && (scene.props?.length ?? 0) === 0 && (scene.items?.length ?? 0) === 0 && !scene.bubble && !scene.number && !scene.image) {
-    // a heading on its own: show it big in the stage
-    extra.push(
-      <div key="stitle" style={{ position: "absolute", left: L.stage.x * W, top: L.stage.y * H, transform: "translate(-50%,-50%)", zIndex: 8 }}>
-        <TitleText text={scene.title} t={t} at={0.2} size={L.portrait ? 110 : 120} dir={dir} maxWidth={L.portrait ? W * 0.88 : W * 0.55} />
-      </div>,
-    );
-  } else if (scene.title && L.layout !== "news") {
-    extra.push(
-      <div key="htitle" style={{ position: "absolute", left: L.titleAt.x * W, top: L.titleAt.y * H, transform: "translate(-50%,-50%)", zIndex: 8 }}>
-        <TitleText text={scene.title} t={t} at={0.1} size={L.titleAt.size * 0.85} dir={dir} maxWidth={L.portrait ? W * 0.9 : W * 0.6} />
+      <div key="card" data-box="card" style={{ position: "absolute", left: L.card.x, top: L.card.y, transform: "translate(-50%,-50%)", zIndex: 8, width: L.card.w }}>
+        <NameCard name={scene.title ?? ""} subtitle={scene.subtitle} detail={scene.detail} t={t} at={0.25} dir={dir} scale={L.portrait ? 0.95 : 1} align={L.card.align} />
       </div>,
     );
   }
-  if (scene.number && L.numberAt) {
+  if (scene.number && L.number) {
     const nb = scene.number;
     extra.push(
-      <div key="num" style={{ position: "absolute", left: L.numberAt.x * W, top: L.numberAt.y * H, transform: "translate(-50%,-50%)", zIndex: 8 }}>
-        <NumberReveal value={nb.value} from={nb.from} prefix={nb.prefix} suffix={nb.suffix} label={nb.label} decimals={nb.decimals} group={nb.group} t={t} at={nb.at ?? 0.3} size={L.numberAt.s} dir={dir} lang={sb.language} />
+      <div key="num" data-box="number" style={{ position: "absolute", left: L.number.x, top: L.number.y, transform: "translate(-50%,-50%)", zIndex: 8 }}>
+        <NumberReveal value={nb.value} from={nb.from} prefix={nb.prefix} suffix={nb.suffix} label={nb.label} decimals={nb.decimals} group={nb.group} t={t} at={nb.at ?? 0.3} size={L.number.size} dir={dir} lang={sb.language} />
       </div>,
     );
   }
-  if (scene.image && L.imageAt) {
-    const w = L.imageAt.w * (L.portrait ? W : U);
+  if (scene.image && L.image) {
+    const w = L.image.w / 1.08;
     extra.push(
-      <Pop key="img" x={L.imageAt.x * W} y={L.imageAt.y * H} t={t} at={scene.image.at ?? 0.2} enter="drop" z={4}>
-        <ImageCard src={scene.image.src} w={w} h={w * 0.62} t={t} caption={scene.image.caption} dir={dir} fit={scene.image.fit} />
+      <Pop key="img" x={L.image.x} y={L.image.y} t={t} at={scene.image.at ?? 0.2} enter="drop" z={4}>
+        <div data-box="image"><ImageCard src={scene.image.src} w={w} h={w * 0.62} t={t} caption={scene.image.caption} dir={dir} fit={scene.image.fit} /></div>
       </Pop>,
     );
   }
-  if (L.layout === "news" && L.newsAt) {
-    const w = L.newsAt.w * (L.portrait ? W : U);
+  if (L.news) {
     extra.push(
-      <Pop key="news" x={L.newsAt.x * W} y={L.newsAt.y * H} t={t} at={0.25} enter="spin" z={4}>
-        <NewsCard headline={scene.title ?? scene.text ?? ""} kicker={scene.subtitle ?? (dir === "rtl" ? "خبر عاجل" : "BREAKING")} w={w} dir={dir} image={scene.image?.src} />
+      <Pop key="news" x={L.news.x} y={L.news.y} t={t} at={0.25} enter="spin" z={4}>
+        <div data-box="news"><NewsCard headline={scene.title ?? scene.text ?? ""} kicker={scene.subtitle ?? (dir === "rtl" ? "خبر عاجل" : "BREAKING")} w={L.news.w} dir={dir} image={scene.image?.src} /></div>
       </Pop>,
     );
   }

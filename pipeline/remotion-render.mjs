@@ -29,13 +29,13 @@ export async function renderVideo({ publicDir, inputProps, out, compositionId = 
   return out;
 }
 
-export async function renderStills({ publicDir, inputProps, frames, outPattern, compositionId = "StoryVideo", scale = 0.5 }) {
+export async function renderStills({ publicDir, inputProps, frames, outPattern, compositionId = "StoryVideo", scale = 0.5, onLog }) {
   const serveUrl = await getBundle(publicDir);
   const composition = await selectComposition({ serveUrl, id: compositionId, inputProps, ...common() });
   const outs = [];
   for (const f of frames) {
     const output = outPattern.replace("{f}", String(f).padStart(5, "0"));
-    await renderStill({ serveUrl, composition, inputProps, frame: Math.min(f, composition.durationInFrames - 1), output, imageFormat: "jpeg", jpegQuality: 85, scale, ...common() });
+    await renderStill({ serveUrl, composition, inputProps, frame: Math.min(f, composition.durationInFrames - 1), output, imageFormat: "jpeg", jpegQuality: 85, scale, onBrowserLog: onLog ? (l) => onLog(l.text, f) : undefined, ...common() });
     outs.push(output);
   }
   return outs;

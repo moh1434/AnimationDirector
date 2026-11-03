@@ -592,7 +592,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
           {!hasWrap && <HairFront look={look} />}
           <Hat look={look} facing={1} />
           {p.emote && (
-            <g transform="translate(110 -170)">
+            <g transform="translate(155 -70)">
               <g transform={`scale(${facing} 1)`}>
                 <Emote kind={p.emote} t={p.emoteT ?? t} />
               </g>

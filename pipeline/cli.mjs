@@ -236,9 +236,14 @@ async function audio(dir, ctx) {
   } else if (musicOn) {
     const mood = ["playful", "curious", "epic", "space", "upbeat", "calm"].includes(musicSetting) ? musicSetting : autoMood(storyboard);
     const seed = parseInt(createHash("md5").update(storyboard.title ?? "x").digest("hex").slice(0, 6), 16) % 1000;
-    const cuts = storyboard.scenes.filter((s) => s.transition && s.transition !== "cut").map((s) => s.start);
-    log(`Composing music (pretty_midi, mood: ${mood})…`);
-    py("compose_music.py", [build, String(analysis.duration), mood, String(seed), JSON.stringify(cuts)]);
+    // spotting input: scene starts/kinds (what to hit) and the voice's voiced intervals (where the lead may play)
+    const spotIn = join(build, "spot-input.json");
+    writeFileSync(spotIn, JSON.stringify({
+      scenes: storyboard.scenes.map((s) => ({ start: s.start, layout: s.layout ?? "host_talk", transition: s.transition ?? "cut" })),
+      voiced: analysis.voiced ?? [],
+    }), "utf8");
+    log(`Composing music (pretty_midi, mood: ${mood}, scored to the cuts)…`);
+    log(`  ${py("compose_music.py", [build, String(analysis.duration), mood, String(seed), spotIn])}`);
     try {
       log("Rendering the score with Tone.js…");
       const { renderMusic } = await import("./tone-render.mjs");
@@ -296,12 +301,38 @@ function srt(words, maxChars = 42) {
   return groups.map((g, i) => `${i + 1}\n${ts(g[0].s)} --> ${ts(g[g.length - 1].e + 0.2)}\n${g.map((x) => x.w).join(" ")}\n`).join("\n");
 }
 
+/**
+ * The project's own drawings: every projects/<name>/props/*.svg becomes a prop named after the file
+ * ("props/rocket-car.svg" → "rocket-car"), usable anywhere a library prop name is (props, items).
+ * The SVG text is embedded in the render props (no loading), after removing scripts and event handlers.
+ */
+function customProps(dir) {
+  const pdir = join(dir, "props");
+  const out = {};
+  if (!existsSync(pdir)) return out;
+  for (const f of readdirSync(pdir)) {
+    if (!/\.svg$/i.test(f)) continue;
+    let svg = readFileSync(join(pdir, f), "utf8");
+    svg = svg.replace(/<\?xml[^>]*>/g, "").replace(/<!DOCTYPE[^>]*>/gi, "").replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<script[\s\S]*?<\/script>/gi, "").replace(/\son\w+\s*=\s*("[^"]*"|'[^']*')/gi, "").replace(/(href\s*=\s*["'])\s*javascript:[^"']*/gi, "$1");
+    if (!/<svg[\s>]/i.test(svg)) { warn(`props/${f} is not an SVG drawing — skipped.`); continue; }
+    if (!/viewBox/i.test(svg)) warn(`props/${f} has no viewBox; it may not scale correctly (save it with a viewBox, e.g. "0 0 200 200").`);
+    const key = f.replace(/\.svg$/i, "").toLowerCase().replace(/[\s-]+/g, "_");
+    // make ids unique per prop so gradients/clip paths of two drawings never clash
+    svg = svg.replace(/\bid="([^"]+)"/g, `id="${key}__$1"`).replace(/url\(#([^)]+)\)/g, `url(#${key}__$1)`).replace(/(xlink:)?href="#([^"]+)"/g, (m, x, id) => `${x ?? ""}href="#${key}__${id}"`);
+    out[key] = svg.trim();
+  }
+  return out;
+}
+
 function renderProps(dir, format) {
   const build = join(dir, "build");
   const sb = readJson(join(dir, "storyboard.json")) ?? die("No storyboard.json — run plan first.");
   const analysis = readJson(join(build, "analysis.json"));
   const { storyboard, warnings } = compile(sb, analysis, { format });
   warnings.forEach((w) => warn(w));
+  const custom = customProps(dir);
+  if (Object.keys(custom).length) storyboard.customProps = custom;
   const props = { storyboard, words: analysis.words.map(({ w, s, e }) => ({ w, s, e })), mouth: analysis.mouth, audio: existsSync(join(build, "mix.wav")) ? "mix.wav" : "voice.wav", format };
   writeJson(join(build, `render-${format}.json`), props);
   return { props, storyboard };
@@ -329,6 +360,44 @@ async function render(dir, ctx) {
   const analysis = readJson(join(build, "analysis.json"));
   writeFileSync(join(out, `${name}.srt`), srt(analysis.words), "utf8");
   log(`Subtitles: ${join(out, name + ".srt")} (${analysis.word_timing ?? "estimated"} timing)`);
+  await qc(dir, settings, draft);
+}
+
+/* final pass on the rendered files */
+async function qc(dir, settings = settingsOf(dir), draft = !!flags.draft) {
+  const { qcVideo, writeQc } = await import("./qc.mjs");
+  const name = basename(dir);
+  const sizes = { youtube: [1920, 1080], shorts: [1080, 1920], square: [1080, 1080] };
+  const analysis = readJson(join(dir, "build", "analysis.json"), {});
+  const results = [];
+  for (const fmt of formatsOf(settings)) {
+    const file = join(dir, "out", `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
+    if (!existsSync(file)) continue;
+    const [w, h] = sizes[fmt] ?? [];
+    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 30, duration: analysis.duration, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
+    results.push(r);
+    log(`Final pass ${fmt}: ${r.checks.map((c) => `${c.ok ? "✔" : "✖"} ${c.name}`).join("  ")}`);
+  }
+  if (results.length) { writeQc(join(dir, "out", "final-pass.md"), results); log(`Final pass report: ${join(dir, "out", "final-pass.md")}`); }
+}
+
+/* layout check: measure every element of every scene in the real render */
+async function check(dir) {
+  const settings = settingsOf(dir);
+  const build = join(dir, "build");
+  prepPublic(build);
+  const { renderStills } = await import("./remotion-render.mjs");
+  const { runCheck } = await import("./check.mjs");
+  let total = 0;
+  for (const fmt of formatsOf(settings)) {
+    const { props, storyboard } = renderProps(dir, fmt);
+    copyUserImages(dir, build, storyboard);
+    log(`Checking the ${fmt} layout (${storyboard.scenes.length} scenes)…`);
+    const r = await runCheck({ dir, build, props, format: fmt, renderStills });
+    total += r.errors;
+    log(`  ${r.errors} errors, ${r.warns} warnings → ${r.file}`);
+  }
+  return total;
 }
 
 async function stills(dir) {
@@ -400,6 +469,8 @@ try {
     case "studio": { const d = projectDir(pos[0]); studio(d); break; }
     case "hyperframes": { const d = projectDir(pos[0]); const { exportHyperframes } = await import("./hyperframes.mjs"); await exportHyperframes(d, { render: !!flags.render, format: formatsOf(settingsOf(d))[0], props: renderProps(d, formatsOf(settingsOf(d))[0]).props }); break; }
     case "doctor": doctor(); break;
+    case "check": { const d = projectDir(pos[0]); await plan(d); await check(d); break; }
+    case "qc": { const d = projectDir(pos[0]); await qc(d); break; }
     case "make": {
       const d = projectDir(pos[0]);
       const ctx = await plan(d, { force: !!flags.replan });

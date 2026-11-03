@@ -121,9 +121,14 @@ chart_down clock hourglass calendar phone laptop gamepad robot gear key lock cro
 trophy gift house castle pyramid ziggurat tree palm mountain volcano cloud rain lightning fire water
 wave snowflake rock gem camera music question exclamation check cross warning globe map compass apple
 bomb magnet battery car ship plane skull ghost cat dog fish bird person_icon bacteria pill oil factory
-explosion speech eye arrow_up arrow_down telescope satellite well camel sword_crossed
+explosion speech eye arrow_up arrow_down telescope satellite well camel sword_crossed bug palette
+level_map puzzle target megaphone code_window
 
 Open **Remotion Studio → Library** to see them all.
+
+**Your own drawings:** an SVG saved as `projects/<name>/props/<prop-name>.svg` is used by its file
+name anywhere a prop name goes (`{"name": "game-engine"}`, `{"prop": "game-engine"}`), and can have a
+`face` too. Draw it in the house style (`.claude/skills/assets/SKILL.md`).
 
 `props: [{ name, at, out, face, label, motion, color, color2, size, x, y, rotate, flip, enter, talking }]`
 * `face`: an expression name (or `true`) — personify it. `talking: true` makes the prop lip-sync.
@@ -151,9 +156,13 @@ is applied by default; `punch` = quick zoom bump on a surprising word; `shake` =
 ## Sound
 
 Sound effects are generated from what happens on screen (pops for objects, whooshes for whips,
-ticks for counting numbers, a ding for ideas…). Add your own with
+ticks for counting numbers, a ding for ideas…). Only the important ones are kept so the track does
+not clatter; `"sfxDensity": "sparse" | "normal" | "full"` (top level of the storyboard) changes how
+many. Add your own (always kept) with
 `sfx: [{at:"@boom", name:"thud"}]` — names: pop tick boop ding sparkle whoosh swoosh swish boing hit thud iris.
-Music is composed per video (pretty_midi → Tone.js); set `"music"` in video.json to a mood
+Music is composed per video (pretty_midi → Tone.js) and scored to the picture: the tempo is fitted
+so transitions and title cards land on beats, the melody plays only in the voice's pauses, and the
+ending lands after the last word (see `build/spotting.json`). Set `"music"` in video.json to a mood
 (playful curious epic space upbeat calm), `"none"`, or a path to your own track.
 
 ---
@@ -170,4 +179,8 @@ Music is composed per video (pretty_midi → Tone.js); set `"music"` in video.js
    think on a question, celebrate on good news).
 6. Use a `title` card for punchlines and short dramatic lines; a `number` scene for key figures.
 7. Never invent facts, maps or real people's likenesses; use `image` with the user's own pictures.
-8. Run `stills.bat <name>` and look at `out/contact-*.jpg`, then `make-video.bat <name>`.
+8. Keep on-screen text readable: a sentence needs words ÷ 3 + 1 s on screen (less if the voice says
+   it at the same time); labels 1–3 words; titles ≤ ~6 words; ≤ 6 things in a scene.
+9. Run `pnpm video check <name>` (both formats) and fix every error; look at `out/check/` stills.
+   See `.claude/skills/layout-composition/SKILL.md` for spacing, sizes and safe areas.
+10. `make-video.bat` in the project folder, then read `out/final-pass.md` and the frame sheets.

@@ -4,7 +4,9 @@
 
 Reads build/voice.wav, build/music.wav (optional), build/notes.json (fallback synth),
 build/sfx.json (cue list). Writes build/mix.wav plus stems (music_bed.wav, sfx.wav).
-settings: {"music_db": -17, "sfx_db": -13, "duck_db": 9, "lufs": -14, "music": true, "sfx": true}
+settings: {"music_db": -8, "sfx_db": -14, "duck_db": 12, "lufs": -14, "music": true, "sfx": true}
+  music_db: music level in the voice's pauses, relative to the voice; duck_db: extra dip while it talks
+  (defaults: ~18 dB under the voice while it talks, ~11-13 dB under it in its short pauses)
 """
 import json
 import sys
@@ -176,7 +178,7 @@ def limit(x, ceiling_db=-1.0, look=0.004, release=0.09):
 
 
 def voice_envelope(v, sr=SR):
-    """0..1 'voice is talking' curve for sidechain ducking (attack 25 ms, release 350 ms)."""
+    """0..1 'voice is talking' curve for sidechain ducking (attack 25 ms, release ~220 ms)."""
     hop = int(0.01 * sr)
     m = np.abs(v).reshape(-1)[: (len(v) // hop) * hop].reshape(-1, hop).max(axis=1)
     thr = max(1e-4, np.percentile(m, 95) * 0.08)
@@ -184,7 +186,7 @@ def voice_envelope(v, sr=SR):
     out = np.zeros_like(on)
     prev = 0.0
     for i, x in enumerate(on):
-        k = 0.35 if x > prev else 0.028
+        k = 0.35 if x > prev else 0.045
         prev += (x - prev) * k
         out[i] = prev
     return np.repeat(out, hop)
@@ -192,7 +194,7 @@ def voice_envelope(v, sr=SR):
 
 def main():
     build = Path(sys.argv[1])
-    cfg = {"music_db": -12.0, "sfx_db": -14.0, "duck_db": 8.0, "lufs": -14.0, "music": True, "sfx": True}
+    cfg = {"music_db": -8.0, "sfx_db": -14.0, "duck_db": 12.0, "lufs": -14.0, "music": True, "sfx": True}
     if len(sys.argv) > 2:
         cfg.update(json.loads(sys.argv[2]))
     voice = load(build / "voice.wav", channels=1)[0]
@@ -218,7 +220,7 @@ def main():
         music[:, :L] = m[:, :L]
         music = Pedalboard([HighpassFilter(45), Compressor(threshold_db=-20, ratio=2.5)])(music, SR)
         mrms = np.sqrt(np.mean(music ** 2)) + 1e-9
-        music *= vrms / mrms * db(cfg["music_db"] + 6)  # music sits below the voice
+        music *= vrms / mrms * db(cfg["music_db"])  # level in the pauses, relative to the voice
         duck = voice_envelope(v)[:N]
         duck = np.pad(duck, (0, max(0, N - len(duck))))
         gain = db(-cfg["duck_db"] * duck)
@@ -249,16 +251,33 @@ def main():
     mix = Pedalboard([Compressor(threshold_db=-16, ratio=2.0, attack_ms=10, release_ms=120)])(mix, SR)
     L = lufs(mix)
     mix *= db(cfg["lufs"] - L)
-    mix = limit(mix, -1.0)
+    # -2 dBFS sample ceiling leaves room for AAC encoding overshoot, so the MP4 stays under -1 dBTP
+    mix = limit(mix, -2.0)
     L2 = lufs(mix)
     if L2 < cfg["lufs"] - 0.6:  # limiting ate some loudness: one more gentle pass
-        mix = limit(mix * db(min(3.0, cfg["lufs"] - L2)), -1.0)
+        mix = limit(mix * db(min(3.0, cfg["lufs"] - L2)), -2.0)
     with AudioFile(str(build / "mix.wav"), "w", SR, 2, bit_depth=16) as f:
         f.write(np.clip(mix, -1, 1))
     for nm, arr in (("music_bed.wav", music), ("sfx.wav", fx)):
         with AudioFile(str(build / nm), "w", SR, 2, bit_depth=16) as f:
             f.write(np.clip(arr, -1, 1))
-    report = {"lufs_before": round(float(L), 2), "lufs_target": cfg["lufs"], "lufs_after": round(float(lufs(mix)), 2), "peak_dbfs": round(float(20 * np.log10(np.abs(mix).max() + 1e-9)), 2), "sfx_cues": len(cues), "duration": round(total, 2)}
+    # how far the music sits under the voice, while it talks and in its pauses (targets ~18 dB and ~10 dB)
+    rel = {}
+    if cfg["music"] and np.any(music):
+        voiced_iv = analysis.get("voiced", [])
+        mask = np.zeros(N, dtype=bool)
+        for a, b in voiced_iv:
+            mask[int(a * SR): int(b * SR)] = True
+        mm = (music[0] + music[1]) / 2
+        rms = lambda x: float(np.sqrt(np.mean(x ** 2))) if len(x) else 0.0
+        lo, hi = int(0.6 * SR), N - int(2.2 * SR)  # skip the fades
+        sp = mask.copy(); sp[:lo] = False; sp[hi:] = False
+        gp = ~mask; gp[:lo] = False; gp[hi:] = False
+        if sp.any():
+            rel["music_under_voice_db_speech"] = round(float(20 * np.log10(rms(v[sp]) / (rms(mm[sp]) + 1e-9))), 1)
+        if gp.sum() > SR * 0.3:
+            rel["music_under_voice_db_pauses"] = round(float(20 * np.log10(vrms / (rms(mm[gp]) + 1e-9))), 1)
+    report = {**rel, "lufs_before": round(float(L), 2), "lufs_target": cfg["lufs"], "lufs_after": round(float(lufs(mix)), 2), "peak_dbfs": round(float(20 * np.log10(np.abs(mix).max() + 1e-9)), 2), "sfx_cues": len(cues), "duration": round(total, 2)}
     (build / "audio_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report))
 

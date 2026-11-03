@@ -51,6 +51,7 @@ export const Captions: React.FC<{ sb: Storyboard; words: Word[]; time: number; W
   return (
     <div style={{ position: "absolute", left: 0, right: 0, top: y, transform: "translateY(-50%)", display: "flex", justifyContent: "center", zIndex: 50, pointerEvents: "none" }}>
       <div
+        data-box="captions"
         dir={dir}
         style={{
           maxWidth: portrait ? W * 0.88 : W * 0.7,
