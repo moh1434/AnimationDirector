@@ -17,6 +17,8 @@ objects with faces, flat colourful grounds, pop-in animation, music and sound ef
    (seconds or `m:ss.s`; an `.srt` file also works. Arabic and English are both supported.)
 4. Double-click **make-video.bat inside the project folder**. When it finishes, the `out` folder opens:
    `earth-age-youtube.mp4`, `earth-age-shorts.mp4`, and `earth-age.srt`.
+   To make just one format (about half the time), use **make-short-video.bat** (9:16 Shorts) or
+   **make-landscape-video.bat** (16:9 YouTube) in the same folder.
    Each project folder also has **stills.bat** (one picture per scene) and **preview-video.bat** (Remotion Studio).
    The root `make-video.bat` still works too: it asks for the project name.
 
