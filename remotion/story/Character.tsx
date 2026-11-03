@@ -75,24 +75,9 @@ const armPoints = (side: 1 | -1, spec: ArmSpec, sx: number, sy: number, up = 86,
   return { ex, ey, hx, hy, a2 };
 };
 
-const Hand: React.FC<{ x: number; y: number; a: number; side: 1 | -1; kind?: string }> = ({ x, y, a, side, kind }) => {
-  const dx = side * Math.sin(a), dy = Math.cos(a);
-  return (
-    <g>
-      {kind === "point" && (
-        <line x1={x} y1={y} x2={x + dx * 30} y2={y + dy * 30} stroke={INK} strokeWidth={15} strokeLinecap="round" />
-      )}
-      {kind === "point" && (
-        <line x1={x} y1={y} x2={x + dx * 30} y2={y + dy * 30} stroke="#fff" strokeWidth={6} strokeLinecap="round" />
-      )}
-      <circle cx={x} cy={y} r={kind === "open" ? 18 : 16} fill="#fff" stroke={INK} strokeWidth={5.5} />
-      {kind === "open" && (
-        <path d={`M${x - side * 6} ${y - 14} q${-side * 10} -10 ${-side * 4} -18`} stroke={INK} strokeWidth={5} fill="none" strokeLinecap="round" />
-      )}
-      {kind === "fist" && <path d={`M${x - 8} ${y - 4} h16 M${x - 8} ${y + 4} h16`} stroke={INK} strokeWidth={3.5} strokeLinecap="round" />}
-    </g>
-  );
-};
+const Hand: React.FC<{ x: number; y: number; a: number; side: 1 | -1; kind?: string }> = ({ x, y }) => (
+  <circle cx={x} cy={y} r={16} fill="#fff" stroke={INK} strokeWidth={5.5} />
+);
 
 /* ---------------- torso / outfit ---------------- */
 const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, top, bottom }) => {
