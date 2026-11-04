@@ -58,4 +58,7 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
   New props: add to `PROPS` in Props.tsx (200×200 box, centred, 6px outline) and to
   `pipeline/lexicon.mjs` so the auto-director can find them — or, for one video only, an SVG in
   `projects/<name>/props/` (assets skill).
+* `.env` (from `.env.example`) holds this computer's whisper.cpp settings: `WHISPER_PATH`,
+  `WHISPER_EN_MODEL`, `WHISPER_AR_MODEL`. If `plan` stops with a `.env` error, tell the user exactly what
+  to fix; never download a model (0.5–1.6 GB) without asking first.
 * Always tell the user clearly when they need to do something (run a file, approve a step).

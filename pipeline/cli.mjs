@@ -24,6 +24,7 @@ import { parseScript, detectLanguage } from "./parse.mjs";
 import { direct } from "./director.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
+import { requireWhisperConfig, whisperConfig, modelFor } from "./whisper-config.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -97,6 +98,8 @@ function ensureProjectBats(dir) {
 /* ---------------- plan ---------------- */
 async function plan(dir, { force = false } = {}) {
   ensureProjectBats(dir);
+  // .env must name a valid whisper.cpp folder and models (or turn them off): fail before any work
+  try { requireWhisperConfig(); } catch (e) { die(e.message); }
   const settings = settingsOf(dir);
   const build = join(dir, "build");
   mkdirSync(build, { recursive: true });
@@ -174,15 +177,11 @@ function storyboardMd(sb) {
 
 /* optional: whisper.cpp word timestamps for exact caption timing */
 async function maybeWhisper(dir, settings, analysis, segments, lang) {
-  const bin = process.env.WHISPER_BIN ?? settings.whisper?.bin ?? [join(ROOT, "..", "whisper.cpp", "build", "bin", "Release", IS_WIN ? "whisper-cli.exe" : "whisper-cli"), join(ROOT, "..", "whisper.cpp", "build", "bin", "Release", IS_WIN ? "main.exe" : "main"), join(ROOT, "..", "whisper.cpp", "build", "bin", IS_WIN ? "whisper-cli.exe" : "whisper-cli")].find((p) => existsSync(p));
-  if (!bin || settings.whisper === false) return;
-  const mdir = join(ROOT, "..", "whisper.cpp", "models");
-  const want = lang === "en" ? ["ggml-small.en.bin", "ggml-base.en.bin", "ggml-small.bin", "ggml-base.bin", "ggml-medium.bin"] : ["ggml-large-v3-turbo.bin", "ggml-medium.bin", "ggml-small.bin", "ggml-base.bin"];
-  const model = settings.whisper?.model ?? want.map((m) => join(mdir, m)).find((p) => existsSync(p));
-  if (!model) {
-    if (lang !== "en") log("  (Word timing is estimated. For exact Arabic captions add a multilingual whisper model, e.g. ggml-small.bin, to whisper.cpp/models.)");
-    return;
-  }
+  if (settings.whisper === false) return; // a project can opt out in video.json
+  const cfg = requireWhisperConfig(); // WHISPER_PATH / WHISPER_EN_MODEL / WHISPER_AR_MODEL from .env
+  const bin = cfg.bin;
+  const model = modelFor(cfg, lang);
+  if (!cfg.enabled || !bin || !model) return;
   const ff = findFfmpeg();
   if (!ff) return;
   const build = join(dir, "build");
@@ -560,6 +559,15 @@ function doctor() {
   ok(r.status === 0, `Python audio packages via ${pyBin}`, "Run setup.bat (uv sync)");
   ok(!!findFfmpeg("ffprobe"), "ffprobe (for voice duration)", "winget install Gyan.FFmpeg (optional, Remotion's copy is used when present)");
   ok(!!findChrome(), `Chromium for Tone.js: ${findChrome() ?? "none"}`, "Chrome or Edge is needed for the Tone.js music render (fallback synth is used otherwise)");
+  const w = whisperConfig();
+  if (w.errors.length) ok(false, "whisper.cpp settings (.env)", w.errors.join("\n    → "));
+  else if (!w.path) ok(true, "whisper.cpp: turned off in .env (word times are estimated)");
+  else {
+    ok(!!w.bin, `whisper.cpp program: ${w.bin}`);
+    ok(true, `English model: ${w.models.en ?? "off (estimated timing)"}`);
+    ok(true, `Arabic model: ${w.models.ar ?? "off (estimated timing)"}`);
+  }
+  w.warnings.forEach((m) => console.log("⚠ " + m));
 }
 
 /* ---------------- main ---------------- */

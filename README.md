@@ -5,9 +5,23 @@ explainer video in the style of the reference videos (round-headed characters wi
 objects with faces, flat colourful grounds, pop-in animation, music and sound effects) — as
 **YouTube 16:9** and **Shorts / Reels / TikTok 9:16** at the same time.
 
+## Requirements
+
+* **Windows 10/11** (the .bat buttons; the `pnpm video …` commands also run on macOS/Linux).
+* **[Node.js](https://nodejs.org/) 22 LTS or newer**: `winget install OpenJS.NodeJS.LTS`.
+* **Chrome or Edge** (for the music render). Remotion downloads its own headless browser during setup.
+* Installed by **setup.bat** for you: [pnpm](https://pnpm.io/) (JS packages),
+  [uv](https://docs.astral.sh/uv/) (Python + pretty_midi, pedalboard, numpy), Remotion's browser, and `.env`.
+* Optional: **[FFmpeg](https://ffmpeg.org/)** (`winget install Gyan.FFmpeg`), needed for HyperFrames
+  renders and the full final-pass checks.
+* Recommended: **[whisper.cpp](https://github.com/ggml-org/whisper.cpp)** plus a model, for exact word
+  timing (captions, objects that appear on a word). It lives outside this repo; point `.env` at it
+  (see [whisper.cpp settings](#whispercpp-settings-env)).
+
 ## Quick start (Windows)
 
-1. Once: double-click **setup.bat** (installs the JS + Python packages and a headless browser).
+1. Once: double-click **setup.bat** (installs the JS + Python packages and a headless browser, and
+   creates your `.env` settings file — see [whisper.cpp settings](#whispercpp-settings-env) below).
 2. Double-click **new-video.bat**, type a name, e.g. `earth-age`. A folder opens: `projects\earth-age\`.
 3. Put your narration in it as **voice.wav** and write **script.txt**:
    ```text
@@ -71,9 +85,41 @@ Pipeline: `script.txt + voice.wav` → parse & validate segments → voice analy
 lip-sync curve, word timing) → storyboard (auto or Claude) → music (pretty_midi → Tone.js) + SFX
 (cued from the storyboard) → mix (pedalboard, −14 LUFS) → Remotion render → MP4 + SRT.
 
-Word timing is estimated from the voice's energy unless whisper.cpp is found next to this folder
-(`..\whisper.cpp`) with a model: then captions use real word timestamps. For Arabic, put a
-multilingual model there (e.g. `ggml-small.bin`); `ggml-base.en.bin` only covers English.
+## whisper.cpp settings (.env)
+
+[whisper.cpp](https://github.com/ggml-org/whisper.cpp) gives exact word timing: captions, and objects
+that appear on a word, use it. It is not part of this repo (the models are 0.5–1.6 GB); you point the
+pipeline at your copy in **`.env`** (created by setup.bat from `.env.example`; never committed):
+
+```env
+WHISPER_PATH="../whisper.cpp/"        # your whisper.cpp folder, relative to this folder or absolute
+WHISPER_EN_MODEL="small.en"           # model for English narration
+WHISPER_AR_MODEL="large-v3-turbo"     # model for Arabic (and other languages); must be multilingual
+```
+
+A model name means the file `<WHISPER_PATH>/models/ggml-<name>.bin`; you can also give a path to a `.bin` file.
+
+| Model | Size | Use |
+|---|---|---|
+| `base.en` | 148 MB | English, fastest |
+| `small.en` | 488 MB | English, good default |
+| `medium.en` | 1.5 GB | English, more accurate |
+| `small` / `medium` | 488 MB / 1.5 GB | any language |
+| `large-v3-turbo` | 1.6 GB | any language, best for Arabic |
+
+Get whisper.cpp: build it ([instructions](https://github.com/ggml-org/whisper.cpp#quick-start)) or
+unzip a Windows release (`whisper-bin-x64.zip`) into the folder. Download a model:
+
+```powershell
+cd ..\whisper.cpp\models
+.\download-ggml-model.cmd small.en
+.\download-ggml-model.cmd large-v3-turbo
+```
+
+Every `plan` / `make` checks `.env` first and stops with a clear message if the folder, the
+`whisper-cli` program or a model file is missing (it lists the models you do have and the download
+command). `pnpm video doctor` shows what was found. To work without whisper, set `WHISPER_PATH=""`
+(or one model to `""`): word times are then estimated from the voice's energy inside each time segment.
 
 ## Folders
 
@@ -118,7 +164,7 @@ It makes `projects/<name>-ar/`, a normal project with:
 The Arabic project can then be checked, edited and made like any other (`make-short-video.bat` inside it).
 Running localize again rebuilds its storyboard from the English one, unless you edited the Arabic
 storyboard by hand (remove `"adaptedFrom"` to keep your edits; `--replan` forces a rebuild).
-Exact Arabic word timing needs a multilingual whisper model (e.g. `ggml-small.bin`) in `..\whisper.cpp\models`;
+Exact Arabic word timing needs a multilingual whisper model in `WHISPER_AR_MODEL` (see whisper.cpp settings);
 without one, word times are estimated inside each time segment, so good segments matter more.
 
 ## Quality checks

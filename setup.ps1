@@ -41,6 +41,11 @@ if (-not (Have ffmpeg)) {
     Write-Host "`nOptional: FFmpeg is not on PATH. The story pipeline works without it, but HyperFrames renders need it:  winget install Gyan.FFmpeg" -ForegroundColor Yellow
 }
 
+if (-not (Test-Path ".env")) {
+    Copy-Item ".env.example" ".env"
+    Write-Host "`nCreated .env from .env.example. Open it to set your whisper.cpp folder and models (WHISPER_PATH, WHISPER_EN_MODEL, WHISPER_AR_MODEL)." -ForegroundColor Yellow
+}
+
 Write-Host "`nChecking..." -ForegroundColor Cyan
 pnpm video doctor
 
