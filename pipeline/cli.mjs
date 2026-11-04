@@ -24,7 +24,7 @@ import { parseScript, detectLanguage } from "./parse.mjs";
 import { direct } from "./director.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
-import { requireWhisperConfig, whisperConfig, modelFor } from "./whisper-config.mjs";
+import { requireWhisperConfig, whisperConfig, modelFor, bundlerName } from "./whisper-config.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -478,7 +478,7 @@ function studio(dir) {
   const fmt = formatsOf(settings)[0];
   renderProps(dir, fmt);
   log(`Opening Remotion Studio (${fmt}). Edit storyboard.json, then run studio again to reload.`);
-  const p = spawn(process.execPath, [binOf("@remotion/cli", "remotion"), "studio", join("remotion", "index.ts"), `--public-dir=${build}`, `--props=${join(build, `render-${fmt}.json`)}`], { cwd: ROOT, stdio: "inherit" });
+  const p = spawn(process.execPath, [binOf("@remotion/cli", "remotion"), "studio", join("remotion", "index.ts"), `--public-dir=${build}`, `--props=${join(build, `render-${fmt}.json`)}`, ...(bundlerName() === "rspack" ? ["--rspack"] : [])], { cwd: ROOT, stdio: "inherit" });
   p.on("exit", (c) => process.exit(c ?? 0));
 }
 

@@ -97,6 +97,10 @@ WHISPER_EN_MODEL="small.en"           # model for English narration
 WHISPER_AR_MODEL="large-v3-turbo"     # model for Arabic (and other languages); must be multilingual
 ```
 
+`.env` can also set `REMOTION_BUNDLER="rspack"` (the default) or `"webpack"`: the bundler Remotion uses to
+build the video code before rendering and for Studio. Rspack builds the same video about 4–5× faster
+(cold 21 s → 4.3 s, cached 2.7 s → 0.7 s in a test); switch to webpack if anything ever looks different.
+
 A model name means the file `<WHISPER_PATH>/models/ggml-<name>.bin`; you can also give a path to a `.bin` file.
 
 | Model | Size | Use |

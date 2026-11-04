@@ -7,7 +7,9 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { isAbsolute, join, resolve } from "node:path";
 import { ROOT, IS_WIN } from "./env.mjs";
 
-export const ENV_KEYS = ["WHISPER_PATH", "WHISPER_EN_MODEL", "WHISPER_AR_MODEL"];
+const WHISPER_KEYS = ["WHISPER_PATH", "WHISPER_EN_MODEL", "WHISPER_AR_MODEL"];
+/** Every setting .env may contain (REMOTION_BUNDLER is optional: rspack by default). */
+export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER"];
 const lev = (a, b) => {
   const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
   for (let j = 1; j <= b.length; j++) d[0][j] = j;
@@ -56,7 +58,9 @@ export function whisperConfig({ root = ROOT, env = process.env } = {}) {
     warnings.push(`.env: unknown setting ${k}${near ? ` (did you mean ${near}?)` : ""} — it is ignored.`);
   }
   const get = (k) => (env[k] !== undefined && env[k] !== "" ? env[k] : vars[k]) ?? undefined;
-  for (const k of ENV_KEYS) if (get(k) === undefined) errors.push(`.env: ${k} is missing. Add it (see .env.example); use ${k}="" to turn it off.`);
+  const bundler = get("REMOTION_BUNDLER");
+  if (bundler !== undefined && bundler !== "" && !["rspack", "webpack"].includes(String(bundler).trim().toLowerCase())) errors.push(`.env: REMOTION_BUNDLER="${bundler}" must be "rspack" or "webpack".`);
+  for (const k of WHISPER_KEYS) if (get(k) === undefined) errors.push(`.env: ${k} is missing. Add it (see .env.example); use ${k}="" to turn it off.`);
   if (errors.length) return out;
 
   const p = String(get("WHISPER_PATH")).trim();
@@ -116,3 +120,10 @@ export function requireWhisperConfig(opts) {
 
 /** The model for a narration language: English uses WHISPER_EN_MODEL, every other language WHISPER_AR_MODEL. */
 export const modelFor = (c, lang) => (lang === "en" ? c.models.en : c.models.ar);
+
+/** Which bundler Remotion uses: REMOTION_BUNDLER in .env ("rspack" by default, "webpack" to go back). */
+export function bundlerName({ root = ROOT, env = process.env } = {}) {
+  let v = env.REMOTION_BUNDLER;
+  if (!v) { const f = join(root, ".env"); if (existsSync(f)) v = parseEnv(readFileSync(f, "utf8")).vars.REMOTION_BUNDLER; }
+  return String(v ?? "").trim().toLowerCase() === "webpack" ? "webpack" : "rspack";
+}

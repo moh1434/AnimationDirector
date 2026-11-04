@@ -2,11 +2,13 @@ import { bundle } from "@remotion/bundler";
 import { renderMedia, renderStill, selectComposition, openBrowser } from "@remotion/renderer";
 import { join } from "node:path";
 import { ROOT, remotionBrowser } from "./env.mjs";
+import { bundlerName } from "./whisper-config.mjs";
 
 let bundled = new Map();
 export async function getBundle(publicDir) {
   if (bundled.has(publicDir)) return bundled.get(publicDir);
-  const serveUrl = await bundle({ entryPoint: join(ROOT, "remotion", "index.ts"), publicDir, onProgress: () => {} });
+  // Rspack (default) bundles ~4x faster than webpack; REMOTION_BUNDLER="webpack" in .env switches back
+  const serveUrl = await bundle({ entryPoint: join(ROOT, "remotion", "index.ts"), publicDir, onProgress: () => {}, rspack: bundlerName() === "rspack" });
   bundled.set(publicDir, serveUrl);
   return serveUrl;
 }
