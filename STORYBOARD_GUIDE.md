@@ -12,6 +12,13 @@ the layout, which is laid out separately for each shape. Only give `x`/`y` when 
 
 ## How the reference videos are built (and what to copy)
 
+The newer five-video portrait study is in [REFERENCE_VIDEO_STUDY.md](REFERENCE_VIDEO_STUDY.md).
+Its main refinement is continuity: show a cause, a visible change and a result. Keep a setting
+or layout across related beats when that helps understanding; 3–7 s is a drafting heuristic,
+not a requirement to reset the picture. A host is useful for personality and reactions, but
+a mechanism or geographic explanation can carry the picture without a visible narrator.
+The notes below describe the original house-style references, not every newer reference.
+
 * **One idea per shot, 3–7 s.** A shot changes when the narration moves on. Long lines are split.
 * **A narrator character on screen most of the time**, talking (lip-synced) and gesturing at things.
 * **Flat, saturated grounds** that change colour from shot to shot (mint, yellow, lilac, sky, peach…).
@@ -180,6 +187,50 @@ blue teal lime green paper white slate night black), a hex colour, or a type:
 `{"type": "space"|"night"|"sky"|"desert"|"sea"|"city"|"room"|"stage"|"classroom"|"lab"|"underground"|"burst"|"grid"|"gradient"|"paper"|"dark"|"image", "color": ..., "color2": ..., "image": "photo.jpg"}`.
 Change the ground colour every shot or two.
 
+## Story asset pack
+
+### Character, object and history additions
+
+Props: `monster`, `gun` (aliases `pistol`, `handgun`), `visa_card`, `amphora`,
+`ancient_column`, `chariot`, `ancient_helmet`, `sundial`. Existing `bomb` remains available.
+`visa_card` is a stylized payment card with a plain VISA label, not an exact bank-issued design.
+History objects are generic illustrations, not reconstructions of a specific place or period.
+The monster has a built-in eye and mouth; omit `face` for its natural appearance.
+
+Character preset: `policeman` (aliases `police`, `police_officer`), with a new `police_cap`
+hat and `police_uniform` outfit. Use `cast: { officer: { preset: "policeman" } }` and
+`characters: [{ who: "officer", pose: "talk" }]` with normal expressions and lip-sync.
+The character is separate from props and carries no weapon by default.
+Studio preview: `LibraryHistoryAssets`; sheet: `out/asset-library/history-assets.jpg`.
+
+
+Props: `horse` (alias `pony`), `cart` (alias `wagon`), `tractor`, `pigeon`
+(alias `carrier_pigeon`), and `bat`. These are static original drawings: use standard entrance
+and movement controls; they do not contain walking, wheel-turning or wing-flapping rigs.
+Animals have built-in eyes; omit `face` for their natural appearance.
+
+Backgrounds: `village`, `ruins`, `hilltop`. Each keeps a clear central stage with scenery to the
+sides and adapts to portrait/landscape. `color` overrides the sky, `color2` the foreground.
+The hilltop building and ruins are generic scenery, not depictions of a real historical site.
+English and Arabic narration keywords are registered. Studio: `LibraryStoryProps` and
+`LibraryStorySettings` (set its `page` prop to `village`, `ruins` or `hilltop`).
+Preview sheets: `out/asset-library/story-props.jpg`, `story-village.jpg`, `story-ruins.jpg`,
+`story-hilltop.jpg`. Regenerate with `node scripts/preview-story-assets.mjs`.
+
+## Mechanism asset pack
+
+New props: `clay_pot`, `pot_cutaway`, `soil_roots`, `soil_bare`, `water_low`,
+`water_half`, `water_full`, `thermometer_cold`, `thermometer_hot`, `heat_arrows`, `wind_arrows`.
+New background: `farm` (optional `color` for sky and `color2` for foreground).
+Preview in Studio: `LibraryMechanisms` and `LibraryFarm`.
+
+These are original flat drawings, with matching geometry for state pairs. Use the same position
+and size when swapping states with `at`/`out` or a scene cut. The pot cutaway is a schematic nested
+container; do not present it as a measured scientific section. Water/thermometer drawings do not
+encode numeric values: add the actual narrated value as a separate label. Directional arrows point
+up (heat) and right (wind). They are static artwork, not an automatic fluid or heat simulation.
+Leave diagram faces off to keep roots, liquid levels and markings unobscured.
+
 ## Camera & transitions
 
 `camera: {zoom:[from,to], pan:[dx,dy], punch:[times], shake:[times], focus:{x,y}}` — a slow push-in
@@ -205,7 +256,9 @@ ending lands after the last word (see `build/spotting.json`). Set `"music"` in v
 1. Read the whole narration first; decide the cast (the narrator + any recurring characters).
 2. One scene per idea, 3–7 s; split long segments at sentence ends (use word times from
    `build/analysis.json` → `words`). Scene `start` must match a word start; `end` = next `start`.
-3. For each scene choose the layout that *explains* the sentence best; vary layouts and grounds.
+3. Complete the visual story worksheet in `build/brief.md` (save your notes separately).
+   Choose the layout that *explains* the sentence best. Preserve setting and screen direction
+   across related beats; vary layouts and grounds when the meaning or location changes.
 4. Make objects appear on the word that names them (`"at": "@word"`), give some of them faces
    and an expression that comments on the line.
 5. Add 1–3 `actions` per scene so the narrator reacts (point when an object appears, shrug on "but",

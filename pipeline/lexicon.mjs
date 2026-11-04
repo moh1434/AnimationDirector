@@ -3,6 +3,30 @@
 // normalisation + light stemming (see norm()), English words by stem/prefix.
 
 export const PROP_WORDS = {
+  monster: ["monster", "creature", "وحش"],
+  gun: ["gun", "pistol", "handgun", "مسدس"],
+  visa_card: ["visa card", "visa", "بطاقة فيزا", "فيزا"],
+  amphora: ["amphora", "ancient vase", "امفورا"],
+  ancient_column: ["ancient column", "stone column", "عمود اثري"],
+  chariot: ["chariot", "عربة حربية"],
+  ancient_helmet: ["ancient helmet", "bronze helmet", "خوذة برونزية"],
+  sundial: ["sundial", "مزولة", "ساعة شمسية"],
+  horse: ["horse", "horses", "pony", "حصان", "خيول"],
+  cart: ["cart", "wagon", "عربة"],
+  tractor: ["tractor", "جرار"],
+  pigeon: ["pigeon", "حمامة", "حمام زاجل"],
+  bat: ["bat", "bats", "خفاش", "خفافيش"],
+  clay_pot: ["clay pot", "terracotta", "فخار", "جرة"],
+  pot_cutaway: ["pot cutaway", "مقطع جرة"],
+  soil_roots: ["roots", "root system", "جذور"],
+  soil_bare: ["soil layers", "bare soil", "طبقات التربة", "تربة عارية"],
+  water_low: ["low water", "ماء قليل"],
+  water_half: ["water level", "مستوى الماء"],
+  water_full: ["full container", "وعاء ممتلئ"],
+  thermometer_cold: ["thermometer", "ميزان حرارة"],
+  thermometer_hot: ["high temperature", "حرارة مرتفعة"],
+  heat_arrows: ["heat flow", "evaporation", "تبخر", "تدفق الحرارة"],
+  wind_arrows: ["air flow", "تدفق الهواء"],
   birthday_cake: ["birthday cake", "cake", "birthday", "كعكة", "كيكة", "عيد ميلاد"],
   juice: ["juice", "orange juice", "عصير", "عصير برتقال"],
   medicine_bottle: ["medicine bottle","medication bottle","medicament","زجاجة دواء"],
@@ -145,6 +169,7 @@ export const PROP_WORDS = {
 
 // Cast hints: words that bring a specific character into a scene.
 export const CAST_WORDS = {
+  policeman: ["policeman", "police", "police officer", "شرطي", "شرطة"],
   scientist: ["scientist", "scientists", "researcher", "researchers", "professor", "physicist", "chemist", "doctor", "عالم", "علماء", "باحث", "باحثين", "باحثون", "بروفيسور", "فيزيائي", "دكتور"],
   king: ["king", "emperor", "ruler", "sultan", "ملك", "امبراطور", "سلطان", "حاكم", "خليفه"],
   soldier: ["soldier", "soldiers", "army", "troops", "جندي", "جنود", "جيش", "عسكر"],
@@ -168,6 +193,10 @@ export const CAST_WORDS = {
 };
 
 export const BG_WORDS = {
+  village: ["village", "قرية"],
+  ruins: ["ruins", "rubble", "انقاض", "اطلال"],
+  hilltop: ["hilltop", "hill", "قمة تل", "تلة"],
+  farm: ["farm", "farmland", "مزرعة", "مزارع"],
   office: ["office","workplace","مكتب","مكان العمل"],
   airport: ["airport","terminal","مطار"],
   forest: ["forest","woods","غابة"],

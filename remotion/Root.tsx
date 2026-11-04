@@ -3,6 +3,9 @@ import { Composition } from "remotion";
 import { DidYouKnow, type DidYouKnowProps } from "./compositions/DidYouKnow";
 import { StoryVideo, FORMATS } from "./story/StoryVideo";
 import { AssetExpansionLibrary } from "./story/AssetExpansionLibrary";
+import { MechanismLibrary } from "./story/MechanismLibrary";
+import { StoryAssetLibrary } from "./story/StoryAssetLibrary";
+import { HistoryAssetLibrary } from "./story/HistoryAssetLibrary";
 import { Library } from "./story/Library";
 import type { RenderProps } from "./story/types";
 import { DEMO_PROPS } from "./story/demo";
@@ -24,6 +27,11 @@ const meta = ({ props }: { props: RenderProps }) => {
 export const RemotionRoot = () => {
   return (
     <>
+      <Composition id="LibraryHistoryAssets" component={HistoryAssetLibrary} durationInFrames={1} fps={60} width={1920} height={1080}/>
+      <Composition id="LibraryStoryProps" component={StoryAssetLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"props"}} />
+      <Composition id="LibraryStorySettings" component={StoryAssetLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"village"}} />
+      <Composition id="LibraryMechanisms" component={MechanismLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"props"}} />
+      <Composition id="LibraryFarm" component={MechanismLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"farm"}} />
       <Composition
         id="StoryVideo"
         component={StoryVideo as any}

@@ -1,6 +1,9 @@
 import React from "react";
 import { LIFE_PROPS } from "./LifeProps";
 import { EVERYDAY_PROPS } from "./EverydayProps";
+import { MECHANISM_PROPS } from "./MechanismProps";
+import { STORY_PROPS } from "./StoryProps";
+import { HISTORY_PROPS } from "./HistoryProps";
 import { INK } from "./theme";
 import { Face, Expression } from "./Face";
 import { assetKey } from "./asset-validation";
@@ -36,6 +39,9 @@ const spiky = (r: number, ri: number, n: number, wob = 0, t = 0) => {
 };
 
 export const PROPS: Record<string, Art> = {
+  ...MECHANISM_PROPS,
+  ...STORY_PROPS,
+  ...HISTORY_PROPS,
   ...EVERYDAY_PROPS,
   ...LIFE_PROPS,
   sun: {

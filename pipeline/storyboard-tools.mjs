@@ -44,6 +44,18 @@ export function writeBrief(dir, { analysis, segments, settings, storyboard }) {
   lines.push("## Good scene start times", "");
   lines.push("A scene should start just before a word, never in the middle of one. These are before a new sentence or after a pause:", "");
   lines.push(cuts.join(" · ") || "(use the segment starts)", "");
+  lines.push("## Visual story plan (complete before editing the storyboard)", "");
+  lines.push("Read REFERENCE_VIDEO_STUDY.md for the five-reference study. Copy this worksheet to build/direction-notes.md before filling it in; this generated brief is replaced on the next plan/brief run.", "");
+  lines.push("Choose a visual treatment for each passage: character action, mechanism/process, or spatial context. These are planning notes, not new storyboard fields or layout names.", "");
+  lines.push("| Segment | Viewer takeaway | Visible cause → change → result | Focal subject / retained setting | Spoken trigger | Asset needed |", "|---|---|---|---|---|---|");
+  segments.forEach((s, i) => lines.push(`| ${i + 1} (${fmt(s.start)}–${fmt(s.end)} s) | | | | | |`));
+  lines.push("", "- Open with the subject or situation implied by the existing narration. Do not add a greeting or rewrite the voice.",
+    "- Keep a setting, subject and screen direction while explaining one process; repeat a layout when continuity helps. Change the picture when the meaning changes, not to meet a variation quota.",
+    "- Show the verb or consequence, not only a named prop. Plan setup, change and a readable result; use existing actions, props/items, at/out and supported layouts.",
+    "- A mechanism can carry the picture without a visible host. Use speaker: none for an off-screen narrator; this does not remove narration audio.",
+    "- Use one focal change at a time. Reactions follow the event; camera movement needs a purpose. A deliberate hold is valid.",
+    "- Keep captions readable in their reserved band; diagram labels name parts or values instead of duplicating the sentence. Preserve Arabic shaping and reading order.",
+    "- Check the opening, cause, result and transition frames, then watch the sequence at playback speed. Geometry checks alone cannot judge whether it explains the line.", "");
   if (storyboard?.scenes?.length) {
     lines.push("## Current storyboard.json", "");
     lines.push("| # | id | start–end | layout | text |", "|---|---|---|---|---|");

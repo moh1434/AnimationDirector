@@ -73,6 +73,7 @@ export type Look = {
 
 /** Ready-made cast. All original designs. */
 export const PRESETS: Record<string, Look> = {
+  policeman: {skin:"#ffffff", hair:"none", hat:"police_cap", hatColor:"#315486", outfit:"police_uniform", shirt:"#315486", pants:"#243955", accent:"#ffc83d"},
   // Default narrator / host: white round face, orange scarf, single curl.
   host: { skin: "#ffffff", hair: "tuft", hairColor: INK, outfit: "shirt", shirt: "#ffd23f", pants: INK, accessory: "scarf", accent: "#ff7a2f" },
   scientist: { skin: "#ffffff", hair: "messy", hairColor: "#cfd4da", outfit: "coat", shirt: "#ffffff", accessory: "glasses", accent: "#4f7bff" },
@@ -105,6 +106,7 @@ export const PRESETS: Record<string, Look> = {
 
 /** Other names that select a preset (the folder names of the user's character sheets). */
 export const PRESET_ALIASES: Record<string, string> = {
+  police: "policeman", police_officer: "policeman",
   main_male: "host", main_male_character: "host",
   first_female: "adventurer", first_female_character: "adventurer", explorer_girl: "adventurer",
   second_female: "ponytail_girl", second_female_character: "ponytail_girl",

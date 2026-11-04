@@ -1,6 +1,8 @@
 import React from "react";
 import { LifeBackground, LIFE_BACKGROUNDS } from "./LifeBackgrounds";
 import { EverydayBackground, EVERYDAY_BACKGROUNDS } from "./EverydayBackgrounds";
+import { FarmBackground } from "./FarmBackground";
+import { StoryBackground, STORY_BACKGROUNDS } from "./StoryBackgrounds";
 import { BG, INK, resolveColor } from "./theme";
 import { rand } from "./anim";
 import { Img, staticFile } from "./engine";
@@ -46,6 +48,12 @@ export const Background: React.FC<{ spec: BgSpec; W: number; H: number; t: numbe
   const u = H / 1080; // unit scale
   let content: React.ReactNode;
   switch (type) {
+    case "village": case "ruins": case "hilltop":
+      content = <StoryBackground type={type} W={W} H={H} color={spec.color} color2={spec.color2}/>;
+      break;
+    case "farm":
+      content = <FarmBackground W={W} H={H} color={spec.color} color2={spec.color2} />;
+      break;
     case "office": case "airport":
       content = <LifeBackground type={type} W={W} H={H} color={spec.color} color2={spec.color2} />;
       break;
@@ -267,13 +275,13 @@ export const Background: React.FC<{ spec: BgSpec; W: number; H: number; t: numbe
             <stop offset="100%" stopColor="#000" stopOpacity={type === "space" || type === "dark" ? 0.35 : 0.13} />
           </radialGradient>
         </defs>
-        {![...EVERYDAY_BACKGROUNDS, ...LIFE_BACKGROUNDS].some(name => name === type) && <rect width={W} height={H} fill={`url(#vg${seed})`} />}
+        {!["farm", ...STORY_BACKGROUNDS, ...EVERYDAY_BACKGROUNDS, ...LIFE_BACKGROUNDS].some(name => name === type) && <rect width={W} height={H} fill={`url(#vg${seed})`} />}
       </svg>
       {type === "image" && spec.image && (
         <Img src={spec.image.startsWith("http") ? spec.image : staticFile(spec.image)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
       )}
       {/* paper grain, shared texture */}
-      {![...EVERYDAY_BACKGROUNDS, ...LIFE_BACKGROUNDS].some(name => name === type) && <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${staticFile("assets/grain.png")})`, backgroundSize: `${512 * u}px`, opacity: type === "space" || type === "dark" || type === "burst" ? 0.05 : 0.11, mixBlendMode: "multiply" }} />}
+      {!["farm", ...STORY_BACKGROUNDS, ...EVERYDAY_BACKGROUNDS, ...LIFE_BACKGROUNDS].some(name => name === type) && <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${staticFile("assets/grain.png")})`, backgroundSize: `${512 * u}px`, opacity: type === "space" || type === "dark" || type === "burst" ? 0.05 : 0.11, mixBlendMode: "multiply" }} />}
     </div>
   );
 };

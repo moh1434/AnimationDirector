@@ -22,8 +22,11 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 2. `pnpm video plan <name>` — validates timings, analyses the voice, writes an automatic
    `storyboard.json`. Read its warnings.
 3. **Direct it yourself.** Read `build/brief.md` (narration with word times, cut points, valid names) and
-   rewrite `storyboard.json` following the checklist at the end of STORYBOARD_GUIDE.md: one idea per
-   scene (3–7 s, scene starts on a word start), varied layouts and ground colours, objects that pop
+   Complete the visual story worksheet in the brief, using REFERENCE_VIDEO_STUDY.md: plan the
+   visible cause, change and result; preserve a setting across connected beats and let mechanisms
+   carry the picture without a visible host when appropriate. Save notes in `build/direction-notes.md`.
+   Then rewrite `storyboard.json` following the checklist at the end of STORYBOARD_GUIDE.md: one idea per
+   scene (usually 3–7 s, scene starts on a word start), meaningful layout and ground changes, objects that pop
    on the word that names them (`"at": "@word"`), faces with expressions that comment on the line,
    narrator reactions via `actions`, title cards for punchlines, `number` scenes for figures.
    Do not invent facts, maps, or likenesses of real people; use `image` scenes with the user's files.

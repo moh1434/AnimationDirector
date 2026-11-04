@@ -90,6 +90,15 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
   const body = (b: number, wTop = 54, wBot = 66) =>
     `M${-wTop} ${top + 18} Q${-wTop} ${top} ${-wTop + 22} ${top} L${wTop - 22} ${top} Q${wTop} ${top} ${wTop} ${top + 18} L${wBot} ${b - 12} Q${wBot} ${b} ${wBot - 14} ${b} L${-wBot + 14} ${b} Q${-wBot} ${b} ${-wBot} ${b - 12}Z`;
   switch (o) {
+    case "police_uniform":
+      return <g stroke={INK} strokeWidth={sw} strokeLinejoin="round">
+        <path d={body(bottom)} fill={c}/>
+        <path d={`M-32 ${top+3} L0 ${top+29} L32 ${top+3} M0 ${top+29} V${bottom-22}`} fill="none" strokeWidth={4}/>
+        <path d={`M20 ${top+39} H43 V${top+56} Q32 ${top+75} 20 ${top+56}Z`} fill={acc} strokeWidth={3}/>
+        <path d={`M-42 ${top+42} H-13 V${top+68} H-42Z`} fill="none" strokeWidth={3}/>
+        <path d={`M-60 ${bottom-24} H60 V${bottom-9} H-60Z`} fill={INK}/>
+        <rect x={-12} y={bottom-26} width={24} height={20} rx={3} fill={acc} strokeWidth={3}/>
+      </g>;
     case "robe":
       return (
         <g>
@@ -347,6 +356,13 @@ const Hat: React.FC<{ look: Look; facing: number }> = ({ look, facing }) => {
   const acc = look.accent ?? "#ffc83d";
   const sw = 7;
   switch (look.hat) {
+    case "police_cap":
+      return <g stroke={INK} strokeWidth={sw} strokeLinejoin="round">
+        <path d="M-93 -47 L-110 -92 Q0 -141 110 -92 L93 -47Z" fill={c}/>
+        <path d="M-94 -49 H94 V-27 H-94Z" fill={INK}/>
+        <path d="M-73 -25 Q0 14 73 -25Z" fill={c}/>
+        <path d="M-18 -94 H18 V-72 Q0 -48 -18 -72Z" fill={acc} strokeWidth={4}/>
+      </g>;
     case "cap":
       return (
         <g stroke={INK} strokeWidth={sw} strokeLinejoin="round">
