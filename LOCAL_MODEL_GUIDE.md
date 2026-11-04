@@ -178,6 +178,14 @@ Say, briefly:
 - anything you could not do (e.g. "no drawing for 'passport', used 'map' instead");
 - that they can make the YouTube version with `make-landscape-video.bat` in the project folder.
 
+### Optional step 9 — the Arabic version (only if the user gave Arabic files)
+The project folder has `voice-ar.wav` and `script-ar.txt`. After the English video is done:
+```
+pnpm video localize <name> --lang ar
+```
+Open `projects/<name>-ar/translations.json` and write the Arabic for every empty `""` value (keep
+names like ChatGPT in English letters). Run the command again, then do steps 5–7 with `<name>-ar`.
+
 ---
 
 ## A complete example (first three scenes of `projects/make-game-with-ai`)

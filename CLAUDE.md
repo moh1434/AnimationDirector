@@ -35,6 +35,16 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
    the frame sheet (final-pass skill). Use `--draft` for quick checks.
    **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
 
+## When the user sends two languages (English + Arabic)
+
+1. Make and direct the English project as usual (`voice.wav`, `script.txt`).
+2. Put the Arabic files in the same folder as `voice-ar.wav` and `script-ar.txt` (same sentences, same order).
+3. `pnpm video localize <name> --lang ar` → `projects/<name>-ar/` with the scenes re-timed to the Arabic voice.
+4. Translate every entry in `projects/<name>-ar/translations.json` (short, natural Arabic; keep brand names
+   such as ChatGPT or Godot in Latin letters), then run step 3 again.
+5. `pnpm video validate <name>-ar`, `pnpm video check <name>-ar`, look at the stills (mid-sentence scene
+   cuts are approximate; adjust the Arabic storyboard if needed), then `pnpm video make <name>-ar` (Shorts).
+
 ## Running things
 
 * The user is on **Windows**. `node_modules` and `.venv` are Windows installs made by `setup.bat`.

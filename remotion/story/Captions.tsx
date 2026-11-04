@@ -7,6 +7,19 @@ import { frameSpec, rcx, rcy, rw } from "./frame";
 
 type Group = { words: Word[]; s: number; e: number };
 
+const LATIN = /^[\p{P}\p{S}]*[A-Za-z0-9]/u;
+/** Split a caption's word indices into runs; in RTL text consecutive Latin words form one LTR run. */
+const latinRuns = (words: Word[], dir: string) => {
+  const runs: { ltr: boolean; idx: number[] }[] = [];
+  words.forEach((w, i) => {
+    const ltr = dir === "rtl" && LATIN.test(w.w);
+    const last = runs[runs.length - 1];
+    if (last && last.ltr === ltr && ltr) last.idx.push(i);
+    else runs.push({ ltr, idx: [i] });
+  });
+  return runs;
+};
+
 export const groupWords = (words: Word[], maxChars: number, cuts: number[]): Group[] => {
   const groups: Group[] = [];
   let cur: Word[] = [];
@@ -69,7 +82,9 @@ export const Captions: React.FC<{ sb: Storyboard; words: Word[]; time: number; W
           borderRadius: size * 0.35,
         }}
       >
-        {g.words.map((w, i) => {
+        {latinRuns(g.words, dir).map((run, ri) => {
+          const spans = run.idx.map((i) => {
+          const w = g.words[i];
           const active = time >= w.s - 0.03 && time < (g.words[i + 1]?.s ?? w.e + 0.3);
           const spoken = time >= w.s;
           const end = g.words[i + 1]?.s ?? w.e + 0.3;
@@ -90,6 +105,9 @@ export const Captions: React.FC<{ sb: Storyboard; words: Word[]; time: number; W
               {w.w}
             </span>
           );
+          });
+          // in right-to-left captions a run of Latin words ("Google Play") keeps its own left-to-right order
+          return run.ltr ? <span key={`r${ri}`} dir="ltr" style={{ display: "inline-block", unicodeBidi: "isolate" }}>{spans}</span> : spans;
         })}
       </div>
     </div>

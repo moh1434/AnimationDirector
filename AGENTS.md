@@ -15,6 +15,12 @@ storyboard decisions, original narration, timings, and flat illustrated art dire
   good cut points and every valid name); `pnpm video validate <name>` lists exact fixes for
   storyboard.json; `pnpm video catalog` lists every layout, prop, background, pose and expression.
 
+## Second-language videos
+
+`pnpm video localize <name> --lang ar` builds `projects/<name>-ar` from the English storyboard and
+`voice-ar.wav` + `script-ar.txt` (see README "Arabic version" and CLAUDE.md for the steps). Translate
+`translations.json` in the new project; never machine-translate the user's narration itself.
+
 ## Tools and packages
 
 - Use pnpm for JavaScript/TypeScript. Use `pnpm exec` for installed CLI tools;

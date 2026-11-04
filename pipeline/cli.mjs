@@ -12,6 +12,7 @@
 //   node pipeline/cli.mjs brief <name>               build/brief.md: narration with word times + every valid name
 //   node pipeline/cli.mjs validate <name>            check storyboard.json and list exact fixes
 //   node pipeline/cli.mjs catalog                    list layouts, props, backgrounds, poses, expressions…
+//   node pipeline/cli.mjs localize <name> [--lang ar] the same video in another language → projects/<name>-ar
 //   node pipeline/cli.mjs doctor                     check the toolchain
 // options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync } from "node:fs";
@@ -33,7 +34,7 @@ for (let i = 1; i < argv.length; i++) {
   if (a.startsWith("--")) {
     const k = a.slice(2);
     const nx = argv[i + 1];
-    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency"].includes(k)) { flags[k] = nx; i++; }
+    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang"].includes(k)) { flags[k] = nx; i++; }
     else flags[k] = true;
   } else pos.push(a);
 }
@@ -53,7 +54,8 @@ function projectDir(name) {
 }
 
 function findVoice(dir) {
-  const files = readdirSync(dir).filter((f) => /\.(wav|mp3|m4a|flac|ogg)$/i.test(f) && !/^(mix|music)/i.test(f));
+  // voice-ar.wav etc. belong to the other-language version (see localize), never to this video
+  const files = readdirSync(dir).filter((f) => /\.(wav|mp3|m4a|flac|ogg)$/i.test(f) && !/^(mix|music)/i.test(f) && !/^voice[-_][a-z]{2}\./i.test(f));
   const pref = files.find((f) => /^voice\./i.test(f)) ?? files.find((f) => /\.wav$/i.test(f)) ?? files[0];
   if (!pref) die(`No voice file in ${dir}. Put your narration there as voice.wav`);
   return join(dir, pref);
@@ -88,7 +90,8 @@ function formatsOf(settings) {
 function ensureProjectBats(dir) {
   const t = join(ROOT, "projects", "_template");
   if (!existsSync(t) || resolve(dir) === resolve(t)) return;
-  for (const f of readdirSync(t)) if (f.endsWith(".bat") && !existsSync(join(dir, f))) copyFileSync(join(t, f), join(dir, f));
+  const translated = !!readJson(join(dir, "video.json"), {}).localizedFrom; // a translated version has no "make Arabic" button
+  for (const f of readdirSync(t)) if (f.endsWith(".bat") && !existsSync(join(dir, f)) && !(translated && /arabic/i.test(f))) copyFileSync(join(t, f), join(dir, f));
 }
 
 /* ---------------- plan ---------------- */
@@ -490,6 +493,63 @@ function newProject(name) {
   log("then double-click make-video.bat inside that folder.");
 }
 
+/* ---------------- second language (localize) ---------------- */
+// The user puts voice-ar.wav + script-ar.txt (same sentences, same order) next to the English
+// files. This makes projects/<name>-ar: the same scenes re-timed to the Arabic voice, with on-screen
+// text from its translations.json. It is a normal project afterwards (check, make, stills…).
+async function localize(srcDir, lang) {
+  const settings = settingsOf(srcDir);
+  if (settings.localizedFrom) die(`${basename(srcDir)} is already a translated version (of ${settings.localizedFrom}). Run this on the original project.`);
+  const find = (re) => readdirSync(srcDir).find((f) => re.test(f));
+  const sub = join(srcDir, lang);
+  const voiceSrc = find(new RegExp(`^voice[-_]${lang}\\.(wav|mp3|m4a|flac|ogg)$`, "i")) ? join(srcDir, find(new RegExp(`^voice[-_]${lang}\\.(wav|mp3|m4a|flac|ogg)$`, "i")))
+    : existsSync(sub) && readdirSync(sub).find((f) => /^voice\.(wav|mp3|m4a|flac|ogg)$/i.test(f)) ? join(sub, readdirSync(sub).find((f) => /^voice\./i.test(f))) : null;
+  const scriptSrc = find(new RegExp(`^script[-_]${lang}\\.(txt|srt|json)$`, "i")) ? join(srcDir, find(new RegExp(`^script[-_]${lang}\\.(txt|srt|json)$`, "i")))
+    : existsSync(join(sub, "script.txt")) ? join(sub, "script.txt") : null;
+  if (!voiceSrc || !scriptSrc) die(`For the ${lang} version, put these next to voice.wav and script.txt in ${srcDir}:\n  voice-${lang}.wav    the ${lang} narration\n  script-${lang}.txt   the ${lang} text with time segments — the SAME number of sentences, in the same order`);
+  // 1. the source video must be planned (its storyboard is the model)
+  const srcCtx = await plan(srcDir);
+  // 2. the target project
+  const name = `${basename(srcDir)}-${lang}`;
+  const dst = join(ROOT, "projects", name);
+  mkdirSync(dst, { recursive: true });
+  const voiceDst = join(dst, "voice" + extname(voiceSrc).toLowerCase());
+  if (!existsSync(voiceDst) || statSync(voiceDst).size !== statSync(voiceSrc).size || statSync(voiceDst).mtimeMs < statSync(voiceSrc).mtimeMs) copyFileSync(voiceSrc, voiceDst);
+  copyFileSync(scriptSrc, join(dst, "script" + extname(scriptSrc).toLowerCase()));
+  if (existsSync(join(srcDir, "props"))) cpSync(join(srcDir, "props"), join(dst, "props"), { recursive: true });
+  const vj = readJson(join(dst, "video.json"), null);
+  const own = readJson(join(srcDir, "video.json"), {});
+  writeJson(join(dst, "video.json"), { ...own, ...(vj ?? {}), language: lang, localizedFrom: basename(srcDir), title: vj?.title ?? own.title ?? name });
+  ensureProjectBats(dst);
+  const existing = readJson(join(dst, "storyboard.json"), null);
+  const keepDirected = existing && !existing.adaptedFrom && existing.directedBy !== "auto" && !flags.replan;
+  const dstCtx = await plan(dst, { force: false });
+  if (keepDirected) { warn(`projects/${name}/storyboard.json was directed by hand, so it was kept. Use --replan to rebuild it from ${basename(srcDir)}.`); return dst; }
+  // 3. carry the scenes over
+  const { localizeStoryboard, screenStrings } = await import("./localize.mjs");
+  const srcSb = readJson(join(srcDir, "storyboard.json"));
+  const { storyboard: compiled } = compile(srcSb, srcCtx.analysis, { format: formatsOf(settings)[0] ?? "shorts" });
+  const trPath = join(dst, "translations.json");
+  const translations = readJson(trPath, {});
+  for (const s of screenStrings(srcSb)) if (!(s in translations)) translations[s] = "";
+  writeJson(trPath, translations);
+  const segments = readJson(join(dst, "build", "segments.json"));
+  let res;
+  try { res = localizeStoryboard(compiled, { srcAnalysis: srcCtx.analysis, dstAnalysis: dstCtx.analysis, dstSegments: segments, translations, lang, source: basename(srcDir) }); }
+  catch (e) { die(e.message); }
+  res.storyboard.captionsByFormat = srcSb.captionsByFormat ?? res.storyboard.captionsByFormat;
+  writeJson(join(dst, "storyboard.json"), res.storyboard);
+  res.warnings.forEach((w) => warn(w));
+  briefOf(dst, { analysis: dstCtx.analysis, segments, settings: { ...settingsOf(dst), language: lang }, storyboard: res.storyboard });
+  log(`projects/${name}/storyboard.json: ${res.storyboard.scenes.length} scenes carried over from ${basename(srcDir)} and re-timed to the ${lang} voice.`);
+  if (res.missing.length) {
+    warn(`${res.missing.length} on-screen text(s) still in the source language. Fill them in projects/${name}/translations.json, then run this again:`);
+    res.missing.slice(0, 12).forEach((m) => console.log(`    "${m}"`));
+    if (res.missing.length > 12) console.log(`    … and ${res.missing.length - 12} more`);
+  } else log("All on-screen text is translated.");
+  return dst;
+}
+
 function doctor() {
   const ok = (b, m, fix) => console.log(`${b ? "✔" : "✖"} ${m}${!b && fix ? `\n    → ${fix}` : ""}`);
   const nodeMajor = Number(process.versions.node.split(".")[0]);
@@ -514,6 +574,14 @@ try {
     case "studio": { const d = projectDir(pos[0]); studio(d); break; }
     case "hyperframes": { const d = projectDir(pos[0]); const { exportHyperframes } = await import("./hyperframes.mjs"); await exportHyperframes(d, { render: !!flags.render, format: formatsOf(settingsOf(d))[0], props: renderProps(d, formatsOf(settingsOf(d))[0]).props }); break; }
     case "doctor": doctor(); break;
+    case "localize":
+    case "arabic": {
+      const d = projectDir(pos[0]);
+      const dst = await localize(d, String(flags.lang ?? (cmd === "arabic" ? "ar" : "ar")).toLowerCase());
+      if (flags.make) { const ctx = await plan(dst); await audio(dst, ctx); await render(dst, ctx); }
+      else log(`Next: check it (pnpm video check ${basename(dst)}) and make it (make-short-video.bat in projects/${basename(dst)}).`);
+      break;
+    }
     case "catalog": {
       const { catalog, catalogText } = await import("./catalog.mjs");
       console.log(flags.json ? JSON.stringify({ ...catalog(), resolveProp: undefined }, null, 1) : catalogText());

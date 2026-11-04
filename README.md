@@ -98,6 +98,29 @@ Command line (any OS): `pnpm video <new|plan|brief|validate|catalog|audio|render
 * `pnpm video catalog` → every layout, prop, background, character, pose, expression, emote.
 * Using a local AI model? Point it at **LOCAL_MODEL_GUIDE.md**.
 
+## Arabic (or another language) version
+
+Put the second narration next to the English one, in the same project folder:
+
+```
+voice-ar.wav     the Arabic narration
+script-ar.txt    the Arabic text with time segments — the SAME number of sentences, in the same order
+```
+
+Double-click **make-arabic-video.bat** in the project folder (or run `pnpm video localize <name> --lang ar`).
+It makes `projects/<name>-ar/`, a normal project with:
+- the **same scenes** as the English video, re-timed to the Arabic voice. Each sentence is matched to
+  its Arabic sentence, and objects still pop on the matching word;
+- right-to-left layout and Arabic captions;
+- `translations.json` with every on-screen text (titles, labels, bubbles): English → Arabic. Empty entries
+  stay in English and are listed when you run it; fill them and run it again.
+
+The Arabic project can then be checked, edited and made like any other (`make-short-video.bat` inside it).
+Running localize again rebuilds its storyboard from the English one, unless you edited the Arabic
+storyboard by hand (remove `"adaptedFrom"` to keep your edits; `--replan` forces a rebuild).
+Exact Arabic word timing needs a multilingual whisper model (e.g. `ggml-small.bin`) in `..\whisper.cpp\models`;
+without one, word times are estimated inside each time segment, so good segments matter more.
+
 ## Quality checks
 
 Shared motion uses frame-derived easing rather than CSS transitions. `remotion/story/motion.ts`
