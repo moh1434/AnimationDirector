@@ -108,10 +108,9 @@ The voice sets the length of the video, so slow or padded audio makes the whole 
   Save long gaps for the few pauses that earn it, such as the one before a punchline.
 - **Keep sound effects short.** One should finish before the next line starts, usually in under a second.
   A long effect such as `siren` needs a matching gap in the dialogue.
-- **Check the length straight after `plan`, before directing.** It prints the `duration`. Aim for 60 seconds or
-  less for a Short. A script of about 240 words should take about 75–90 seconds, so re-record if it takes much longer.
 
-The Bob example is 2:07 only because its Windows placeholder voices are slow and padded.
+A Short has no target length: it can run past 60 seconds when the story needs it. The aim is no wasted time.
+The Bob example feels slow because its Windows placeholder voices are slow and padded.
 
 ## Actors
 

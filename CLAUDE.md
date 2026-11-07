@@ -75,8 +75,8 @@ Read [STORY_MODE.md](STORY_MODE.md) before directing narrative stories or multi-
   animal actors use cast.<id>.kind = dog/cat/bird, distinct from the static animal props.
 - Keep cast IDs stable across scenes and dialogue clips. Use cast.look for persistent design,
   characters[].look for one scene and actions[].look for a change on a word. Unknown costume names are errors.
-- Check the voice length after plan: padded or slow recordings make the whole video slow. Ask for trimmed, brisk takes
-  (see "Pacing" in STORY_MODE.md); never trim or stretch them yourself.
+- Padded or slow recordings make the whole video slow. Ask for trimmed, brisk takes (see "Pacing" in STORY_MODE.md);
+  never trim or stretch them yourself. Shorts have no length limit and may run past 60 seconds.
 - Size against the world, not the frame: follow "Scale and layers" in STORY_MODE.md. Close-ups use camera zoom, never
   a bigger actor; huge animals stay inside the frame; list layers back to front before setting zIndex.
 - Use layout: story and illustrated locations for shared scenes, with `"time": "night"` where the story

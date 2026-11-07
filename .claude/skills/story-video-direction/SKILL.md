@@ -17,8 +17,8 @@ scene-only wardrobe overrides. Animal actors are cast kinds, not props. A narrat
 Before staging, follow "Scale and layers" in STORY_MODE.md: one scale for the whole story (a person beside a
 building is size 0.36–0.42, indoors 0.45–0.52), close-ups through camera zoom and never a bigger actor, and huge
 animals that still fit in the frame. List each scene's layers back to front before writing zIndex.
-Check the voice length right after plan. Padded or slow recordings make the whole video slow, so ask for trimmed,
-brisk takes first (see "Pacing" in STORY_MODE.md) instead of directing around them.
+Padded or slow recordings make the whole video slow, so ask for trimmed, brisk takes first (see "Pacing" in
+STORY_MODE.md) instead of directing around them. There is no length limit: a Short may run past 60 seconds.
 projects/unluckiest-thief is a directed example, timed with clip:N and @word so it fits any recordings.
 Its bundled voices are test placeholders; never present them as the final voiced story.
 
