@@ -15,13 +15,15 @@
 //   node pipeline/cli.mjs localize <name> [--lang ar] the same video in another language → projects/<name>-ar
 //   node pipeline/cli.mjs doctor                     check the toolchain
 // options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>
-import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync } from "node:fs";
-import { join, resolve, basename, extname } from "node:path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync, rmSync } from "node:fs";
+import { join, resolve, basename, dirname, extname } from "node:path";
 import { spawnSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { ROOT, IS_WIN, findPython, findFfmpeg, findChrome, binOf } from "./env.mjs";
 import { parseScript, detectLanguage } from "./parse.mjs";
 import { direct } from "./director.mjs";
+import { dialogueStale, isSoundLabel, loadTimeline, missingClips, prepareDialogue, readDialogue } from "./dialogue.mjs";
+import { catalog } from "./catalog.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
 import { requireWhisperConfig, whisperConfig, modelFor, bundlerName } from "./whisper-config.mjs";
@@ -95,6 +97,26 @@ function ensureProjectBats(dir) {
   for (const f of readdirSync(t)) if (f.endsWith(".bat") && !existsSync(join(dir, f)) && !(translated && /arabic/i.test(f))) copyFileSync(join(t, f), join(dir, f));
 }
 
+/** storyboard.json with this project's recordings attached (they decide who is speaking, and when). */
+function readStoryboard(dir) {
+  const sb = readJson(join(dir, "storyboard.json")) ?? die("No storyboard.json — run plan first.");
+  const stale = dialogueStale(dir);
+  if (stale) die(`The recordings need assembling again (${stale}). Run: pnpm video plan ${basename(dir)}`);
+  const timeline = loadTimeline(dir);
+  if (timeline) sb.dialogue = timeline;
+  return sb;
+}
+
+function compileOrDie(sb, analysis, format) {
+  try { return compile(sb, analysis, { format }); } catch (e) { die(`storyboard.json has problems:\n${e.message}`); }
+}
+
+/** Words for captions: a clip such as "[bark]" is heard, not read. */
+function spokenWords(dir, analysis) {
+  const sounds = new Set((loadTimeline(dir) ?? []).flatMap((c, i) => (isSoundLabel(c.text) ? [i] : [])));
+  return analysis.words.filter((w) => !sounds.has(w.seg));
+}
+
 /* ---------------- plan ---------------- */
 async function plan(dir, { force = false } = {}) {
   ensureProjectBats(dir);
@@ -103,8 +125,10 @@ async function plan(dir, { force = false } = {}) {
   const settings = settingsOf(dir);
   const build = join(dir, "build");
   mkdirSync(build, { recursive: true });
-  const voice = findVoice(dir);
-  const script = findScript(dir);
+  let dialogue = null;
+  if (existsSync(join(dir, "dialogue.json"))) try { dialogue = prepareDialogue(dir); } catch (e) { die(e.message); }
+  const voice = dialogue?.voice ?? findVoice(dir);
+  const script = dialogue?.script ?? findScript(dir);
   let duration;
   const ffprobe = findFfmpeg("ffprobe");
   if (ffprobe) {
@@ -138,6 +162,12 @@ async function plan(dir, { force = false } = {}) {
     return { settings, analysis, storyboard: existing, lang };
   }
   const sb = direct({ segments, words: analysis.words, duration: analysis.duration, settings: { ...settings, language: lang } });
+  if(dialogue) {
+    sb.dialogue=dialogue.timeline;
+    Object.assign(sb.cast, dialogue.cast ?? {});
+    // a speaker with no cast entry: "policeman" is its own preset; anything else starts as the host
+    for (const { who } of dialogue.timeline) if (!["narrator", "none"].includes(who) && !sb.cast[who]) sb.cast[who] = { preset: catalog().presets.includes(who) ? who : "host", name: who };
+  }
   sb.inputsHash = inputsHash;
   sb.captionsByFormat = captionsByFormat(settings);
   writeJson(sbPath, sb);
@@ -238,9 +268,9 @@ function autoMood(sb) {
 async function audio(dir, ctx) {
   const settings = ctx?.settings ?? settingsOf(dir);
   const build = join(dir, "build");
-  const sb = readJson(join(dir, "storyboard.json")) ?? die("No storyboard.json — run plan first.");
+  const sb = readStoryboard(dir);
   const analysis = readJson(join(build, "analysis.json")) ?? die("No analysis — run plan first.");
-  const { storyboard } = compile(sb, analysis, { format: "youtube" });
+  const { storyboard } = compileOrDie(sb, analysis, "youtube");
   writeJson(join(build, "sfx.json"), settings.sfx === false ? [] : sfxCues(storyboard));
   const musicSetting = flags["no-music"] ? "none" : flags.mood ?? settings.music;
   let musicOn = musicSetting !== "none" && musicSetting !== false;
@@ -347,16 +377,16 @@ function customProps(dir) {
 
 function renderProps(dir, format) {
   const build = join(dir, "build");
-  const sb = readJson(join(dir, "storyboard.json")) ?? die("No storyboard.json — run plan first.");
+  const sb = readStoryboard(dir);
   const analysis = readJson(join(build, "analysis.json"));
   validateOrDie(dir, analysis);
-  const { storyboard, warnings } = compile(sb, analysis, { format });
+  const { storyboard, warnings } = compileOrDie(sb, analysis, format);
   warnings.forEach((w) => warn(w));
   // keep the human-readable summary in step with the storyboard that is actually rendered
   try { writeFileSync(join(dir, "STORYBOARD.md"), storyboardMd({ ...storyboard, title: sb.title ?? storyboard.title }), "utf8"); } catch {}
   const custom = customProps(dir);
   if (Object.keys(custom).length) storyboard.customProps = custom;
-  const props = { storyboard, words: analysis.words.map(({ w, s, e }) => ({ w, s, e })), mouth: analysis.mouth, audio: existsSync(join(build, "mix.wav")) ? "mix.wav" : "voice.wav", format };
+  const props = { storyboard, words: spokenWords(dir, analysis).map(({ w, s, e }) => ({ w, s, e })), mouth: analysis.mouth, audio: existsSync(join(build, "mix.wav")) ? "mix.wav" : "voice.wav", format };
   writeJson(join(build, `render-${format}.json`), props);
   return { props, storyboard };
 }
@@ -391,7 +421,7 @@ async function render(dir, ctx) {
     }
   }
   const analysis = readJson(join(build, "analysis.json"));
-  writeFileSync(join(out, `${name}.srt`), srt(analysis.words), "utf8");
+  writeFileSync(join(out, `${name}.srt`), srt(spokenWords(dir, analysis)), "utf8");
   log(`Subtitles: ${join(out, name + ".srt")} (${analysis.word_timing ?? "estimated"} timing)`);
   await qc(dir, settings, draft, renamed);
 }
@@ -488,6 +518,14 @@ function newProject(name) {
   if (existsSync(d)) die(`projects/${name} already exists`);
   cpSync(join(ROOT, "projects", "_template"), d, { recursive: true });
   log(`Created ${d}`);
+  if (flags.story) {
+    mkdirSync(join(d, "voices"), { recursive: true });
+    rmSync(join(d, "script.txt"), { force: true }); // dialogue.json replaces it
+    writeJson(join(d, "dialogue.json"), { cast: { hero: { preset: "kid", name: "Hero" }, pet: { kind: "dog" } }, clips: [{ who: "narrator", file: "voices/01.wav", text: "The exact words of the first recording." }, { who: "hero", file: "voices/02.wav", text: "One recording per line, in order." }] });
+    log("Now: put one recording per line in voices/, list them in dialogue.json (see STORY_MODE.md),");
+    log(`then run: pnpm video plan ${name}`);
+    return;
+  }
   log("Now: put your narration in it as voice.wav, write script.txt (story + time segments),");
   log("then double-click make-video.bat inside that folder.");
 }
@@ -505,16 +543,33 @@ async function localize(srcDir, lang) {
     : existsSync(sub) && readdirSync(sub).find((f) => /^voice\.(wav|mp3|m4a|flac|ogg)$/i.test(f)) ? join(sub, readdirSync(sub).find((f) => /^voice\./i.test(f))) : null;
   const scriptSrc = find(new RegExp(`^script[-_]${lang}\\.(txt|srt|json)$`, "i")) ? join(srcDir, find(new RegExp(`^script[-_]${lang}\\.(txt|srt|json)$`, "i")))
     : existsSync(join(sub, "script.txt")) ? join(sub, "script.txt") : null;
-  if (!voiceSrc || !scriptSrc) die(`For the ${lang} version, put these next to voice.wav and script.txt in ${srcDir}:\n  voice-${lang}.wav    the ${lang} narration\n  script-${lang}.txt   the ${lang} text with time segments — the SAME number of sentences, in the same order`);
+  // a multi-voice story: dialogue-ar.json lists one recording per line, like dialogue.json
+  const dialogueFile = `dialogue-${lang}.json`;
+  const multiVoice = existsSync(join(srcDir, dialogueFile));
+  if (!multiVoice && existsSync(join(srcDir, "dialogue.json")) && (!voiceSrc || !scriptSrc)) die(`For the ${lang} version of a multi-voice story, put ${dialogueFile} next to dialogue.json: the same lines in the same order, each with its own ${lang} recording (for example voices-${lang}/01.wav).`);
+  if (!multiVoice && (!voiceSrc || !scriptSrc)) die(`For the ${lang} version, put these next to voice.wav and script.txt in ${srcDir}:\n  voice-${lang}.wav    the ${lang} narration\n  script-${lang}.txt   the ${lang} text with time segments — the SAME number of sentences, in the same order`);
   // 1. the source video must be planned (its storyboard is the model)
   const srcCtx = await plan(srcDir);
   // 2. the target project
   const name = `${basename(srcDir)}-${lang}`;
   const dst = join(ROOT, "projects", name);
   mkdirSync(dst, { recursive: true });
-  const voiceDst = join(dst, "voice" + extname(voiceSrc).toLowerCase());
-  if (!existsSync(voiceDst) || statSync(voiceDst).size !== statSync(voiceSrc).size || statSync(voiceDst).mtimeMs < statSync(voiceSrc).mtimeMs) copyFileSync(voiceSrc, voiceDst);
-  copyFileSync(scriptSrc, join(dst, "script" + extname(scriptSrc).toLowerCase()));
+  if (multiVoice) {
+    const manifest = readDialogue(srcDir, dialogueFile);
+    const missing = missingClips(srcDir, manifest);
+    if (missing.length) die(`${missing.length} recording(s) named in ${dialogueFile} are missing:\n  ${missing.join("\n  ")}`);
+    const source = readDialogue(srcDir);
+    if (source.clips.length !== manifest.clips.length) die(`${dialogueFile} has ${manifest.clips.length} clips but dialogue.json has ${source.clips.length}. They must match line for line.`);
+    for (const c of manifest.clips) {
+      mkdirSync(dirname(resolve(dst, c.file)), { recursive: true });
+      copyFileSync(resolve(srcDir, c.file), resolve(dst, c.file));
+    }
+    writeJson(join(dst, "dialogue.json"), { ...manifest, cast: manifest.cast ?? source.cast });
+  } else {
+    const voiceDst = join(dst, "voice" + extname(voiceSrc).toLowerCase());
+    if (!existsSync(voiceDst) || statSync(voiceDst).size !== statSync(voiceSrc).size || statSync(voiceDst).mtimeMs < statSync(voiceSrc).mtimeMs) copyFileSync(voiceSrc, voiceDst);
+    copyFileSync(scriptSrc, join(dst, "script" + extname(scriptSrc).toLowerCase()));
+  }
   if (existsSync(join(srcDir, "props"))) cpSync(join(srcDir, "props"), join(dst, "props"), { recursive: true });
   const vj = readJson(join(dst, "video.json"), null);
   const own = readJson(join(srcDir, "video.json"), {});
@@ -574,6 +629,7 @@ function doctor() {
 const t0 = Date.now();
 try {
   switch (cmd) {
+    case "dialogue": { const d = projectDir(pos[0]); const r=prepareDialogue(d); log(`Assembled ${r.timeline.length} clips into ${r.voice}`); break; }
     case "new": newProject(pos[0]); break;
     case "plan": { const d = projectDir(pos[0]); await plan(d, { force: !!flags.replan }); break; }
     case "audio": { const d = projectDir(pos[0]); await audio(d); break; }

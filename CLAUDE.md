@@ -16,7 +16,8 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 
 ## When the user asks for a video
 
-1. `pnpm video new <name>` (or reuse `projects/<name>`). Put the voice in as `voice.wav`
+1. For multi-voice stories follow STORY_MODE.md: supply dialogue.json and voices/, then plan.
+   For single narration, `pnpm video new <name>` (or reuse `projects/<name>`). Put the voice in as `voice.wav`
    and the segments in `script.txt` (`start | end | text`). Never rewrite the user's words; never
    stretch or edit the voice.
 2. `pnpm video plan <name>` — validates timings, analyses the voice, writes an automatic
@@ -65,3 +66,26 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
   `WHISPER_EN_MODEL`, `WHISPER_AR_MODEL`. If `plan` stops with a `.env` error, tell the user exactly what
   to fix; never download a model (0.5–1.6 GB) without asking first.
 * Always tell the user clearly when they need to do something (run a file, approve a step).
+
+## Story mode and supplied voices
+
+Read [STORY_MODE.md](STORY_MODE.md) before directing narrative stories or multi-voice projects.
+- Prefer existing drawings and costumes. Human presets include thief, policeman, farmer and schoolgirl;
+  animal actors use cast.<id>.kind = dog/cat/bird, distinct from the static animal props.
+- Keep cast IDs stable across scenes and dialogue clips. Use cast.look for persistent design,
+  characters[].look for one scene and actions[].look for a change on a word. Unknown costume names are errors.
+- Use layout: story and illustrated locations for shared scenes, with `"time": "night"` where the story
+  needs it (living_room, house_exterior, park, schoolyard, street). Preserve location, wardrobe,
+  screen direction and prop ownership across connected beats; do not change backgrounds for variety alone.
+- User-supplied dialogue.json plus voices/ replaces the single voice/script input for multi-voice projects.
+  Do not call a voice-generation service unless the user requests it. Preserve the exact recorded words.
+- plan assembles clips without stretching them. Read build/dialogue-timeline.json for speaker intervals;
+  silence/narrator do not animate visible mouths. This timeline overrides scene.speaker for these projects.
+- Dialogue currently supports sequential clips, not overlapping voices. Use an animal clip for a bark
+  or animal dialogue; do not assume a voice is generated from a cast preset.
+- Time multi-voice storyboards with "clip:N", "clip:N:end" and "@word", and moves with "until", so they
+  survive new recordings; run plan after recordings change. Never use StoryModeDemo's timings as final
+  speech alignment, and do not run --replan over an authored storyboard without authorization.
+- Check movement starts/midpoints/ends, costume changes, entrances/exits and speaker changes, including
+  headwear, feet, held items, foreground occlusion and caption clearance. Default output stays 60 FPS Shorts.
+- No new package is required for story mode; clip assembly uses FFmpeg. Examples are under examples/story-mode/.

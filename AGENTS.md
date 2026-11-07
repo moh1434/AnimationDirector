@@ -90,3 +90,24 @@ does not authorize edits. For an authorized layout fix, make the smallest shared
 layout correction that resolves the issue, then verify affected formats and scenes.
 Render/export final MP4s when requested; avoid overwriting existing deliveries for
 an inspection-only task. Do not run `--replan` over an authored storyboard unless requested.
+
+## Story mode and supplied voices
+
+Read [STORY_MODE.md](STORY_MODE.md) before directing narrative stories or multi-voice projects.
+- Prefer existing drawings and costumes. Human presets include thief, policeman, farmer and schoolgirl;
+  animal actors use cast.<id>.kind = dog/cat/bird, distinct from the static animal props.
+- Keep cast IDs stable across scenes and dialogue clips. Use cast.look for persistent design and
+  characters[].look for scene-only wardrobe changes. Do not invent unsupported costume names.
+- Use layout: story and illustrated locations for shared scenes. Preserve location, wardrobe,
+  screen direction and prop ownership across connected beats; do not change backgrounds for variety alone.
+- User-supplied dialogue.json plus voices/ replaces the single voice/script input for multi-voice projects.
+  Do not call a voice-generation service unless the user requests it. Preserve the exact recorded words.
+- plan assembles clips without stretching them. Read build/dialogue-timeline.json for speaker intervals;
+  silence/narrator do not animate visible mouths. This timeline overrides scene.speaker for these projects.
+- Dialogue currently supports sequential clips, not overlapping voices. Use an animal clip for a bark
+  or animal dialogue; do not assume a voice is generated from a cast preset.
+- Retiming is required after recordings change. Never use StoryModeDemo's provisional timings as final
+  speech alignment, and do not run --replan over an authored storyboard without authorization.
+- Check movement starts/midpoints/ends, costume changes, entrances/exits and speaker changes, including
+  headwear, feet, held items, foreground occlusion and caption clearance. Default output stays 60 FPS Shorts.
+- No new package is required for story mode; clip assembly uses FFmpeg. Examples are under examples/story-mode/.

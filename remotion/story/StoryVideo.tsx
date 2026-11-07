@@ -6,6 +6,7 @@ import { Captions, groupWords } from "./Captions";
 import { prog } from "./anim";
 import { FONT, INK } from "./theme";
 import { setCustomProps, resolveProp } from "./Props";
+import { validateStoryMode } from "./story-mode.mjs";
 import { validateAssets } from "./asset-validation";
 
 /* ---------- fonts (bundled, offline) ---------- */
@@ -102,7 +103,7 @@ export const StoryVideo: React.FC<RenderProps & { audit?: boolean }> = (props) =
   const fontsIn = useFonts();
   const { storyboard: sb, words = [], mouth = [], audio } = props;
   setCustomProps(sb.customProps);
-  useMemo(() => validateAssets(sb, resolveProp), [sb]);
+  useMemo(() => {validateAssets(sb, resolveProp); validateStoryMode(sb);}, [sb]);
   const { width: W, height: H, fps } = useVideoConfig();
   const frame = useCurrentFrame();
   const time = frame / fps;

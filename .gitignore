@@ -14,6 +14,7 @@ __pycache__/
 .mypy_cache/
 
 projects/*/voice.wav
+projects/*/voices*/
 # ---------- Render output & caches ----------
 out/
 out_old/

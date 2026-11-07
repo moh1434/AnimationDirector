@@ -1,0 +1,12 @@
+import type { CastMember, Storyboard } from "./types";
+export const ANIMAL_KINDS: string[];
+export const MOVE_POSES: string[];
+export const MOVE_EASES: string[];
+export const CLIP_REF: RegExp;
+export function isAnimal(member?: CastMember): boolean;
+export function isClipRef(value: unknown): boolean;
+export function clipTime(ref: string, dialogue?: Storyboard["dialogue"]): number | null;
+export function clipSceneWords(words: { seg?: number }[], scene: unknown, next: unknown, index: number, dialogue?: Storyboard["dialogue"]): { seg?: number }[] | null;
+export function dialogueSpeaker(sb: Storyboard, time: number): string | undefined;
+export function storyProblems(sb: Storyboard): string[];
+export function validateStoryMode(sb: Storyboard): void;

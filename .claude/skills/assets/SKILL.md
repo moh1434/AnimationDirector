@@ -62,3 +62,12 @@ images in the video description. When in doubt, draw it instead.
 
 Render a still (`pnpm video stills <name>`) and look at the new asset at Shorts size next to the
 existing props: same line weight, same colour family, readable at a glance.
+
+## Story actors and settings
+
+Read STORY_MODE.md before adding story artwork. Reuse Character.tsx human looks and Animal.tsx
+dog/cat/bird actors where appropriate; static animal props do not have actor motion or speaker routing.
+New clothing belongs in the human look system; persistent identity belongs in cast.look and a
+scene-only costume in characters[].look. Keep new hats within the rig's bounds. Do not replace
+existing farm/office backgrounds when adding a new setting. Register reusable additions in the
+catalogue and document their names; render with actors present to check floor contact and occlusion.

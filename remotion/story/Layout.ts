@@ -79,6 +79,18 @@ function keepIn(cx: number, cy: number, left: number, right: number, up: number,
   return { x, y };
 }
 
+/** Where each drawn floor meets the wall, as a fraction of the background's height. */
+const FLOOR: Record<string, number> = {
+  living_room: 0.82, house_exterior: 0.82, park: 0.82, schoolyard: 0.82, street: 0.82, classroom: 0.82,
+  office: 0.83, lab: 0.83, forest: 0.83, garden: 0.83, kitchen: 0.83, workshop: 0.83,
+  farm: 0.84, village: 0.84, ruins: 0.84, hilltop: 0.84, room: 0.8, city: 0.78,
+};
+/** Feet y for a story shot. Backgrounds are drawn 40 px larger on every side, for the camera to move in. */
+const storyFloor = (bg: Scene["bg"], H: number, fallback: number) => {
+  const type = typeof bg === "string" ? bg : bg?.type ?? "";
+  return FLOOR[type] === undefined ? fallback : -40 + FLOOR[type] * (H + 80) + 8;
+};
+
 export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, captionsOn = H > W): Layout {
   const F = frameSpec(W, H, captionsOn);
   const { portrait, U, gap, type } = F;
@@ -110,6 +122,12 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
   let titleMode: "top" | "center" | "none" = "top";
 
   switch (layout) {
+    case "story": {
+      const y = storyFloor(scene.bg, H, F.ground);
+      (scene.characters ?? []).forEach((_, i, all) => slots.push({ x: W * (i + 1) / (all.length + 1), y, s: Math.min(0.68, 1.25 / Math.max(1, all.length)), facing: i % 2 ? "left" : "right" }));
+      stage = { x0: W * 0.08, y0: F.captionBand ? F.captionBand.y1 + gap.m : textSafe.y0, x1: W * 0.92, y1: H * 0.6 };
+      break;
+    }
     case "hero":
       stage = portrait ? { ...pStage, y1: H * 0.62 } : { x0: W * 0.24, y0: safe.y0, x1: W * 0.78, y1: lStageBottom };
       slots.push(portrait ? { x: W * 0.24, s: 0.48 } : { x: W * 0.12, s: 0.5 });
@@ -193,6 +211,9 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
     }
   }
 
+  // a story title sits under the caption band, never inside it
+  if (layout === "story" && scene.title) { const size = Math.min(type.h2, U * 0.065); title = { x: W * 0.5, y: stage.y0 + size * 0.7, size, maxW: W * 0.84 }; }
+
   /* ---- characters ---- */
   const chars: Placed<CharRef>[] = [];
   (scene.characters ?? []).forEach((c, i) => {
@@ -204,7 +225,8 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
     const kx = Math.min(Math.max(x, safe.x0 + ps * CHAR_HALF_W), safe.x1 - ps * CHAR_HALF_W);
     chars.push({
       ...c, px: c.x !== undefined ? x : kx, py, ps,
-      facing: c.facing ?? (mirror && slot.facing ? (slot.facing === "left" ? "right" : "left") : slot.facing) ?? (kx < W / 2 ? "right" : "left"),
+      move: c.move?.map((m) => ({ ...m, x: flipX(m.x * W) / W })),
+      facing: (mirror && layout === "story" && c.facing ? (c.facing === "left" ? "right" : "left") : c.facing) ?? (mirror && slot.facing ? (slot.facing === "left" ? "right" : "left") : slot.facing) ?? (kx < W / 2 ? "right" : "left"),
     });
   });
 
@@ -232,7 +254,7 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
     });
   }
   for (const p of scene.props ?? []) {
-    if (p.x !== undefined && p.y !== undefined) props.push({ ...p, px: flipX(p.x * W), py: p.y * H, ps: (p.size ?? 0.3) * U });
+    if (p.x !== undefined && p.y !== undefined) props.push({ ...p, px: flipX(p.x * W), py: p.y * H, ps: (p.size ?? 0.3) * U, move: p.move?.map((m) => ({ ...m, x: flipX(m.x * W) / W })) });
   }
 
   /* ---- items: compare / transform / steps ---- */
@@ -286,6 +308,8 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
 
   /* ---- keep everything inside the safe area ---- */
   for (const p of props) {
+    // staged scenery stands where it was put: furniture on the floor, a car driving in from off screen
+    if (layout === "story" && p.x !== undefined && p.y !== undefined) continue;
     const labW = p.label ? tagWidth(p.label, labelSize) / 2 : 0;
     const half = Math.max(p.ps / 2, labW);
     const down = p.ps / 2 + (p.label ? tagHeight(labelSize) + gap.xs : 0);

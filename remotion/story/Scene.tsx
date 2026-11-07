@@ -1,7 +1,9 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "./engine";
-import type { Scene, Storyboard, CharRef, PropRef, TextRef, Item, Action } from "./types";
+import type { Scene, Storyboard, CharRef, PropRef, TextRef, Item, Action, Move } from "./types";
 import { Background, BgSpec } from "./Backgrounds";
+import { dialogueSpeaker, isAnimal } from "./story-mode.mjs";
+import { Animal } from "./Animal";
 import { Character, Pose, POSES } from "./Character";
 import { PropArt } from "./Props";
 import type { Expression } from "./Face";
@@ -15,7 +17,25 @@ import { Pop, TitleText, Tag, Note, Bubble, NameCard, NumberReveal, Arrow, Badge
 
 import { MOTION, sampleTrack, speechEnvelope } from "./motion";
 
-const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["office", "airport", "forest", "garden", "kitchen", "workshop", "space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
+const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["living_room", "house_exterior", "park", "farm", "schoolyard", "street", "village", "ruins", "hilltop", "office", "airport", "forest", "garden", "kitchen", "workshop", "space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
+
+/** Where something is at time t after its moves, and what it is doing. */
+function travel(from: { x: number; y: number }, moves: Move[] | undefined, t: number, W: number, H: number) {
+  let { x, y } = from;
+  let rotate = 0, lift = 0, facing: "left" | "right" | undefined, moving = false, airborne = false, pose: Move["pose"];
+  for (const m of [...(moves ?? [])].sort((a, b) => a.at - b.at)) {
+    if (t < m.at) break;
+    const p = prog(t, m.at, Math.max(0.01, m.duration), m.ease ?? "sine.inOut");
+    const toX = m.x * W, toY = (m.y ?? y / H) * H;
+    if (m.facing !== "keep") facing = m.facing ?? (Math.abs(toX - x) < 1 ? facing : toX > x ? "right" : "left");
+    const running = t < m.at + m.duration;
+    if (running) { moving = true; pose = m.pose; airborne = !m.pose && (!!m.arc || m.rotate !== undefined); } // a jump or a fall is not a walk
+    lift = running ? -(m.arc ?? 0) * H * 4 * p * (1 - p) : 0;
+    x += (toX - x) * p; y += (toY - y) * p;
+    rotate += ((m.rotate ?? rotate) - rotate) * p;
+  }
+  return { x, y: y + lift, rotate, facing, moving, airborne, pose };
+}
 
 /** State of a character at time t after applying actions. */
 function charState(c: CharRef, actions: Action[], t: number) {
@@ -27,8 +47,12 @@ function charState(c: CharRef, actions: Action[], t: number) {
   let emoteAt = c.emoteAt ?? c.at ?? 0;
   let facing = c.facing;
   let lookAt = c.lookAt;
+  let holding = c.holding;
+  let look = c.look;
   for (const a of actions) {
     if (a.who !== c.who || a.at > t) continue;
+    if (a.holding !== undefined) holding = a.holding || undefined;
+    if (a.look) look = { ...look, ...a.look };
     if (a.pose && a.pose !== pose) {
       prevPose = pose;
       pose = a.pose;
@@ -56,7 +80,7 @@ function charState(c: CharRef, actions: Action[], t: number) {
   const motion = sampleTrack(initial, events, t, MOTION.gesture);
   const face = sampleTrack(initial.slice(10,10+names.length), events.map((e) => ({at:e.at,value:e.value.slice(10,10+names.length)})), t, MOTION.expression);
   motion.splice(10,names.length,...face);
-  return { pose, prevPose, poseT: prog(t, poseAt, MOTION.gesture, "sine.inOut"), expression, emote, emoteAt, facing, lookAt, motion };
+  return { pose, prevPose, poseT: prog(t, poseAt, MOTION.gesture, "sine.inOut"), expression, emote, emoteAt, facing, lookAt, motion, holding, look };
 
 }
 
@@ -92,7 +116,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
   const textCol = ["space", "night", "dark", "burst", "grid"].includes(bg.type ?? "") ? "#fff" : textColorOn(bgColor);
   const gf = startFrame + frame;
   const mouthNow = speechEnvelope(mouth, gf, fps);
-  const speaker = speakerAt(scene, t);
+  const speaker = dialogueSpeaker(sb,gf/fps) ?? speakerAt(scene, t);
   const actions = (scene.actions ?? []).slice().sort((a, b) => a.at - b.at);
 
   // camera
@@ -119,7 +143,8 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     const st = charState(c, actions, t);
     const s = c.ps / 560;
     const cast = sb.cast[c.who] ?? { preset: c.who };
-    let look = lookFor(cast.preset ?? (c.who === "host" ? "host" : c.who), cast.look);
+    const animal = isAnimal(cast);
+    let look = animal ? { ...cast.look } : lookFor(cast.preset ?? (c.who === "host" ? "host" : c.who), cast.look);
     const dupIdx = L.chars.slice(0, i).filter((o) => o.who === c.who).length;
     if (dupIdx > 0) {
       // several copies of the same cast member (a crowd): vary clothes and hair so they read as different people
@@ -127,37 +152,48 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
       const HC = ["#3a2a20", "#ffb300", "#5a3825", "#9aa0a6", "#2b1d16"];
       look = { ...look, shirt: SHIRTS[(dupIdx * 3 + index) % SHIRTS.length], hair: look.hat ? look.hair : HAIRS[(dupIdx + index) % HAIRS.length], hairColor: look.hairColor === "#cfd4da" ? look.hairColor : HC[dupIdx % HC.length], ...(cast.look ?? {}) };
     }
+    look = { ...look, ...st.look };
+    const Actor = (animal ? Animal : Character) as React.FC<any>;
     const talking = speaker === c.who;
     const walkIn = c.walkFrom !== undefined;
     const walkP = walkIn ? prog(t, c.at ?? 0, 1.2, "power1.inOut") : 1;
-    const x = walkIn ? (c.walkFrom! * W) + (c.px - c.walkFrom! * W) * walkP : c.px;
+    const route = travel({ x: walkIn ? (c.walkFrom! * W) + (c.px - c.walkFrom! * W) * walkP : c.px, y: c.py }, c.move, t, W, H);
+    const { x, y } = route;
+    const isMoving = (walkIn && walkP < 1) || (route.moving && !route.airborne);
+    const pose = isMoving ? route.pose ?? "walk" : st.pose ?? (speaker === c.who ? "talk" : "idle");
+    const facing = route.facing ?? st.facing ?? c.facing;
+    // a move turns the actor; arms take the travelling pose unless they are carrying something
+    const motion = [...st.motion];
+    if (route.facing) motion[7] = route.facing === "left" ? -1 : 1;
+    if (isMoving && !walkIn && !st.holding) { const arms = POSES[pose]; [motion[0], motion[1], motion[2], motion[3]] = [...arms.l, ...arms.r]; }
     const enter: Enter = c.enter ?? (index === 0 || walkIn ? "none" : "none");
     const e = enterStyle(t, c.at ?? 0, enter, 600);
     const o = exitStyle(t, c.out);
     if (e.opacity <= 0 || o <= 0) return null;
     const vbW = 760, vbH = 820;
     return (
-      <div key={`c${i}`} style={{ position: "absolute", left: x - (vbW / 2) * s + e.x, top: c.py - 760 * s + e.y, width: vbW * s, height: vbH * s, zIndex: 5, opacity: e.opacity, transform: `scale(${e.sx * o}, ${e.sy * o})`, transformOrigin: "50% 92%" }}>
+      <div key={`c${i}`} style={{ position: "absolute", left: x - (vbW / 2) * s + e.x, top: y - 760 * s + e.y, width: vbW * s, height: vbH * s, zIndex: c.zIndex ?? 5, opacity: e.opacity, transform: `rotate(${route.rotate}deg) scale(${e.sx * o}, ${e.sy * o})`, transformOrigin: "50% 92%" }}>
         <svg data-box={`char:${c.who}`} width={vbW * s} height={vbH * s} viewBox={`${-vbW / 2} -760 ${vbW} ${vbH}`} style={{ overflow: "visible" }}>
-          <Character
+          <Actor
+            {...({kind:cast.kind})}
             look={look}
-            motion={st.motion}
+            motion={motion}
             expression={st.expression ?? (talking ? "happy" : "neutral")}
-            pose={walkIn && walkP < 1 ? "walk" : st.pose ?? (speaker === c.who ? "talk" : "idle")}
+            pose={pose}
             fromPose={st.prevPose}
             poseT={st.poseT}
             mouth={talking ? mouthNow : 0}
             talking={talking}
-            facing={st.facing ?? c.facing}
+            facing={facing}
             t={t}
             frame={gf}
             fps={fps}
             seed={7 + i * 31 + index}
-            lookAt={st.lookAt ?? { x: (st.facing ?? c.facing) === "left" ? -0.35 : 0.35, y: 0 }}
+            lookAt={st.lookAt ?? { x: facing === "left" ? -0.35 : 0.35, y: 0 }}
             emote={st.emote}
             emoteT={t - st.emoteAt}
-            holding={c.holding}
-            walking={walkIn && walkP < 1}
+            holding={st.holding}
+            walking={isMoving}
           />
         </svg>
       </div>
@@ -167,8 +203,11 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
   const propEl = (p: Placed<PropRef>, i: number) => {
     const m = motionOf(p, t, i * 1.7);
     const isSpeaker = p.talking || speaker === p.name;
+    const route = travel({ x: p.px, y: p.py }, p.move, t, W, H);
+    // drawings stand on the bottom of a 200-unit art box inside a 240-unit canvas
+    const floorGap = p.anchor === "bottom" ? p.ps * 0.1 : 0;
     return (
-      <Pop key={`p${i}`} x={p.px + m.dx} y={p.py + m.dy} t={t} at={p.at ?? 0} out={p.out} enter={p.enter ?? "pop"} rotate={(p.rotate ?? 0) + m.r} z={4}>
+      <Pop key={`p${i}`} x={route.x + m.dx} y={route.y + m.dy + floorGap} t={t} at={p.at ?? 0} out={p.out} enter={p.enter ?? "pop"} rotate={(p.rotate ?? 0) + m.r + route.rotate} z={p.zIndex ?? 4} anchor={p.anchor}>
         <svg data-box={`prop:${p.name}`} width={p.ps * 1.2} height={p.ps * 1.2} viewBox="-120 -120 240 240" style={{ overflow: "visible", display: "block", transform: `scale(${(p.flip ? -1 : 1) * m.s}, ${m.s})` }}>
           <PropArt name={p.name} size={200} face={p.face} mouth={isSpeaker ? mouthNow : 0} t={t} color={p.color} color2={p.color2} blink={isBlinking(gf, fps, 3 + i)} />
         </svg>
@@ -297,7 +336,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
   const extra: React.ReactNode[] = [];
   if (L.title && scene.title) {
     extra.push(
-      <div key="title" style={{ position: "absolute", left: L.title.x, top: L.title.y, transform: "translate(-50%,-50%)", zIndex: 8 }}>
+      <div key="title" style={{ position: "absolute", left: L.title.x, top: L.title.y, width: L.layout === "story" ? L.title.maxW : undefined, transform: "translate(-50%,-50%)", zIndex: 8 }}>
         <div data-box="title"><TitleText text={scene.title} t={t} at={0.1} size={L.title.size} dir={dir} maxWidth={L.title.maxW} /></div>
         {L.layout === "title" && scene.subtitle && (
           <div style={{ textAlign: "center", marginTop: F.gap.m, opacity: prog(t, 0.6, 0.4) }}>

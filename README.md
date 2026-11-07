@@ -1,4 +1,11 @@
-# My Custom Setup — story video maker
+# AnimationDirector — cartoon stories and explainers
+
+Make illustrated stories with recurring characters, animal actors, scene-specific costumes,
+indoor/outdoor settings, and supplied voices. Or keep using the original single-narrator explainer workflow.
+
+- [Story mode and multi-voice setup](STORY_MODE.md)
+- [Storyboard field reference](STORYBOARD_GUIDE.md)
+- [Guide for local agents](LOCAL_MODEL_GUIDE.md)
 
 Give it **your narration (.wav)**, **the story text with time segments**, and it makes a cartoon
 explainer video in the style of the reference videos (round-headed characters with lip-sync,
@@ -12,13 +19,29 @@ objects with faces, flat colourful grounds, pop-in animation, music and sound ef
 * **Chrome or Edge** (for the music render). Remotion downloads its own headless browser during setup.
 * Installed by **setup.bat** for you: [pnpm](https://pnpm.io/) (JS packages),
   [uv](https://docs.astral.sh/uv/) (Python + pretty_midi, pedalboard, numpy), Remotion's browser, and `.env`.
-* Optional: **[FFmpeg](https://ffmpeg.org/)** (`winget install Gyan.FFmpeg`), needed for HyperFrames
-  renders and the full final-pass checks.
+* **[FFmpeg](https://ffmpeg.org/)** (`winget install Gyan.FFmpeg`), required for multi-voice clip assembly, HyperFrames
+  renders and the full final-pass checks; optional for the basic single-narrator path.
 * Recommended: **[whisper.cpp](https://github.com/ggml-org/whisper.cpp)** plus a model, for exact word
   timing (captions, objects that appear on a word). It lives outside this repo; point `.env` at it
   (see [whisper.cpp settings](#whispercpp-settings-env)).
 
-## Quick start (Windows)
+## Quick start: story with multiple voices
+
+1. Run `pnpm video new my-story --story`.
+2. Add recordings to `projects/my-story/voices/` and a `dialogue.json` manifest with each
+   clip's `who`, `file`, exact `text`, and optional `gap` or `start`.
+3. Run `pnpm video plan my-story`. It assembles clips and measures their durations, then runs
+   the existing voice analysis. Read `build/brief.md` and `build/dialogue-timeline.json`.
+4. Direct `storyboard.json` with matching cast IDs and `layout: "story"`, timed with `clip:N` so new takes need no retiming.
+5. Run `pnpm video validate my-story`, `pnpm video check my-story`, inspect the frames, then
+   `pnpm video make my-story` (60 FPS Shorts by default).
+
+No TTS model is bundled or needed: supply the recordings for now. FFmpeg is required for
+clip assembly and is already available on this installation. See [STORY_MODE.md](STORY_MODE.md)
+for the complete manifest, limitations, wardrobe options and silent Studio demo.
+The original `voice.wav` + `script.txt` path below continues to work.
+
+## Quick start: single narration (Windows)
 
 1. Once: double-click **setup.bat** (installs the JS + Python packages and a headless browser, and
    creates your `.env` settings file — see [whisper.cpp settings](#whispercpp-settings-env) below).
@@ -203,3 +226,10 @@ the storyboard like any library prop: `{ "prop": "game-engine" }`. Draw them in 
 `pnpm studio` (Remotion Studio, includes the Library catalogue) · `pnpm hf:preview` ·
 `uv run audio/make_jingle.py`. Remotion is free for individuals and small teams; larger companies
 need a [company license](https://www.remotion.dev/license).
+
+
+## Story mode: characters, animals and dialogue
+
+See [STORY_MODE.md](STORY_MODE.md) for multi-voice supplied recordings, animal actors,
+custom wardrobe, illustrated locations and eased character movement. Studio includes
+`StoryModeDemo`; the example script and recording manifest are in `examples/story-mode/`.

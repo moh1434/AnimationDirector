@@ -7,7 +7,18 @@ import type { BgSpec } from "./Backgrounds";
 /** `at` = seconds from the scene start (the planner turns word references into numbers). */
 export type At = number;
 
-export type CastMember = { preset?: string; look?: Look; name?: string };
+/** Travel during a scene. x, y are frame fractions; at and duration are seconds. */
+export type Move = {
+  at: At; duration: number; x: number; y?: number;
+  until?: At; // instead of duration: arrive on this word or clip
+  pose?: "walk" | "run";
+  ease?: string;
+  rotate?: number; // degrees to end at (a fall, a tumble)
+  arc?: number; // height of a jump, as a fraction of the frame height
+  facing?: "left" | "right" | "keep"; // default: turn to the direction of travel
+};
+
+export type CastMember = { preset?: string; look?: Look; name?: string; kind?: "human" | "dog" | "cat" | "bird" };
 
 export type CharRef = {
   who: string; // cast id
@@ -23,9 +34,15 @@ export type CharRef = {
   holding?: string;
   walkFrom?: number; // x (0..1) to walk in from
   lookAt?: { x: number; y: number };
+  look?: Look;
+  zIndex?: number;
+  move?: Move[];
 };
 
 export type PropRef = {
+  zIndex?: number;
+  move?: Move[];
+  anchor?: "center" | "bottom"; // bottom: y is the floor it stands on
   name: string;
   x?: number; y?: number; size?: number; // size = width in units of min(W,H)
   face?: Expression | boolean;
@@ -60,6 +77,8 @@ export type Action = {
   facing?: "left" | "right";
   lookAt?: { x: number; y: number };
   speaker?: boolean;
+  look?: Look; // a costume change from this moment on
+  holding?: string; // pick something up; "" puts it down
 };
 
 export type Scene = {
@@ -98,6 +117,7 @@ export type Storyboard = {
   duration: number;
   /** The project's own drawings (props/*.svg), filled in by the pipeline: name → SVG text. */
   customProps?: Record<string, string>;
+  dialogue?: { who: string; start: number; end: number; clip?: number; text?: string }[];
   cast: Record<string, CastMember>;
   scenes: Scene[];
   captions?: { enabled?: boolean; style?: "pop" | "box" | "plain"; position?: number; maxChars?: number };

@@ -17,7 +17,9 @@ user's narration. The pipeline does everything else: drawing, animation, music, 
 ## Never do these
 
 1. Never change the user's words, `script.txt`, or `voice.wav`.
-2. Never edit code files (`pipeline/`, `remotion/`, `audio/`). Only edit `storyboard.json`.
+2. Never edit code files (`pipeline/`, `remotion/`, `audio/`). Direct `storyboard.json`; when asked
+   to prepare supplied voices, also create/edit the project's `dialogue.json` using STORY_MODE.md.
+   Do not change recordings or their transcripts.
 3. Never invent names. Every layout, prop, background, pose, expression and character must come from
    the list in `build/brief.md` (or `pnpm video catalog`). Unknown names stop the render.
 4. Never run `--replan` on a project someone already directed. It erases their storyboard.
@@ -39,10 +41,13 @@ This analyses the voice and writes two files:
   word, good scene start times, the cast, and every valid name.
 
 Read `build/brief.md` completely. You do not need to read any code.
+For a story with several speakers, first read [STORY_MODE.md](STORY_MODE.md). Supply dialogue.json
+and the listed voice files before plan. Also read build/dialogue-timeline.json: these measured
+intervals determine who speaks, even when scene.speaker names someone else.
 
 ### Step 2 — plan the scenes (write the plan down first)
-- **One scene per sentence.** Split a long sentence (over ~7 s) at a comma; join two very short
-  sentences only if they are one idea.
+- **One story beat per scene.** Use a sentence as a starting point; keep related dialogue and
+  reactions together when they share a location and action. Split at natural pauses.
 - Take each scene's `start` from "Good scene start times" in the brief. The first scene starts at `0`.
 - `end` = the next scene's `start` (the last scene ends at the voice length).
 - For each scene, decide: the **layout** (table below), the **1–3 objects** that show what is being
@@ -51,6 +56,7 @@ Read `build/brief.md` completely. You do not need to read any code.
 ### Step 3 — choose a layout
 | The sentence… | layout | needs |
 |---|---|---|
+| shows characters acting together in a setting | `story` | cast members, illustrated `bg`, optional movement |
 | explains something, 1–3 things | `host_talk` | `props` (1–3) |
 | is about ONE important thing | `hero` | `props` (1, with a `face`) |
 | asks someone something / a dialogue | `duo` | 2 `characters` + `bubble` |
@@ -62,7 +68,8 @@ Read `build/brief.md` completely. You do not need to read any code.
 | gives a number | `number` | `number: {"value": 42}` |
 | talks about many people | `crowd` | 3–4 `characters` |
 
-Do not use the same layout three times in a row. Change `bg` (background colour) every scene.
+Keep the same layout and illustrated setting while the story stays in the same place. Change
+shots when the action needs it. Do not change background colours or mirror actors arbitrarily.
 
 ### Step 4 — write each scene from a template
 Copy the template, then replace the CAPITAL words. Keep all quotes, commas and brackets.

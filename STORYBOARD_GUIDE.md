@@ -98,6 +98,36 @@ Word references keep things in sync with the voice, so prefer them.
 
 `"mirror": true` flips the layout (narrator on the right) — use it now and then for variety.
 
+## Story actors and dialogue
+
+See [STORY_MODE.md](STORY_MODE.md) for the complete supplied-voice workflow.
+`layout: "story"` stages actors on a shared floor. New locations: `living_room`, `house_exterior`,
+`park`, `schoolyard`, `street`, each with `"time": "day" | "dusk" | "night"`; existing `office`, `farm`, `classroom`, etc. remain available.
+
+```json
+"cast": {
+  "bob": {"preset":"thief"},
+  "officer": {"preset":"policeman"},
+  "dog": {"kind":"dog","look":{"skin":"#c58c58","accent":"#e53950"}}
+}
+```
+
+This is a cast fragment, not a complete storyboard. Supported animal kinds are dog, cat and bird;
+use human presets for people. Actors appear through `characters`, including the animals.
+Human additions: thief/farmer/schoolgirl presets; beanie/straw hats; striped/overalls outfits;
+mask accessory; star/heart shirtSymbol. Override `characters[].look` for one scene.
+
+`characters[].move` and `props[].move` are ordered lists of `{at, duration | until, x, y?, pose?, arc?, rotate?, ease?, facing?}`.
+`at` and `until` take seconds, `"@word"` or `"clip:12"`. Destinations are frame fractions and may be off screen.
+Actors turn to their direction of travel. Moves must not overlap. See the table in STORY_MODE.md.
+`characters[].zIndex` defaults to 5; `props[].zIndex` defaults to 4. A prop at 6 can occlude an actor.
+Actions control pose, expression and gaze, and also `look` (a costume change) and `holding` (`""` puts it down).
+Any time can be `"clip:12"`, `"clip:12:end"` or `"clip:12+0.4"`, and a scene can use `"start": "clip:12"`.
+
+For multi-voice projects, `dialogue.json` is the source; the pipeline supplies `storyboard.dialogue`
+intervals `{who,start,end}` in absolute seconds. Those intervals override scene/action speaker
+selection. Gaps, narrator and none are silent visually. Do not fabricate the generated intervals.
+
 ## Characters
 
 `characters: [{ who, pose, expression, facing, emote, emoteAt, holding, enter, at, out, walkFrom, x, y, size }]`
@@ -272,3 +302,10 @@ ending lands after the last word (see `build/spotting.json`). Set `"music"` in v
    look at `out/check/` stills.
    See `.claude/skills/layout-composition/SKILL.md` for spacing, sizes and safe areas.
 10. `make-video.bat` in the project folder, then read `out/final-pass.md` and the frame sheets.
+
+
+## Story mode: characters, animals and dialogue
+
+See [STORY_MODE.md](STORY_MODE.md) for multi-voice supplied recordings, animal actors,
+custom wardrobe, illustrated locations and eased character movement. Studio includes
+`StoryModeDemo`; the example script and recording manifest are in `examples/story-mode/`.

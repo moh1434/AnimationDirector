@@ -3,6 +3,18 @@
 // normalisation + light stemming (see norm()), English words by stem/prefix.
 
 export const PROP_WORDS = {
+  police_car: ["police car", "patrol car", "سيارة شرطة"],
+  cupboard: ["cupboard", "wardrobe", "closet", "خزانة"],
+  table: ["table", "طاولة"],
+  flower_pot: ["flower pot", "plant pot", "اصيص", "أصيص"],
+  open_window: ["window", "نافذة", "شباك"],
+  door: ["door", "باب"],
+  nail: ["nail", "مسمار"],
+  loot_bag: ["stolen bag", "sack", "كيس"],
+  tool_bag: ["tools", "toolbox", "tool bag", "ادوات", "أدوات"],
+  alarm_light: ["alarm", "siren", "انذار", "إنذار"],
+  school_bus: ["school bus", "bus", "حافلة"],
+  hay_bale: ["hay", "قش"],
   monster: ["monster", "creature", "وحش"],
   gun: ["gun", "pistol", "handgun", "مسدس"],
   visa_card: ["visa card", "visa", "بطاقة فيزا", "فيزا"],
