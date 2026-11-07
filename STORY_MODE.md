@@ -148,7 +148,7 @@ Story settings: `living_room`, `house_exterior`, `park`, `schoolyard`, `street`.
 `forest`, `lab`, `city` and the others also work, in their one daytime look. Keep the same place across
 connected beats.
 
-Furniture and story objects: `cupboard`, `cupboard_open`, `table`, `door`, `open_window`, `flower_pot`,
+Furniture and story objects: `cupboard`, `cupboard_open`, `table`, `door`, `stairs`, `open_window`, `flower_pot`,
 `broken_pot`, `nail`, `police_car`, `school_bus`, `loot_bag`, `tool_bag`, `alarm_light`, `hay_bale`, `slobber`.
 Add `"anchor": "bottom"` and they stand on `y`. In a story shot, a prop with both `x` and `y` stays exactly
 where you put it, even off screen. Swap two props on a word with `out` and `at` (see `the-fall` in the example).
@@ -170,6 +170,7 @@ Characters and props take the same `move` list:
 | `x`, `y` | destination, as fractions of the frame; beyond 0–1 is off screen |
 | `pose` | `walk` (default) or `run` |
 | `arc` | height of a jump, as a fraction of the frame height |
+| `steps` | climb in this many equal steps, with `arc` as the height of each hop; add `"pose": "walk"` |
 | `rotate` | degrees to end at, for falls and tumbles |
 | `ease` | `sine.inOut` (default), `linear`, `power2.in`, `power2.out`, `power3.in`, `back.out` |
 | `facing` | actors turn to their direction of travel; set `left`, `right`, or `keep` to walk backwards |

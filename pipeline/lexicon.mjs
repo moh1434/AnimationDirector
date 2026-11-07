@@ -9,6 +9,7 @@ export const PROP_WORDS = {
   flower_pot: ["flower pot", "plant pot", "اصيص", "أصيص"],
   open_window: ["window", "نافذة", "شباك"],
   door: ["door", "باب"],
+  stairs: ["stairs", "steps", "درج", "سلم"],
   nail: ["nail", "مسمار"],
   loot_bag: ["stolen bag", "sack", "كيس"],
   tool_bag: ["tools", "toolbox", "tool bag", "ادوات", "أدوات"],

@@ -9,7 +9,7 @@ import { compile, sfxCues } from "./compile.mjs";
 import { dialogueStale, isSoundLabel, missingClips, pcmWav, prepareDialogue } from "./dialogue.mjs";
 import { localizeStoryboard } from "./localize.mjs";
 import { validateStoryboard } from "./storyboard-tools.mjs";
-import { clipSceneWords, clipTime } from "../remotion/story/story-mode.mjs";
+import { clipSceneWords, clipTime, stairStep } from "../remotion/story/story-mode.mjs";
 
 const dialogue = [
   { clip: 1, who: "narrator", start: 0, end: 2, text: "Meet Bob." },
@@ -143,6 +143,28 @@ test("every listed sound effect has a synth, and every setting and prop exists",
   for (const type of ["living_room", "house_exterior", "park", "schoolyard", "street"]) assert.ok(c.bgTypes.includes(type), type);
   for (const prop of ["police_car", "cupboard", "cupboard_open", "table", "flower_pot", "broken_pot", "open_window", "loot_bag", "tool_bag", "alarm_light"]) assert.ok(c.props.includes(prop), prop);
   assert.equal(c.resolveProp("wardrobe"), "cupboard");
+});
+
+test("a stepped move rests on every tread and arrives at the top", () => {
+  assert.equal(stairStep(0, 4).progress, 0);
+  assert.equal(stairStep(0.25, 4).progress, 0.25);
+  assert.equal(stairStep(0.25, 4).hop, 0);
+  assert.equal(stairStep(0.75, 4).progress, 0.75);
+  assert.equal(stairStep(1, 4).progress, 1);
+  assert.equal(stairStep(0.125, 4).hop, 1);
+  assert.equal(catalog().resolveProp("steps"), "stairs");
+  assert.match(validateStoryboard(story([{ start: 0, layout: "story", characters: [{ who: "bob", move: [{ at: 0, duration: 1, x: 0.5, steps: 1.5 }] }] }]), { words, duration: 8 }).errors.join(), /whole number/);
+});
+
+test("street houses never overlap, so lit windows stay on their own walls", () => {
+  catalog(); // registers the TypeScript loader
+  const { streetHouses } = createRequire(import.meta.url)("../remotion/story/StorySettings.tsx");
+  for (const [W, H] of [[1160, 2000], [2000, 1160]]) {
+    const u = Math.min(W, H) / 1080, wall = 700 * 0.85 * u;
+    const xs = streetHouses(W, u).map((h) => h.x * W).sort((a, b) => a - b);
+    xs.slice(1).forEach((x, i) => assert.ok(x - xs[i] >= wall, `houses ${i} and ${i + 1} overlap at width ${W}`));
+    assert.ok(xs[0] - wall / 2 <= 0 && xs.at(-1) + wall / 2 >= W, "the row reaches both edges");
+  }
 });
 
 test("story staging keeps titles out of the captions and leaves placed scenery alone", () => {

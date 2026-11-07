@@ -15,6 +15,7 @@ export type Move = {
   ease?: string;
   rotate?: number; // degrees to end at (a fall, a tumble)
   arc?: number; // height of a jump, as a fraction of the frame height
+  steps?: number; // climb in this many equal steps; arc is then the height of each hop
   facing?: "left" | "right" | "keep"; // default: turn to the direction of travel
 };
 

@@ -68,6 +68,12 @@ export const STAGING_PROPS: Record<string, Art> = {
     <rect x={-84} y={-100} width={168} height={12} fill={o.color2 ?? "#fff9df"} />
     <rect x={-92} y={78} width={184} height={22} rx={5} fill={o.color2 ?? "#fff9df"} />
   </g> },
+  // rises to the right, four treads; at size 0.256 the top reaches a window sill. Use "flip" to rise to the left
+  stairs: { aliases: ["steps", "wooden_steps"], draw: (_, o) => <g {...line}>
+    <path d="M-75 100 V50 H-37.5 V0 H0 V-50 H37.5 V-100 H75 V100Z" fill={o.color ?? wood} />
+    {[[-75, 50], [-37.5, 0], [0, -50], [37.5, -100]].map(([x, y]) => <rect key={x} x={x - 3} y={y} width={43.5} height={10} rx={3} fill={o.color2 ?? "#e8c27a"} />)}
+    <path d="M-37.5 50 V100 M0 0 V100 M37.5 -50 V100" fill="none" strokeWidth={3} />
+  </g> },
   door: { aliases: ["front_door"], draw: (_, o) => <g {...line}>
     <rect x={-66} y={-100} width={132} height={200} rx={6} fill={o.color ?? darkWood} />
     <rect x={-46} y={-78} width={92} height={62} rx={4} fill="none" strokeWidth={4} /><rect x={-46} y={0} width={92} height={78} rx={4} fill="none" strokeWidth={4} />

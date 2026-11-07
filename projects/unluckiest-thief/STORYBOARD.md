@@ -8,10 +8,10 @@ Directed by claude · 31 scenes · 60 fps. Generated from `storyboard.json` (edi
 | 2 | 7.22–11.42 |  | story · bob:think/thinking · moneybag | house_exterior |
 | 3 | 11.42–17.95 |  | story · bob:think/thinking | house_exterior |
 | 4 | 17.95–19.43 |  | story · bob:hold/smug | house_exterior |
-| 5 | 19.43–22.35 |  | story · bob:hold/smug · open_window | house_exterior |
-| 6 | 22.35–25.13 |  | story · bob:hold/smug · open_window | house_exterior |
-| 7 | 25.13–28.21 |  | story · bob:scared/smug · open_window nail | house_exterior |
-| 8 | 28.21–33.15 |  | story · bob:scared/worried · open_window flower_pot broken_pot | house_exterior |
+| 5 | 19.43–22.35 |  | story · bob:hold/smug · open_window stairs | house_exterior |
+| 6 | 22.35–25.13 |  | story · bob:hold/smug · open_window stairs | house_exterior |
+| 7 | 25.13–28.21 |  | story · bob:scared/smug · open_window stairs nail | house_exterior |
+| 8 | 28.21–33.15 |  | story · bob:scared/worried · open_window stairs flower_pot broken_pot | house_exterior |
 | 9 | 33.15–36.90 |  | story · bob/dizzy · cupboard table gem | living_room |
 | 10 | 36.90–40.55 |  | story · bob:point/surprised · cupboard table gem | living_room |
 | 11 | 40.55–42.35 |  | story · bob:cheer/excited · cupboard table gem | living_room |

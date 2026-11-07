@@ -44,11 +44,19 @@ export function clipSceneWords(words, scene, next, index, dialogue) {
   return words.filter((w) => w.seg + 1 >= first && w.seg + 1 <= last);
 }
 
+/** Progress of a move made of equal steps: it pauses on each tread, with a hop (0..1) between them. */
+export function stairStep(progress, steps) {
+  const k = Math.min(steps - 1, Math.floor(progress * steps));
+  const f = progress * steps - k;
+  return { progress: (k + f * f * (3 - 2 * f)) / steps, hop: 4 * f * (1 - f) };
+}
+
 const moveProblem = (m, until) => {
   if (m.until === undefined && (!Number.isFinite(m.duration) || m.duration <= 0)) return `needs "duration" in seconds, or "until" (a time such as "@word" or "clip:12")`;
   if (typeof m.x !== "number" || m.x < -0.5 || m.x > 1.5) return `"x" must be a fraction of the frame width (below 0 or above 1 is off screen)`;
   if (m.y !== undefined && (typeof m.y !== "number" || m.y < -0.5 || m.y > 1.5)) return `"y" must be a fraction of the frame height`;
   if (typeof m.at === "number" && m.at < until - 1e-6) return `starts at ${m.at} s, before the previous move ends (${until} s)`;
+  if (m.steps !== undefined && (!Number.isInteger(m.steps) || m.steps < 1)) return `"steps" must be a whole number of steps`;
   if (m.pose !== undefined && !MOVE_POSES.includes(m.pose)) return `"pose" must be ${MOVE_POSES.join(" or ")}`;
   if (m.ease !== undefined && !MOVE_EASES.includes(m.ease)) return `"ease" must be one of ${MOVE_EASES.join(", ")}`;
   return null;

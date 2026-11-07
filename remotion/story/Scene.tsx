@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "./engine";
 import type { Scene, Storyboard, CharRef, PropRef, TextRef, Item, Action, Move } from "./types";
 import { Background, BgSpec } from "./Backgrounds";
-import { dialogueSpeaker, isAnimal } from "./story-mode.mjs";
+import { dialogueSpeaker, isAnimal, stairStep } from "./story-mode.mjs";
 import { Animal } from "./Animal";
 import { Character, Pose, POSES } from "./Character";
 import { PropArt } from "./Props";
@@ -25,12 +25,13 @@ function travel(from: { x: number; y: number }, moves: Move[] | undefined, t: nu
   let rotate = 0, lift = 0, facing: "left" | "right" | undefined, moving = false, airborne = false, pose: Move["pose"];
   for (const m of [...(moves ?? [])].sort((a, b) => a.at - b.at)) {
     if (t < m.at) break;
-    const p = prog(t, m.at, Math.max(0.01, m.duration), m.ease ?? "sine.inOut");
+    const raw = prog(t, m.at, Math.max(0.01, m.duration), m.steps ? "linear" : m.ease ?? "sine.inOut");
+    const { progress: p, hop } = m.steps ? stairStep(raw, m.steps) : { progress: raw, hop: 4 * raw * (1 - raw) };
     const toX = m.x * W, toY = (m.y ?? y / H) * H;
     if (m.facing !== "keep") facing = m.facing ?? (Math.abs(toX - x) < 1 ? facing : toX > x ? "right" : "left");
     const running = t < m.at + m.duration;
     if (running) { moving = true; pose = m.pose; airborne = !m.pose && (!!m.arc || m.rotate !== undefined); } // a jump or a fall is not a walk
-    lift = running ? -(m.arc ?? 0) * H * 4 * p * (1 - p) : 0;
+    lift = running ? -(m.arc ?? 0) * H * hop : 0;
     x += (toX - x) * p; y += (toY - y) * p;
     rotate += ((m.rotate ?? rotate) - rotate) * p;
   }

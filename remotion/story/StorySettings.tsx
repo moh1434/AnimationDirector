@@ -50,6 +50,19 @@ const Sky: React.FC<{ W: number; H: number; u: number; time: TimeOfDay; color?: 
 </>;
 
 const STREET_HOUSE = 0.85; // keeps houses taller than the people walking past
+const HOUSE_WALL = 700;
+const STREET_COLOURS = [["#bfe0d0", "#3d6fb0"], ["#ffd9a8", "#e8836b"], ["#f4c3d0", "#7c5ce0"]];
+/**
+ * A row of houses from the centre outwards, walls side by side. They must not overlap: lit windows
+ * are drawn again above the darkening layer, so a window hidden behind a neighbour would show on its wall.
+ */
+export const streetHouses = (W: number, u: number) => {
+  const step = (HOUSE_WALL + 24) * STREET_HOUSE * u;
+  const reach = Math.ceil(W / 2 / step);
+  return Array.from({ length: reach * 2 + 1 }, (_, i) => i - reach)
+    .sort((a, b) => Math.abs(b) - Math.abs(a)) // the centre house last, so its roof is on top
+    .map((k) => { const [wall, roof] = STREET_COLOURS[((k % 3) + 3) % 3]; return { x: 0.5 + (k * step) / W, wall, roof }; });
+};
 const HOUSE_WINDOWS = [-225, 225];
 const House: React.FC<{ lit?: boolean; wall?: string; roof?: string }> = ({ lit, wall = "#ffe4ad", roof = "#7c5ce0" }) => {
   const pane = lit ? GLOW : "#a8dcff";
@@ -172,7 +185,7 @@ const Scene: React.FC<{ type: string; W: number; H: number; u: number; time: Tim
       </>;
     case "street":
       return <>
-        {[[0.02, "#ffd9a8", "#e8836b"], [0.98, "#f4c3d0", "#7c5ce0"], [0.5, "#bfe0d0", "#3d6fb0"]].map(([x, wall, roof]) => <g key={String(x)} transform={at(x as number, STREET_HOUSE, G - 12 * u)}><House wall={wall as string} roof={roof as string} /></g>)}
+        {streetHouses(W, u).map(({ x, wall, roof }) => <g key={x} transform={at(x, STREET_HOUSE, G - 12 * u)}><House wall={wall} roof={roof} /></g>)}
         <rect y={G - 12 * u} width={W} height={H * 0.075} fill="#cfd3da" stroke={INK} strokeWidth={5 * u} />
         <rect y={G - 12 * u + H * 0.075} width={W} height={H} fill="#5d6680" stroke={INK} strokeWidth={5 * u} />
         {[0.1, 0.36, 0.62, 0.88].map((x) => <rect key={x} x={W * x - 70 * u} y={H * 0.945} width={140 * u} height={16 * u} rx={5 * u} fill="#ffc83d" />)}
@@ -190,7 +203,7 @@ const Lights: React.FC<{ type: string; W: number; H: number; u: number }> = ({ t
   const at = (x: number, s = 1, y = G) => `translate(${W * x} ${y}) scale(${u * s})`;
   if (type === "house_exterior") return <g transform={at(0.5, Math.min(1.25, W / (u * 900)))}><House lit /></g>;
   if (type === "street") return <>
-    {[0.02, 0.98, 0.5].map((x) => <g key={x} transform={at(x, STREET_HOUSE, G - 12 * u)}><House lit /></g>)}
+    {streetHouses(W, u).map(({ x }) => <g key={x} transform={at(x, STREET_HOUSE, G - 12 * u)}><House lit /></g>)}
     <g transform={at(0.04)}><Lamp lit /></g><g transform={at(0.96)}><Lamp lit /></g>
   </>;
   if (type === "park") return <g transform={at(0.42, 0.85)}><Lamp lit /></g>;

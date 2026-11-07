@@ -256,7 +256,7 @@
             {
               "at": 0.1,
               "until": "clip:6:end",
-              "x": 0.68
+              "x": 0.564
             }
           ]
         }
@@ -267,6 +267,17 @@
           "x": 0.78,
           "y": 0.64,
           "size": 0.2,
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "stairs",
+          "x": 0.684,
+          "y": 0.84,
+          "size": 0.256,
+          "anchor": "bottom",
           "motion": "none",
           "enter": "none",
           "at": 0,
@@ -296,7 +307,7 @@
       "characters": [
         {
           "who": "bob",
-          "x": 0.68,
+          "x": 0.564,
           "y": 0.84,
           "size": 0.4,
           "expression": "smug",
@@ -306,8 +317,11 @@
             {
               "at": 0.1,
               "until": "clip:7:end",
-              "x": 0.78,
-              "y": 0.7
+              "x": 0.756,
+              "y": 0.696,
+              "steps": 4,
+              "arc": 0.014,
+              "pose": "walk"
             }
           ]
         }
@@ -318,6 +332,17 @@
           "x": 0.78,
           "y": 0.64,
           "size": 0.2,
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "stairs",
+          "x": 0.684,
+          "y": 0.84,
+          "size": 0.256,
+          "anchor": "bottom",
           "motion": "none",
           "enter": "none",
           "at": 0,
@@ -350,8 +375,8 @@
       "characters": [
         {
           "who": "bob",
-          "x": 0.78,
-          "y": 0.7,
+          "x": 0.756,
+          "y": 0.696,
           "size": 0.4,
           "expression": "smug",
           "pose": "scared"
@@ -369,8 +394,19 @@
           "zIndex": 3
         },
         {
+          "name": "stairs",
+          "x": 0.684,
+          "y": 0.84,
+          "size": 0.256,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
           "name": "nail",
-          "x": 0.72,
+          "x": 0.7,
           "y": 0.665,
           "size": 0.07,
           "at": 0.2,
@@ -414,8 +450,8 @@
       "characters": [
         {
           "who": "bob",
-          "x": 0.78,
-          "y": 0.7,
+          "x": 0.756,
+          "y": 0.696,
           "size": 0.4,
           "zIndex": 5,
           "expression": "worried",
@@ -424,21 +460,21 @@
             {
               "at": "@kicks",
               "duration": 0.2,
-              "x": 0.76,
+              "x": 0.74,
               "facing": "keep",
               "rotate": -8
             },
             {
               "at": "@finally",
               "duration": 0.2,
-              "x": 0.8,
+              "x": 0.78,
               "facing": "keep",
               "rotate": 8
             },
             {
               "at": "@falls",
               "until": "@pot",
-              "x": 0.4,
+              "x": 0.28,
               "y": 0.645,
               "rotate": 172,
               "arc": 0.03,
@@ -460,8 +496,19 @@
           "zIndex": 3
         },
         {
+          "name": "stairs",
+          "x": 0.684,
+          "y": 0.84,
+          "size": 0.256,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
           "name": "flower_pot",
-          "x": 0.42,
+          "x": 0.3,
           "y": 0.87,
           "size": 0.2,
           "anchor": "bottom",
@@ -473,7 +520,7 @@
         },
         {
           "name": "broken_pot",
-          "x": 0.42,
+          "x": 0.3,
           "y": 0.87,
           "size": 0.3,
           "anchor": "bottom",

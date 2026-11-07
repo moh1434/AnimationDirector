@@ -9,6 +9,9 @@ First look in the library (Remotion Studio → `Library`, or `PROPS` in `remotio
 names and aliases are also matched from the narration by `pipeline/lexicon.mjs`). If nothing fits,
 draw one. Drawing beats searching: everything in the video then shares one look.
 
+**Night settings:** lit windows and lamps are drawn again above the darkening layer, so anything that hides them
+in the daytime picture will not hide them at night. Never let buildings overlap; render a night still to check.
+
 ## 1. Look before you draw — never trace
 
 When the object is unfamiliar, search the web for how flat icons and 2D cartoon illustrations show
