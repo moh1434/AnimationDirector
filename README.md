@@ -127,6 +127,8 @@ build the video code before rendering and for Studio. Rspack builds the same vid
 (cold 21 s → 4.3 s, cached 2.7 s → 0.7 s in a test); switch to webpack if anything ever looks different.
 
 A model name means the file `<WHISPER_PATH>/models/ggml-<name>.bin`; you can also give a path to a `.bin` file.
+Both settings may name the same multilingual model (for example `large-v3-turbo` in each) if you want one download
+for English and Arabic; a `.en` model only works for English.
 
 | Model | Size | Use |
 |---|---|---|
