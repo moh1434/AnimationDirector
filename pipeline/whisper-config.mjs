@@ -8,8 +8,8 @@ import { isAbsolute, join, resolve } from "node:path";
 import { ROOT, IS_WIN } from "./env.mjs";
 
 const WHISPER_KEYS = ["WHISPER_PATH", "WHISPER_EN_MODEL", "WHISPER_AR_MODEL"];
-/** Every setting .env may contain (REMOTION_BUNDLER is optional: rspack by default). */
-export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER"];
+/** Every setting .env may contain (the REMOTION_ ones are optional). */
+export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER", "REMOTION_RENDERER"];
 const lev = (a, b) => {
   const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
   for (let j = 1; j <= b.length; j++) d[0][j] = j;
@@ -58,6 +58,8 @@ export function whisperConfig({ root = ROOT, env = process.env } = {}) {
     warnings.push(`.env: unknown setting ${k}${near ? ` (did you mean ${near}?)` : ""} — it is ignored.`);
   }
   const get = (k) => (env[k] !== undefined && env[k] !== "" ? env[k] : vars[k]) ?? undefined;
+  const renderer = get("REMOTION_RENDERER");
+  if (renderer !== undefined && renderer !== "" && !["gpu", "cpu"].includes(String(renderer).trim().toLowerCase())) errors.push(`.env: REMOTION_RENDERER="${renderer}" must be "gpu" or "cpu".`);
   const bundler = get("REMOTION_BUNDLER");
   if (bundler !== undefined && bundler !== "" && !["rspack", "webpack"].includes(String(bundler).trim().toLowerCase())) errors.push(`.env: REMOTION_BUNDLER="${bundler}" must be "rspack" or "webpack".`);
   for (const k of WHISPER_KEYS) if (get(k) === undefined) errors.push(`.env: ${k} is missing. Add it (see .env.example); use ${k}="" to turn it off.`);
@@ -120,6 +122,13 @@ export function requireWhisperConfig(opts) {
 
 /** The model for a narration language: English uses WHISPER_EN_MODEL, every other language WHISPER_AR_MODEL. */
 export const modelFor = (c, lang) => (lang === "en" ? c.models.en : c.models.ar);
+
+/** What draws and encodes the video: REMOTION_RENDERER in .env, "gpu" unless it says "cpu". */
+export function rendererName({ root = ROOT, env = process.env } = {}) {
+  let v = env.REMOTION_RENDERER;
+  if (!v) { const f = join(root, ".env"); if (existsSync(f)) v = parseEnv(readFileSync(f, "utf8")).vars.REMOTION_RENDERER; }
+  return String(v ?? "").trim().toLowerCase() === "cpu" ? "cpu" : "gpu";
+}
 
 /** Which bundler Remotion uses: REMOTION_BUNDLER in .env ("rspack" by default, "webpack" to go back). */
 export function bundlerName({ root = ROOT, env = process.env } = {}) {

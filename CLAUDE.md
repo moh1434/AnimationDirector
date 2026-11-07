@@ -65,6 +65,7 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 * `.env` (from `.env.example`) holds this computer's whisper.cpp settings: `WHISPER_PATH`,
   `WHISPER_EN_MODEL`, `WHISPER_AR_MODEL`. If `plan` stops with a `.env` error, tell the user exactly what
   to fix; never download a model (0.5–1.6 GB) without asking first.
+* Renders use the GPU by default (`REMOTION_RENDERER` in `.env`; `--gpu`/`--cpu` for one run) and retry on the CPU if it fails.
 * Always tell the user clearly when they need to do something (run a file, approve a step).
 
 ## Story mode and supplied voices

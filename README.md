@@ -61,7 +61,7 @@ The original `voice.wav` + `script.txt` path below continues to work.
    Each project folder also has **stills.bat** (one picture per scene) and **preview-video.bat** (Remotion Studio).
    The root `make-video.bat` still works too: it asks for the project name.
 
-Options (add after the name): `--format youtube|shorts|both` · `--draft` (fast half-size test) ·
+Options (add after the name): `--format youtube|shorts|both` · `--draft` (fast half-size test) · `--gpu` / `--cpu` (override `REMOTION_RENDERER` for one run) ·
 `--replan` (rebuild the storyboard from scratch) · `--mood epic` · `--no-music`.
 
 Other buttons: **stills.bat** (one picture per scene, seconds instead of minutes) ·
@@ -120,7 +120,9 @@ WHISPER_EN_MODEL="small.en"           # model for English narration
 WHISPER_AR_MODEL="large-v3-turbo"     # model for Arabic (and other languages); must be multilingual
 ```
 
-`.env` can also set `REMOTION_BUNDLER="rspack"` (the default) or `"webpack"`: the bundler Remotion uses to
+`.env` can also set `REMOTION_RENDERER="gpu"` (the default: Chrome draws on the graphics card and NVENC encodes at
+6 Mbit/s; a failed GPU render retries on the CPU) or `"cpu"` (software drawing and x264, smaller files), and
+`REMOTION_BUNDLER="rspack"` (the default) or `"webpack"`: the bundler Remotion uses to
 build the video code before rendering and for Studio. Rspack builds the same video about 4–5× faster
 (cold 21 s → 4.3 s, cached 2.7 s → 0.7 s in a test); switch to webpack if anything ever looks different.
 

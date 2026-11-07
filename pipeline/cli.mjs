@@ -26,7 +26,7 @@ import { dialogueStale, isSoundLabel, loadTimeline, missingClips, prepareDialogu
 import { catalog } from "./catalog.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
-import { requireWhisperConfig, whisperConfig, modelFor, bundlerName } from "./whisper-config.mjs";
+import { requireWhisperConfig, whisperConfig, modelFor, bundlerName, rendererName } from "./whisper-config.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -405,13 +405,14 @@ async function render(dir, ctx) {
     const { props, storyboard } = renderProps(dir, fmt);
     copyUserImages(dir, build, storyboard);
     const file = join(out, `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
-    log(`Rendering ${fmt}${draft ? " (draft, half size)" : ""} → ${file}`);
+    const gpu = flags.cpu ? false : flags.gpu ? true : rendererName() === "gpu";
+    log(`Rendering ${fmt}${draft ? " (draft, half size)" : ""} on the ${gpu ? "GPU" : "CPU"} → ${file}`);
     let last = -1;
     const t0 = Date.now();
     // render to a fresh temp name, then swap it in: on Windows the old video cannot be replaced
     // while it is open in a player, and the finished render must not be lost because of that
     const tmp = file.replace(/\.mp4$/, `.rendering-${process.pid}.mp4`);
-    await renderVideo({ publicDir: build, inputProps: props, out: tmp, draft, concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
+    await renderVideo({ publicDir: build, inputProps: props, out: tmp, draft, gpu, onGpuFailed: (e) => warn(`GPU render failed, rendering on the CPU instead (${e.message.split("\n")[0]})`), concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
     process.stdout.write(`\r  done in ${Math.round((Date.now() - t0) / 1000)}s${" ".repeat(30)}\n`);
     const saved = replaceFile(tmp, file);
     if (saved !== file) {
