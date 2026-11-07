@@ -61,7 +61,7 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "bob",
             "x": 0.4,
-            "size": 0.7,
+            "size": 0.42,
             "pose": "hold",
             "expression": "smug",
             "holding": "moneybag"
@@ -86,7 +86,7 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "bob",
             "x": 0.25,
-            "size": 0.65,
+            "size": 0.4,
             "pose": "scared",
             "expression": "shocked",
             "move": [
@@ -126,7 +126,7 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "bob",
             "x": 0.36,
-            "size": 0.65,
+            "size": 0.4,
             "pose": "scared",
             "expression": "shocked",
             "emote": "exclaim"
@@ -168,14 +168,14 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "bob",
             "x": 0.25,
-            "size": 0.53,
+            "size": 0.33,
             "pose": "scared",
             "expression": "scared"
           },
           {
             "who": "dog",
             "x": 0.7,
-            "size": 0.8,
+            "size": 0.5,
             "expression": "sleepy"
           }
         ],
@@ -211,7 +211,7 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "bob",
             "x": 0.3,
-            "size": 0.58,
+            "size": 0.36,
             "expression": "excited",
             "move": [
               {
@@ -224,7 +224,7 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "dog",
             "x": 0.15,
-            "size": 0.42,
+            "size": 0.26,
             "expression": "happy",
             "holding": "moneybag",
             "move": [
@@ -255,20 +255,20 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "bob",
             "x": 0.24,
-            "size": 0.5,
+            "size": 0.31,
             "expression": "confused"
           },
           {
             "who": "officer",
             "x": 0.72,
-            "size": 0.58,
+            "size": 0.36,
             "pose": "point",
             "facing": "left"
           },
           {
             "who": "dog",
             "x": 0.48,
-            "size": 0.38,
+            "size": 0.24,
             "expression": "happy",
             "holding": "moneybag"
           }
@@ -292,14 +292,14 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "girl",
             "x": 0.3,
-            "size": 0.6,
+            "size": 0.37,
             "pose": "wave",
             "expression": "happy"
           },
           {
             "who": "friend",
             "x": 0.7,
-            "size": 0.55,
+            "size": 0.34,
             "pose": "wave",
             "expression": "happy",
             "facing": "left"
@@ -324,20 +324,20 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "farmer",
             "x": 0.32,
-            "size": 0.67,
+            "size": 0.42,
             "pose": "explain"
           },
           {
             "who": "cat",
             "x": 0.73,
-            "size": 0.37,
+            "size": 0.23,
             "expression": "happy"
           },
           {
             "who": "bird",
             "x": 0.58,
             "y": 0.52,
-            "size": 0.23,
+            "size": 0.14,
             "expression": "happy"
           }
         ],
@@ -360,13 +360,13 @@ export const STORY_DEMO: RenderProps = {
           {
             "who": "girl",
             "x": 0.3,
-            "size": 0.6,
+            "size": 0.37,
             "expression": "happy"
           },
           {
             "who": "dog",
             "x": 0.7,
-            "size": 0.5,
+            "size": 0.31,
             "expression": "happy"
           }
         ],

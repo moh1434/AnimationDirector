@@ -120,6 +120,16 @@ test("a sound the storyboard asks for is not replaced by the shake on the same m
   assert.deepEqual(sfxCues(sb).map((c) => c.name), ["crash"]);
 });
 
+test("validation warns about actors out of scale and props covering a face", () => {
+  const warned = (scene) => validateStoryboard(story([{ start: 0, layout: "story", ...scene }]), { words, duration: 8 }).warnings.join("\n");
+  assert.match(warned({ bg: "house_exterior", characters: [{ who: "bob", size: 0.68 }] }), /out of scale.*camera\.zoom/);
+  assert.doesNotMatch(warned({ bg: "house_exterior", characters: [{ who: "bob", size: 0.4 }] }), /out of scale/);
+  assert.doesNotMatch(warned({ bg: "living_room", characters: [{ who: "bob", size: 0.5 }] }), /out of scale/);
+  assert.match(warned({ bg: "solid", characters: [{ who: "dog", size: 1.05 }] }), /will not fit/);
+  assert.match(warned({ bg: "park", characters: [{ who: "bob", x: 0.4, size: 0.4, emote: "dizzy" }], props: [{ name: "broken_pot", x: 0.4, y: 0.87, zIndex: 6 }] }), /cover its emote/);
+  assert.doesNotMatch(warned({ bg: "park", characters: [{ who: "bob", x: 0.4, size: 0.4, emote: "dizzy" }], props: [{ name: "broken_pot", x: 0.4, y: 0.87, zIndex: 4 }] }), /cover its emote/);
+});
+
 test("a sound clip is heard but not captioned", () => {
   assert.ok(isSoundLabel("[bark]"));
   assert.ok(isSoundLabel(" [dog barks] "));
@@ -151,6 +161,7 @@ test("story staging keeps titles out of the captions and leaves placed scenery a
   const mirrored = layoutScene({ ...scene, mirror: true, characters: [{ who: "bob", x: 0.2, facing: "right", move: [{ at: 0, duration: 1, x: 0.7 }] }] }, W, H, sb, true);
   assert.ok(Math.abs(mirrored.chars[0].move[0].x - 0.3) < 1e-9, "a mirrored shot mirrors the destination");
   assert.equal(mirrored.chars[0].facing, "left");
+  assert.ok(L.chars[0].ps / W <= 0.42 + 1e-9, "a default actor is smaller than the buildings");
   const floorLine = -40 + 0.82 * (H + 80);
   assert.ok(Math.abs(L.chars[0].py - floorLine) < 12, "feet sit on the drawn floor");
 });

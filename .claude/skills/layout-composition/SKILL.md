@@ -103,5 +103,8 @@ explainer host slots. See STORY_MODE.md. Respect each illustrated background's f
 Inspect start, midpoint and end of every move; explicit coordinates bypass automatic character
 placement. Check animals, tall hats, held props and deliberate foreground occlusion. Use scene-only
 look overrides for costume changes. Story titles sit below the caption band automatically; captions usually
-carry the words, so most story shots need no title. Props with both x and y are never pushed back into the
+carry the words, so most story shots need no title. Size against the world, not the frame: filling
+the frame with an actor makes them bigger than the house behind them, so use camera zoom for a close-up, and see
+"Scale and layers" in STORY_MODE.md. Objects an actor lands on go behind the actor, because emotes share the
+actor's layer. Props with both x and y are never pushed back into the
 frame in a story shot: use `"anchor": "bottom"` for furniture, and keep camera zooms out of the caption band.

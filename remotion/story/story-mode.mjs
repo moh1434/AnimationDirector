@@ -3,6 +3,17 @@ export const ANIMAL_KINDS = ["dog", "cat", "bird"];
 export const MOVE_POSES = ["walk", "run"];
 export const MOVE_EASES = ["sine.inOut", "linear", "power2.in", "power2.out", "power3.in", "back.out"];
 
+/**
+ * The world's scale. size is a fraction of the frame width; a person's height is about that much.
+ * People fit doors and buildings stay bigger than people. For a close-up, move the camera in:
+ * zoom scales the whole picture, so proportions hold. A bigger size breaks them.
+ */
+export const SCALE = { building: 0.42, indoors: 0.52, animal: 0.7 };
+export const BUILDING_SETTINGS = ["house_exterior", "street", "schoolyard", "farm", "village", "city"];
+export const bgType = (bg) => (typeof bg === "string" ? bg : bg?.type);
+/** The largest a person should be in this setting. */
+export const humanLimit = (bg) => (BUILDING_SETTINGS.includes(bgType(bg)) ? SCALE.building : SCALE.indoors);
+
 export const isAnimal = (member) => ANIMAL_KINDS.includes(member?.kind);
 
 export function dialogueSpeaker(sb, time) {

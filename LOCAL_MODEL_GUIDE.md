@@ -41,6 +41,13 @@ This analyses the voice and writes two files:
   word, good scene start times, the cast, and every valid name.
 
 Read `build/brief.md` completely. You do not need to read any code.
+If the voice is much longer than the script needs, tell the user before directing: recordings must be trimmed and
+brisk (see "Pacing" in STORY_MODE.md). Never stretch or cut them yourself.
+
+For a story, copy the sizes from the table in "Scale and layers" in STORY_MODE.md. Never make a person bigger
+than 0.42 beside a building: use `camera.zoom` for a close-up. Keep animals at 0.7 or less. Keep props an actor
+touches behind the actor (`zIndex` 4) unless they hide the actor on purpose.
+
 For a story with several speakers, first read [STORY_MODE.md](STORY_MODE.md). Supply dialogue.json
 and the listed voice files before plan. Also read build/dialogue-timeline.json: these measured
 intervals determine who speaks, even when scene.speaker names someone else.

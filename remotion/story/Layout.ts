@@ -6,6 +6,7 @@
 import type { Scene, Storyboard, CharRef, PropRef, TextRef, Item } from "./types";
 import { frameSpec, FrameSpec, Rect, rw, rh, rcx, rcy, tagHeight } from "./frame";
 import { fitText, tagWidth, textWidth } from "./measure";
+import { humanLimit } from "./story-mode.mjs";
 
 export type Placed<T> = T & { px: number; py: number; ps: number };
 export type PlacedText = Placed<TextRef> & { maxW: number };
@@ -124,7 +125,7 @@ export function layoutScene(scene: Scene, W: number, H: number, sb: Storyboard, 
   switch (layout) {
     case "story": {
       const y = storyFloor(scene.bg, H, F.ground);
-      (scene.characters ?? []).forEach((_, i, all) => slots.push({ x: W * (i + 1) / (all.length + 1), y, s: Math.min(0.68, 1.25 / Math.max(1, all.length)), facing: i % 2 ? "left" : "right" }));
+      (scene.characters ?? []).forEach((_, i, all) => slots.push({ x: W * (i + 1) / (all.length + 1), y, s: Math.min(humanLimit(scene.bg), 1.25 / Math.max(1, all.length)), facing: i % 2 ? "left" : "right" }));
       stage = { x0: W * 0.08, y0: F.captionBand ? F.captionBand.y1 + gap.m : textSafe.y0, x1: W * 0.92, y1: H * 0.6 };
       break;
     }

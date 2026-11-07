@@ -56,6 +56,63 @@ Anywhere a time is allowed, these work as well as seconds and `"@word"`:
 
 Use `"start": "clip:12"` for a scene: it owns that clip's words, so `"@word"` keeps working.
 
+## Scale and layers: read this before staging
+
+Most staging mistakes come from sizing a thing to fill the frame instead of sizing it against the world.
+
+**Keep one scale per story.** `size` is a fraction of the frame width, and a person is about that tall.
+
+| Thing | `size` | Why |
+|---|---|---|
+| Person beside a building (`house_exterior`, `street`, `schoolyard`, `farm`) | 0.36–0.42 | Must look like they fit through the door |
+| Person indoors | 0.45–0.52 | Taller than the table, shorter than the cupboard |
+| Cupboard | about 0.66 | Taller than a person |
+| Table | about 0.4 | Reaches a person's waist |
+| Car | about 0.5 | About as tall as a person |
+| "Huge" animal | 0.55–0.7 | 1.5× the person next to it, and all of it stays in the frame |
+
+- **A close-up is a camera move.** Use `"camera": {"zoom": [1.3, 1.5], "focus": {"x": 0.5, "y": 0.86}}`.
+  Zoom scales the whole picture, so the proportions hold. Never enlarge an actor for a close-up.
+  Put `focus` near the actor's feet, so the actor grows upward and stays clear of the captions.
+- **"Gigantic" is a comparison.** Make the other actor smaller and keep the whole animal in the frame.
+  A size above 0.7 crops it, and then the viewer cannot see how big it is.
+- Keep an actor's size the same between connected shots, and put props at the same scale as the actors.
+
+**Decide the layers before writing `zIndex`.** List the scene from back to front, the same way as CSS z-index:
+
+| Layer | `zIndex` |
+|---|---|
+| Background | fixed, always at the back |
+| Things behind the actors: furniture, windows, broken pots | 3–4 |
+| Actors, with their emotes | 5 |
+| Things that hide an actor on purpose: a cupboard they run behind, a car they stand behind | 6 |
+| Effects that belong on top: slobber, an alarm light | 7 |
+
+- **The main actor's face is never covered**, unless the point of the shot is that they are hidden.
+- **An emote belongs to its actor's layer.** Stars, sweat and "Zz" go behind anything with a higher `zIndex`,
+  so put objects the actor lands on *behind* the actor. Bob lands in the pot: pot at 4, Bob at 5, and his stars show.
+- A rotated actor turns around the feet. After a head-first fall, set `y` so the head rests on the ground.
+
+`pnpm video validate` warns about actors out of scale and props in front of an actor with an emote. It cannot
+judge everything, so look at the start, middle and end of each shot and ask: what is in front of what, and does
+everything look the right size next to its neighbours?
+
+## Pacing: keep the audio tight
+
+The voice sets the length of the video, so slow or padded audio makes the whole video long and slow.
+
+- **Trim every recording.** Cut the silence at its start and end before adding it. The pipeline never trims or
+  stretches recordings, so any padding stays in the video, and with dozens of clips it adds up quickly.
+- **Use a brisk voice.** Ask the voice tool for a natural, slightly quick delivery. Comedy needs speed.
+- **Keep gaps short.** Use `"gap": 0.1`–`0.25`, and join neighbouring narrator lines into one recording.
+  Save long gaps for the few pauses that earn it, such as the one before a punchline.
+- **Keep sound effects short.** One should finish before the next line starts, usually in under a second.
+  A long effect such as `siren` needs a matching gap in the dialogue.
+- **Check the length straight after `plan`, before directing.** It prints the `duration`. Aim for 60 seconds or
+  less for a Short. A script of about 240 words should take about 75–90 seconds, so re-record if it takes much longer.
+
+The Bob example is 2:07 only because its Windows placeholder voices are slow and padded.
+
 ## Actors
 
 Human presets: `thief`, `policeman`, `farmer`, `schoolgirl`, plus every other preset in `pnpm video catalog`.
@@ -75,7 +132,7 @@ Animals use `"kind": "dog" | "cat" | "bird"`. These actors are different from th
 and `bird` props. Their poses are `idle talk walk run sit sleep jump lick bark scared celebrate cheer fly`.
 `look.skin` is the main colour, `look.accent` the collar or beak, `look.shirt` the belly or wing, and
 `look.hairColor` the ears or stripes. They show emotes, and `holding` puts the prop in the mouth.
-Make an animal enormous with `size`: `1` is about a full-frame-width dog.
+A dog at `size` 0.62 fills about two-thirds of the frame width.
 
 ## Places
 

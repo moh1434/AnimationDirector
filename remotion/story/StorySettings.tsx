@@ -49,6 +49,7 @@ const Sky: React.FC<{ W: number; H: number; u: number; time: TimeOfDay; color?: 
   {time !== "night" && <Clouds W={W} H={H} u={u} />}
 </>;
 
+const STREET_HOUSE = 0.85; // keeps houses taller than the people walking past
 const HOUSE_WINDOWS = [-225, 225];
 const House: React.FC<{ lit?: boolean; wall?: string; roof?: string }> = ({ lit, wall = "#ffe4ad", roof = "#7c5ce0" }) => {
   const pane = lit ? GLOW : "#a8dcff";
@@ -171,7 +172,7 @@ const Scene: React.FC<{ type: string; W: number; H: number; u: number; time: Tim
       </>;
     case "street":
       return <>
-        {[[0.14, "#ffd9a8", "#e8836b"], [0.5, "#bfe0d0", "#3d6fb0"], [0.86, "#f4c3d0", "#7c5ce0"]].map(([x, wall, roof]) => <g key={String(x)} transform={at(x as number, 0.62, G - 12 * u)}><House wall={wall as string} roof={roof as string} /></g>)}
+        {[[0.02, "#ffd9a8", "#e8836b"], [0.98, "#f4c3d0", "#7c5ce0"], [0.5, "#bfe0d0", "#3d6fb0"]].map(([x, wall, roof]) => <g key={String(x)} transform={at(x as number, STREET_HOUSE, G - 12 * u)}><House wall={wall as string} roof={roof as string} /></g>)}
         <rect y={G - 12 * u} width={W} height={H * 0.075} fill="#cfd3da" stroke={INK} strokeWidth={5 * u} />
         <rect y={G - 12 * u + H * 0.075} width={W} height={H} fill="#5d6680" stroke={INK} strokeWidth={5 * u} />
         {[0.1, 0.36, 0.62, 0.88].map((x) => <rect key={x} x={W * x - 70 * u} y={H * 0.945} width={140 * u} height={16 * u} rx={5 * u} fill="#ffc83d" />)}
@@ -189,7 +190,7 @@ const Lights: React.FC<{ type: string; W: number; H: number; u: number }> = ({ t
   const at = (x: number, s = 1, y = G) => `translate(${W * x} ${y}) scale(${u * s})`;
   if (type === "house_exterior") return <g transform={at(0.5, Math.min(1.25, W / (u * 900)))}><House lit /></g>;
   if (type === "street") return <>
-    {[0.14, 0.5, 0.86].map((x) => <g key={x} transform={at(x, 0.62, G - 12 * u)}><House lit /></g>)}
+    {[0.02, 0.98, 0.5].map((x) => <g key={x} transform={at(x, STREET_HOUSE, G - 12 * u)}><House lit /></g>)}
     <g transform={at(0.04)}><Lamp lit /></g><g transform={at(0.96)}><Lamp lit /></g>
   </>;
   if (type === "park") return <g transform={at(0.42, 0.85)}><Lamp lit /></g>;

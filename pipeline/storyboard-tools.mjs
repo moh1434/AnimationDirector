@@ -2,7 +2,7 @@
 //   brief(dir)    → build/brief.md: the narration with word times, pauses, cut points and every valid name
 //   validate(sb)  → precise errors ("scene s3, props[1].name …") with a suggested fix for each
 // Neither one limits what a storyboard may do; they only catch mistakes early.
-import { clipSceneWords, clipTime, isAnimal, isClipRef, storyProblems } from "../remotion/story/story-mode.mjs";
+import { SCALE, bgType, clipSceneWords, clipTime, humanLimit, isAnimal, isClipRef, storyProblems } from "../remotion/story/story-mode.mjs";
 import { dialogueStale, loadTimeline } from "./dialogue.mjs";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
@@ -193,6 +193,19 @@ export function validateStoryboard(sb, { words = [], voiced = [], duration, proj
       if (ch.holding && !isProp(ch.holding)) E(w, `holding "${ch.holding}" is not a drawing.${propHint(ch.holding, c, customProps)}`);
       for (const k of ["at", "out", "emoteAt"]) isAt(ch[k], sceneWords, `${w}.${k}`);
     });
+    if (layout === "story") {
+      const limit = humanLimit(s.bg), z = (x, fallback) => x.zIndex ?? fallback;
+      chars.forEach((ch, j) => {
+        const w = `${at}, characters[${j}]`;
+        if (isAnimal(cast[ch.who])) {
+          if (ch.size > SCALE.animal) W(w, `${ch.who} at size ${ch.size} will not fit in the frame; keep animals at ${SCALE.animal} or less. It looks huge next to a smaller actor.`);
+        } else if (ch.size > limit) W(w, `${ch.who} at size ${ch.size} is out of scale for ${bgType(s.bg) ?? "this setting"} (${limit} at most). For a close-up, use camera.zoom and camera.focus: they scale the whole picture.`);
+        // an emote is drawn in its actor's layer, so a prop in front hides it
+        const emotes = ch.emote || (s.actions ?? []).some((a) => a.who === ch.who && a.emote);
+        const cover = (s.props ?? []).find((p) => z(p, 4) > z(ch, 5) && (p.size ?? 0.3) >= 0.15 && p.x !== undefined && ch.x !== undefined && Math.abs(p.x - ch.x) < 0.2 && p.y > 0.5);
+        if (emotes && cover) W(w, `${cover.name} (zIndex ${z(cover, 4)}) is in front of ${ch.who} (zIndex ${z(ch, 5)}) and will cover its emote and face. Use a lower zIndex unless it hides the actor on purpose.`);
+      });
+    }
     if (s.speaker && s.speaker !== "none" && !castIds.has(s.speaker) && !isProp(s.speaker)) E(`${at}, speaker`, `"${s.speaker}" is not a cast id, a prop or "none".`);
     // props / items
     (s.props ?? []).forEach((p, j) => {
