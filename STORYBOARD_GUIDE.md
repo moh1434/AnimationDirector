@@ -40,7 +40,8 @@ The notes below describe the original house-style references, not every newer re
   "title": "How old is the Earth?",
   "language": "en",                // "ar" switches text to right-to-left
   "fps": 60,                       // follows video.json (default 60)
-  "duration": 31.2,                // filled in from the voice
+  "duration": 31.2,                // the voice's length; the video is never shorter, and may be longer
+  "endHold": 0,                    // optional: seconds the picture runs on after the voice ends
   "cast": {
     "host": { "preset": "host" },
     "doc":  { "preset": "scientist", "look": { "shirt": "#ff6b8b" } }

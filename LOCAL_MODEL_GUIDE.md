@@ -31,6 +31,26 @@ user's narration. The pipeline does everything else: drawing, animation, music, 
 
 ## The steps
 
+### Step 0 — only if the user sent text and no recordings: make the voices
+Read [TTS.md](TTS.md) and do exactly these steps:
+1. `pnpm video new <name> --tts`, then fill `projects/<name>/tts.json`. Copy the user's words
+   exactly into `lines`, one entry each time the speaker changes, in order. Give every speaker a
+   `description` in English: age and role, pitch and texture, mood and pace (for example
+   `A deep-voiced, gruff older man with a low, slow, grumpy baritone voice`). No parentheses.
+2. `pnpm video voices <name>`. Fix every error it prints and run it again.
+3. Send the user `projects/<name>/voice-takes/en/review.html` and ask: "Which take do you want for
+   each character?" **Stop and wait for the answer. Never choose a take yourself.**
+4. `pnpm video voice-pick <name> narrator=2 ali=1 …` with the user's numbers. Tell the user every ⚠
+   line it prints. Then go on with Step 1.
+
+Use VoxCPM2 (the default: no `engine` needed). Use CosyVoice3 only when TTS.md says so (a saved
+`library` voice in English, or a reference the user wants cloned). If you add a new speaking character
+to a story that already has the user's recordings, follow "New characters and adding a voice to a
+story" in TTS.md: every recording of theirs stays as a line with its `file`.
+
+**Never change the speed of a voice.** If the picture needs more time, make the scene or the ending
+longer (`"endHold": 1.5` in storyboard.json); the video may be longer than the voice, never shorter.
+
 ### Step 1 — prepare
 ```
 pnpm video plan <name>

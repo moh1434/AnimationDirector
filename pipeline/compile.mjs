@@ -30,12 +30,26 @@ function resolveAt(at, scene, sceneWords, dialogue) {
 
 const AT_KEYS = ["at", "out", "emoteAt"];
 
+/** Seconds the picture keeps going after the voice ends, unless the storyboard sets "endHold". */
+export const END_HOLD = 0;
+
+/**
+ * The video's length. The voice is the source of truth: it is never sped up, slowed down or cut, so
+ * the video lasts at least the whole voice, and longer when the storyboard asks for more ("endHold"
+ * seconds after the voice, or a longer "duration", for an ending beat after the last word).
+ */
+export function videoDuration(sb, analysis) {
+  const voice = analysis?.duration ?? 0;
+  const hold = Number.isFinite(sb?.endHold) && sb.endHold >= 0 ? sb.endHold : END_HOLD;
+  return +Math.max(sb?.duration ?? 0, voice + hold).toFixed(3);
+}
+
 export function compile(storyboard, analysis, { format }) {
   const sb = JSON.parse(JSON.stringify(storyboard));
   const words = analysis.words ?? [];
   // the lip-sync curve is sampled at the analysis fps, so the render must use the same rate
   sb.fps = analysis.fps ?? sb.fps ?? 60;
-  sb.duration = Math.max(sb.duration ?? 0, analysis.duration ?? 0);
+  sb.duration = videoDuration(sb, analysis);
   // read before the starts below become seconds
   const byClip = new Map((sb.scenes ?? []).map((sc, i, all) => [sc, clipSceneWords(words, sc, all[i + 1], i, sb.dialogue)]));
   // scene starts may be given as a global word index ("w:12") so they follow re-timed words

@@ -9,7 +9,7 @@ import { ROOT, IS_WIN } from "./env.mjs";
 
 const WHISPER_KEYS = ["WHISPER_PATH", "WHISPER_EN_MODEL", "WHISPER_AR_MODEL"];
 /** Every setting .env may contain (the REMOTION_ ones are optional). */
-export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER", "REMOTION_RENDERER"];
+export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER", "REMOTION_RENDERER", "TTS_EXECUTABLE", "TTS_VOXCPM2_MODEL", "TTS_BACKEND", "TTS_COSYVOICE3_MODEL"];
 const lev = (a, b) => {
   const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
   for (let j = 1; j <= b.length; j++) d[0][j] = j;

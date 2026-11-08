@@ -16,6 +16,19 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 
 ## When the user asks for a video
 
+0. **Only text, no recordings?** Make the voices first: read [TTS.md](TTS.md) and the guide of each
+   engine you use (`docs/tts/VoxCPM2-GGUF/README.md` designs voices from a description, any language;
+   `docs/tts/CosyVoice3-GGUF/README.md` clones a reference, no Arabic). Then `pnpm video new <name> --tts`,
+   write `tts.json` (the user's exact words, one entry per speaker turn, and a voice per character),
+   `pnpm video voices <name>`, and send `voice-takes/<lang>/review.html` to the user (SendUserFile).
+   **The user picks one take per character; never pick for them.** Then
+   `pnpm video voice-pick <name> who=N …` writes the recordings and you continue from step 2.
+   Each character speaks all their lines in one take, so their voice stays the same person.
+   **A new character you draw who speaks gets a new voice** the same way (check `voices-library/` first;
+   TTS.md, "New characters"); the user's own recordings are kept. Offer `voice-ref --save` for a
+   character who will come back.
+   **The voice is the source of truth for speed**: never slow it down or speed it up to fit the video;
+   fit the storyboard to the voice. The video is as long as the voice or longer (`endHold`, `duration`).
 1. For multi-voice stories follow STORY_MODE.md: supply dialogue.json and voices/, then plan.
    For single narration, `pnpm video new <name>` (or reuse `projects/<name>`). Put the voice in as `voice.wav`
    and the segments in `script.txt` (`start | end | text`). Never rewrite the user's words; never

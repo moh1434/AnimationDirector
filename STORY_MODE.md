@@ -6,6 +6,16 @@ projects keep working unchanged. **Nothing new needs installing**: voices are as
 
 ## Make a story
 
+No recordings, only a script? [TTS.md](TTS.md) makes them locally (VoxCPM2, or CosyVoice3 for a
+cloned voice): one take per character, picked by the user, then cut into lines and written as
+`dialogue.json` + `voices/` (steps 1–2 below).
+
+**A new character gets a new voice.** When you draw or cast a character who speaks and has no
+recording (a new costume, preset, animal or extra), make its voice the same way: describe a voice
+that matches the drawing (age, size, kind, mood), make takes, and let the user pick. The other
+characters keep their recordings: see "Adding a voice to a story" in TTS.md. A character who will
+come back in later videos is saved with `voice-ref --save`, so it keeps the same voice every time.
+
 1. `pnpm video new my-story --story` creates the project with a `voices/` folder and a `dialogue.json`.
 2. Put one recording per line in `voices/` and list them in `dialogue.json` (below).
    `text` must be the exact recorded words.
@@ -99,7 +109,13 @@ everything look the right size next to its neighbours?
 
 ## Pacing: keep the audio tight
 
-The voice sets the length of the video, so slow or padded audio makes the whole video long and slow.
+**The voice is the source of truth for speed.** Its pace is never changed to fit the picture: no
+slowing, speeding up or stretching, and no slower TTS style chosen to fill time. The picture is fitted
+to the voice instead: scene lengths, moves (`until`), holds and cuts. The video is never shorter than
+the voice; it may run longer when a beat needs it (storyboard `"endHold": 1.5`, seconds after the
+voice ends, or a longer `"duration"`). A 30 s voice makes a video of 30 s or more.
+
+So slow or padded audio makes the whole video long and slow.
 
 - **Trim every recording.** Cut the silence at its start and end before adding it. The pipeline never trims or
   stretches recordings, so any padding stays in the video, and with dozens of clips it adds up quickly.

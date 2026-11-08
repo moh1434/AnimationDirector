@@ -4,6 +4,22 @@ This is the user's existing voice-led cartoon production pipeline. Read README.m
 STORYBOARD_GUIDE.md and CLAUDE.md before changing it. Preserve the user's edits,
 storyboard decisions, original narration, timings, and flat illustrated art direction.
 
+## Voices from text (VoxCPM2, CosyVoice3)
+
+When the user sends a script without recordings, or when you draw a new character who speaks and has
+no recording, follow [TTS.md](TTS.md) after reading the guide of each engine you use
+(`docs/tts/VoxCPM2-GGUF/README.md`, `docs/tts/CosyVoice3-GGUF/README.md`). VoxCPM2 designs new voices
+from a description (any language); CosyVoice3 clones a reference (no Arabic). Check `voices-library/`
+for a character that already has a voice. Write `tts.json` with the user's exact words, run
+`pnpm video voices <name>`, give the user `voice-takes/<lang>/review.html`, and wait for one pick per
+character before `voice-pick`. Never pick a take yourself, never change the script's words (only tags,
+punctuation and capitals in `say`), and never use `--replace` or `voice-ref --overwrite` without the
+user's agreement.
+
+The voice is the source of truth for speed: never slow down, speed up or stretch it to fit the video.
+Fit the storyboard to the voice; the video may run longer than the voice (`endHold`, `duration`),
+never shorter.
+
 ## Which instructions to follow
 
 - **Local / smaller models** (running in Ollama, LM Studio, etc.): follow

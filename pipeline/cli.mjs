@@ -14,6 +14,9 @@
 //   node pipeline/cli.mjs catalog                    list layouts, props, backgrounds, poses, expressions…
 //   node pipeline/cli.mjs localize <name> [--lang ar] the same video in another language → projects/<name>-ar
 //   node pipeline/cli.mjs doctor                     check the toolchain
+//   node pipeline/cli.mjs voices <name> [--lang ar] [--only bob,ali] [--dry-run]   VoxCPM2 takes from tts.json (TTS.md)
+//   node pipeline/cli.mjs voice-pick <name> bob=2 narrator=1 [--lang ar] [--replace]  cut the chosen takes into lines
+//   node pipeline/cli.mjs voice-ref <name> bob=2 [--lang ar] [--save bob]         a clone reference from a take (+ voices-library/)
 // options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync, rmSync } from "node:fs";
 import { join, resolve, basename, dirname, extname } from "node:path";
@@ -23,6 +26,7 @@ import { ROOT, IS_WIN, findPython, findFfmpeg, findChrome, binOf } from "./env.m
 import { parseScript, detectLanguage } from "./parse.mjs";
 import { direct } from "./director.mjs";
 import { dialogueStale, isSoundLabel, loadTimeline, missingClips, prepareDialogue, readDialogue } from "./dialogue.mjs";
+import { ENGINES, makeReference, makeTakes, parsePicks, pickTakes, ttsSettings } from "./tts.mjs";
 import { catalog } from "./catalog.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
@@ -37,7 +41,7 @@ for (let i = 1; i < argv.length; i++) {
   if (a.startsWith("--")) {
     const k = a.slice(2);
     const nx = argv[i + 1];
-    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang"].includes(k)) { flags[k] = nx; i++; }
+    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang", "only", "save"].includes(k)) { flags[k] = nx; i++; }
     else flags[k] = true;
   } else pos.push(a);
 }
@@ -119,6 +123,8 @@ function spokenWords(dir, analysis) {
 
 /* ---------------- plan ---------------- */
 async function plan(dir, { force = false } = {}) {
+  if (existsSync(join(dir, "tts.json")) && !existsSync(join(dir, "dialogue.json")) && !readdirSync(dir).some((f) => /^voice\.(wav|mp3|m4a|flac|ogg)$/i.test(f)))
+    die(`No voice yet. Make the takes, let the user listen and pick one per character (TTS.md):\n  pnpm video voices ${basename(dir)}\n  pnpm video voice-pick ${basename(dir)} <who>=<take> …`);
   ensureProjectBats(dir);
   // .env must name a valid whisper.cpp folder and models (or turn them off): fail before any work
   try { requireWhisperConfig(); } catch (e) { die(e.message); }
@@ -293,7 +299,7 @@ async function audio(dir, ctx) {
       voiced: analysis.voiced ?? [],
     }), "utf8");
     log(`Composing music (pretty_midi, mood: ${mood}, scored to the cuts)…`);
-    log(`  ${py("compose_music.py", [build, String(analysis.duration), mood, String(seed), spotIn])}`);
+    log(`  ${py("compose_music.py", [build, String(storyboard.duration), mood, String(seed), spotIn])}`);
     try {
       log("Rendering the score with Tone.js…");
       const { renderMusic } = await import("./tone-render.mjs");
@@ -305,7 +311,8 @@ async function audio(dir, ctx) {
     }
   }
   log("Mixing (pedalboard: ducking, effects, loudness)…");
-  const mixCfg = { music: musicOn, sfx: settings.sfx !== false, ...(settings.mix ?? {}) };
+  // the mix lasts as long as the video (the voice plus its end hold, or longer), so the music never stops early
+  const mixCfg = { music: musicOn, sfx: settings.sfx !== false, ...(settings.mix ?? {}), duration: storyboard.duration };
   const rep = py("mix.py", [build, JSON.stringify(mixCfg)]);
   log(`  ${rep}`);
 }
@@ -452,7 +459,9 @@ async function qc(dir, settings = settingsOf(dir), draft = !!flags.draft, rename
     const file = renamed[fmt] ?? join(dir, "out", `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
     if (!existsSync(file)) continue;
     const [w, h] = sizes[fmt] ?? [];
-    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 60, duration: analysis.duration, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
+    // the expected length is the compiled video (voice + end hold, or the storyboard's longer "duration")
+    const expected = readJson(join(dir, "build", `render-${fmt}.json`), null)?.storyboard?.duration ?? analysis.duration;
+    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 60, duration: expected, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
     results.push(r);
     log(`Final pass ${fmt}: ${r.checks.map((c) => `${c.ok ? "✔" : "✖"} ${c.name}`).join("  ")}`);
   }
@@ -519,6 +528,18 @@ function newProject(name) {
   if (existsSync(d)) die(`projects/${name} already exists`);
   cpSync(join(ROOT, "projects", "_template"), d, { recursive: true });
   log(`Created ${d}`);
+  if (flags.tts) {
+    rmSync(join(d, "script.txt"), { force: true }); // tts.json holds the script; voice-pick writes the recordings
+    writeJson(join(d, "tts.json"), {
+      language: "en", takes: 3,
+      voices: { narrator: { description: "A deep, warm, middle-aged male storyteller with a calm, cinematic narration style" }, hero: { description: "An energetic young girl with a bright, high, cheerful voice, quick and curious" } },
+      lines: [{ who: "narrator", text: "The exact words of the script, one entry per line." }, { who: "hero", text: "Each speaker change is a new line.", say: "[laughing] Each speaker change is a new line." }],
+    });
+    log("Now: fill in tts.json from the script (see TTS.md), then run:");
+    log(`  pnpm video voices ${name}     (takes to listen to)`);
+    log(`  pnpm video voice-pick ${name} narrator=1 hero=2     (the takes the user chose)`);
+    return;
+  }
   if (flags.story) {
     mkdirSync(join(d, "voices"), { recursive: true });
     rmSync(join(d, "script.txt"), { force: true }); // dialogue.json replaces it
@@ -624,12 +645,59 @@ function doctor() {
     ok(true, `Arabic model: ${w.models.ar ?? "off (estimated timing)"}`);
   }
   w.warnings.forEach((m) => console.log("⚠ " + m));
+  const t = ttsSettings();
+  if (!t.exe && !Object.values(t.models).some(Boolean)) ok(true, "Voices from text: not set up (optional, see TTS.md)");
+  else for (const e of Object.keys(ENGINES)) {
+    if (!t.models[e] && e !== "voxcpm2") { ok(true, `${e} voices: not set up (optional)`); continue; }
+    const bad = [...t.errors, ...t.engineErrors[e]];
+    ok(!bad.length, `${e} voices: ${t.models[e]}`, bad.join("\n    → "));
+  }
 }
 
 /* ---------------- main ---------------- */
 const t0 = Date.now();
 try {
   switch (cmd) {
+    case "voices": {
+      const d = projectDir(pos[0]);
+      const lang = typeof flags.lang === "string" ? flags.lang.toLowerCase() : undefined;
+      const only = typeof flags.only === "string" ? flags.only.split(",").map((x) => x.trim()) : undefined;
+      let r;
+      try { r = await makeTakes(d, { lang, only, dryRun: !!flags["dry-run"] }); } catch (e) { die(e.message); }
+      if (flags["dry-run"]) { r.takes.forEach((t) => log(`${t.who} take ${t.take} (${t.engine}, seed ${t.seed}) → ${t.file}`)); break; }
+      for (const t of r.takes) log(t.failed ? `✗ ${t.who} take ${t.take}: ${t.failed.split("\n")[0]}` : `${t.who} take ${t.take}: ${t.duration.toFixed(1)} s, ${t.check.summary}`);
+      log(`Listen: ${r.review}`);
+      log(`Then pick one take per character: pnpm video voice-pick ${basename(d)}${lang ? ` --lang ${lang}` : ""} ${[...new Set(r.takes.map((t) => t.who))].map((w) => `${w}=1`).join(" ")}`);
+      if (r.takes.some((t) => t.failed)) process.exitCode = 1;
+      break;
+    }
+    case "voice-pick": {
+      const d = projectDir(pos[0]);
+      const lang = typeof flags.lang === "string" ? flags.lang.toLowerCase() : undefined;
+      let r;
+      try { r = pickTakes(d, parsePicks(pos.slice(1)), { lang, replace: !!flags.replace, forceDialogue: !!flags.dialogue }); } catch (e) { die(e.message); }
+      r.problems.forEach((p) => warn(p));
+      log(r.mode === "narration" ? `Wrote ${r.voice} and ${r.script} (one voice, so the take stays whole).` : `Wrote ${r.dialogue}: ${r.clips} clips, one recording per line.`);
+      if (r.sounds?.length) warn(`These sounds still need a recording (or a "file" on their line): ${r.sounds.join(", ")}`);
+      log(lang ? `Next: pnpm video localize ${basename(d)} --lang ${lang}` : `Next: pnpm video plan ${basename(d)}`);
+      break;
+    }
+    case "voice-ref": {
+      const d = projectDir(pos[0]);
+      const lang = typeof flags.lang === "string" ? flags.lang.toLowerCase() : undefined;
+      const picks = Object.entries(parsePicks(pos.slice(1)));
+      if (!picks.length) die("Name the take: pnpm video voice-ref <name> ali=2 [--save ali]");
+      if (flags.save && picks.length > 1) die("--save names one character: make one reference at a time.");
+      for (const [who, take] of picks) {
+        let r;
+        try { r = makeReference(d, who, take, { lang, save: typeof flags.save === "string" ? flags.save : undefined, overwrite: !!flags.overwrite }); } catch (e) { die(e.message); }
+        log(`${r.reference}: ${r.seconds.toFixed(1)} s, line(s) ${r.lines.join(", ")} of ${who} take ${take}${r.clean ? "" : " (warning: no clean line without tags or misheard words; listen to it)"}`);
+        log(`  words: ${r.referenceText}`);
+        if (r.saved) log(`  saved as ${r.saved}: later videos use { "library": "${flags.save}" } for this voice`);
+        else log(`  use it: "${who}": { "engine": "cosyvoice3", "reference": "${r.reference}", "referenceText": ${JSON.stringify(r.referenceText)} }`);
+      }
+      break;
+    }
     case "dialogue": { const d = projectDir(pos[0]); const r=prepareDialogue(d); log(`Assembled ${r.timeline.length} clips into ${r.voice}`); break; }
     case "new": newProject(pos[0]); break;
     case "plan": { const d = projectDir(pos[0]); await plan(d, { force: !!flags.replan }); break; }

@@ -257,7 +257,8 @@ def main():
         cfg.update(json.loads(sys.argv[2]))
     voice = load(build / "voice.wav", channels=1)[0]
     analysis = json.loads((build / "analysis.json").read_text(encoding="utf-8"))
-    total = max(len(voice) / SR, analysis.get("duration", 0)) + 0.6
+    # the voice is never stretched or cut; the mix runs to the end of the video, which may be longer
+    total = max(max(len(voice) / SR, analysis.get("duration", 0)) + 0.6, float(cfg.get("duration") or 0))
     N = int(total * SR)
     v = np.zeros(N, dtype=np.float32)
     v[: len(voice)] = voice

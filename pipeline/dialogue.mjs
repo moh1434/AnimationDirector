@@ -55,7 +55,7 @@ export function missingClips(dir, manifest) {
 export function prepareDialogue(dir, file = "dialogue.json") {
   const manifest = readDialogue(dir, file);
   const missing = missingClips(dir, manifest);
-  if (missing.length) throw new Error(`${missing.length} recording(s) named in ${file} are missing from ${dir}:\n  ${missing.join("\n  ")}`);
+  if (missing.length) throw new Error(`${missing.length} recording(s) named in ${file} are missing from ${dir}:\n  ${missing.join("\n  ")}\nA character with no recording can get a voice made from text: TTS.md, "Adding a voice to a story".`);
   const ff = findFfmpeg();
   if (!ff) throw new Error("Dialogue assembly requires FFmpeg.");
   const base = realpathSync(dir), rate = DIALOGUE_RATE;
