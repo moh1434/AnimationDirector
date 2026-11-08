@@ -5,23 +5,21 @@ How to describe voices in natural language, control style, use inline cues, and 
 This guide combines two sources:
 
 - **OpenBMB's official documentation** (sources at the end).
-- **Measured local tests** on this exact build: `C:\Users\lenovo\Desktop\Ai Influencer\TTS_comparison` (685 clips) and an inline-cue test on 2026-11-08.
+- **Measured local tests** on 685 clips).
 
-Where they disagree, **this build's behaviour wins**, and the disagreement is pointed out.
-
-Facts: 2B parameters, 48 kHz output, 30 languages (including Arabic) plus 9 Chinese dialects, about 3× faster than real time on an RTX 4070 laptop GPU.
+Facts: 2B parameters, 48 kHz output, 30 languages (including Arabic) plus 9 Chinese dialects.
 
 ---
 
 ## 1. Pick the mode
 
 
-| You want                                                   | Mode                                            | What to pass                                                                                     |
-| ---------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| A**new** voice from words, with no audio                   | **Voice design**                                | `--text "(description)Text to speak"`                                                            |
-| The**same voice every time**, highest similarity           | **Ultimate clone** (recommended for production) | `--voice-ref ref.wav --reference-text "<exact transcript>" --request-option ultimate_clone=true` |
-| A cloned voice speaking**in a different style or emotion** | **Clone + style**                               | `--voice-ref ref.wav --text "(style)Text"`. Do **not** pass `ultimate_clone`.                    |
-| A small expressive moment (sigh, "um") inside a line       | **Inline tag** (any mode)                       | `--text "... [sigh] ..."`                                                                        |
+| You want                                                       | Mode                                            | What to pass                                                                                     |
+| -------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| A**new** voice from words, with no audio                       | **Voice design**                                | `--text "(description)Text to speak"`                                                            |
+| The**same voice every time**, highest similarity               | **Ultimate clone** (recommended for production) | `--voice-ref ref.wav --reference-text "<exact transcript>" --request-option ultimate_clone=true` |
+| A cloned voice speaking  **in a different style or emotion** | **Clone + style**                               | `--voice-ref ref.wav --text "(style)Text"`. Do **not** pass `ultimate_clone`.                    |
+| A small expressive moment (sigh, "um") inside a line           | **Inline tag** (any mode)                       | `--text "... [sigh] ..."`                                                                        |
 
 > **Rule:** never combine a `(…)` prefix with `ultimate_clone=true`.
 >
