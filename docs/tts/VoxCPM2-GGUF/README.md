@@ -222,8 +222,4 @@ Results in this build (2026-11-08, clips in `TTS_comparison\VoxCPM2-GGUF\_style_
   - Usage guide (cloning modes, reference length, CFG and steps, long text): https://voxcpm.readthedocs.io/en/latest/usage_guide.html
   - "A Voice Chef's Guide to VoxCPM2" (three-layer prompts, non-verbal tags): https://voxcpm.readthedocs.io/en/latest/cookbook.html
 - GitHub: https://github.com/OpenBMB/VoxCPM
-- audio-cpp option spec: `C:\Users\lenovo\audio-cpp\bin\model_specs\voxcpm2.json`
-- Local measurements:
-  - `C:\Users\lenovo\Desktop\Ai Influencer\TTS_comparison\REPORT.md`
-  - Probe script: `_harness\probe_style.py`
-  - Probe results: `VoxCPM2-GGUF\_style_probe\probe_results.json`
+- audio-cpp option spec: `"$env:USERPROFILE\audio-cpp\bin\model_specs\voxcpm2.json"`
