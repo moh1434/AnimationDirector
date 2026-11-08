@@ -31,8 +31,8 @@ Facts: 2B parameters, 48 kHz output, 30 languages (including Arabic) plus 9 Chin
 Base command (PowerShell):
 
 ```powershell
-C:\Users\lenovo\audio-cpp\bin\audiocpp_cli.exe --task tts --family voxcpm2 `
-  --model C:\Users\lenovo\audio-cpp\models\VoxCPM2-GGUF\voxcpm2-q8_0.gguf --backend cuda `
+& "$env:USERPROFILE\audio-cpp\bin\audiocpp_cli.exe" --task tts --family voxcpm2 `
+  --model "$env:USERPROFILE\audio-cpp\models\VoxCPM2-GGUF\voxcpm2-q8_0.gguf" --backend cuda `
   --text "(A warm, deep, middle-aged male storyteller, calm and cinematic)Every great story starts with a single moment." `
   --request-option seed=22 --out out.wav
 ```
