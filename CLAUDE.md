@@ -8,6 +8,8 @@ Project skills in `.claude/skills/`: story-video-direction, layout-composition, 
 assets, final-pass — use them when directing, laying out, scoring, drawing or checking a video.
 A smaller local model should follow [LOCAL_MODEL_GUIDE.md](LOCAL_MODEL_GUIDE.md) instead; for you it is optional.
 
+**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
+
 This folder is a voice-led cartoon video pipeline (Remotion + GSAP + HyperFrames + Tone.js +
 pretty_midi + pedalboard). The user supplies a narration `.wav`, the story text and time segments;
 the pipeline makes YouTube (16:9) and Shorts (9:16) videos in the style of

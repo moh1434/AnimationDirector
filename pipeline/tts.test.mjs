@@ -243,3 +243,24 @@ test("voices can be added to a story made of the user's own recordings, keeping 
   assert.deepEqual(d.cast, mine.cast);
   assert.ok(existsSync(join(dir, "voice-takes", "en", "dialogue.before.json")), "the hand-made dialogue is kept");
 });
+test("alternatives add takes made another way, numbered after the main takes, without changing them", () => {
+  const before = takeRequests(readVoicePlan(project(STORY)), project(STORY));
+  const dir = project(STORY);
+  writeFileSync(join(dir, "ali.wav"), wavOf(tones([[0, 1]], 1)));
+  const alt = { ...STORY, lines: [...STORY.lines.slice(0, 3), { who: "ali", text: "YES!" }], voices: { ...STORY.voices, ali: { ...STORY.voices.ali, alternatives: [
+    { engine: "cosyvoice3", reference: "ali.wav", referenceText: "Hello.", say: { 3: "[laughter] I am fine, thank you!", 4: "Yes!" } },
+    { description: "A bright, quick cartoon boy", takes: 2 },
+  ] } } };
+  writeFileSync(join(dir, "tts.json"), JSON.stringify(alt));
+  const plan = readVoicePlan(dir), reqs = takeRequests(plan, dir).filter((r) => r.who === "ali");
+  assert.deepEqual(reqs.map((r) => `${r.take}:${r.engine}:${r.seed}`), ["1:voxcpm2:11", "2:voxcpm2:22", "3:cosyvoice3:11", "4:voxcpm2:11", "5:voxcpm2:22"]);
+  assert.match(reqs[2].text, /Yes!$/, "the alternative's own say is used");
+  assert.match(reqs[0].text, /YES!$/, "the main takes keep the line as written");
+  assert.ok(!plan.warnings.some((w) => /ALL-CAPS/.test(w)), "the CosyVoice3 alternative says it in sentence case");
+  assert.match(reqs[3].text, /^\(A bright, quick cartoon boy\)/);
+  // a plan without the new line: the main takes' keys are what they were before alternatives existed
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...STORY, voices: { ...STORY.voices, ali: { ...STORY.voices.ali, alternatives: [{ description: "Another voice" }] } } }));
+  const again = takeRequests(readVoicePlan(dir), dir).filter((r) => r.who === "ali");
+  assert.deepEqual(again.slice(0, 2).map((r) => r.key), before.filter((r) => r.who === "ali").map((r) => r.key));
+  assert.throws(() => { writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...STORY, voices: { ...STORY.voices, ali: { ...STORY.voices.ali, alternatives: [{ description: "x", takes: 7 }] } } })); readVoicePlan(dir); }, /9 takes in all/);
+});

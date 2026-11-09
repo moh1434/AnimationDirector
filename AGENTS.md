@@ -1,5 +1,7 @@
 # My_Custom_Setup — agent guidance
 
+**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
+
 This is the user's existing voice-led cartoon production pipeline. Read README.md,
 STORYBOARD_GUIDE.md and CLAUDE.md before changing it. Preserve the user's edits,
 storyboard decisions, original narration, timings, and flat illustrated art direction.

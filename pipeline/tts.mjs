@@ -122,19 +122,24 @@ export function readVoicePlan(dir, lang, options = {}) {
   voices = { ...(voices ?? {}) };
   const language = plan.language ?? lang ?? "en";
   const used = new Set((lines ?? []).filter((l) => l?.text && !isSoundLabel(l.text) && !l.file).map((l) => l.who));
-  for (const [who, v0] of Object.entries(voices)) {
-    if (!used.has(who)) { warnings.push(`voice "${who}" speaks no line`); continue; }
+  /** Check one voice setup (the main one or an alternative); returns it resolved, or null. */
+  const checkVoice = (who, v0, label) => {
     let v = v0;
+    if (!v || typeof v !== "object" || Array.isArray(v)) { errors.push(`${label}: must be an object such as {"description": "..."}`); return null; }
     if (v.library !== undefined) {
       // a character voice saved by voice-ref --save: cloned, so the character is the same person in every video
       const lib = libraryVoice(String(v.library), options.library);
-      if (!lib) { errors.push(`${who}: no voice "${v.library}" in voices-library/ (save one with: pnpm video voice-ref <project> ${who}=<take> --save ${v.library})`); continue; }
-      if (v.reference || v.description) errors.push(`${who}: a "library" voice brings its own reference; leave out "reference" and "description"`);
+      if (!lib) { errors.push(`${label}: no voice "${v.library}" in voices-library/ (save one with: pnpm video voice-ref <project> ${who}=<take> --save ${v.library})`); return null; }
+      if (v.reference || v.description) errors.push(`${label}: a "library" voice brings its own reference; leave out "reference" and "description"`);
       const engine = v.engine ?? (ENGINES.cosyvoice3.languages.includes(language) ? "cosyvoice3" : "voxcpm2");
-      v = voices[who] = { ...v, engine, reference: lib.reference, referenceText: lib.referenceText, note: lib.description };
+      v = { ...v, engine, reference: lib.reference, referenceText: lib.referenceText, note: lib.description };
     }
     const engine = engineOf(v), E = ENGINES[engine];
-    if (!E) { errors.push(`${who}: unknown engine "${engine}" (use ${Object.keys(ENGINES).join(" or ")})`); continue; }
+    if (!E) { errors.push(`${label}: unknown engine "${engine}" (use ${Object.keys(ENGINES).join(" or ")})`); return null; }
+    checkSetup(label, v, engine, E);
+    return v;
+  };
+  const checkSetup = (who, v, engine, E) => {
     if (E.languages && !E.languages.includes(language)) errors.push(`${who}: ${E.name} does not speak "${language}" (only ${E.languages.join(", ")}); use "engine": "voxcpm2" for this language`);
     if (v.reference) {
       if (!existsSync(resolve(dir, v.reference))) errors.push(`${who}: reference ${v.reference} is not in the project`);
@@ -150,6 +155,28 @@ export function readVoicePlan(dir, lang, options = {}) {
     }
     if (v.seeds && (!Array.isArray(v.seeds) || !v.seeds.every(Number.isInteger))) errors.push(`${who}: "seeds" must be whole numbers`);
     for (const k of Object.keys(v.options ?? {})) if (!E.options.includes(k)) errors.push(`${who}: unknown ${engine} option "${k}" (allowed: ${E.options.join(", ")})`);
+    if (v.takes !== undefined && (!Number.isInteger(v.takes) || v.takes < 1 || v.takes > 8)) errors.push(`${who}: "takes" must be 1 to 8`);
+  };
+  for (const [who, v0] of Object.entries(voices)) {
+    if (!used.has(who)) { warnings.push(`voice "${who}" speaks no line`); continue; }
+    const v = checkVoice(who, v0, who);
+    if (!v) continue;
+    voices[who] = v;
+    if (v.alternatives === undefined) continue;
+    // more takes of the same character made another way (another engine, description or reference),
+    // numbered after the main takes so the takes already made stay valid
+    if (!Array.isArray(v.alternatives)) { errors.push(`${who}: "alternatives" must be a list of voice setups`); continue; }
+    v.alternatives = v.alternatives.map((a0, k) => {
+      const label = `${who} alternative ${k + 1}`;
+      if (a0?.alternatives) errors.push(`${label}: an alternative cannot have its own "alternatives"`);
+      const a = checkVoice(who, a0, label);
+      for (const [n, say] of Object.entries(a?.say ?? {})) {
+        const l = (lines ?? [])[Number(n) - 1];
+        if (!l || l.who !== who) errors.push(`${label}: "say" line ${n} is not one of ${who}'s lines`);
+        else if (wordsOf(say).join(" ") !== wordsOf(l.text).join(" ")) errors.push(`${label}: "say" line ${n} must keep the script's exact words.\n      text: ${l.text}\n      say:  ${say}`);
+      }
+      return a ?? {};
+    });
   }
   (lines ?? []).forEach((l, i) => {
     const n = `line ${i + 1}`;
@@ -159,19 +186,26 @@ export function readVoicePlan(dir, lang, options = {}) {
     if (isSoundLabel(l.text)) { if (l.say) errors.push(`${n}: "${l.text}" is a sound, not speech; give it a recording with "file" instead of "say"`); return; }
     if (l.file) return; // the user's own recording of this line
     if (!voices[l.who]) { errors.push(`${n}: no voice for "${l.who}" in "voices"`); return; }
-    const engine = engineOf(voices[l.who]), E = ENGINES[engine];
-    if (!E) return;
-    const spoken = l.say ?? l.text;
-    if (l.say !== undefined) {
-      if (wordsOf(l.say).join(" ") !== wordsOf(l.text).join(" ")) errors.push(`${n}: "say" must keep the script's exact words; only add tags such as [sigh], change punctuation or change capitals.\n      text: ${l.text}\n      say:  ${l.say}`);
-      if (/[()]/.test(l.say)) errors.push(`${n}: no parentheses in "say": ${engine === "voxcpm2" ? "a (style) only works at the very start of a take, so it goes in the voice's description" : "words in parentheses may be read aloud"}`);
-    }
-    for (const t of tagsOf(spoken)) if (!E.tags.includes(t)) errors.push(`${n}: [${t}] is not a ${E.name} tag. Use one of: ${E.tags.map((x) => `[${x}]`).join(" ")}`);
-    for (const t of wrapsOf(spoken)) if (engine !== "cosyvoice3" || !COSYVOICE3_WRAPS.includes(t)) errors.push(`${n}: <${t}> is not understood by ${E.name}${engine === "cosyvoice3" ? ` (only ${COSYVOICE3_WRAPS.map((x) => `<${x}>…</${x}>`).join(" ")})` : ""}`);
-    if (tagsOf(l.say ?? "").length + wrapsOf(l.say ?? "").length / 2 > 2) warnings.push(`${n}: more than two tags in one line; the model guides advise one or two at most`);
-    const caps = engine === "cosyvoice3" ? capsOf(spoken) : [];
-    if (caps.length) warnings.push(`${n}: CosyVoice3 spells ALL-CAPS words letter by letter (${caps.join(", ")}). Unless it is an acronym such as NASA, add "say" with it in sentence case`);
+    if (l.say !== undefined && wordsOf(l.say).join(" ") !== wordsOf(l.text).join(" ")) errors.push(`${n}: "say" must keep the script's exact words; only add tags such as [sigh], change punctuation or change capitals.\n      text: ${l.text}\n      say:  ${l.say}`);
+    // the main setup and each alternative speak the line, each with its own engine's rules
+    const main = voices[l.who];
+    [main, ...(Array.isArray(main.alternatives) ? main.alternatives : [])].forEach((v, k) => {
+      const engine = engineOf(v), E = ENGINES[engine];
+      if (!E) return;
+      const own = k > 0 ? v.say?.[i + 1] : undefined, said = own ?? l.say, spoken = said ?? l.text;
+      const m = k > 0 ? `${n} (${l.who} alternative ${k})` : n, fix = k > 0 ? `add "say": {"${i + 1}": "..."} to that alternative` : `add "say"`;
+      if (said !== undefined && /[()]/.test(said)) errors.push(`${m}: no parentheses in "say": ${engine === "voxcpm2" ? "a (style) only works at the very start of a take, so it goes in the voice's description" : "words in parentheses may be read aloud"}`);
+      for (const t of tagsOf(spoken)) if (!E.tags.includes(t)) errors.push(`${m}: [${t}] is not a ${E.name} tag. Use one of: ${E.tags.map((x) => `[${x}]`).join(" ")}`);
+      for (const t of wrapsOf(spoken)) if (engine !== "cosyvoice3" || !COSYVOICE3_WRAPS.includes(t)) errors.push(`${m}: <${t}> is not understood by ${E.name}${engine === "cosyvoice3" ? ` (only ${COSYVOICE3_WRAPS.map((x) => `<${x}>…</${x}>`).join(" ")})` : ""}`);
+      if (tagsOf(said ?? "").length + wrapsOf(said ?? "").length / 2 > 2) warnings.push(`${m}: more than two tags in one line; the model guides advise one or two at most`);
+      const caps = engine === "cosyvoice3" ? capsOf(spoken) : [];
+      if (caps.length) warnings.push(`${m}: CosyVoice3 spells ALL-CAPS words letter by letter (${caps.join(", ")}). Unless it is an acronym such as NASA, ${fix} with it in sentence case`);
+    });
   });
+  for (const [who, v] of Object.entries(voices)) {
+    const total = (v.takes ?? plan.takes ?? 3) + (Array.isArray(v.alternatives) ? v.alternatives.reduce((s, a) => s + (a.takes ?? 1), 0) : 0);
+    if (total > 8) errors.push(`${who}: ${total} takes in all; 8 is the most (main takes plus alternatives)`);
+  }
   for (const k of Object.keys(plan.options ?? {})) if (!ALL_OPTIONS.includes(k)) errors.push(`options: unknown option "${k}" (allowed: ${ALL_OPTIONS.join(", ")})`);
   const takes = plan.takes ?? 3;
   if (!Number.isInteger(takes) || takes < 1 || takes > 8) errors.push(`"takes" must be 1 to 8`);
@@ -191,10 +225,28 @@ export function takeText(voice, lines) {
 }
 
 /** Every take to make, with a key that changes when anything that shapes its sound changes. */
+/**
+ * The setups a character's takes are made with, in take order: the main voice (its `takes`, default
+ * the plan's), then each alternative (1 take unless it says otherwise). Take numbers run on.
+ */
+export function voiceSetups(plan, who) {
+  const main = plan.voices[who];
+  if (!main) return [];
+  let first = 1;
+  return [{ voice: main, count: main.takes ?? plan.takes ?? 3 }, ...(main.alternatives ?? []).map((a) => ({ voice: a, count: a.takes ?? 1 }))]
+    .map((s) => { const r = { ...s, first }; first += s.count; return r; });
+}
+
+/** The voice setup a take number was made with. */
+export function setupOfTake(plan, who, take) {
+  const s = voiceSetups(plan, who).find((x) => take >= x.first && take < x.first + x.count);
+  return s?.voice ?? plan.voices[who];
+}
+
 export function takeRequests(plan, dir, { only } = {}) {
-  return Object.entries(plan.voices).filter(([who]) => (!only || only.includes(who)) && linesOf(plan, who).length).flatMap(([who, v]) => {
-    const lines = linesOf(plan, who), text = takeText(v, lines);
-    const count = v.takes ?? plan.takes, seeds = v.seeds ?? DEFAULT_SEEDS;
+  return Object.entries(plan.voices).filter(([who]) => (!only || only.includes(who)) && linesOf(plan, who).length).flatMap(([who]) => voiceSetups(plan, who).flatMap(({ voice: v, count, first }) => {
+    const lines = linesOf(plan, who).map((l) => (v.say?.[l.index + 1] !== undefined ? { ...l, say: v.say[l.index + 1] } : l)), text = takeText(v, lines);
+    const seeds = v.seeds ?? DEFAULT_SEEDS;
     const ref = v.reference ? sha(readFileSync(resolve(dir, v.reference))) : null;
     const engine = engineOf(v), E = ENGINES[engine];
     const shared = Object.fromEntries(Object.entries(plan.options ?? {}).filter(([k]) => E.options.includes(k)));
@@ -203,9 +255,9 @@ export function takeRequests(plan, dir, { only } = {}) {
       const options = { ...E.defaults, ...shared, ...v.options, seed };
       // VoxCPM2 keys stay as they were, so takes made before CosyVoice3 existed are still valid
       const key = sha(JSON.stringify({ text, options, ref, refText: v.referenceText ?? null, ...(engine !== "voxcpm2" && { engine, style: v.style ?? null }) })).slice(0, 16);
-      return { who, take: k + 1, seed, text, lines, voice: v, engine, options, key };
+      return { who, take: first + k, seed, text, lines, voice: v, engine, options, key };
     });
-  });
+  }));
 }
 
 /**
@@ -428,7 +480,15 @@ export const takesDir = (dir, plan) => join(dir, "voice-takes", plan.lang ?? pla
  * Make every take that is missing or out of date (a changed description, text or seed). An older
  * take that is replaced is moved into old/ rather than deleted, in case the user liked it.
  */
-export async function makeTakes(dir, { lang, only, dryRun = false, run = runProcess, hear = transcribe, settings = ttsSettings(), log = console.log, library } = {}) {
+/**
+ * Seconds to rest between two generations. This laptop crashes when it runs more than one model at a
+ * time or runs them back to back, so takes are made strictly one after another with a pause between
+ * them (MODEL_SAFETY.md). TTS_COOLDOWN_SECONDS in .env can raise it; it never goes below 15.
+ */
+export const COOLDOWN_SECONDS = Math.max(15, Number(process.env.TTS_COOLDOWN_SECONDS) || 15);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+export async function makeTakes(dir, { lang, only, dryRun = false, run = runProcess, hear = transcribe, settings = ttsSettings(), log = console.log, library, cooldown = run === runProcess ? COOLDOWN_SECONDS : 0 } = {}) {
   const plan = readVoicePlan(dir, lang, { library });
   plan.warnings.forEach((w) => log("⚠ " + w));
   const reqs = takeRequests(plan, dir, { only });
@@ -442,6 +502,7 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
   const bad = settingsProblems(settings, reqs.map((r) => r.engine));
   if (bad.length) throw new Error(`The voice settings in .env need fixing:\n  - ${bad.join("\n  - ")}`);
   const takes = [];
+  let generated = false; // one generation at a time: never start a take while another model runs
   for (const r of reqs) {
     const folder = join(base, r.who), wav = join(folder, `take-${r.take}.wav`), info = join(folder, `take-${r.take}.json`);
     mkdirSync(folder, { recursive: true });
@@ -454,6 +515,8 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
         renameSync(wav, join(folder, "old", `${stamp}-take-${r.take}.wav`));
         if (existsSync(info)) renameSync(info, join(folder, "old", `${stamp}-take-${r.take}.json`));
       }
+      if (generated && cooldown > 0) { log(`  resting ${cooldown} s before the next generation…`); await sleep(cooldown * 1000); }
+      generated = true;
       log(`Generating ${r.who}, take ${r.take} (${r.engine}, seed ${r.seed}, ${r.lines.length} line${r.lines.length > 1 ? "s" : ""})…`);
       const pending = wav.replace(/\.wav$/, ".pending.wav");
       rmSync(pending, { force: true });
@@ -482,6 +545,12 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
+/** One line for the review page: which engine and which voice made a take. */
+function howMade(v) {
+  const engine = engineOf(v);
+  return v.library ? `${engine} clone of the library voice “${esc(v.library)}”${v.note ? ` (${esc(v.note)})` : ""}` : v.reference ? `${engine} clone of ${esc(v.reference)}${v.style ? `, style: ${esc(v.style)}` : ""}` : `${engine}: ${esc(v.description)}`;
+}
+
 /** review.html: every character's takes side by side, with what the word check found. */
 export function writeReview(dir, plan, base = takesDir(dir, plan)) {
   const sections = Object.entries(plan.voices).filter(([who]) => linesOf(plan, who).length).map(([who, v]) => {
@@ -493,8 +562,8 @@ export function writeReview(dir, plan, base = takesDir(dir, plan)) {
       const issues = t.check?.problems?.length ? `<ul>${t.check.problems.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : "";
       return `<div class="take"><b>Take ${t.take}</b> <span>seed ${t.seed} · ${t.duration?.toFixed(1) ?? "?"} s${pace} · ${esc(t.check?.summary ?? "")}</span><audio controls preload="none" src="${esc(`${who}/take-${t.take}.wav`)}"></audio>${issues}</div>`;
     }).join("");
-    const engine = engineOf(v);
-    const how = v.library ? `${engine} clone of the library voice “${esc(v.library)}”${v.note ? ` (${esc(v.note)})` : ""}` : v.reference ? `${engine} clone of ${esc(v.reference)}${v.style ? `, style: ${esc(v.style)}` : ""}` : `${engine}: ${esc(v.description)}`;
+    const setups = voiceSetups(plan, who);
+    const how = setups.length < 2 ? howMade(v) : setups.map((s) => `Take${s.count > 1 ? `s ${s.first}–${s.first + s.count - 1}` : ` ${s.first}`}: ${howMade(s.voice)}`).join("<br>");
     const lines = linesOf(plan, who).map((l) => `<li value="${l.index + 1}" dir="auto">${esc(l.say ?? l.text)}</li>`).join("");
     return `<section><h2>${esc(who)}</h2><p class="d">${how}</p>${rows || "<p>No takes yet.</p>"}<details><summary>${linesOf(plan, who).length} line(s)</summary><ol>${lines}</ol></details></section>`;
   }).join("");
@@ -669,8 +738,8 @@ export function makeReference(dir, who, take, { lang, save, library = LIBRARY, o
   const span = { start: clips[best.a].start, end: clips[best.b].end };
   const text = lines.slice(best.a, best.b + 1).map((l) => l.text.replace(/\[[^\]]*\]/g, "").replace(/\s+/g, " ").trim()).join(" ");
   const audio = pcmWav(clipPcm(pcm, span), RATE);
-  const v = plan.voices[who];
-  const meta = { who, referenceText: text, language: plan.language, seconds: +(span.end - span.start).toFixed(2), from: `${engineOf(v)} ${who} take ${take}${v.description ? "" : " (a clone)"}`, description: v.description ?? v.note ?? null };
+  const v = setupOfTake(plan, who, take);
+  const meta ={ who, referenceText: text, language: plan.language, seconds: +(span.end - span.start).toFixed(2), from: `${engineOf(v)} ${who} take ${take}${v.description ? "" : " (a clone)"}`, description: v.description ?? v.note ?? null };
   const rel = `refs/${who}.wav`;
   mkdirSync(join(dir, "refs"), { recursive: true });
   writeFileSync(join(dir, rel), audio);

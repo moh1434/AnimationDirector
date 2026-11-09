@@ -1,5 +1,7 @@
 # Voices from text (VoxCPM2, CosyVoice3)
 
+**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
+
 Use this when the user sends a **script but no recordings**, or when a story needs a voice for a
 character nobody recorded. The director describes a voice for each character, the model makes a few
 takes of each one locally, the user listens and picks one per character, and the picked takes become
@@ -109,6 +111,7 @@ word by word and gives the times needed to cut it.
 | `voices.<who>.library` | a character voice saved in `voices-library/` (below); brings its own reference |
 | `voices.<who>.style` | CosyVoice3 only: `loud`, `soft`, `fast`, `slow`, `happy`, `sad` or `angry` for the whole take |
 | `voices.<who>.seeds` | optional seeds, one per take (default 11, 22, 33, …). Same seed + same text = same audio |
+| `voices.<who>.alternatives` | optional list of other setups for the same character (another `engine`, `description` or `reference`), each 1 take unless it sets `takes`. Their takes are numbered after the main takes, which stay valid. An alternative may give `"say": {"<line number>": "..."}` for its own wording (e.g. sentence case for CosyVoice3). 8 takes at most in all |
 | `voices.<who>.options` / `options` | VoxCPM2: `num_inference_steps` (default 4), `guidance_scale` (keep ≥ 1.5), `retry_badcase`. CosyVoice3: `num_inference_steps` (default 4), `top_k` |
 | `lines[].who` | a lower-case id; the same ids go in the storyboard's `cast` |
 | `lines[].text` | the **exact** words of the script; captions and lip-sync use these |

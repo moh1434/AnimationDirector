@@ -1,5 +1,7 @@
 # Step-by-step guide for local / smaller AI models
 
+**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
+
 **Who this is for.** A model running on the user's computer (for example a 7–30B model in Ollama or
 LM Studio) that is asked to make a video with this pipeline. Follow it in order, exactly.
 
