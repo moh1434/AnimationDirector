@@ -107,9 +107,10 @@ pnpm video check demo-game      # Shorts → out/check-shorts.md + out/check/*.j
 pnpm video qc demo-game         # finished MP4s → out/final-pass.md
 ```
 
-**Voice enhancement comes before the final video.** `plan` exports the final voice to
-`voices/enhance/original.wav`; the user cleans it and saves the result next to it, e.g.
-`voices/enhance/enhanced.wav` (same length and words). Tell them, wait, run `plan` again, then `make`. Follow [ENHANCE.md](ENHANCE.md).
+**Voice enhancement comes before the final video, and you do it yourself without asking.** `plan`
+exports the final voice to `voices/enhance/original.wav`; you clean it with Adobe Podcast Enhance in
+Claude in Chrome (`pnpm video enhance <name>`, upload, wait, Download, `--take-download`), then `plan`
+again and `make`. The user asked for this online step. Follow [ENHANCE.md](ENHANCE.md).
 
 **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
 The pipeline default is 60 fps (`video.json` → `"fps"`); do not lower it unless the user asks.

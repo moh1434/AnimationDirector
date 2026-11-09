@@ -17,6 +17,7 @@
 //   node pipeline/cli.mjs voices <name> [--lang ar] [--only bob,ali] [--dry-run]   VoxCPM2 takes from tts.json (TTS.md)
 //   node pipeline/cli.mjs voice-pick <name> bob=2 narrator=1 [--lang ar] [--replace]  cut the chosen takes into lines
 //   node pipeline/cli.mjs voice-ref <name> bob=2 [--lang ar] [--save bob]         a clone reference from a take (+ voices-library/)
+//   node pipeline/cli.mjs enhance <name> [--take-download] [--downloads <dir>]     Adobe Enhance via Claude in Chrome (ENHANCE.md)
 // options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>   --skip-enhance
 // plan exports the final voice to voices/enhance/original.wav for the user's noise removal; their
 // file saved next to it is used once it is there, and make waits for it (ENHANCE.md).
@@ -30,7 +31,7 @@ import { direct } from "./director.mjs";
 import { dialogueStale, isSoundLabel, loadTimeline, missingClips, prepareDialogue, readDialogue } from "./dialogue.mjs";
 import { ENGINES, makeReference, makeTakes, parsePicks, pickTakes, ttsSettings } from "./tts.mjs";
 import { catalog } from "./catalog.mjs";
-import { enhanceStep } from "./enhance.mjs";
+import { enhanceStep, prepareUpload, takeDownload } from "./enhance.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
 import { requireWhisperConfig, whisperConfig, modelFor, bundlerName, rendererName } from "./whisper-config.mjs";
@@ -44,7 +45,7 @@ for (let i = 1; i < argv.length; i++) {
   if (a.startsWith("--")) {
     const k = a.slice(2);
     const nx = argv[i + 1];
-    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang", "only", "save"].includes(k)) { flags[k] = nx; i++; }
+    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang", "only", "save", "downloads"].includes(k)) { flags[k] = nx; i++; }
     else flags[k] = true;
   } else pos.push(a);
 }
@@ -738,6 +739,23 @@ try {
       break;
     }
     case "check": { const d = projectDir(pos[0]); await plan(d); await check(d); break; }
+    case "enhance": {
+      // Adobe Podcast Enhance through Claude in Chrome (ENHANCE.md): the file to upload, then the download back
+      const d = projectDir(pos[0]);
+      try {
+        if (flags["take-download"]) {
+          const r = takeDownload(d, { downloads: typeof flags.downloads === "string" ? flags.downloads : undefined });
+          log(`Moved ${r.from}\n    → ${r.to} (${r.seconds?.toFixed(3)} s; the original is ${r.original?.toFixed(3)} s)`);
+          if (!r.fits) die(`The enhanced file is not the same length as the original. Tell the user; do not use it.`);
+          log(`Next: pnpm video plan ${basename(d)}   (it switches the video to the enhanced voice)`);
+        } else {
+          const r = prepareUpload(d);
+          log(`Upload this file to https://podcast.adobe.com/en/enhance (Claude in Chrome, file_upload):\n  ${r.upload}`);
+          log(`When the download has finished: pnpm video enhance ${basename(d)} --take-download`);
+        }
+      } catch (e) { die(e.message); }
+      break;
+    }
     case "qc": { const d = projectDir(pos[0]); await qc(d); break; }
     case "make": {
       const d = projectDir(pos[0]);

@@ -205,10 +205,11 @@ use fewer objects). If you can look at images, open 2–3 stills in `out/check/`
 scene shows what the sentence says. Then run `validate` again.
 
 ### Step 7 — render the Shorts video
-First the user cleans the voice. Tell them, in these words:
-"Please remove the noise from `projects/<name>/voices/enhance/original.wav` and save the result next
-to it as `enhanced.wav`. Keep the same length and words." **Stop and wait.** When they
-say it is there, run `pnpm video plan <name>` and check it prints "Using the enhanced voice". Then:
+First the voice is cleaned with Adobe Podcast Enhance. If you can use Claude in Chrome, do it
+yourself without asking: follow "The steps" in ENHANCE.md exactly. If you cannot use a browser, tell
+the user in these words: "Please remove the noise from `projects/<name>/voices/enhance/original.wav`
+and save the result next to it as `enhanced.wav`. Keep the same length and words." **Stop and wait.**
+Then run `pnpm video plan <name>` and check it prints "Using the enhanced voice". Then:
 ```
 pnpm video make <name>
 ```

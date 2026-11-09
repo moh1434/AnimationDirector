@@ -61,3 +61,25 @@ test("a new voice moves the old enhanced file aside and exports the new original
   assert.equal(old.length, 1);
   assert.deepEqual(readdirSync(join(dir, "voices", "enhance", "old", old[0])), ["enhanced.wav"], "the user's work is kept, not deleted");
 });
+
+test("Adobe Enhance: the upload is recorded and the newest download after it comes back as enhanced", async () => {
+  const { prepareUpload, takeDownload, enhanceState } = await import("./enhance.mjs");
+  const { utimesSync, mkdirSync } = await import("node:fs");
+  const dir = project(), downloads = join(dir, "Downloads");
+  mkdirSync(downloads);
+  enhanceStep(dir, join(dir, "voice.wav"), opts);
+  assert.throws(() => takeDownload(dir, { downloads, seconds }), /No upload was started/);
+  writeFileSync(join(downloads, "older.wav"), "len:10.00");
+  utimesSync(join(downloads, "older.wav"), new Date(Date.now() - 3600e3), new Date(Date.now() - 3600e3));
+  const up = prepareUpload(dir);
+  assert.equal(up.upload, join(dir, "voices", "enhance", "original.wav"), "a small voice is uploaded as it is");
+  assert.throws(() => takeDownload(dir, { downloads, seconds }), /No audio file was downloaded/, "an old download is never taken");
+  writeFileSync(join(downloads, "original-enhanced-v2.wav.crdownload"), "len:10.00");
+  writeFileSync(join(downloads, "original-enhanced-v2.wav"), "len:10.01");
+  const r = takeDownload(dir, { downloads, seconds });
+  assert.equal(r.to, join(dir, "voices", "enhance", "enhanced.wav"));
+  assert.ok(r.fits);
+  assert.ok(!existsSync(join(downloads, "original-enhanced-v2.wav")), "moved, not copied");
+  assert.equal(enhanceState(dir), "enhanced");
+  assert.equal(enhanceStep(dir, join(dir, "voice.wav"), opts).state, "enhanced");
+});

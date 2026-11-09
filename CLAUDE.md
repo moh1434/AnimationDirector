@@ -53,11 +53,12 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 4. `pnpm video check <name>` → read `out/check-shorts.md` and look at `out/check/*.jpg`.
    Fix every error; judge each warning (layout-composition skill). `stills` gives a quick contact sheet.
    Add `--format both` only when the user wants the YouTube layout checked too (stills, not a render).
-5. **Voice enhancement (the user's step, [ENHANCE.md](ENHANCE.md)).** `plan` exports the final voice to
-   `voices/enhance/original.wav`. Tell the user to clean it (noise removal; same length and words) and save
-   the result next to it (e.g. `voices/enhance/enhanced.wav`), then wait. Run `plan` again so it uses the enhanced file. `make`
-   refuses to make the final video without it (`--draft` is fine; `--skip-enhance` only if the user says so).
-   A new voice moves the old enhanced file to `voices/enhance/old/`: ask the user to enhance again.
+5. **Voice enhancement — do it yourself, without asking ([ENHANCE.md](ENHANCE.md)).** `plan` exports the
+   final voice to `voices/enhance/original.wav`. Run `pnpm video enhance <name>`, upload the printed file to
+   Adobe Podcast Enhance in **Claude in Chrome** (`file_upload`; never click "Choose files"), wait, click
+   Download, run `pnpm video enhance <name> --take-download`, then `plan` again. The user asked for this
+   online step; it is an exception to "local only". `make` refuses the final video without the enhanced
+   voice (`--draft` is fine; `--skip-enhance` only if the user says so). A new voice needs enhancing again.
 6. `pnpm video make <name>` → `out/<name>-shorts.mp4` and `.srt`, then read `out/final-pass.md` and
    the frame sheet (final-pass skill). Use `--draft` for quick checks.
    **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
