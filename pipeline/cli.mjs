@@ -17,7 +17,9 @@
 //   node pipeline/cli.mjs voices <name> [--lang ar] [--only bob,ali] [--dry-run]   VoxCPM2 takes from tts.json (TTS.md)
 //   node pipeline/cli.mjs voice-pick <name> bob=2 narrator=1 [--lang ar] [--replace]  cut the chosen takes into lines
 //   node pipeline/cli.mjs voice-ref <name> bob=2 [--lang ar] [--save bob]         a clone reference from a take (+ voices-library/)
-// options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>
+// options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>   --skip-enhance
+// plan exports the final voice to voices/enhance/original.wav for the user's noise removal; their
+// file saved next to it is used once it is there, and make waits for it (ENHANCE.md).
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync, rmSync } from "node:fs";
 import { join, resolve, basename, dirname, extname } from "node:path";
 import { spawnSync, spawn } from "node:child_process";
@@ -28,6 +30,7 @@ import { direct } from "./director.mjs";
 import { dialogueStale, isSoundLabel, loadTimeline, missingClips, prepareDialogue, readDialogue } from "./dialogue.mjs";
 import { ENGINES, makeReference, makeTakes, parsePicks, pickTakes, ttsSettings } from "./tts.mjs";
 import { catalog } from "./catalog.mjs";
+import { enhanceStep } from "./enhance.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
 import { requireWhisperConfig, whisperConfig, modelFor, bundlerName, rendererName } from "./whisper-config.mjs";
@@ -133,7 +136,11 @@ async function plan(dir, { force = false } = {}) {
   mkdirSync(build, { recursive: true });
   let dialogue = null;
   if (existsSync(join(dir, "dialogue.json"))) try { dialogue = prepareDialogue(dir); } catch (e) { die(e.message); }
-  const voice = dialogue?.voice ?? findVoice(dir);
+  // the user's own clean-up step: export the final voice, and use their enhanced copy once it is there
+  const enhance = enhanceStep(dir, dialogue?.voice ?? findVoice(dir));
+  enhance.messages.forEach((m) => (enhance.state === "error" ? warn(m) : log(m)));
+  if (enhance.state === "error") die("Fix the enhanced voice (see above), or remove it to use the original.");
+  const voice = enhance.voice;
   const script = dialogue?.script ?? findScript(dir);
   let duration;
   const ffprobe = findFfmpeg("ffprobe");
@@ -165,7 +172,7 @@ async function plan(dir, { force = false } = {}) {
     if (existing.inputsHash && existing.inputsHash !== inputsHash) warn("Voice or script changed since storyboard.json was made. Use --replan to rebuild it (your edits would be replaced).");
     log("Keeping existing storyboard.json (use --replan to rebuild it).");
     briefOf(dir, { analysis, segments, settings: { ...settings, language: lang }, storyboard: existing });
-    return { settings, analysis, storyboard: existing, lang };
+    return { settings, analysis, storyboard: existing, lang, enhance };
   }
   const sb = direct({ segments, words: analysis.words, duration: analysis.duration, settings: { ...settings, language: lang } });
   if(dialogue) {
@@ -180,7 +187,7 @@ async function plan(dir, { force = false } = {}) {
   writeFileSync(join(dir, "STORYBOARD.md"), storyboardMd(sb), "utf8");
   log(`storyboard.json written: ${sb.scenes.length} scenes (auto-directed — edit it or ask Claude to direct it).`);
   briefOf(dir, { analysis, segments, settings: { ...settings, language: lang }, storyboard: sb });
-  return { settings, analysis, storyboard: sb, lang };
+  return { settings, analysis, storyboard: sb, lang, enhance };
 }
 
 function briefOf(dir, ctx) {
@@ -735,6 +742,9 @@ try {
     case "make": {
       const d = projectDir(pos[0]);
       const ctx = await plan(d, { force: !!flags.replan });
+      // the final video waits for the user's enhanced voice (ENHANCE.md); drafts and --skip-enhance do not
+      if (ctx.enhance?.state === "waiting" && !flags.draft && !flags["skip-enhance"])
+        die(`The voice is waiting for your enhancement:\n  1. Clean ${join(d, "voices", "enhance", "original.wav")} (remove noise; keep the same length and words).\n  2. Save the result next to it, for example ${join(d, "voices", "enhance", "enhanced.wav")}\n  3. Run make again.\n(--draft renders a quick check with the original voice; --skip-enhance makes the final video without enhancement.)`);
       await audio(d, ctx);
       await render(d, ctx);
       log(`Finished in ${Math.round((Date.now() - t0) / 1000)}s. Videos are in ${join(d, "out")}`);

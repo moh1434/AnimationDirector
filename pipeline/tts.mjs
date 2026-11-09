@@ -50,6 +50,16 @@ const readJson = (p) => JSON.parse(readFileSync(p, "utf8").replace(/^﻿/, ""));
 const writeJson = (p, v) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, JSON.stringify(v, null, 2) + "\n", "utf8"); };
 const sha = (v) => createHash("sha256").update(v).digest("hex");
 const ID = /^[a-z][a-z0-9_]*$/;
+/** True when `p` is `folder` or inside it (no "..", no other drive). */
+const isInside = (folder, p) => { const r = relative(resolve(folder), resolve(p)); return r === "" || (!r.startsWith("..") && !/^[a-z]:/i.test(r) && !r.startsWith("/") && !r.startsWith("\\")); };
+/**
+ * Voices never come from outside this pipeline: a reference or recording must be in the project
+ * folder or in voices-library/. Returns an error message, or null when the path is allowed.
+ */
+export function outsideVoice(dir, p, library = LIBRARY) {
+  const abs = resolve(dir, p);
+  return isInside(dir, abs) || isInside(library, abs) ? null : `${p} is outside the project. Voices must come from this project or from voices-library/ — never from other folders (such as TTS_comparison)`;
+}
 
 /* ---------------- settings (.env) ---------------- */
 
@@ -131,6 +141,7 @@ export function readVoicePlan(dir, lang, options = {}) {
       const lib = libraryVoice(String(v.library), options.library);
       if (!lib) { errors.push(`${label}: no voice "${v.library}" in voices-library/ (save one with: pnpm video voice-ref <project> ${who}=<take> --save ${v.library})`); return null; }
       if (v.reference || v.description) errors.push(`${label}: a "library" voice brings its own reference; leave out "reference" and "description"`);
+      if (!String(lib.referenceText ?? "").trim()) errors.push(`${label}: voices-library/${v.library}/voice.json needs "referenceText", the exact words spoken in reference.wav`);
       const engine = v.engine ?? (ENGINES.cosyvoice3.languages.includes(language) ? "cosyvoice3" : "voxcpm2");
       v = { ...v, engine, reference: lib.reference, referenceText: lib.referenceText, note: lib.description };
     }
@@ -142,7 +153,9 @@ export function readVoicePlan(dir, lang, options = {}) {
   const checkSetup = (who, v, engine, E) => {
     if (E.languages && !E.languages.includes(language)) errors.push(`${who}: ${E.name} does not speak "${language}" (only ${E.languages.join(", ")}); use "engine": "voxcpm2" for this language`);
     if (v.reference) {
-      if (!existsSync(resolve(dir, v.reference))) errors.push(`${who}: reference ${v.reference} is not in the project`);
+      const outside = outsideVoice(dir, v.reference, options.library);
+      if (outside) errors.push(`${who}: reference ${outside}`);
+      else if (!existsSync(resolve(dir, v.reference))) errors.push(`${who}: reference ${v.reference} is not in the project`);
       if (engine === "voxcpm2" && !v.referenceText?.trim()) errors.push(`${who}: a reference needs "referenceText", the exact words spoken in it`);
       if (v.description) errors.push(`${who}: give a description OR a reference, not both (with a reference the description would be read aloud)`);
     } else if (engine === "cosyvoice3") errors.push(`${who}: CosyVoice3 cannot design a voice from a description; it clones a "reference" (cut one from a picked VoxCPM2 take with voice-ref, or use "library")`);
@@ -184,7 +197,11 @@ export function readVoicePlan(dir, lang, options = {}) {
     if (typeof l?.text !== "string" || !l.text.trim()) errors.push(`${n}: "text" must be the exact words of the script`);
     if (!l?.text) return;
     if (isSoundLabel(l.text)) { if (l.say) errors.push(`${n}: "${l.text}" is a sound, not speech; give it a recording with "file" instead of "say"`); return; }
-    if (l.file) return; // the user's own recording of this line
+    if (l.file) { // the user's own recording of this line
+      const outside = outsideVoice(dir, l.file, options.library);
+      if (outside) errors.push(`${n}: recording ${outside}`);
+      return;
+    }
     if (!voices[l.who]) { errors.push(`${n}: no voice for "${l.who}" in "voices"`); return; }
     if (l.say !== undefined && wordsOf(l.say).join(" ") !== wordsOf(l.text).join(" ")) errors.push(`${n}: "say" must keep the script's exact words; only add tags such as [sigh], change punctuation or change capitals.\n      text: ${l.text}\n      say:  ${l.say}`);
     // the main setup and each alternative speak the line, each with its own engine's rules

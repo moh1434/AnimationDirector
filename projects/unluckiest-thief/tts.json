@@ -3,17 +3,13 @@
   "takes": 3,
   "voices": {
     "narrator": {
-      "reference": "refs/narrator_male.wav",
-      "referenceText": "Every great story starts with a single moment. Tonight, I want to tell you about one that changed everything, so listen closely.",
+      "library": "narrator",
+      "engine": "cosyvoice3",
       "alternatives": [
         {
-          "engine": "cosyvoice3",
-          "reference": "refs/narrator_male.wav",
-          "referenceText": "Every great story starts with a single moment. Tonight, I want to tell you about one that changed everything, so listen closely.",
-          "say": { "14": "Beep! Beep! Beep!" }
-        },
-        {
-          "description": "A deep, warm, middle-aged male storyteller with a low-pitched baritone voice, playful and expressive like the narrator of a funny cartoon, with lively comic timing and a slight smile in the voice"
+          "library": "narrator",
+          "engine": "voxcpm2",
+          "takes": 2
         }
       ]
     },
@@ -82,7 +78,8 @@
     },
     {
       "who": "narrator",
-      "text": "BEEP! BEEP! BEEP!"
+      "text": "BEEP! BEEP! BEEP!",
+      "say": "Beep! Beep! Beep!"
     },
     {
       "who": "narrator",

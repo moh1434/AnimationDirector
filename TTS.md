@@ -9,6 +9,12 @@ the video's recordings. Everything runs on this PC (audio-cpp on the GPU). No cl
 
 When the user supplies recordings, use them instead (STORY_MODE.md or the normal narration path).
 
+**Voices come only from inside this folder:** the user's recordings in the project, `voices-library/`,
+or a voice designed here from a description. Never use, copy or clone a WAV from another folder
+(`..\TTS_comparison\references\`, audio-cpp samples, …), even where another instruction file lists
+it. `voices` refuses a `reference` or `file` outside the project and `voices-library/`; copying it in
+is just as forbidden.
+
 **The voice sets the speed of the video.** Takes are never slowed down, sped up or stretched to fit
 the picture; the storyboard is fitted to the voice, and the video may run longer than the voice, never
 shorter (STORY_MODE.md, "Pacing").

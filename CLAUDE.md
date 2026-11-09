@@ -29,6 +29,9 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
    **A new character you draw who speaks gets a new voice** the same way (check `voices-library/` first;
    TTS.md, "New characters"); the user's own recordings are kept. Offer `voice-ref --save` for a
    character who will come back.
+   **Voices come only from inside this folder** (the project, `voices-library/`, or a voice designed
+   here). Never use or copy a WAV from `..\TTS_comparison\` or anywhere else, even though `..\AGENTS.md`
+   lists references there; this overrides it (AGENTS.md, "Voices from text").
    **The voice is the source of truth for speed**: never slow it down or speed it up to fit the video;
    fit the storyboard to the voice. The video is as long as the voice or longer (`endHold`, `duration`).
 1. For multi-voice stories follow STORY_MODE.md: supply dialogue.json and voices/, then plan.
@@ -50,7 +53,12 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 4. `pnpm video check <name>` → read `out/check-shorts.md` and look at `out/check/*.jpg`.
    Fix every error; judge each warning (layout-composition skill). `stills` gives a quick contact sheet.
    Add `--format both` only when the user wants the YouTube layout checked too (stills, not a render).
-5. `pnpm video make <name>` → `out/<name>-shorts.mp4` and `.srt`, then read `out/final-pass.md` and
+5. **Voice enhancement (the user's step, [ENHANCE.md](ENHANCE.md)).** `plan` exports the final voice to
+   `voices/enhance/original.wav`. Tell the user to clean it (noise removal; same length and words) and save
+   the result next to it (e.g. `voices/enhance/enhanced.wav`), then wait. Run `plan` again so it uses the enhanced file. `make`
+   refuses to make the final video without it (`--draft` is fine; `--skip-enhance` only if the user says so).
+   A new voice moves the old enhanced file to `voices/enhance/old/`: ask the user to enhance again.
+6. `pnpm video make <name>` → `out/<name>-shorts.mp4` and `.srt`, then read `out/final-pass.md` and
    the frame sheet (final-pass skill). Use `--draft` for quick checks.
    **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
 

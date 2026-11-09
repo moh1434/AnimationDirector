@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, writeFileSync, readFileSync, existsSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, basename } from "node:path";
 import { alignLines, keepsRecordings, makeReference, makeTakes, parseLines, parsePicks, pickTakes, readPcm, readVoicePlan, splitTake, takeCommand, takeRequests, takeText } from "./tts.mjs";
 import { mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
@@ -263,4 +263,18 @@ test("alternatives add takes made another way, numbered after the main takes, wi
   const again = takeRequests(readVoicePlan(dir), dir).filter((r) => r.who === "ali");
   assert.deepEqual(again.slice(0, 2).map((r) => r.key), before.filter((r) => r.who === "ali").map((r) => r.key));
   assert.throws(() => { writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...STORY, voices: { ...STORY.voices, ali: { ...STORY.voices.ali, alternatives: [{ description: "x", takes: 7 }] } } })); readVoicePlan(dir); }, /9 takes in all/);
+});
+test("voices never come from outside the project or voices-library/", () => {
+  const dir = project(STORY), outside = join(dir, "..", `outside-${Date.now()}.wav`);
+  writeFileSync(outside, wavOf(tones([[0, 1]], 1)));
+  const bad = { ...STORY, voices: { ...STORY.voices, ali: { reference: outside, referenceText: "Hello." } } };
+  writeFileSync(join(dir, "tts.json"), JSON.stringify(bad));
+  assert.throws(() => readVoicePlan(dir), /outside the project/, "an absolute path elsewhere is refused");
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...bad, voices: { ...bad.voices, ali: { reference: `../${basename(outside)}`, referenceText: "Hello." } } }));
+  assert.throws(() => readVoicePlan(dir), /outside the project/, "a ../ path is refused");
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...STORY, lines: [...STORY.lines, { who: "ali", text: "Bye.", file: outside }] }));
+  assert.throws(() => readVoicePlan(dir), /recording .*outside the project/, "a line's recording from elsewhere is refused");
+  writeFileSync(join(dir, "ali.wav"), wavOf(tones([[0, 1]], 1)));
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...bad, voices: { ...bad.voices, ali: { reference: "ali.wav", referenceText: "Hello." } } }));
+  assert.doesNotThrow(() => readVoicePlan(dir), "a reference inside the project is fine");
 });

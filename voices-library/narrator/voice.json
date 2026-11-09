@@ -1,0 +1,8 @@
+{
+  "id": "narrator",
+  "preset": "host",
+  "referenceText": "Every great story starts with a single moment. Tonight, I want to tell you about one that changed everything, a moment filled with unexpected twists, strange encounters, and a little bit of bad luck.",
+  "language": "en",
+  "description": "Main narrator / host of the channel / female",
+  "from": "user's own reference"
+}

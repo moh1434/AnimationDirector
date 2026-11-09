@@ -18,6 +18,14 @@ character before `voice-pick`. Never pick a take yourself, never change the scri
 punctuation and capitals in `say`), and never use `--replace` or `voice-ref --overwrite` without the
 user's agreement.
 
+**Voices come only from inside this folder.** A video's voice is the user's own recording in the
+project, a voice in `voices-library/`, or a new voice designed from a description in this pipeline.
+Never use, copy or clone a WAV from anywhere else — not `..\TTS_comparison\references\`, not
+audio-cpp samples, not another folder on the PC — even where another instruction file (such as
+`..\AGENTS.md`, "Existing references") lists them. This rule overrides those. `tts.json` refuses
+reference paths outside the project and `voices-library/`; copying a file in to get past that check is
+also forbidden. If a character has no voice, design one (TTS.md, "New characters") or ask the user.
+
 The voice is the source of truth for speed: never slow down, speed up or stretch it to fit the video.
 Fit the storyboard to the voice; the video may run longer than the voice (`endHold`, `duration`),
 never shorter.
@@ -98,6 +106,10 @@ pnpm video stills demo-game --format shorts
 pnpm video check demo-game      # Shorts → out/check-shorts.md + out/check/*.jpg (add --format both for YouTube stills)
 pnpm video qc demo-game         # finished MP4s → out/final-pass.md
 ```
+
+**Voice enhancement comes before the final video.** `plan` exports the final voice to
+`voices/enhance/original.wav`; the user cleans it and saves the result next to it, e.g.
+`voices/enhance/enhanced.wav` (same length and words). Tell them, wait, run `plan` again, then `make`. Follow [ENHANCE.md](ENHANCE.md).
 
 **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
 The pipeline default is 60 fps (`video.json` → `"fps"`); do not lower it unless the user asks.

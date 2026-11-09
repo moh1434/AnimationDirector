@@ -50,6 +50,10 @@ Use VoxCPM2 (the default: no `engine` needed). Use CosyVoice3 only when TTS.md s
 to a story that already has the user's recordings, follow "New characters and adding a voice to a
 story" in TTS.md: every recording of theirs stays as a line with its `file`.
 
+**Never take a voice from outside this folder.** Only the user's recordings in the project,
+`voices-library/`, or a voice you design with a `description`. Never copy a WAV from `TTS_comparison`
+or any other folder, even if another file says you can.
+
 **Never change the speed of a voice.** If the picture needs more time, make the scene or the ending
 longer (`"endHold": 1.5` in storyboard.json); the video may be longer than the voice, never shorter.
 
@@ -201,9 +205,15 @@ use fewer objects). If you can look at images, open 2–3 stills in `out/check/`
 scene shows what the sentence says. Then run `validate` again.
 
 ### Step 7 — render the Shorts video
+First the user cleans the voice. Tell them, in these words:
+"Please remove the noise from `projects/<name>/voices/enhance/original.wav` and save the result next
+to it as `enhanced.wav`. Keep the same length and words." **Stop and wait.** When they
+say it is there, run `pnpm video plan <name>` and check it prints "Using the enhanced voice". Then:
 ```
 pnpm video make <name>
 ```
+If `make` says the voice is waiting for enhancement, ask the user again. Never use `--skip-enhance`
+unless the user tells you to. More in ENHANCE.md.
 This takes a few minutes. When it finishes, read `projects/<name>/out/final-pass.md`. Every line
 should have ✔.
 
