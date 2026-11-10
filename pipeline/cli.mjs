@@ -14,7 +14,7 @@
 //   node pipeline/cli.mjs catalog                    list layouts, props, backgrounds, poses, expressions…
 //   node pipeline/cli.mjs localize <name> [--lang ar] the same video in another language → projects/<name>-ar
 //   node pipeline/cli.mjs doctor                     check the toolchain
-//   node pipeline/cli.mjs voices <name> [--lang ar] [--only bob,ali] [--dry-run]   VoxCPM2 takes from tts.json (TTS.md)
+//   node pipeline/cli.mjs voices <name> [--lang ar] [--only bob,ali] [--dry-run]   voice takes from tts.json: Audar / Qwen3-TTS (TTS.md)
 //   node pipeline/cli.mjs voice-pick <name> bob=2 narrator=1 [--lang ar] [--replace]  cut the chosen takes into lines
 //   node pipeline/cli.mjs voice-ref <name> bob=2 [--lang ar] [--save bob]         a clone reference from a take (+ voices-library/)
 //   node pipeline/cli.mjs enhance <name> [--take-download] [--downloads <dir>]     Adobe Enhance via Claude in Chrome (ENHANCE.md)
@@ -654,11 +654,11 @@ function doctor() {
   }
   w.warnings.forEach((m) => console.log("⚠ " + m));
   const t = ttsSettings();
-  if (!t.exe && !Object.values(t.models).some(Boolean)) ok(true, "Voices from text: not set up (optional, see TTS.md)");
-  else for (const e of Object.keys(ENGINES)) {
-    if (!t.models[e] && e !== "voxcpm2") { ok(true, `${e} voices: not set up (optional)`); continue; }
+  if (!Object.values(t.dirs).some(Boolean)) ok(true, "Voices from text: not set up (optional, see TTS.md)");
+  else for (const [e, E] of Object.entries(ENGINES)) {
+    if (!t.dirs[e]) { ok(true, `${E.name} voices: not set up (optional)`); continue; }
     const bad = [...t.errors, ...t.engineErrors[e]];
-    ok(!bad.length, `${e} voices: ${t.models[e]}`, bad.join("\n    → "));
+    ok(!bad.length, `${E.name} voices: ${t.dirs[e]}`, bad.join("\n    → "));
   }
 }
 
@@ -702,7 +702,7 @@ try {
         log(`${r.reference}: ${r.seconds.toFixed(1)} s, line(s) ${r.lines.join(", ")} of ${who} take ${take}${r.clean ? "" : " (warning: no clean line without tags or misheard words; listen to it)"}`);
         log(`  words: ${r.referenceText}`);
         if (r.saved) log(`  saved as ${r.saved}: later videos use { "library": "${flags.save}" } for this voice`);
-        else log(`  use it: "${who}": { "engine": "cosyvoice3", "reference": "${r.reference}", "referenceText": ${JSON.stringify(r.referenceText)} }`);
+        else log(`  use it: "${who}": { "reference": "${r.reference}", "referenceText": ${JSON.stringify(r.referenceText)} }`);
       }
       break;
     }

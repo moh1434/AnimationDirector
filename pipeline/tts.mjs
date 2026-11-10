@@ -1,16 +1,20 @@
-// Voices from text with local audio-cpp models (VoxCPM2, CosyVoice3). See TTS.md.
+// Voices from text with local models (Audar-TTS Turbo, Qwen3-TTS). See TTS.md.
 //
-// A voice designed from a description changes person between separate generations, so each character
-// speaks ALL of their lines in one long take. The user listens to a few takes per character and picks
-// one; that take is then cut back into its lines (whisper.cpp word times + the quiet gaps between
-// lines) and written as normal recordings: dialogue.json + voices/, or voice.wav + script.txt when a
-// single voice speaks everything. Speech is cut at pauses only, never stretched or re-timed: the
-// voice's own pace is the pace of the video.
+// Each character speaks ALL of their lines in one take, so the character stays one person. The user
+// listens to a few takes per character and picks one; that take is then cut back into its lines
+// (whisper.cpp word times + the quiet gaps between lines) and written as normal recordings:
+// dialogue.json + voices/, or voice.wav + script.txt when a single voice speaks everything. Speech is
+// cut at pauses only, never stretched or re-timed: the voice's own pace is the pace of the video.
 //
-// Engines: VoxCPM2 designs a voice from a description (any language, Arabic included) or clones one.
-// CosyVoice3 only clones a reference recording, but clones closest and most consistently; a
-// reference can be cut from a picked VoxCPM2 take (voice-ref) and kept in voices-library/ so a
-// character sounds the same in every video.
+// Engines (each runs in its own Python environment, through a worker in pipeline/tts_workers/):
+//   audar  Audar-TTS-V1-Turbo: clones a reference recording (+ its exact words), English and Arabic.
+//          A clone take is made in chunks of a few lines (one generation is at most ~36 s) and joined.
+//   qwen3  Qwen3-TTS 1.7B, English only: designs a new voice from a description (VoiceDesign weights;
+//          the whole take in one generation, because a designed voice changes between generations),
+//          or clones a reference (Base weights).
+// A new character in an Arabic video (description, no reference) gets an English reference designed by
+// Qwen3-TTS first, which Audar then clones. A picked take can be cut into a reference (voice-ref) and kept
+// in voices-library/ so the character sounds the same in every video.
 import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync, rmSync, statSync, copyFileSync, readdirSync } from "node:fs";
 import { join, resolve, dirname, basename, relative } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
@@ -20,28 +24,24 @@ import { parseEnv, requireWhisperConfig, modelFor } from "./whisper-config.mjs";
 import { DIALOGUE_RATE, isSoundLabel, pcmWav } from "./dialogue.mjs";
 
 const RATE = DIALOGUE_RATE;
-/** VoxCPM2's own non-verbal tags. Other models' tags (e.g. "[laughter]") are not understood. */
-export const VOXCPM2_TAGS = ["laughing", "sigh", "Uhm", "Shh", "Question-ah", "Question-ei", "Question-en", "Question-oh", "Surprise-wa", "Surprise-yo", "Dissatisfaction-hnn"];
-/** CosyVoice3's control tokens (its tokenizer). <strong>…</strong> and <laughter>…</laughter> wrap words. */
-export const COSYVOICE3_TAGS = ["laughter", "breath", "sigh", "cough", "noise", "clucking", "accent", "quick_breath", "hissing", "vocalized-noise", "lipsmack", "mn"];
-export const COSYVOICE3_WRAPS = ["strong", "laughter"];
-/** CosyVoice3's trained instructions (official instruct_list); free-form ones barely work. */
-export const COSYVOICE3_STYLES = {
-  loud: "Please say a sentence as loudly as possible.",
-  soft: "Please say a sentence in a very soft voice.",
-  fast: "请用尽可能快地语速说一句话。",
-  slow: "请用尽可能慢地语速说一句话。",
-  happy: "请非常开心地说一句话。",
-  sad: "请非常伤心地说一句话。",
-  angry: "请非常生气地说一句话。",
-};
+/** Audar's inline expression tags (its model card). Use one or two per line at most. */
+export const AUDAR_TAGS = ["laughs", "curious", "excited", "sighs", "exhales", "mischievously", "whispers", "sarcastic"];
 export const ENGINES = {
-  voxcpm2: { name: "VoxCPM2", env: "TTS_VOXCPM2_MODEL", file: "voxcpm2-q8_0.gguf", options: ["seed", "num_inference_steps", "guidance_scale", "retry_badcase"], defaults: { num_inference_steps: 4 }, tags: VOXCPM2_TAGS, languages: null },
-  cosyvoice3: { name: "CosyVoice3", env: "TTS_COSYVOICE3_MODEL", file: "cosyvoice3-q8_0.gguf", options: ["seed", "num_inference_steps", "top_k"], defaults: { num_inference_steps: 4 }, tags: COSYVOICE3_TAGS, languages: ["en", "zh", "ja", "ko", "de", "es", "fr", "it", "ru", "yue"] },
+  audar: { name: "Audar-TTS Turbo", env: "TTS_AUDAR_DIR", worker: "audar_worker.py", weights: ["weights"], options: ["seed", "temperature", "top_k", "top_p", "repeat_penalty"], defaults: {}, tags: AUDAR_TAGS, languages: ["en", "ar"], design: false, chunkChars: 240 },
+  qwen3: { name: "Qwen3-TTS", env: "TTS_QWEN3_DIR", worker: "qwen3_worker.py", weights: ["weights", "weights-base"], options: ["seed", "temperature", "top_k", "top_p"], defaults: {}, tags: [], languages: ["en"], design: true, chunkChars: 400 },
 };
+/** The English sentence a designed reference speaks when Audar must clone a voice made from a description (about 10 s). */
+export const DESIGN_TEXT = "Hello there, it is good to meet you. I have a story to tell today, so sit back, get comfortable, and listen closely, because every word of it matters.";
+export const WORKERS = join(ROOT, "pipeline", "tts_workers");
+/**
+ * Seconds to rest between two generations. This laptop crashes when it runs more than one model at a
+ * time or runs them back to back, so takes are made strictly one after another with a pause between
+ * them (MODEL_SAFETY.md). TTS_COOLDOWN_SECONDS in .env can raise it; it never goes below 15.
+ */
+export const COOLDOWN_SECONDS = Math.max(15, Number(process.env.TTS_COOLDOWN_SECONDS) || 15);
 const ALL_OPTIONS = [...new Set(Object.values(ENGINES).flatMap((e) => e.options))];
 const DEFAULT_SEEDS = [11, 22, 33, 44, 55, 66, 77, 88];
-/** Above this a single take may speed up, buzz or fail to stop (model guides): warn and check it. */
+/** Above this a designed take (one generation) may drift or fail to stop: warn and check it. */
 export const LONG_TAKE_CHARS = 1400;
 /** Character voices kept between videos: voices-library/<id>/reference_<lang>.wav + voice.json ("referenceText_<lang>"). */
 export const LIBRARY = join(ROOT, "voices-library");
@@ -63,19 +63,22 @@ export function outsideVoice(dir, p, library = LIBRARY) {
 
 /* ---------------- settings (.env) ---------------- */
 
-/** TTS_EXECUTABLE and one model per engine (TTS_VOXCPM2_MODEL, TTS_COSYVOICE3_MODEL) from .env. */
+/** Each engine's folder (TTS_AUDAR_DIR, TTS_QWEN3_DIR in .env) with its .venv and weights, and uv to run it. */
 export function ttsSettings({ root = ROOT, env = process.env } = {}) {
   const f = join(root, ".env");
   const vars = existsSync(f) ? parseEnv(readFileSync(f, "utf8")).vars : {};
   const get = (k) => String(env[k] ?? vars[k] ?? "").trim();
-  const exe = get("TTS_EXECUTABLE"), errors = [], models = {}, engineErrors = {};
-  if (!exe) errors.push("TTS_EXECUTABLE is not set in .env (the audio-cpp program, audiocpp_cli.exe). See .env.example.");
-  else if (!existsSync(exe)) errors.push(`TTS_EXECUTABLE: no program at ${exe}`);
+  const errors = [], dirs = {}, engineErrors = {};
+  const uv = get("TTS_UV") || "uv";
+  if (spawnSync(uv, ["--version"], { encoding: "utf8", windowsHide: true }).status !== 0) errors.push(`uv is not found (${uv}). Install it, or set TTS_UV in .env to uv.exe.`);
   for (const [name, e] of Object.entries(ENGINES)) {
-    const m = (models[name] = get(e.env));
-    engineErrors[name] = !m ? [`${e.env} is not set in .env (the ${e.file} file). See .env.example.`] : !existsSync(m) ? [`${e.env}: no model file at ${m}`] : [];
+    const d = (dirs[name] = get(e.env)), problems = (engineErrors[name] = []);
+    if (!d) { problems.push(`${e.env} is not set in .env (the ${e.name} folder). See .env.example.`); continue; }
+    if (!existsSync(d)) { problems.push(`${e.env}: no folder at ${d}`); continue; }
+    if (!existsSync(join(d, ".venv"))) problems.push(`${e.env}: ${d} has no .venv (its Python environment)`);
+    for (const w of e.weights) if (!existsSync(join(d, w))) problems.push(`${e.env}: ${d} has no ${w}/ folder`);
   }
-  return { exe, models, model: models.voxcpm2, backend: get("TTS_BACKEND") || "cuda", errors, engineErrors };
+  return { uv, dirs, errors, engineErrors };
 }
 
 /** What is wrong with the settings for these engines (an empty list when they can run). */
@@ -101,7 +104,7 @@ export function libraryLanguages(id, library = LIBRARY) {
 
 /**
  * A saved character voice for one language, or null. The reference in that language is used; when
- * there is none, another language's (an English reference can speak Arabic with VoxCPM2), English first.
+ * there is none, another language's (Audar speaks across languages), English first.
  */
 export function libraryVoice(id, library = LIBRARY, language = "en") {
   const found = libraryLanguages(id, library);
@@ -128,9 +131,8 @@ export const norm = (w) => w.toLowerCase().replace(/[ـ]/g, "").replace(/[^\p{L}
 export const wordsOf = (s) => String(s).replace(/\[[^\]]*\]/g, " ").replace(/<\/?[a-z_]+>/gi, " ").split(/\s+/).map(norm).filter(Boolean);
 const tagsOf = (s) => [...String(s).matchAll(/\[([^\]]*)\]/g)].map((m) => m[1]);
 const wrapsOf = (s) => [...String(s).matchAll(/<\/?([a-z_]+)>/gi)].map((m) => m[1]);
-/** Words CosyVoice3 would spell letter by letter ("YOU" → "Y-O-U"). */
-const capsOf = (s) => [...String(s).replace(/\[[^\]]*\]|<[^>]*>/g, " ").matchAll(/\b\p{Lu}{2,}\b/gu)].map((m) => m[0]);
-export const engineOf = (voice) => voice?.engine ?? "voxcpm2";
+/** The engine of a resolved voice setup (readVoicePlan sets it): Qwen3-TTS designs, Audar clones. */
+export const engineOf = (voice) => voice?.engine ?? (voice?.description && !voice?.reference ? "qwen3" : "audar");
 
 export const planFile = (lang) => (lang ? `tts-${lang}.json` : "tts.json");
 
@@ -165,31 +167,27 @@ export function readVoicePlan(dir, lang, options = {}) {
       if (v.reference || v.description) errors.push(`${label}: a "library" voice brings its own reference; leave out "reference" and "description"`);
       if (!String(lib.referenceText ?? "").trim()) errors.push(`${label}: voices-library/${v.library}/voice.json needs "referenceText_${lib.referenceLanguage}", the exact words spoken in ${lib.file}`);
       if (lib.crossLingual) warnings.push(`${who}: voices-library/${v.library} has no ${language} reference; its ${lib.referenceLanguage} one speaks ${language} (cross-lingual). Add reference_${language}.wav for a closer voice.`);
-      // CosyVoice3 clones closest in the languages it speaks; VoxCPM2 otherwise (Arabic), and always across languages
-      const engine = v.engine ?? (ENGINES.cosyvoice3.languages.includes(language) && !lib.crossLingual ? "cosyvoice3" : "voxcpm2");
-      v = { ...v, engine, reference: lib.reference, referenceText: lib.referenceText, note: lib.description };
+      v = { ...v, engine: v.engine ?? "audar", reference: lib.reference, referenceText: lib.referenceText, note: lib.description };
     }
+    // the default engine: Audar clones (English and Arabic); a description is designed by Qwen3-TTS
+    // (English), or, in another language, designed by Qwen3-TTS as an English reference that Audar clones
+    if (!v.engine) v = { ...v, engine: v.description && !v.reference && language !== "en" ? "audar" : engineOf(v) };
+    if (v.engine === "audar" && v.description && !v.reference) v = { ...v, designWith: "qwen3" };
     const engine = engineOf(v), E = ENGINES[engine];
     if (!E) { errors.push(`${label}: unknown engine "${engine}" (use ${Object.keys(ENGINES).join(" or ")})`); return null; }
     checkSetup(label, v, engine, E);
     return v;
   };
   const checkSetup = (who, v, engine, E) => {
-    if (E.languages && !E.languages.includes(language)) errors.push(`${who}: ${E.name} does not speak "${language}" (only ${E.languages.join(", ")}); use "engine": "voxcpm2" for this language`);
+    if (!E.languages.includes(language)) errors.push(`${who}: ${E.name} does not speak "${language}" (only ${E.languages.join(", ")}); use "engine": "audar" for this language`);
     if (v.reference) {
       const outside = outsideVoice(dir, v.reference, options.library);
       if (outside) errors.push(`${who}: reference ${outside}`);
       else if (!existsSync(resolve(dir, v.reference))) errors.push(`${who}: reference ${v.reference} is not in the project`);
-      if (engine === "voxcpm2" && !v.referenceText?.trim()) errors.push(`${who}: a reference needs "referenceText", the exact words spoken in it`);
-      if (v.description) errors.push(`${who}: give a description OR a reference, not both (with a reference the description would be read aloud)`);
-    } else if (engine === "cosyvoice3") errors.push(`${who}: CosyVoice3 cannot design a voice from a description; it clones a "reference" (cut one from a picked VoxCPM2 take with voice-ref, or use "library")`);
-    else if (!v.description?.trim()) errors.push(`${who}: needs a "description" of the voice (identity, texture, delivery; see TTS.md)`);
-    else if (/[()]/.test(v.description)) errors.push(`${who}: no parentheses inside the description`);
-    if (v.style !== undefined) {
-      if (engine !== "cosyvoice3") errors.push(`${who}: "style" is for CosyVoice3; with VoxCPM2 the delivery goes in the description`);
-      else if (!COSYVOICE3_STYLES[v.style]) errors.push(`${who}: style "${v.style}" is not one of ${Object.keys(COSYVOICE3_STYLES).join(", ")}`);
-      else if (!v.referenceText?.trim()) errors.push(`${who}: a style needs the reference's "referenceText"`);
-    }
+      if (!v.referenceText?.trim()) errors.push(`${who}: a reference needs "referenceText", the exact words spoken in it`);
+      if (v.description) errors.push(`${who}: give a description OR a reference, not both`);
+    } else if (!v.description?.trim()) errors.push(`${who}: needs a "description" of the voice (identity, texture, delivery; see TTS.md) or a "reference"/"library" to clone`);
+    if (v.style !== undefined) errors.push(`${who}: "style" was a CosyVoice3 setting and is gone; put the delivery in the description (Qwen3-TTS) or use Audar tags such as [excited] in "say"`);
     if (v.seeds && (!Array.isArray(v.seeds) || !v.seeds.every(Number.isInteger))) errors.push(`${who}: "seeds" must be whole numbers`);
     for (const k of Object.keys(v.options ?? {})) if (!E.options.includes(k)) errors.push(`${who}: unknown ${engine} option "${k}" (allowed: ${E.options.join(", ")})`);
     if (v.takes !== undefined && (!Number.isInteger(v.takes) || v.takes < 1 || v.takes > 8)) errors.push(`${who}: "takes" must be 1 to 8`);
@@ -235,12 +233,10 @@ export function readVoicePlan(dir, lang, options = {}) {
       if (!E) return;
       const own = k > 0 ? v.say?.[i + 1] : undefined, said = own ?? l.say, spoken = said ?? l.text;
       const m = k > 0 ? `${n} (${l.who} alternative ${k})` : n, fix = k > 0 ? `add "say": {"${i + 1}": "..."} to that alternative` : `add "say"`;
-      if (said !== undefined && /[()]/.test(said)) errors.push(`${m}: no parentheses in "say": ${engine === "voxcpm2" ? "a (style) only works at the very start of a take, so it goes in the voice's description" : "words in parentheses may be read aloud"}`);
-      for (const t of tagsOf(spoken)) if (!E.tags.includes(t)) errors.push(`${m}: [${t}] is not a ${E.name} tag. Use one of: ${E.tags.map((x) => `[${x}]`).join(" ")}`);
-      for (const t of wrapsOf(spoken)) if (engine !== "cosyvoice3" || !COSYVOICE3_WRAPS.includes(t)) errors.push(`${m}: <${t}> is not understood by ${E.name}${engine === "cosyvoice3" ? ` (only ${COSYVOICE3_WRAPS.map((x) => `<${x}>…</${x}>`).join(" ")})` : ""}`);
-      if (tagsOf(said ?? "").length + wrapsOf(said ?? "").length / 2 > 2) warnings.push(`${m}: more than two tags in one line; the model guides advise one or two at most`);
-      const caps = engine === "cosyvoice3" ? capsOf(spoken) : [];
-      if (caps.length) warnings.push(`${m}: CosyVoice3 spells ALL-CAPS words letter by letter (${caps.join(", ")}). Unless it is an acronym such as NASA, ${fix} with it in sentence case`);
+      if (said !== undefined && /[()]/.test(said)) errors.push(`${m}: no parentheses in "say": words in parentheses may be read aloud`);
+      for (const t of tagsOf(spoken)) if (!E.tags.includes(t)) errors.push(E.tags.length ? `${m}: [${t}] is not a ${E.name} tag. Use one of: ${E.tags.map((x) => `[${x}]`).join(" ")}` : `${m}: ${E.name} has no inline tags such as [${t}]; put the delivery in the voice's description, or ${fix} without it`);
+      for (const t of wrapsOf(spoken)) errors.push(`${m}: <${t}> is not understood by ${E.name}`);
+      if (tagsOf(said ?? "").length > 2) warnings.push(`${m}: more than two tags in one line; the model card advises using them sparingly`);
     });
   });
   for (const [who, v] of Object.entries(voices)) {
@@ -259,11 +255,26 @@ export function linesOf(plan, who) {
   return plan.lines.map((l, i) => ({ ...l, index: i })).filter((l) => l.who === who && !isSoundLabel(l.text) && !l.file);
 }
 
-/** What one take sends to the model: the description once, then every line on its own line. */
-export function takeText(voice, lines) {
-  const body = lines.map((l) => (l.say ?? l.text).trim()).join("\n");
-  return voice.description ? `(${voice.description.trim()})${body}` : body;
+/**
+ * What one take sends to the model, as the chunks it is generated in. A designed take (Qwen3-TTS from a
+ * description) is one generation, because a designed voice changes between generations. A clone is
+ * made a few whole lines at a time (one Audar generation is at most ~36 s) and the chunks are joined.
+ */
+export function takeChunks(voice, lines) {
+  const said = lines.map((l) => (l.say ?? l.text).trim());
+  const engine = engineOf(voice), E = ENGINES[engine];
+  if (engine === "qwen3" && !voice.reference) return [said.join("\n")];
+  const chunks = [];
+  for (const t of said) {
+    const last = chunks.at(-1);
+    if (last !== undefined && last.length + 1 + t.length <= E.chunkChars) chunks[chunks.length - 1] = `${last} ${t}`;
+    else chunks.push(t);
+  }
+  return chunks;
 }
+
+/** All of one take's words (for the log, the key and the review page). */
+export const takeText = (voice, lines) => takeChunks(voice, lines).join("\n");
 
 /** Every take to make, with a key that changes when anything that shapes its sound changes. */
 /**
@@ -286,48 +297,38 @@ export function setupOfTake(plan, who, take) {
 
 export function takeRequests(plan, dir, { only } = {}) {
   return Object.entries(plan.voices).filter(([who]) => (!only || only.includes(who)) && linesOf(plan, who).length).flatMap(([who]) => voiceSetups(plan, who).flatMap(({ voice: v, count, first }) => {
-    const lines = linesOf(plan, who).map((l) => (v.say?.[l.index + 1] !== undefined ? { ...l, say: v.say[l.index + 1] } : l)), text = takeText(v, lines);
+    const lines = linesOf(plan, who).map((l) => (v.say?.[l.index + 1] !== undefined ? { ...l, say: v.say[l.index + 1] } : l));
+    const chunks = takeChunks(v, lines), text = chunks.join("\n");
     const seeds = v.seeds ?? DEFAULT_SEEDS;
     const ref = v.reference ? sha(readFileSync(resolve(dir, v.reference))) : null;
     const engine = engineOf(v), E = ENGINES[engine];
+    const mode = v.reference ? "clone" : v.designWith ? "design+clone" : "design";
     const shared = Object.fromEntries(Object.entries(plan.options ?? {}).filter(([k]) => E.options.includes(k)));
     return Array.from({ length: count }, (_, k) => {
       const seed = seeds[k] ?? seeds.at(-1) + 11 * (k - seeds.length + 1);
       const options = { ...E.defaults, ...shared, ...v.options, seed };
-      // VoxCPM2 keys stay as they were, so takes made before CosyVoice3 existed are still valid
-      const key = sha(JSON.stringify({ text, options, ref, refText: v.referenceText ?? null, ...(engine !== "voxcpm2" && { engine, style: v.style ?? null }) })).slice(0, 16);
-      return { who, take: first + k, seed, text, lines, voice: v, engine, options, key };
+      // a voice designed for Audar to clone: one English reference per description and seed
+      const design = v.designWith ? { engine: v.designWith, description: v.description, text: DESIGN_TEXT, seed, key: sha(JSON.stringify({ d: v.description, t: DESIGN_TEXT, seed })).slice(0, 12) } : null;
+      const key = sha(JSON.stringify({ engine, mode, chunks, options, ref, refText: v.referenceText ?? null, description: v.description ?? null, language: plan.language })).slice(0, 16);
+      return { who, take: first + k, seed, text, chunks, lines, voice: v, engine, mode, design, language: plan.language, options, key };
     });
   }));
 }
 
 /**
- * The audio-cpp command for one take. VoxCPM2: design from the description, or ultimate clone of a
- * reference. CosyVoice3: zero-shot clone (reference + its words), cross-lingual clone (reference
- * only), or instruct (reference + words + one of its trained styles).
+ * The command for one generation: the engine's worker (pipeline/tts_workers/) in the engine's own
+ * Python environment, reading a job file. `reference` overrides the voice's (a designed reference).
  */
-export function takeCommand(settings, dir, req, out) {
-  const engine = req.engine ?? engineOf(req.voice), opts = { ...req.options };
-  const model = settings.models?.[engine] ?? (engine === "voxcpm2" ? settings.model : undefined);
-  let args;
-  if (engine === "cosyvoice3") {
-    const v = req.voice, template = v.style ? "instruct" : v.referenceText ? "zero_shot" : "cross_lingual";
-    args = ["--task", v.style ? "tts" : "clon", "--family", "cosyvoice3", "--model", model, "--backend", settings.backend, "--voice-ref", resolve(dir, v.reference)];
-    if (template !== "cross_lingual") args.push("--reference-text", v.referenceText);
-    opts.template_name = template;
-    if (v.style) opts.instruct = COSYVOICE3_STYLES[v.style];
-  } else {
-    args = ["--task", "tts", "--family", "voxcpm2", "--model", model, "--backend", settings.backend];
-    if (req.voice.reference) {
-      if (/^\s*\(/.test(req.text)) throw new Error(`${req.who}: a cloned take cannot start with "(": it would be read aloud`);
-      args.push("--voice-ref", resolve(dir, req.voice.reference), "--reference-text", req.voice.referenceText);
-      opts.ultimate_clone = true;
-    }
-  }
-  args.push("--text", req.text);
-  for (const [k, v] of Object.entries(opts)) args.push("--request-option", `${k}=${v}`);
-  args.push("--out", out);
-  return { exe: settings.exe, args };
+export function takeCommand(settings, dir, req, out, { reference, referenceText, cooldown = COOLDOWN_SECONDS } = {}) {
+  const engine = req.engine ?? engineOf(req.voice), E = ENGINES[engine], v = req.voice;
+  const ref = reference ?? (v.reference ? resolve(dir, v.reference) : null);
+  const { seed, ...options } = req.options ?? {};
+  const job = { modelDir: settings.dirs?.[engine], language: req.language ?? "en", chunks: req.chunks ?? [req.text], pause: 0.35, seed, options, cooldown, out };
+  if (ref) Object.assign(job, { mode: "clone", reference: ref, referenceText: referenceText ?? v.referenceText });
+  else Object.assign(job, { mode: "design", description: v.description });
+  if (engine === "audar" && job.mode !== "clone") throw new Error(`${req.who}: Audar only clones; it needs a reference (a designed one is made first)`);
+  const jobFile = out.replace(/\.wav$/i, "") + ".job.json";
+  return { exe: settings.uv ?? "uv", args: ["run", "--no-sync", "--project", job.modelDir, "python", "-I", join(WORKERS, E.worker), jobFile], job, jobFile };
 }
 
 /* ---------------- running things ---------------- */
@@ -521,12 +522,6 @@ export const takesDir = (dir, plan) => join(dir, "voice-takes", plan.lang ?? pla
  * Make every take that is missing or out of date (a changed description, text or seed). An older
  * take that is replaced is moved into old/ rather than deleted, in case the user liked it.
  */
-/**
- * Seconds to rest between two generations. This laptop crashes when it runs more than one model at a
- * time or runs them back to back, so takes are made strictly one after another with a pause between
- * them (MODEL_SAFETY.md). TTS_COOLDOWN_SECONDS in .env can raise it; it never goes below 15.
- */
-export const COOLDOWN_SECONDS = Math.max(15, Number(process.env.TTS_COOLDOWN_SECONDS) || 15);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export async function makeTakes(dir, { lang, only, dryRun = false, run = runProcess, hear = transcribe, settings = ttsSettings(), log = console.log, library, cooldown = run === runProcess ? COOLDOWN_SECONDS : 0 } = {}) {
@@ -534,9 +529,8 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
   plan.warnings.forEach((w) => log("⚠ " + w));
   const reqs = takeRequests(plan, dir, { only });
   if (!reqs.length) throw new Error(only ? `No voice named ${only.join(", ")} in ${plan.file}` : `No line in ${plan.file} needs a voice`);
-  for (const who of new Set(reqs.map((r) => r.who))) {
-    const text = reqs.find((r) => r.who === who).text;
-    if (text.length > LONG_TAKE_CHARS) log(`⚠ ${who}'s take is ${text.length} characters (about ${Math.round(text.length / 15)} s). Long takes can speed up or buzz near the end: listen to the last lines.`);
+  for (const r of reqs.filter((x) => x.mode === "design" && x.take === 1)) {
+    if (r.text.length > LONG_TAKE_CHARS) log(`⚠ ${r.who}'s designed take is ${r.text.length} characters (about ${Math.round(r.text.length / 15)} s) in one generation. Long takes can drift near the end: listen to the last lines.`);
   }
   const base = takesDir(dir, plan);
   if (dryRun) return { plan, takes: reqs.map(({ who, take, seed, key, engine }) => ({ who, take, seed, key, engine, file: join(base, who, `take-${take}.wav`) })) };
@@ -556,18 +550,37 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
         renameSync(wav, join(folder, "old", `${stamp}-take-${r.take}.wav`));
         if (existsSync(info)) renameSync(info, join(folder, "old", `${stamp}-take-${r.take}.json`));
       }
-      if (generated && cooldown > 0) { log(`  resting ${cooldown} s before the next generation…`); await sleep(cooldown * 1000); }
-      generated = true;
-      log(`Generating ${r.who}, take ${r.take} (${r.engine}, seed ${r.seed}, ${r.lines.length} line${r.lines.length > 1 ? "s" : ""})…`);
-      const pending = wav.replace(/\.wav$/, ".pending.wav");
-      rmSync(pending, { force: true });
-      const cmd = takeCommand(settings, dir, r, pending);
+      const rest = async () => { if (generated && cooldown > 0) { log(`  resting ${cooldown} s before the next generation…`); await sleep(cooldown * 1000); } generated = true; };
+      /** One worker run; returns an error message, or null when the audio was written. */
+      const generate = async (req, out, extra = {}) => {
+        rmSync(out, { force: true });
+        const cmd = takeCommand(settings, dir, req, out, { cooldown: Math.max(cooldown, 0), ...extra });
+        writeJson(cmd.jobFile, cmd.job);
+        const chars = (req.chunks ?? [req.text]).join(" ").length;
+        try { await run(cmd.exe, cmd.args, Math.max(600, chars * 2 + (req.chunks?.length ?? 1) * (cooldown + 60)) * 1000); }
+        catch (e) { return e.message; }
+        finally { rmSync(cmd.jobFile, { force: true }); }
+        return existsSync(out) && statSync(out).size > 1000 ? null : "no audio was written";
+      };
       const t0 = Date.now();
-      try { await run(cmd.exe, cmd.args, Math.max(300, r.text.length) * 1000); }
-      catch (e) { takes.push({ who: r.who, take: r.take, seed: r.seed, failed: e.message }); log(`  failed: ${e.message.split("\n")[0]}`); continue; }
-      if (!existsSync(pending) || statSync(pending).size < 1000) { takes.push({ who: r.who, take: r.take, seed: r.seed, failed: "no audio was written" }); continue; }
+      let designed = null;
+      if (r.design) {
+        // a voice from a description for Audar: Qwen3-TTS designs an English reference first, kept per description + seed
+        designed = join(folder, `design-${r.design.key}.wav`);
+        if (!existsSync(designed)) {
+          await rest();
+          log(`Designing ${r.who}'s voice for take ${r.take} (qwen3, seed ${r.seed})…`);
+          const fail = await generate({ who: r.who, engine: r.design.engine, voice: { description: r.design.description }, chunks: [r.design.text], language: "en", options: { seed: r.design.seed } }, designed);
+          if (fail) { takes.push({ who: r.who, take: r.take, seed: r.seed, failed: `designing the voice: ${fail}` }); log(`  failed: ${fail.split("\n")[0]}`); continue; }
+        }
+      }
+      await rest();
+      log(`Generating ${r.who}, take ${r.take} (${r.engine}, seed ${r.seed}, ${r.lines.length} line${r.lines.length > 1 ? "s" : ""} in ${r.chunks.length} part${r.chunks.length > 1 ? "s" : ""})…`);
+      const pending = wav.replace(/\.wav$/, ".pending.wav");
+      const fail = await generate(r, pending, designed ? { reference: designed, referenceText: r.design.text } : {});
+      if (fail) { takes.push({ who: r.who, take: r.take, seed: r.seed, failed: fail }); log(`  failed: ${fail.split("\n")[0]}`); continue; }
       renameSync(pending, wav);
-      entry = { who: r.who, take: r.take, engine: r.engine, seed: r.seed, key: r.key, text: r.text, lines: r.lines.map((l) => ({ index: l.index, text: l.text })), seconds: Math.round((Date.now() - t0) / 100) / 10 };
+      entry = { who: r.who, take: r.take, engine: r.engine, mode: r.mode, seed: r.seed, key: r.key, text: r.text, lines: r.lines.map((l) => ({ index: l.index, text: l.text })), ...(designed && { designedReference: basename(designed) }), seconds: Math.round((Date.now() - t0) / 100) / 10 };
     }
     const audio = sha(readFileSync(wav));
     if (entry.audio !== audio || entry.heard == null) {
@@ -589,7 +602,7 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 /** One line for the review page: which engine and which voice made a take. */
 function howMade(v) {
   const engine = engineOf(v);
-  return v.library ? `${engine} clone of the library voice “${esc(v.library)}”${v.note ? ` (${esc(v.note)})` : ""}` : v.reference ? `${engine} clone of ${esc(v.reference)}${v.style ? `, style: ${esc(v.style)}` : ""}` : `${engine}: ${esc(v.description)}`;
+  return v.library ? `${engine} clone of the library voice “${esc(v.library)}”${v.note ? ` (${esc(v.note)})` : ""}` : v.reference ? `${engine} clone of ${esc(v.reference)}` : v.designWith ? `${engine} clone of a voice ${esc(v.designWith)} designed from: ${esc(v.description)}` : `${engine}: ${esc(v.description)}`;
 }
 
 /** review.html: every character's takes side by side, with what the word check found. */

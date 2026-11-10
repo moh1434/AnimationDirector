@@ -6,8 +6,8 @@ projects keep working unchanged. **Nothing new needs installing**: voices are as
 
 ## Make a story
 
-No recordings, only a script? [TTS.md](TTS.md) makes them locally (VoxCPM2, or CosyVoice3 for a
-cloned voice): one take per character, picked by the user, then cut into lines and written as
+No recordings, only a script? [TTS.md](TTS.md) makes them locally (Audar-TTS clones a voice, Qwen3-TTS designs
+a new one): one take per character, picked by the user, then cut into lines and written as
 `dialogue.json` + `voices/` (steps 1–2 below).
 
 **A new character gets a new voice.** When you draw or cast a character who speaks and has no

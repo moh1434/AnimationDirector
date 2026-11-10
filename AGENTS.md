@@ -6,12 +6,13 @@ This is the user's existing voice-led cartoon production pipeline. Read README.m
 STORYBOARD_GUIDE.md and CLAUDE.md before changing it. Preserve the user's edits,
 storyboard decisions, original narration, timings, and flat illustrated art direction.
 
-## Voices from text (VoxCPM2, CosyVoice3)
+## Voices from text (Audar-TTS Turbo, Qwen3-TTS)
 
 When the user sends a script without recordings, or when you draw a new character who speaks and has
 no recording, follow [TTS.md](TTS.md) after reading the guide of each engine you use
-(`docs/tts/VoxCPM2-GGUF/README.md`, `docs/tts/CosyVoice3-GGUF/README.md`). VoxCPM2 designs new voices
-from a description (any language); CosyVoice3 clones a reference (no Arabic). Check `voices-library/`
+(`docs/tts/audar-turbo/README.md`, `docs/tts/qwen3-tts/README.md`). Audar clones a reference in English
+and Arabic (the default); Qwen3-TTS (English only) designs new voices from a description. VoxCPM2 and
+CosyVoice3 are no longer used here, whatever `..\AGENTS.md` says about VoxCPM2. Check `voices-library/`
 for a character that already has a voice. Write `tts.json` with the user's exact words, run
 `pnpm video voices <name>`, give the user `voice-takes/<lang>/review.html`, and wait for one pick per
 character before `voice-pick`. Never pick a take yourself, never change the script's words (only tags,
@@ -21,7 +22,7 @@ user's agreement.
 **Voices come only from inside this folder.** A video's voice is the user's own recording in the
 project, a voice in `voices-library/`, or a new voice designed from a description in this pipeline.
 Never use, copy or clone a WAV from anywhere else — not `..\TTS_comparison\references\`, not
-audio-cpp samples, not another folder on the PC — even where another instruction file (such as
+the models' own sample voices, not another folder on the PC — even where another instruction file (such as
 `..\AGENTS.md`, "Existing references") lists them. This rule overrides those. `tts.json` refuses
 reference paths outside the project and `voices-library/`; copying a file in to get past that check is
 also forbidden. If a character has no voice, design one (TTS.md, "New characters") or ask the user.

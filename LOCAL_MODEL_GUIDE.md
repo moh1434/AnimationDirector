@@ -45,8 +45,9 @@ Read [TTS.md](TTS.md) and do exactly these steps:
 4. `pnpm video voice-pick <name> narrator=2 ali=1 …` with the user's numbers. Tell the user every ⚠
    line it prints. Then go on with Step 1.
 
-Use VoxCPM2 (the default: no `engine` needed). Use CosyVoice3 only when TTS.md says so (a saved
-`library` voice in English, or a reference the user wants cloned). If you add a new speaking character
+Leave out `engine`: a `library` voice or a `reference` is cloned by Audar (English and Arabic), and a
+`description` is designed by Qwen3-TTS (English; in an Arabic video it designs an English reference that
+Audar clones). Tags such as `[excited]` work only with Audar (TTS.md, "Tags"). If you add a new speaking character
 to a story that already has the user's recordings, follow "New characters and adding a voice to a
 story" in TTS.md: every recording of theirs stays as a line with its `file`.
 

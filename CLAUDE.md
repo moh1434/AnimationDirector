@@ -19,8 +19,9 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
 ## When the user asks for a video
 
 0. **Only text, no recordings?** Make the voices first: read [TTS.md](TTS.md) and the guide of each
-   engine you use (`docs/tts/VoxCPM2-GGUF/README.md` designs voices from a description, any language;
-   `docs/tts/CosyVoice3-GGUF/README.md` clones a reference, no Arabic). Then `pnpm video new <name> --tts`,
+   engine you use (`docs/tts/audar-turbo/README.md` clones a reference, English and Arabic, the default;
+   `docs/tts/qwen3-tts/README.md` designs voices from a description, English only; VoxCPM2 and CosyVoice3
+   are gone, whatever `..\AGENTS.md` says). Then `pnpm video new <name> --tts`,
    write `tts.json` (the user's exact words, one entry per speaker turn, and a voice per character),
    `pnpm video voices <name>`, and send `voice-takes/<lang>/review.html` to the user (SendUserFile).
    **The user picks one take per character; never pick for them.** Then

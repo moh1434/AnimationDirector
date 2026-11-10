@@ -45,9 +45,9 @@ In the project's `tts.json` (or `tts-ar.json`):
 ```
 
 The video's language picks the reference: an English video uses `reference_en.wav`, an Arabic one
-`reference_ar.wav`. English is cloned with CosyVoice3, Arabic with VoxCPM2 (ultimate clone). If the
-language has no reference, another one is used (English first) with VoxCPM2, which can speak across
-languages, and `voices` warns. Add `"engine": "voxcpm2"` to use VoxCPM2 for English, or `"style"`
-for a CosyVoice3 delivery (`happy`, `sad`, `angry`, …). See TTS.md, "Cloning and the character library".
+`reference_ar.wav`. Both are cloned with Audar-TTS Turbo. If the language has no reference, another
+one is used (English first; Audar speaks across languages), and `voices` warns. Add
+`"engine": "qwen3"` to clone an English video with Qwen3-TTS instead. See TTS.md, "Cloning and the
+character library".
 
 Other videos depend on these voices: don't replace a reference once videos use it.
