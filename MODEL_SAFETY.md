@@ -5,7 +5,7 @@ parallel made it crash and restart on its own, and the task was lost. These rule
 
 ## Rules
 
-1. **Never run AI models in parallel.** One TTS generation at a time: VoxCPM2, CosyVoice3,
+1. **Never run AI models in parallel.** One TTS generation at a time: Audar-TTS, Qwen3-TTS,
    whisper.cpp, or any other model. Never start a second model while one is still running.
 2. **Wait 15 seconds between generations.** When a generation finishes, wait 15 seconds, then start
    the next one.

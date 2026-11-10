@@ -31,6 +31,9 @@ voices-library/
    - Spoken the way the character usually talks: the clone copies the tone and delivery too.
 2. In **`voice.json`**, write the **exact** words spoken in it as `"referenceText_<language>"`
    (same words, same order; punctuation as spoken). A wrong transcript makes the clone worse.
+3. Over 15 s? Run `pnpm video ref-trim voices-library/<id>`: each reference longer than 15 s is cut at
+   its last pause before 15 s (the last words are dropped), `voice.json` gets the words left, and the
+   originals go to `voices-library/<id>/full/`. Shorter references are left as they are.
 
 The folder name is the voice's id: lower case, letters, digits and `_` only.
 
@@ -45,9 +48,9 @@ In the project's `tts.json` (or `tts-ar.json`):
 ```
 
 The video's language picks the reference: an English video uses `reference_en.wav`, an Arabic one
-`reference_ar.wav`. English is cloned with CosyVoice3, Arabic with VoxCPM2 (ultimate clone). If the
-language has no reference, another one is used (English first) with VoxCPM2, which can speak across
-languages, and `voices` warns. Add `"engine": "voxcpm2"` to use VoxCPM2 for English, or `"style"`
-for a CosyVoice3 delivery (`happy`, `sad`, `angry`, …). See TTS.md, "Cloning and the character library".
+`reference_ar.wav`. Both are cloned with Audar-TTS Turbo. If the language has no reference, another
+one is used (English first; Audar speaks across languages), and `voices` warns. Add
+`"engine": "qwen3"` to clone an English video with Qwen3-TTS instead. See TTS.md, "Cloning and the
+character library".
 
 Other videos depend on these voices: don't replace a reference once videos use it.

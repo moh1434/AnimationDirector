@@ -14,10 +14,11 @@
 //   node pipeline/cli.mjs catalog                    list layouts, props, backgrounds, poses, expressions…
 //   node pipeline/cli.mjs localize <name> [--lang ar] the same video in another language → projects/<name>-ar
 //   node pipeline/cli.mjs doctor                     check the toolchain
-//   node pipeline/cli.mjs voices <name> [--lang ar] [--only bob,ali] [--dry-run]   VoxCPM2 takes from tts.json (TTS.md)
+//   node pipeline/cli.mjs voices <name> [--lang ar] [--only bob,ali] [--dry-run]   voice takes from tts.json: Audar / Qwen3-TTS (TTS.md)
 //   node pipeline/cli.mjs voice-pick <name> bob=2 narrator=1 [--lang ar] [--replace]  cut the chosen takes into lines
 //   node pipeline/cli.mjs voice-ref <name> bob=2 [--lang ar] [--save bob]         a clone reference from a take (+ voices-library/)
 //   node pipeline/cli.mjs enhance <name> [--take-download] [--downloads <dir>]     Adobe Enhance via Claude in Chrome (ENHANCE.md)
+//   node pipeline/cli.mjs ref-trim <file.wav|folder> [--text "…"] [--lang ar]        cut a reference over 15 s at its last pause (originals → full/)
 // options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>   --skip-enhance
 // plan exports the final voice to voices/enhance/original.wav for the user's noise removal; their
 // file saved next to it is used once it is there, and make waits for it (ENHANCE.md).
@@ -45,7 +46,7 @@ for (let i = 1; i < argv.length; i++) {
   if (a.startsWith("--")) {
     const k = a.slice(2);
     const nx = argv[i + 1];
-    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang", "only", "save", "downloads"].includes(k)) { flags[k] = nx; i++; }
+    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang", "only", "save", "downloads", "text"].includes(k)) { flags[k] = nx; i++; }
     else flags[k] = true;
   } else pos.push(a);
 }
@@ -654,11 +655,11 @@ function doctor() {
   }
   w.warnings.forEach((m) => console.log("⚠ " + m));
   const t = ttsSettings();
-  if (!t.exe && !Object.values(t.models).some(Boolean)) ok(true, "Voices from text: not set up (optional, see TTS.md)");
-  else for (const e of Object.keys(ENGINES)) {
-    if (!t.models[e] && e !== "voxcpm2") { ok(true, `${e} voices: not set up (optional)`); continue; }
+  if (!Object.values(t.dirs).some(Boolean)) ok(true, "Voices from text: not set up (optional, see TTS.md)");
+  else for (const [e, E] of Object.entries(ENGINES)) {
+    if (!t.dirs[e]) { ok(true, `${E.name} voices: not set up (optional)`); continue; }
     const bad = [...t.errors, ...t.engineErrors[e]];
-    ok(!bad.length, `${e} voices: ${t.models[e]}`, bad.join("\n    → "));
+    ok(!bad.length, `${E.name} voices: ${t.dirs[e]}`, bad.join("\n    → "));
   }
 }
 
@@ -702,7 +703,7 @@ try {
         log(`${r.reference}: ${r.seconds.toFixed(1)} s, line(s) ${r.lines.join(", ")} of ${who} take ${take}${r.clean ? "" : " (warning: no clean line without tags or misheard words; listen to it)"}`);
         log(`  words: ${r.referenceText}`);
         if (r.saved) log(`  saved as ${r.saved}: later videos use { "library": "${flags.save}" } for this voice`);
-        else log(`  use it: "${who}": { "engine": "cosyvoice3", "reference": "${r.reference}", "referenceText": ${JSON.stringify(r.referenceText)} }`);
+        else log(`  use it: "${who}": { "reference": "${r.reference}", "referenceText": ${JSON.stringify(r.referenceText)} }`);
       }
       break;
     }
@@ -739,6 +740,31 @@ try {
       break;
     }
     case "check": { const d = projectDir(pos[0]); await plan(d); await check(d); break; }
+    case "ref-trim": {
+      // A voice reference over 15 s: cut at the last pause before 15 s (pipeline/ref-trim.mjs); shorter ones are left alone
+      const { trimReference, trimLibraryVoice, MAX_REFERENCE_SECONDS } = await import("./ref-trim.mjs");
+      const target = pos[0] && resolve(pos[0]);
+      if (!target || !existsSync(target)) die("Usage: ref-trim <file.wav | folder> [--text \"exact words\"] [--lang en|ar]");
+      const rest = () => { const t = Date.now(); while (Date.now() - t < 15000) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000); };
+      const show = (r) => {
+        if (!r.trimmed) { log(`${basename(r.file)}: ${r.seconds.toFixed(2)} s — ${MAX_REFERENCE_SECONDS} s or less, left as it is`); return; }
+        log(`${basename(r.file)}: ${r.seconds.toFixed(2)} s → ${r.cut.toFixed(2)} s (cut at a pause; the original is in full/)`);
+        log(`  heard: ${r.heard ?? "(whisper is off — listen and fix the words by hand)"}`);
+        if (r.text && r.kept) log(`  words left: ${r.kept}`);
+        else if (r.text) warn(`  could not match the heard words to the text: write the words left by hand`);
+      };
+      try {
+        if (statSync(target).isDirectory()) {
+          if (existsSync(join(target, "voice.json"))) { trimLibraryVoice(target, { cooldown: rest }).forEach(show); log("voice.json updated with the words left (old copy: full/voice.json)"); }
+          else {
+            const wavs = readdirSync(target).filter((f) => /.wav$/i.test(f)).sort();
+            let trimmed = false;
+            for (const w of wavs) { if (trimmed) rest(); const r = trimReference(join(target, w), { language: flags.lang }); show(r); trimmed ||= r.trimmed; }
+          }
+        } else show(trimReference(target, { text: typeof flags.text === "string" ? flags.text : undefined, language: typeof flags.lang === "string" ? flags.lang : undefined }));
+      } catch (e) { die(e.message); }
+      break;
+    }
     case "enhance": {
       // Adobe Podcast Enhance through Claude in Chrome (ENHANCE.md): the file to upload, then the download back
       const d = projectDir(pos[0]);

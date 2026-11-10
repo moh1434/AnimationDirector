@@ -6,7 +6,7 @@ indoor/outdoor settings, and supplied voices. Or keep using the original single-
 - [Story mode and multi-voice setup](STORY_MODE.md)
 - [Storyboard field reference](STORYBOARD_GUIDE.md)
 - [Guide for local agents](LOCAL_MODEL_GUIDE.md)
-- [Voices from text](TTS.md): only a script, or a new character with no recording? VoxCPM2 (or CosyVoice3, for a cloned voice) makes a few takes per character on this PC,
+- [Voices from text](TTS.md): only a script, or a new character with no recording? Audar-TTS (clones, English and Arabic) or Qwen3-TTS (designs new English voices) makes a few takes per character on this PC,
   you listen and pick one each, and they become the video's recordings.
 
 Give it **your narration (.wav)**, **the story text with time segments**, and it makes a cartoon
@@ -39,7 +39,7 @@ objects with faces, flat colourful grounds, pop-in animation, music and sound ef
    `pnpm video make my-story` (60 FPS Shorts by default).
 
 No TTS model is needed when you supply the recordings. With only a script, [TTS.md](TTS.md) makes
-the voices locally with VoxCPM2 or CosyVoice3 and you pick one take per character. FFmpeg is required for
+the voices locally with Audar-TTS or Qwen3-TTS and you pick one take per character. FFmpeg is required for
 clip assembly and is already available on this installation. See [STORY_MODE.md](STORY_MODE.md)
 for the complete manifest, limitations, wardrobe options and silent Studio demo.
 The original `voice.wav` + `script.txt` path below continues to work.

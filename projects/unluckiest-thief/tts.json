@@ -3,15 +3,7 @@
   "takes": 3,
   "voices": {
     "narrator": {
-      "library": "narrator",
-      "engine": "cosyvoice3",
-      "alternatives": [
-        {
-          "library": "narrator",
-          "engine": "voxcpm2",
-          "takes": 2
-        }
-      ]
+      "library": "narrator"
     },
     "bob": {
       "reference": "refs/bob_thief.wav",
