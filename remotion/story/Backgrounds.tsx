@@ -1,4 +1,5 @@
 import React from "react";
+import { StorySetting } from "./StorySettings";
 import { LifeBackground, LIFE_BACKGROUNDS } from "./LifeBackgrounds";
 import { EverydayBackground, EVERYDAY_BACKGROUNDS } from "./EverydayBackgrounds";
 import { FarmBackground } from "./FarmBackground";
@@ -12,6 +13,7 @@ export type BgSpec = {
   color?: string;
   color2?: string;
   image?: string;
+  time?: "day" | "dusk" | "night"; // story settings only
 };
 
 const Stars: React.FC<{ W: number; H: number; n: number; t: number; seed?: string }> = ({ W, H, n, t, seed = "s" }) => (
@@ -48,6 +50,9 @@ export const Background: React.FC<{ spec: BgSpec; W: number; H: number; t: numbe
   const u = H / 1080; // unit scale
   let content: React.ReactNode;
   switch (type) {
+    case "living_room": case "house_exterior": case "park": case "schoolyard": case "street":
+      content = <StorySetting type={type} W={W} H={H} color={spec.color === type ? undefined : spec.color} color2={spec.color2} time={spec.time} />;
+      break;
     case "village": case "ruins": case "hilltop":
       content = <StoryBackground type={type} W={W} H={H} color={spec.color} color2={spec.color2}/>;
       break;

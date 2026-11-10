@@ -109,6 +109,64 @@ def sfx(name, var=0.0):
     if name == "thud":
         n = int(0.5 * SR)
         return sweep(110 * p, 38, 0.5) * env(n, 0.002, 0.16) * 1.0
+    if name == "alarm":  # three hard electronic beeps
+        n = int(0.24 * SR)
+        t = np.arange(n) / SR
+        tone = np.sign(np.sin(2 * np.pi * 1650 * t)) * 0.3 + np.sin(2 * np.pi * 3300 * t) * 0.2
+        tone = (tone * np.minimum(1, t / 0.004) * np.minimum(1, (0.24 - t) / 0.01)).astype(np.float32)
+        out = np.zeros(int(1.2 * SR), dtype=np.float32)
+        for k in range(3):
+            s = int(k * 0.46 * SR)
+            out[s:s + n] += tone
+        return out
+    if name == "siren":  # two wails, fading in as the car arrives
+        n = int(2.4 * SR)
+        t = np.arange(n) / SR
+        f = 760 + 340 * np.sin(2 * np.pi * 0.85 * t - np.pi / 2)
+        ph = 2 * np.pi * np.cumsum(f) / SR
+        x = np.sin(ph) * 0.5 + np.sin(2 * ph) * 0.18
+        return (x * np.minimum(1, t / 0.5) * np.minimum(1, (2.4 - t) / 0.3)).astype(np.float32) * 0.7
+    if name == "bark":  # woof woof
+        n = int(0.17 * SR)
+        woof = sweep(560 * p, 210 * p, 0.17, "tri")[:n] * env(n, 0.004, 0.07) + filt(noise(n) * env(n, 0.002, 0.04), Pedalboard([LowpassFilter(2400)])) * 0.35
+        out = np.zeros(int(0.5 * SR), dtype=np.float32)
+        for s in (0, int(0.25 * SR)):
+            out[s:s + n] += woof
+        return out * 0.9
+    if name == "slurp":  # a wet dog lick
+        n = int(0.5 * SR)
+        t = np.arange(n) / SR
+        wet = 0.55 + 0.45 * np.sin(2 * np.pi * 17 * t)
+        x = filt(noise(n), Pedalboard([HighpassFilter(500), LowpassFilter(2600)])) * 0.5 + sweep(320 * p, 980 * p, 0.5)[:n] * 0.35
+        return (x * wet * np.sin(np.pi * t / 0.5) ** 0.7).astype(np.float32)
+    if name == "crash":  # a pot breaking
+        n = int(0.8 * SR)
+        out = filt(noise(n) * env(n, 0.001, 0.09), Pedalboard([LowpassFilter(3500)])) * 0.8 + sweep(150, 55, 0.8)[:n] * env(n, 0.001, 0.1) * 0.6
+        for k in range(9):
+            s = int((0.03 + 0.07 * k) * SR)
+            m = int(0.09 * SR)
+            t = np.arange(m) / SR
+            out[s:s + m] += (np.sin(2 * np.pi * (2300 + 480 * ((k * 7) % 5)) * p * t) * np.exp(-t * 55)).astype(np.float32) * 0.3
+        return out
+    if name == "rip":  # cloth tearing
+        n = int(0.36 * SR)
+        t = np.arange(n) / SR
+        teeth = (np.sin(2 * np.pi * (70 + 170 * t) * t) > 0).astype(np.float32) * 0.8 + 0.2
+        x = filt(noise(n), Pedalboard([HighpassFilter(1400 * p), LowpassFilter(7000)]))
+        return x * teeth * env(n, 0.003, 0.2)
+    if name == "creak":  # a slow door
+        n = int(0.9 * SR)
+        t = np.arange(n) / SR
+        f = 210 * p + 75 * np.sin(2 * np.pi * 2.7 * t) + 42 * np.sin(2 * np.pi * 7.3 * t)
+        ph = 2 * np.pi * np.cumsum(f) / SR
+        x = np.sign(np.sin(ph)) * 0.4 + np.sin(3 * ph) * 0.2
+        x = filt((x * np.sin(np.pi * t / 0.9)).astype(np.float32), Pedalboard([HighpassFilter(300), LowpassFilter(2400)]))
+        return x * 0.65
+    if name == "skid":  # tyres stopping hard
+        n = int(0.8 * SR)
+        t = np.arange(n) / SR
+        x = filt(noise(n), Pedalboard([HighpassFilter(800), LowpassFilter(3000)])) * 0.5 + sweep(1500 * p, 840 * p, 0.8)[:n] * 0.28
+        return (x * np.minimum(1, t / 0.03) * np.minimum(1, (0.8 - t) / 0.2)).astype(np.float32)
     return np.zeros(10, dtype=np.float32)
 
 
@@ -199,7 +257,8 @@ def main():
         cfg.update(json.loads(sys.argv[2]))
     voice = load(build / "voice.wav", channels=1)[0]
     analysis = json.loads((build / "analysis.json").read_text(encoding="utf-8"))
-    total = max(len(voice) / SR, analysis.get("duration", 0)) + 0.6
+    # the voice is never stretched or cut; the mix runs to the end of the video, which may be longer
+    total = max(max(len(voice) / SR, analysis.get("duration", 0)) + 0.6, float(cfg.get("duration") or 0))
     N = int(total * SR)
     v = np.zeros(N, dtype=np.float32)
     v[: len(voice)] = voice

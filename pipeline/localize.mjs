@@ -119,7 +119,12 @@ export function localizeStoryboard(src, { srcAnalysis, dstAnalysis, dstSegments,
       if (!d.word) { const w = snapTo(t, 0.25); if (w) t = w.s - 0.05; }
       return r3(Math.min(Math.max(0.05, t - start), Math.max(0.05, len - 0.1)));
     };
-    const fix = (o) => { if (o && typeof o === "object") for (const k of TIME_KEYS) if (k in o) o[k] = rel(o[k]); };
+    const fix = (o) => {
+      if (!o || typeof o !== "object") return;
+      // a move is retimed by both ends, so it still arrives on the same word
+      for (const m of o.move ?? []) { const from = rel(m.at), to = rel(m.at + m.duration); m.at = from; m.duration = Math.max(0.05, r3(to - from)); }
+      for (const k of TIME_KEYS) if (k in o) o[k] = rel(o[k]);
+    };
     ns.start = start;
     ns.end = r3(end);
     for (const list of ["characters", "props", "texts", "items", "actions", "sfx"]) (ns[list] ?? []).forEach(fix);
@@ -148,6 +153,7 @@ export function localizeStoryboard(src, { srcAnalysis, dstAnalysis, dstSegments,
   out.directedBy = `adapted from ${source ?? "the source video"}`;
   out.adaptedFrom = source;
   delete out.inputsHash;
+  delete out.dialogue; // speakers come from this language's own recordings (dialogue-<lang>.json)
   delete out.customProps;
   return { storyboard: out, missing: [...missing], warnings };
 }

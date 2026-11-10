@@ -1,0 +1,250 @@
+{
+  "clips": [
+    {
+      "who": "narrator",
+      "file": "voices/01.wav",
+      "text": "Meet Bob.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/02.wav",
+      "text": "Bob is a professional thief... well, at least he thinks he is.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/03.wav",
+      "text": "Tonight, he's planning the biggest robbery of his life.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/04.wav",
+      "text": "He studies the house, puts on his black mask, grabs his tools, and whispers:",
+      "gap": 0.3
+    },
+    {
+      "who": "bob",
+      "file": "voices/05.wav",
+      "text": "\"Easy money!\"",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/06.wav",
+      "text": "Bob sneaks through an open window.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/07.wav",
+      "text": "Everything is going perfectly...",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/08.wav",
+      "text": "Until his pants get caught on a nail!",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/09.wav",
+      "text": "He struggles, kicks, and finally falls straight into a flower pot.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/10.wav",
+      "text": "But somehow, he manages to get inside.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/11.wav",
+      "text": "Bob spots a giant diamond sitting on a table.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/12.wav",
+      "text": "Jackpot!",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/13.wav",
+      "text": "He reaches for it...",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/14.wav",
+      "text": "BEEP! BEEP! BEEP!",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/15.wav",
+      "text": "The security alarm goes off!",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/16.wav",
+      "text": "Panicking, Bob runs into the nearest cupboard and hides.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/17.wav",
+      "text": "He slowly opens the cupboard door...",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/18.wav",
+      "text": "And comes face-to-face with a gigantic sleeping dog!",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/19.wav",
+      "text": "Bob freezes.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/20.wav",
+      "text": "The dog's eyes slowly open.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/21.wav",
+      "text": "Bob closes his eyes and whispers:",
+      "gap": 0.3
+    },
+    {
+      "who": "bob",
+      "file": "voices/22.wav",
+      "text": "\"Please don't bark...\"",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/23.wav",
+      "text": "The dog suddenly jumps on him!",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/24.wav",
+      "text": "But instead of attacking, it starts licking his face.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/25.wav",
+      "text": "It thinks Bob is its new best friend!",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/26.wav",
+      "text": "Bob escapes through the front door, covered in dog slobber.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/27.wav",
+      "text": "He runs down the street, celebrating his survival.",
+      "gap": 0.3
+    },
+    {
+      "who": "bob",
+      "file": "voices/28.wav",
+      "text": "\"I DID IT! I'M FREE!\"",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/29.wav",
+      "text": "But suddenly...",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/30.wav",
+      "text": "A police car pulls up.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/31.wav",
+      "text": "The officer steps out and shouts:",
+      "gap": 0.3
+    },
+    {
+      "who": "officer",
+      "file": "voices/32.wav",
+      "text": "\"YOU! HANDS UP!\"",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/33.wav",
+      "text": "Bob freezes.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/34.wav",
+      "text": "The officer looks at him and says:",
+      "gap": 0.3
+    },
+    {
+      "who": "officer",
+      "file": "voices/35.wav",
+      "text": "\"You're under arrest for stealing... my dog!\"",
+      "gap": 1.2
+    },
+    {
+      "who": "narrator",
+      "file": "voices/36.wav",
+      "text": "Bob looks down.",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/37.wav",
+      "text": "The giant dog is happily following him, carrying his stolen bag!",
+      "gap": 0.3
+    },
+    {
+      "who": "narrator",
+      "file": "voices/38.wav",
+      "text": "Bob slowly turns toward the camera.",
+      "gap": 0.3
+    },
+    {
+      "who": "bob",
+      "file": "voices/39.wav",
+      "text": "\"Can this night get any worse?\"",
+      "gap": 0.3
+    }
+  ],
+  "cast": {
+    "bob": {
+      "preset": "thief",
+      "name": "Bob"
+    },
+    "officer": {
+      "preset": "policeman"
+    },
+    "dog": {
+      "kind": "dog"
+    }
+  }
+}

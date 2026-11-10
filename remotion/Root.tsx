@@ -1,4 +1,5 @@
 import React from "react";
+import { STORY_DEMO } from "./story/story-demo";
 import { Composition } from "remotion";
 import { DidYouKnow, type DidYouKnowProps } from "./compositions/DidYouKnow";
 import { StoryVideo, FORMATS } from "./story/StoryVideo";
@@ -58,6 +59,7 @@ export const RemotionRoot = () => {
       <Composition id="LibraryBackgrounds" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"backgrounds", portrait:false}} />
       <Composition id="LibraryLifeProps" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"props", portrait:false, batch:2}} />
       <Composition id="LibraryLifeBackgrounds" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"backgrounds", portrait:false, batch:2}} />
+      <Composition id="StoryModeDemo" component={StoryVideo as any} durationInFrames={3240} fps={60} width={1080} height={1920} defaultProps={STORY_DEMO as any} calculateMetadata={meta as any}/>
       {/* Original sample, unchanged */}
       <Composition
         id="DidYouKnow"

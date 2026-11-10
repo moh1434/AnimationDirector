@@ -32,13 +32,16 @@ export function judge(audit, sceneInfo, captionsOn) {
   const issues = [];
   const add = (sev, code, msg) => issues.push({ sev, code, msg });
   const fg = boxes.filter((b) => b.kind !== "captions");
+  // a story shot is staged: actors overlap, walk off screen and stand on a low floor on purpose.
+  // Text and the caption band are still checked; the rest is judged by looking at the frames.
+  const staged = sceneInfo.layout === "story";
   // 1. safe areas
   for (const b of boxes) {
     const r = TEXTY.test(b.kind) ? S.textSafe : S.safe;
     const isChar = b.kind.startsWith("char");
     const tol = 4;
     const out = [b.x0 < r[0] - tol && "left", b.x1 > r[2] + tol && "right", b.y0 < r[1] - (isChar ? H * 0.04 : tol) && "top", b.y1 > r[3] + tol && "bottom"].filter(Boolean);
-    if (out.length) add(TEXTY.test(b.kind) ? "error" : "warn", "safe-area", `${name(b)} leaves the ${TEXTY.test(b.kind) ? "text-" : ""}safe area (${out.join(", ")}) at ${fmt(b)}`);
+    if (out.length && !(staged && !TEXTY.test(b.kind))) add(TEXTY.test(b.kind) ? "error" : "warn", "safe-area", `${name(b)} leaves the ${TEXTY.test(b.kind) ? "text-" : ""}safe area (${out.join(", ")}) at ${fmt(b)}`);
   }
   // 2. collisions: text against anything; art against art (heavy overlap only)
   for (let i = 0; i < boxes.length; i++)
@@ -54,7 +57,7 @@ export function judge(audit, sceneInfo, captionsOn) {
       const textInvolved = TEXTY.test(a.kind) || TEXTY.test(b.kind);
       const bubbleOnChar = (a.kind === "bubble" && b.kind.startsWith("char")) || (b.kind === "bubble" && a.kind.startsWith("char"));
       if (textInvolved && r > (bubbleOnChar ? 0.15 : 0.06)) add("error", "collision", `${name(a)} overlaps ${name(b)} (${Math.round(r * 100)}% of the smaller)`);
-      else if (!textInvolved && r > 0.35 && !(a.kind.startsWith("char") && b.kind.startsWith("char"))) add("warn", "crowding", `${name(a)} and ${name(b)} overlap ${Math.round(r * 100)}%`);
+      else if (!staged && !textInvolved && r > 0.35 && !(a.kind.startsWith("char") && b.kind.startsWith("char"))) add("warn", "crowding", `${name(a)} and ${name(b)} overlap ${Math.round(r * 100)}%`);
     }
   // 3. caption band must stay clear
   if (S.band && sceneInfo.layout !== "title") {
@@ -77,9 +80,9 @@ export function judge(audit, sceneInfo, captionsOn) {
     const objs = subjects.filter((b) => /^(prop|item|image|news)/.test(b.kind));
     const biggest = Math.max(0, ...objs.map((b) => Math.max(b.x1 - b.x0, b.y1 - b.y0)));
     if (objs.length && biggest < S.U * 0.17) add("warn", "small-subject", `largest object is only ${Math.round(biggest)}px (${Math.round((biggest / S.U) * 100)}% of the frame) — hard to read on a phone`);
-    if (uy0 > H * 0.42 && !sceneInfo.layout?.startsWith("crowd")) add("warn", "bottom-heavy", `everything sits below ${Math.round((uy0 / H) * 100)}% of the height; the top is empty`);
+    if (!staged && uy0 > H * 0.42 && !sceneInfo.layout?.startsWith("crowd")) add("warn", "bottom-heavy", `everything sits below ${Math.round((uy0 / H) * 100)}% of the height; the top is empty`);
     if (uy1 < H * 0.55 && !S.portrait) add("warn", "top-heavy", `everything sits in the top half`);
-    if ((ux1 - ux0) < W * 0.4 && (uy1 - uy0) < H * 0.4) add("warn", "sparse", `content covers only ${Math.round(((ux1 - ux0) / W) * 100)}% × ${Math.round(((uy1 - uy0) / H) * 100)}% of the frame`);
+    if (!staged && (ux1 - ux0) < W * 0.4 && (uy1 - uy0) < H * 0.4) add("warn", "sparse", `content covers only ${Math.round(((ux1 - ux0) / W) * 100)}% × ${Math.round(((uy1 - uy0) / H) * 100)}% of the frame`);
     // empty horizontal band between elements
     const ys = subjects.map((b) => [b.y0, b.y1]).sort((a, b) => a[0] - b[0]);
     let reach = ys[0][1];

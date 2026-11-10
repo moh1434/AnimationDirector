@@ -1,0 +1,1957 @@
+{
+  "version": 1,
+  "title": "The World's Unluckiest Thief",
+  "language": "en",
+  "directedBy": "claude",
+  "fps": 60,
+  "cast": {
+    "bob": {
+      "preset": "thief",
+      "name": "Bob"
+    },
+    "officer": {
+      "preset": "policeman"
+    },
+    "dog": {
+      "kind": "dog"
+    }
+  },
+  "scenes": [
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "meet-bob",
+      "start": 0,
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.3,
+          1.42
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.86
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": -0.25,
+          "y": 0.88,
+          "size": 0.4,
+          "pose": "cross",
+          "expression": "determined",
+          "look": {
+            "accessory": "none"
+          },
+          "move": [
+            {
+              "at": 0.1,
+              "duration": 0.9,
+              "x": 0.5,
+              "pose": "run"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:2",
+          "who": "bob",
+          "expression": "smug"
+        },
+        {
+          "at": "@well",
+          "who": "bob",
+          "pose": "shrug",
+          "expression": "confused",
+          "emote": "question"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "the-plan",
+      "start": "clip:3",
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.15,
+          1.2
+        ],
+        "focus": {
+          "x": 0.35,
+          "y": 0.86
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.28,
+          "y": 0.88,
+          "size": 0.4,
+          "pose": "think",
+          "expression": "thinking",
+          "look": {
+            "accessory": "none"
+          },
+          "facing": "right"
+        }
+      ],
+      "props": [
+        {
+          "name": "moneybag",
+          "x": 0.62,
+          "y": 0.5,
+          "size": 0.24,
+          "at": "@biggest",
+          "motion": "float"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@biggest",
+          "who": "bob",
+          "expression": "excited",
+          "emote": "idea"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "suit-up",
+      "start": "clip:4",
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.3,
+          1.5
+        ],
+        "focus": {
+          "x": 0.42,
+          "y": 0.86
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.42,
+          "y": 0.88,
+          "size": 0.4,
+          "pose": "think",
+          "expression": "thinking",
+          "look": {
+            "accessory": "none"
+          },
+          "facing": "right"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@mask",
+          "who": "bob",
+          "look": {
+            "accessory": "mask"
+          },
+          "expression": "determined",
+          "pose": "hips"
+        },
+        {
+          "at": "@tools",
+          "who": "bob",
+          "holding": "tool_bag",
+          "pose": "hold"
+        },
+        {
+          "at": "@whispers",
+          "who": "bob",
+          "expression": "smug"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@mask",
+          "name": "swish"
+        },
+        {
+          "at": "@tools",
+          "name": "pop"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "easy-money",
+      "start": "clip:5",
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.7,
+          1.8
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.88
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.5,
+          "y": 0.88,
+          "size": 0.4,
+          "pose": "hold",
+          "holding": "tool_bag",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "sneak",
+      "start": "clip:6",
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": -0.15,
+          "y": 0.84,
+          "size": 0.4,
+          "expression": "smug",
+          "pose": "hold",
+          "holding": "tool_bag",
+          "move": [
+            {
+              "at": 0.1,
+              "until": "clip:6:end",
+              "x": 0.564
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "open_window",
+          "x": 0.78,
+          "y": 0.64,
+          "size": 0.2,
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "stairs",
+          "x": 0.684,
+          "y": 0.84,
+          "size": 0.256,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "climb",
+      "start": "clip:7",
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.25,
+          1.35
+        ],
+        "focus": {
+          "x": 0.72,
+          "y": 0.72
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.564,
+          "y": 0.84,
+          "size": 0.4,
+          "expression": "smug",
+          "pose": "hold",
+          "holding": "tool_bag",
+          "move": [
+            {
+              "at": 0.1,
+              "until": "clip:7:end",
+              "x": 0.756,
+              "y": 0.696,
+              "steps": 4,
+              "arc": 0.014,
+              "pose": "walk"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "open_window",
+          "x": 0.78,
+          "y": 0.64,
+          "size": 0.2,
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "stairs",
+          "x": 0.684,
+          "y": 0.84,
+          "size": 0.256,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "the-nail",
+      "start": "clip:8",
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.35,
+          1.35
+        ],
+        "focus": {
+          "x": 0.76,
+          "y": 0.72
+        },
+        "punch": [
+          "@caught"
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.756,
+          "y": 0.696,
+          "size": 0.4,
+          "expression": "smug",
+          "pose": "scared"
+        }
+      ],
+      "props": [
+        {
+          "name": "open_window",
+          "x": 0.78,
+          "y": 0.64,
+          "size": 0.2,
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "stairs",
+          "x": 0.684,
+          "y": 0.84,
+          "size": 0.256,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "nail",
+          "x": 0.7,
+          "y": 0.665,
+          "size": 0.07,
+          "at": 0.2,
+          "motion": "none",
+          "zIndex": 7
+        }
+      ],
+      "actions": [
+        {
+          "at": "@caught",
+          "who": "bob",
+          "expression": "shocked",
+          "emote": "exclaim"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@caught",
+          "name": "rip"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "the-fall",
+      "start": "clip:9",
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "shake": [
+          "@pot"
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.756,
+          "y": 0.696,
+          "size": 0.4,
+          "zIndex": 5,
+          "expression": "worried",
+          "pose": "scared",
+          "move": [
+            {
+              "at": "@kicks",
+              "duration": 0.2,
+              "x": 0.74,
+              "facing": "keep",
+              "rotate": -8
+            },
+            {
+              "at": "@finally",
+              "duration": 0.2,
+              "x": 0.78,
+              "facing": "keep",
+              "rotate": 8
+            },
+            {
+              "at": "@falls",
+              "until": "@pot",
+              "x": 0.28,
+              "y": 0.645,
+              "rotate": 172,
+              "arc": 0.03,
+              "ease": "power2.in",
+              "facing": "keep"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "open_window",
+          "x": 0.78,
+          "y": 0.64,
+          "size": 0.2,
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "stairs",
+          "x": 0.684,
+          "y": 0.84,
+          "size": 0.256,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "flower_pot",
+          "x": 0.3,
+          "y": 0.87,
+          "size": 0.2,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 4,
+          "out": "@pot"
+        },
+        {
+          "name": "broken_pot",
+          "x": 0.3,
+          "y": 0.87,
+          "size": 0.3,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": "@pot",
+          "zIndex": 4
+        }
+      ],
+      "actions": [
+        {
+          "at": "@struggles",
+          "who": "bob",
+          "emote": "sweat"
+        },
+        {
+          "at": "@falls",
+          "who": "bob",
+          "expression": "scared"
+        },
+        {
+          "at": "@pot",
+          "who": "bob",
+          "expression": "dizzy",
+          "emote": "dizzy"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@pot",
+          "name": "crash"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "got-in",
+      "start": "clip:10",
+      "bg": {
+        "type": "living_room",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": -0.2,
+          "size": 0.5,
+          "expression": "dizzy",
+          "emote": "dizzy",
+          "move": [
+            {
+              "at": 0.1,
+              "duration": 1.2,
+              "x": 0.44
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "cupboard",
+          "x": 0.16,
+          "y": 0.84,
+          "size": 0.66,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "table",
+          "x": 0.76,
+          "y": 0.84,
+          "size": 0.4,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "gem",
+          "x": 0.76,
+          "y": 0.69,
+          "size": 0.18,
+          "motion": "pulse",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 4
+        }
+      ],
+      "actions": [
+        {
+          "at": "@inside",
+          "who": "bob",
+          "pose": "hips",
+          "expression": "proud",
+          "emote": ""
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "diamond",
+      "start": "clip:11",
+      "bg": {
+        "type": "living_room",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.05,
+          1.15
+        ],
+        "focus": {
+          "x": 0.6,
+          "y": 0.72
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.44,
+          "size": 0.5,
+          "pose": "point",
+          "expression": "surprised",
+          "facing": "right"
+        }
+      ],
+      "props": [
+        {
+          "name": "cupboard",
+          "x": 0.16,
+          "y": 0.84,
+          "size": 0.66,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "table",
+          "x": 0.76,
+          "y": 0.84,
+          "size": 0.4,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "gem",
+          "x": 0.76,
+          "y": 0.69,
+          "size": 0.18,
+          "motion": "pulse",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 4
+        }
+      ],
+      "actions": [
+        {
+          "at": "@diamond",
+          "who": "bob",
+          "expression": "love",
+          "emote": "sparkle"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@diamond",
+          "name": "sparkle"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "jackpot",
+      "start": "clip:12",
+      "bg": {
+        "type": "living_room",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.3,
+          1.4
+        ],
+        "focus": {
+          "x": 0.62,
+          "y": 0.72
+        },
+        "punch": [
+          0.1
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.44,
+          "size": 0.5,
+          "pose": "cheer",
+          "expression": "excited",
+          "facing": "right"
+        }
+      ],
+      "props": [
+        {
+          "name": "cupboard",
+          "x": 0.16,
+          "y": 0.84,
+          "size": 0.66,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "table",
+          "x": 0.76,
+          "y": 0.84,
+          "size": 0.4,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "gem",
+          "x": 0.76,
+          "y": 0.69,
+          "size": 0.18,
+          "motion": "pulse",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 4
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.1,
+          "name": "ding"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "reach",
+      "start": "clip:13",
+      "bg": {
+        "type": "living_room",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.1,
+          1.2
+        ],
+        "focus": {
+          "x": 0.65,
+          "y": 0.72
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.44,
+          "size": 0.5,
+          "pose": "point",
+          "expression": "smug",
+          "facing": "right",
+          "move": [
+            {
+              "at": 0.1,
+              "until": "clip:13:end",
+              "x": 0.58
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "cupboard",
+          "x": 0.16,
+          "y": 0.84,
+          "size": 0.66,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "table",
+          "x": 0.76,
+          "y": 0.84,
+          "size": 0.4,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "gem",
+          "x": 0.76,
+          "y": 0.69,
+          "size": 0.18,
+          "motion": "pulse",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 4
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "alarm",
+      "start": "clip:14",
+      "bg": {
+        "type": "living_room",
+        "time": "night",
+        "color": "#ffb3a7"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "shake": [
+          "clip:14",
+          "clip:14+0.46",
+          "clip:14+0.92"
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.58,
+          "size": 0.5,
+          "pose": "scared",
+          "expression": "shocked",
+          "emote": "exclaim"
+        }
+      ],
+      "props": [
+        {
+          "name": "cupboard",
+          "x": 0.16,
+          "y": 0.84,
+          "size": 0.66,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "table",
+          "x": 0.76,
+          "y": 0.84,
+          "size": 0.4,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "gem",
+          "x": 0.76,
+          "y": 0.69,
+          "size": 0.18,
+          "motion": "pulse",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 4
+        },
+        {
+          "name": "alarm_light",
+          "x": 0.5,
+          "y": 0.32,
+          "size": 0.22,
+          "motion": "shake",
+          "at": 0,
+          "zIndex": 7
+        }
+      ],
+      "sfx": [
+        {
+          "at": "clip:14",
+          "name": "alarm",
+          "gain": 1.2
+        },
+        {
+          "at": "clip:15",
+          "name": "alarm",
+          "gain": 1
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "panic",
+      "start": "clip:16",
+      "bg": {
+        "type": "living_room",
+        "time": "night",
+        "color": "#ffb3a7"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.58,
+          "size": 0.5,
+          "expression": "scared",
+          "emote": "sweat",
+          "out": "@hides",
+          "move": [
+            {
+              "at": "@panicking",
+              "until": "@hides",
+              "x": 0.16,
+              "pose": "run"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "cupboard",
+          "x": 0.16,
+          "y": 0.84,
+          "size": 0.66,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 6
+        },
+        {
+          "name": "table",
+          "x": 0.76,
+          "y": 0.84,
+          "size": 0.4,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 3
+        },
+        {
+          "name": "gem",
+          "x": 0.76,
+          "y": 0.69,
+          "size": 0.18,
+          "motion": "pulse",
+          "enter": "none",
+          "at": 0,
+          "zIndex": 4
+        },
+        {
+          "name": "alarm_light",
+          "x": 0.5,
+          "y": 0.32,
+          "size": 0.22,
+          "motion": "shake",
+          "at": 0,
+          "zIndex": 7
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@hides",
+          "name": "thud"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "inside-cupboard",
+      "start": "clip:17",
+      "bg": {
+        "type": "solid",
+        "color": "#3a2a22"
+      },
+      "camera": {
+        "zoom": [
+          1.2,
+          1.3
+        ],
+        "focus": {
+          "x": 0.3,
+          "y": 0.88
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.3,
+          "size": 0.36,
+          "pose": "point",
+          "expression": "worried",
+          "facing": "right"
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.2,
+          "name": "creak"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "giant-dog",
+      "start": "clip:18",
+      "bg": {
+        "type": "solid",
+        "color": "#3a2a22"
+      },
+      "camera": {
+        "zoom": [
+          1.2,
+          1.2
+        ],
+        "focus": {
+          "x": 0.42,
+          "y": 0.88
+        },
+        "punch": [
+          "@gigantic"
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.18,
+          "size": 0.36,
+          "pose": "scared",
+          "expression": "shocked",
+          "facing": "right"
+        },
+        {
+          "who": "dog",
+          "x": 0.62,
+          "size": 0.62,
+          "pose": "sleep",
+          "emote": "zzz",
+          "facing": "left"
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:19",
+          "who": "bob",
+          "emote": "sweat"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@gigantic",
+          "name": "hit"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "eyes-open",
+      "start": "clip:20",
+      "bg": {
+        "type": "solid",
+        "color": "#3a2a22"
+      },
+      "camera": {
+        "zoom": [
+          1.2,
+          1.25
+        ],
+        "focus": {
+          "x": 0.42,
+          "y": 0.88
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.18,
+          "size": 0.36,
+          "pose": "scared",
+          "expression": "shocked",
+          "facing": "right"
+        },
+        {
+          "who": "dog",
+          "x": 0.62,
+          "size": 0.62,
+          "pose": "sleep",
+          "emote": "zzz",
+          "facing": "left"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@open",
+          "who": "dog",
+          "pose": "sit",
+          "expression": "surprised",
+          "emote": ""
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "dont-bark",
+      "start": "clip:21",
+      "bg": {
+        "type": "solid",
+        "color": "#3a2a22"
+      },
+      "camera": {
+        "zoom": [
+          1.2,
+          1.25
+        ],
+        "focus": {
+          "x": 0.3,
+          "y": 0.88
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.18,
+          "size": 0.36,
+          "pose": "scared",
+          "expression": "worried",
+          "facing": "right"
+        },
+        {
+          "who": "dog",
+          "x": 0.62,
+          "size": 0.62,
+          "pose": "sit",
+          "expression": "happy",
+          "facing": "left"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@closes",
+          "who": "bob",
+          "expression": "sleepy"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "jump",
+      "start": "clip:23",
+      "bg": {
+        "type": "solid",
+        "color": "#3a2a22"
+      },
+      "camera": {
+        "zoom": [
+          1.2,
+          1.2
+        ],
+        "focus": {
+          "x": 0.42,
+          "y": 0.88
+        },
+        "shake": [
+          "clip:23:end"
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.18,
+          "size": 0.36,
+          "pose": "scared",
+          "expression": "shocked",
+          "facing": "right",
+          "move": [
+            {
+              "at": "@jumps",
+              "until": "clip:23:end",
+              "x": 0.22,
+              "rotate": -10,
+              "facing": "keep"
+            }
+          ]
+        },
+        {
+          "who": "dog",
+          "x": 0.62,
+          "size": 0.62,
+          "pose": "sit",
+          "expression": "excited",
+          "facing": "left",
+          "move": [
+            {
+              "at": "@jumps",
+              "until": "clip:23:end",
+              "x": 0.48,
+              "arc": 0.1,
+              "facing": "keep"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "at": "@jumps",
+          "who": "dog",
+          "pose": "jump"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@jumps",
+          "name": "boing"
+        },
+        {
+          "at": "clip:23:end",
+          "name": "thud"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "lick",
+      "start": "clip:24",
+      "bg": {
+        "type": "solid",
+        "color": "#3a2a22"
+      },
+      "camera": {
+        "zoom": [
+          1.25,
+          1.3
+        ],
+        "focus": {
+          "x": 0.34,
+          "y": 0.88
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.22,
+          "size": 0.36,
+          "pose": "scared",
+          "expression": "confused",
+          "facing": "right",
+          "move": [
+            {
+              "at": 0,
+              "duration": 0.05,
+              "x": 0.22,
+              "rotate": -10,
+              "facing": "keep"
+            }
+          ]
+        },
+        {
+          "who": "dog",
+          "x": 0.48,
+          "size": 0.62,
+          "pose": "lick",
+          "expression": "excited",
+          "facing": "left"
+        }
+      ],
+      "props": [
+        {
+          "name": "slobber",
+          "x": 0.18,
+          "y": 0.68,
+          "size": 0.16,
+          "at": "@licking",
+          "motion": "none",
+          "zIndex": 7
+        }
+      ],
+      "actions": [
+        {
+          "at": "@licking",
+          "who": "bob",
+          "expression": "disgusted"
+        },
+        {
+          "at": "clip:25",
+          "who": "dog",
+          "emote": "love"
+        },
+        {
+          "at": "@friend",
+          "who": "bob",
+          "expression": "dizzy"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@licking",
+          "name": "slurp",
+          "gain": 1.1
+        },
+        {
+          "at": "clip:24:end",
+          "name": "slurp"
+        },
+        {
+          "at": "clip:25+0.8",
+          "name": "slurp"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "escape",
+      "start": "clip:26",
+      "bg": {
+        "type": "house_exterior",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.5,
+          "y": 0.84,
+          "size": 0.4,
+          "expression": "scared",
+          "emote": "sweat",
+          "facing": "right",
+          "move": [
+            {
+              "at": 0.2,
+              "until": "clip:26:end",
+              "x": 1.3,
+              "pose": "run"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "slobber",
+          "x": 0.5,
+          "y": 0.72,
+          "size": 0.14,
+          "motion": "none",
+          "at": 0.3,
+          "zIndex": 7,
+          "move": [
+            {
+              "at": 0.3,
+              "until": "clip:26:end",
+              "x": 1.3
+            }
+          ]
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.1,
+          "name": "creak",
+          "gain": 0.6
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "street-run",
+      "start": "clip:27",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": -0.2,
+          "size": 0.4,
+          "expression": "laughing",
+          "move": [
+            {
+              "at": 0.1,
+              "until": "clip:27:end",
+              "x": 0.45,
+              "pose": "run"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "free",
+      "start": "clip:28",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.35,
+          1.5
+        ],
+        "focus": {
+          "x": 0.45,
+          "y": 0.84
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.45,
+          "size": 0.4,
+          "pose": "celebrate",
+          "expression": "excited",
+          "emote": "sparkle"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "suddenly",
+      "start": "clip:29",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.2,
+          1.2
+        ],
+        "focus": {
+          "x": 0.45,
+          "y": 0.84
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.45,
+          "size": 0.4,
+          "pose": "celebrate",
+          "expression": "excited"
+        }
+      ],
+      "actions": [
+        {
+          "at": 0.3,
+          "who": "bob",
+          "pose": "idle",
+          "expression": "surprised",
+          "emote": "question"
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.1,
+          "name": "siren"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "police-car",
+      "start": "clip:30",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "shake": [
+          "clip:30:end"
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.24,
+          "size": 0.4,
+          "expression": "shocked",
+          "facing": "right"
+        }
+      ],
+      "props": [
+        {
+          "name": "police_car",
+          "x": 1.5,
+          "y": 0.925,
+          "size": 0.5,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "flip": true,
+          "zIndex": 6,
+          "move": [
+            {
+              "at": 0.1,
+              "until": "clip:30:end",
+              "x": 0.72,
+              "ease": "power2.out"
+            }
+          ]
+        }
+      ],
+      "sfx": [
+        {
+          "at": "clip:30:end-0.8",
+          "name": "skid"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "hands-up",
+      "start": "clip:31",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "punch": [
+          "clip:32"
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.24,
+          "size": 0.4,
+          "expression": "shocked",
+          "facing": "right"
+        },
+        {
+          "who": "officer",
+          "x": 0.62,
+          "y": 0.905,
+          "size": 0.42,
+          "expression": "angry",
+          "facing": "left",
+          "at": "@steps",
+          "enter": "fade",
+          "zIndex": 7,
+          "move": [
+            {
+              "at": "@steps",
+              "until": "clip:31:end",
+              "x": 0.46
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "police_car",
+          "x": 0.72,
+          "y": 0.925,
+          "size": 0.5,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "flip": true,
+          "zIndex": 6
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:32",
+          "who": "officer",
+          "pose": "point",
+          "expression": "angry"
+        },
+        {
+          "at": "clip:32+0.3",
+          "who": "bob",
+          "pose": "cheer",
+          "expression": "scared",
+          "emote": "exclaim"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "freeze",
+      "start": "clip:33",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.3,
+          1.38
+        ],
+        "focus": {
+          "x": 0.26,
+          "y": 0.84
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.24,
+          "size": 0.4,
+          "pose": "cheer",
+          "expression": "scared",
+          "facing": "right"
+        },
+        {
+          "who": "officer",
+          "x": 0.46,
+          "y": 0.905,
+          "size": 0.42,
+          "pose": "point",
+          "expression": "angry",
+          "facing": "left",
+          "zIndex": 7
+        }
+      ],
+      "props": [
+        {
+          "name": "police_car",
+          "x": 0.72,
+          "y": 0.925,
+          "size": 0.5,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "flip": true,
+          "zIndex": 6
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "accusation",
+      "start": "clip:34",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.1,
+          1.2
+        ],
+        "focus": {
+          "x": 0.4,
+          "y": 0.86
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.24,
+          "size": 0.4,
+          "pose": "cheer",
+          "expression": "scared",
+          "facing": "right"
+        },
+        {
+          "who": "officer",
+          "x": 0.46,
+          "y": 0.905,
+          "size": 0.42,
+          "pose": "hips",
+          "expression": "angry",
+          "facing": "left",
+          "zIndex": 7
+        }
+      ],
+      "props": [
+        {
+          "name": "police_car",
+          "x": 0.72,
+          "y": 0.925,
+          "size": 0.5,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "flip": true,
+          "zIndex": 6
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "my-dog",
+      "start": "clip:35",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.2,
+          1.4
+        ],
+        "focus": {
+          "x": 0.38,
+          "y": 0.86
+        },
+        "punch": [
+          "@dog"
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.24,
+          "size": 0.4,
+          "pose": "cheer",
+          "expression": "scared",
+          "facing": "right"
+        },
+        {
+          "who": "officer",
+          "x": 0.46,
+          "y": 0.905,
+          "size": 0.42,
+          "pose": "point",
+          "expression": "angry",
+          "facing": "left",
+          "zIndex": 7
+        }
+      ],
+      "props": [
+        {
+          "name": "police_car",
+          "x": 0.72,
+          "y": 0.925,
+          "size": 0.5,
+          "anchor": "bottom",
+          "motion": "none",
+          "enter": "none",
+          "at": 0,
+          "flip": true,
+          "zIndex": 6
+        }
+      ],
+      "actions": [
+        {
+          "at": "@dog",
+          "who": "bob",
+          "pose": "shrug",
+          "expression": "confused",
+          "emote": "question"
+        },
+        {
+          "at": "@dog",
+          "who": "officer",
+          "expression": "crying"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "@dog",
+          "name": "boop"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "look-down",
+      "start": "clip:36",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ]
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.2,
+          "size": 0.4,
+          "expression": "confused",
+          "facing": "right",
+          "lookAt": {
+            "x": 0.3,
+            "y": 0.7
+          }
+        },
+        {
+          "who": "dog",
+          "x": 1.4,
+          "size": 0.62,
+          "expression": "excited",
+          "facing": "left",
+          "holding": "loot_bag",
+          "move": [
+            {
+              "at": "clip:37",
+              "until": "@carrying",
+              "x": 0.6
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "at": "@carrying",
+          "who": "dog",
+          "emote": "love"
+        },
+        {
+          "at": "@carrying",
+          "who": "bob",
+          "expression": "shocked"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "clip:37",
+          "name": "bark"
+        }
+      ]
+    },
+    {
+      "layout": "story",
+      "speaker": "none",
+      "id": "worse",
+      "start": "clip:38",
+      "bg": {
+        "type": "street",
+        "time": "night"
+      },
+      "camera": {
+        "zoom": [
+          1.1,
+          1.2
+        ],
+        "focus": {
+          "x": 0.3,
+          "y": 0.84
+        }
+      },
+      "characters": [
+        {
+          "who": "bob",
+          "x": 0.2,
+          "size": 0.4,
+          "expression": "sad",
+          "facing": "right"
+        },
+        {
+          "who": "dog",
+          "x": 0.6,
+          "size": 0.62,
+          "expression": "happy",
+          "facing": "left",
+          "holding": "loot_bag"
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:39",
+          "who": "bob",
+          "pose": "facepalm",
+          "expression": "crying"
+        }
+      ]
+    }
+  ]
+}

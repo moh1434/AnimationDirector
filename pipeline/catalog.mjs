@@ -5,6 +5,7 @@ import { createRequire } from "node:module";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { ROOT } from "./env.mjs";
+import { ANIMAL_KINDS, MOVE_EASES, MOVE_POSES } from "../remotion/story/story-mode.mjs";
 
 const STORY = join(ROOT, "remotion", "story");
 let cached = null;
@@ -13,7 +14,7 @@ function loadTs() {
   const require = createRequire(import.meta.url);
   const ts = require("typescript");
   for (const ext of [".ts", ".tsx"]) {
-    if (require.extensions[ext]) continue;
+    // Transpile both extensions consistently, including when Node provides a native .ts loader.
     require.extensions[ext] = (module, file) =>
       module._compile(ts.transpileModule(readFileSync(file, "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.React, esModuleInterop: true, target: ts.ScriptTarget.ES2020 } }).outputText, file);
   }
@@ -33,6 +34,7 @@ export function catalog() {
   const C = require(join(STORY, "Character.tsx"));
   const F = require(join(STORY, "Face.tsx"));
   const T = require(join(STORY, "theme.ts"));
+  const A = require(join(STORY, "Animal.tsx"));
   const aliases = {};
   for (const n of P.PROP_NAMES) aliases[n] = [];
   // collect aliases by probing the resolver with every alias the registries declare
@@ -59,6 +61,18 @@ export function catalog() {
     resolveProp: (n) => P.resolveProp(n),
     bgColors: Object.keys(T.BG),
     bgTypes: [...bgTypes].sort(),
+    animalKinds: ANIMAL_KINDS,
+    animalPoses: A.ANIMAL_POSES,
+    movePoses: MOVE_POSES,
+    moveEases: MOVE_EASES,
+    looks: {
+      hat: casesIn("Character.tsx", "const Hat:", "const Facial:"),
+      hair: casesIn("Character.tsx", "const HairBack:", "const Hat:"),
+      outfit: ["shirt", ...casesIn("Character.tsx", "const Torso:", "const ExtrasBack:")],
+      accessory: ["mask", ...casesIn("Character.tsx", "const Accessory:", "export const Emote")],
+      facial: casesIn("Character.tsx", "const Facial:", "const Accessory:"),
+      shirtSymbol: ["star", "heart"],
+    },
     presets: Object.keys(T.PRESETS),
     presetAliases: T.PRESET_ALIASES ?? {},
     poses: Object.keys(C.POSES),
@@ -69,7 +83,7 @@ export function catalog() {
     textStyles: ["label", "date", "note", "quote", "title", "big"],
     transitions: ["cut", "whip", "iris", "flash", "zoom", "fade", "slide"],
     symbols: ["VS", "=", "≠", ">", "<"],
-    sfx: ["pop", "tick", "boop", "ding", "sparkle", "whoosh", "swoosh", "swish", "boing", "hit", "thud", "iris"],
+    sfx: ["pop", "tick", "boop", "ding", "sparkle", "whoosh", "swoosh", "swish", "boing", "hit", "thud", "iris", "alarm", "siren", "bark", "slurp", "crash", "rip", "creak", "skid"],
   };
   return cached;
 }
@@ -85,6 +99,16 @@ export function catalogText(c = catalog()) {
   return [
     "LAYOUTS (scene.layout)", wrap(c.layouts),
     "CHARACTER PRESETS (cast.<id>.preset)", wrap(c.presets),
+    "ANIMAL ACTORS (cast.<id>.kind)", wrap(c.animalKinds),
+    "ANIMAL POSES (only for cast members with a kind)", wrap(c.animalPoses),
+    "HATS (look.hat)", wrap(c.looks.hat),
+    "HAIR (look.hair)", wrap(c.looks.hair),
+    "OUTFITS (look.outfit)", wrap(c.looks.outfit),
+    "ACCESSORIES (look.accessory)", wrap(c.looks.accessory),
+    "FACIAL HAIR (look.facial)", wrap(c.looks.facial),
+    "SHIRT SYMBOLS (look.shirtSymbol)", wrap(c.looks.shirtSymbol),
+    "MOVE POSES (move[].pose)", wrap(c.movePoses),
+    "MOVE EASES (move[].ease)", wrap(c.moveEases),
     "POSES (characters[].pose, actions[].pose)", wrap(c.poses),
     "EXPRESSIONS (expression)", wrap(c.expressions),
     "EMOTES (emote)", wrap(c.emotes),

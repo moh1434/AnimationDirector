@@ -14,17 +14,27 @@
 //   node pipeline/cli.mjs catalog                    list layouts, props, backgrounds, poses, expressions…
 //   node pipeline/cli.mjs localize <name> [--lang ar] the same video in another language → projects/<name>-ar
 //   node pipeline/cli.mjs doctor                     check the toolchain
-// options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>
-import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync } from "node:fs";
-import { join, resolve, basename, extname } from "node:path";
+//   node pipeline/cli.mjs voices <name> [--lang ar] [--only bob,ali] [--dry-run]   VoxCPM2 takes from tts.json (TTS.md)
+//   node pipeline/cli.mjs voice-pick <name> bob=2 narrator=1 [--lang ar] [--replace]  cut the chosen takes into lines
+//   node pipeline/cli.mjs voice-ref <name> bob=2 [--lang ar] [--save bob]         a clone reference from a take (+ voices-library/)
+//   node pipeline/cli.mjs enhance <name> [--take-download] [--downloads <dir>]     Adobe Enhance via Claude in Chrome (ENHANCE.md)
+// options: --format youtube|shorts|square|both   --draft   --replan   --no-music   --mood <m>   --skip-enhance
+// plan exports the final voice to voices/enhance/original.wav for the user's noise removal; their
+// file saved next to it is used once it is there, and make waits for it (ENHANCE.md).
+import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, cpSync, copyFileSync, statSync, renameSync, rmSync } from "node:fs";
+import { join, resolve, basename, dirname, extname } from "node:path";
 import { spawnSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { ROOT, IS_WIN, findPython, findFfmpeg, findChrome, binOf } from "./env.mjs";
 import { parseScript, detectLanguage } from "./parse.mjs";
 import { direct } from "./director.mjs";
+import { dialogueStale, isSoundLabel, loadTimeline, missingClips, prepareDialogue, readDialogue } from "./dialogue.mjs";
+import { ENGINES, makeReference, makeTakes, parsePicks, pickTakes, ttsSettings } from "./tts.mjs";
+import { catalog } from "./catalog.mjs";
+import { enhanceStep, prepareUpload, takeDownload } from "./enhance.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
-import { requireWhisperConfig, whisperConfig, modelFor, bundlerName } from "./whisper-config.mjs";
+import { requireWhisperConfig, whisperConfig, modelFor, bundlerName, rendererName } from "./whisper-config.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -35,7 +45,7 @@ for (let i = 1; i < argv.length; i++) {
   if (a.startsWith("--")) {
     const k = a.slice(2);
     const nx = argv[i + 1];
-    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang"].includes(k)) { flags[k] = nx; i++; }
+    if (nx && !nx.startsWith("--") && ["format", "mood", "fps", "frames", "concurrency", "lang", "only", "save", "downloads"].includes(k)) { flags[k] = nx; i++; }
     else flags[k] = true;
   } else pos.push(a);
 }
@@ -95,16 +105,44 @@ function ensureProjectBats(dir) {
   for (const f of readdirSync(t)) if (f.endsWith(".bat") && !existsSync(join(dir, f)) && !(translated && /arabic/i.test(f))) copyFileSync(join(t, f), join(dir, f));
 }
 
+/** storyboard.json with this project's recordings attached (they decide who is speaking, and when). */
+function readStoryboard(dir) {
+  const sb = readJson(join(dir, "storyboard.json")) ?? die("No storyboard.json — run plan first.");
+  const stale = dialogueStale(dir);
+  if (stale) die(`The recordings need assembling again (${stale}). Run: pnpm video plan ${basename(dir)}`);
+  const timeline = loadTimeline(dir);
+  if (timeline) sb.dialogue = timeline;
+  return sb;
+}
+
+function compileOrDie(sb, analysis, format) {
+  try { return compile(sb, analysis, { format }); } catch (e) { die(`storyboard.json has problems:\n${e.message}`); }
+}
+
+/** Words for captions: a clip such as "[bark]" is heard, not read. */
+function spokenWords(dir, analysis) {
+  const sounds = new Set((loadTimeline(dir) ?? []).flatMap((c, i) => (isSoundLabel(c.text) ? [i] : [])));
+  return analysis.words.filter((w) => !sounds.has(w.seg));
+}
+
 /* ---------------- plan ---------------- */
 async function plan(dir, { force = false } = {}) {
+  if (existsSync(join(dir, "tts.json")) && !existsSync(join(dir, "dialogue.json")) && !readdirSync(dir).some((f) => /^voice\.(wav|mp3|m4a|flac|ogg)$/i.test(f)))
+    die(`No voice yet. Make the takes, let the user listen and pick one per character (TTS.md):\n  pnpm video voices ${basename(dir)}\n  pnpm video voice-pick ${basename(dir)} <who>=<take> …`);
   ensureProjectBats(dir);
   // .env must name a valid whisper.cpp folder and models (or turn them off): fail before any work
   try { requireWhisperConfig(); } catch (e) { die(e.message); }
   const settings = settingsOf(dir);
   const build = join(dir, "build");
   mkdirSync(build, { recursive: true });
-  const voice = findVoice(dir);
-  const script = findScript(dir);
+  let dialogue = null;
+  if (existsSync(join(dir, "dialogue.json"))) try { dialogue = prepareDialogue(dir); } catch (e) { die(e.message); }
+  // the user's own clean-up step: export the final voice, and use their enhanced copy once it is there
+  const enhance = enhanceStep(dir, dialogue?.voice ?? findVoice(dir));
+  enhance.messages.forEach((m) => (enhance.state === "error" ? warn(m) : log(m)));
+  if (enhance.state === "error") die("Fix the enhanced voice (see above), or remove it to use the original.");
+  const voice = enhance.voice;
+  const script = dialogue?.script ?? findScript(dir);
   let duration;
   const ffprobe = findFfmpeg("ffprobe");
   if (ffprobe) {
@@ -135,16 +173,22 @@ async function plan(dir, { force = false } = {}) {
     if (existing.inputsHash && existing.inputsHash !== inputsHash) warn("Voice or script changed since storyboard.json was made. Use --replan to rebuild it (your edits would be replaced).");
     log("Keeping existing storyboard.json (use --replan to rebuild it).");
     briefOf(dir, { analysis, segments, settings: { ...settings, language: lang }, storyboard: existing });
-    return { settings, analysis, storyboard: existing, lang };
+    return { settings, analysis, storyboard: existing, lang, enhance };
   }
   const sb = direct({ segments, words: analysis.words, duration: analysis.duration, settings: { ...settings, language: lang } });
+  if(dialogue) {
+    sb.dialogue=dialogue.timeline;
+    Object.assign(sb.cast, dialogue.cast ?? {});
+    // a speaker with no cast entry: "policeman" is its own preset; anything else starts as the host
+    for (const { who } of dialogue.timeline) if (!["narrator", "none"].includes(who) && !sb.cast[who]) sb.cast[who] = { preset: catalog().presets.includes(who) ? who : "host", name: who };
+  }
   sb.inputsHash = inputsHash;
   sb.captionsByFormat = captionsByFormat(settings);
   writeJson(sbPath, sb);
   writeFileSync(join(dir, "STORYBOARD.md"), storyboardMd(sb), "utf8");
   log(`storyboard.json written: ${sb.scenes.length} scenes (auto-directed — edit it or ask Claude to direct it).`);
   briefOf(dir, { analysis, segments, settings: { ...settings, language: lang }, storyboard: sb });
-  return { settings, analysis, storyboard: sb, lang };
+  return { settings, analysis, storyboard: sb, lang, enhance };
 }
 
 function briefOf(dir, ctx) {
@@ -238,9 +282,9 @@ function autoMood(sb) {
 async function audio(dir, ctx) {
   const settings = ctx?.settings ?? settingsOf(dir);
   const build = join(dir, "build");
-  const sb = readJson(join(dir, "storyboard.json")) ?? die("No storyboard.json — run plan first.");
+  const sb = readStoryboard(dir);
   const analysis = readJson(join(build, "analysis.json")) ?? die("No analysis — run plan first.");
-  const { storyboard } = compile(sb, analysis, { format: "youtube" });
+  const { storyboard } = compileOrDie(sb, analysis, "youtube");
   writeJson(join(build, "sfx.json"), settings.sfx === false ? [] : sfxCues(storyboard));
   const musicSetting = flags["no-music"] ? "none" : flags.mood ?? settings.music;
   let musicOn = musicSetting !== "none" && musicSetting !== false;
@@ -263,7 +307,7 @@ async function audio(dir, ctx) {
       voiced: analysis.voiced ?? [],
     }), "utf8");
     log(`Composing music (pretty_midi, mood: ${mood}, scored to the cuts)…`);
-    log(`  ${py("compose_music.py", [build, String(analysis.duration), mood, String(seed), spotIn])}`);
+    log(`  ${py("compose_music.py", [build, String(storyboard.duration), mood, String(seed), spotIn])}`);
     try {
       log("Rendering the score with Tone.js…");
       const { renderMusic } = await import("./tone-render.mjs");
@@ -275,7 +319,8 @@ async function audio(dir, ctx) {
     }
   }
   log("Mixing (pedalboard: ducking, effects, loudness)…");
-  const mixCfg = { music: musicOn, sfx: settings.sfx !== false, ...(settings.mix ?? {}) };
+  // the mix lasts as long as the video (the voice plus its end hold, or longer), so the music never stops early
+  const mixCfg = { music: musicOn, sfx: settings.sfx !== false, ...(settings.mix ?? {}), duration: storyboard.duration };
   const rep = py("mix.py", [build, JSON.stringify(mixCfg)]);
   log(`  ${rep}`);
 }
@@ -347,16 +392,16 @@ function customProps(dir) {
 
 function renderProps(dir, format) {
   const build = join(dir, "build");
-  const sb = readJson(join(dir, "storyboard.json")) ?? die("No storyboard.json — run plan first.");
+  const sb = readStoryboard(dir);
   const analysis = readJson(join(build, "analysis.json"));
   validateOrDie(dir, analysis);
-  const { storyboard, warnings } = compile(sb, analysis, { format });
+  const { storyboard, warnings } = compileOrDie(sb, analysis, format);
   warnings.forEach((w) => warn(w));
   // keep the human-readable summary in step with the storyboard that is actually rendered
   try { writeFileSync(join(dir, "STORYBOARD.md"), storyboardMd({ ...storyboard, title: sb.title ?? storyboard.title }), "utf8"); } catch {}
   const custom = customProps(dir);
   if (Object.keys(custom).length) storyboard.customProps = custom;
-  const props = { storyboard, words: analysis.words.map(({ w, s, e }) => ({ w, s, e })), mouth: analysis.mouth, audio: existsSync(join(build, "mix.wav")) ? "mix.wav" : "voice.wav", format };
+  const props = { storyboard, words: spokenWords(dir, analysis).map(({ w, s, e }) => ({ w, s, e })), mouth: analysis.mouth, audio: existsSync(join(build, "mix.wav")) ? "mix.wav" : "voice.wav", format };
   writeJson(join(build, `render-${format}.json`), props);
   return { props, storyboard };
 }
@@ -375,13 +420,14 @@ async function render(dir, ctx) {
     const { props, storyboard } = renderProps(dir, fmt);
     copyUserImages(dir, build, storyboard);
     const file = join(out, `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
-    log(`Rendering ${fmt}${draft ? " (draft, half size)" : ""} → ${file}`);
+    const gpu = flags.cpu ? false : flags.gpu ? true : rendererName() === "gpu";
+    log(`Rendering ${fmt}${draft ? " (draft, half size)" : ""} on the ${gpu ? "GPU" : "CPU"} → ${file}`);
     let last = -1;
     const t0 = Date.now();
     // render to a fresh temp name, then swap it in: on Windows the old video cannot be replaced
     // while it is open in a player, and the finished render must not be lost because of that
     const tmp = file.replace(/\.mp4$/, `.rendering-${process.pid}.mp4`);
-    await renderVideo({ publicDir: build, inputProps: props, out: tmp, draft, concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
+    await renderVideo({ publicDir: build, inputProps: props, out: tmp, draft, gpu, onGpuFailed: (e) => warn(`GPU render failed, rendering on the CPU instead (${e.message.split("\n")[0]})`), concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
     process.stdout.write(`\r  done in ${Math.round((Date.now() - t0) / 1000)}s${" ".repeat(30)}\n`);
     const saved = replaceFile(tmp, file);
     if (saved !== file) {
@@ -391,7 +437,7 @@ async function render(dir, ctx) {
     }
   }
   const analysis = readJson(join(build, "analysis.json"));
-  writeFileSync(join(out, `${name}.srt`), srt(analysis.words), "utf8");
+  writeFileSync(join(out, `${name}.srt`), srt(spokenWords(dir, analysis)), "utf8");
   log(`Subtitles: ${join(out, name + ".srt")} (${analysis.word_timing ?? "estimated"} timing)`);
   await qc(dir, settings, draft, renamed);
 }
@@ -421,7 +467,9 @@ async function qc(dir, settings = settingsOf(dir), draft = !!flags.draft, rename
     const file = renamed[fmt] ?? join(dir, "out", `${name}-${fmt}${draft ? "-draft" : ""}.mp4`);
     if (!existsSync(file)) continue;
     const [w, h] = sizes[fmt] ?? [];
-    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 60, duration: analysis.duration, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
+    // the expected length is the compiled video (voice + end hold, or the storyboard's longer "duration")
+    const expected = readJson(join(dir, "build", `render-${fmt}.json`), null)?.storyboard?.duration ?? analysis.duration;
+    const r = qcVideo(file, { width: draft ? w / 2 : w, height: draft ? h / 2 : h, fps: settings.fps ?? 60, duration: expected, lufs: settings.mix?.lufs ?? -14, sheet: join(dir, "out", `${name}-${fmt}-sheet.jpg`) });
     results.push(r);
     log(`Final pass ${fmt}: ${r.checks.map((c) => `${c.ok ? "✔" : "✖"} ${c.name}`).join("  ")}`);
   }
@@ -488,6 +536,26 @@ function newProject(name) {
   if (existsSync(d)) die(`projects/${name} already exists`);
   cpSync(join(ROOT, "projects", "_template"), d, { recursive: true });
   log(`Created ${d}`);
+  if (flags.tts) {
+    rmSync(join(d, "script.txt"), { force: true }); // tts.json holds the script; voice-pick writes the recordings
+    writeJson(join(d, "tts.json"), {
+      language: "en", takes: 3,
+      voices: { narrator: { description: "A deep, warm, middle-aged male storyteller with a calm, cinematic narration style" }, hero: { description: "An energetic young girl with a bright, high, cheerful voice, quick and curious" } },
+      lines: [{ who: "narrator", text: "The exact words of the script, one entry per line." }, { who: "hero", text: "Each speaker change is a new line.", say: "[laughing] Each speaker change is a new line." }],
+    });
+    log("Now: fill in tts.json from the script (see TTS.md), then run:");
+    log(`  pnpm video voices ${name}     (takes to listen to)`);
+    log(`  pnpm video voice-pick ${name} narrator=1 hero=2     (the takes the user chose)`);
+    return;
+  }
+  if (flags.story) {
+    mkdirSync(join(d, "voices"), { recursive: true });
+    rmSync(join(d, "script.txt"), { force: true }); // dialogue.json replaces it
+    writeJson(join(d, "dialogue.json"), { cast: { hero: { preset: "kid", name: "Hero" }, pet: { kind: "dog" } }, clips: [{ who: "narrator", file: "voices/01.wav", text: "The exact words of the first recording." }, { who: "hero", file: "voices/02.wav", text: "One recording per line, in order." }] });
+    log("Now: put one recording per line in voices/, list them in dialogue.json (see STORY_MODE.md),");
+    log(`then run: pnpm video plan ${name}`);
+    return;
+  }
   log("Now: put your narration in it as voice.wav, write script.txt (story + time segments),");
   log("then double-click make-video.bat inside that folder.");
 }
@@ -505,16 +573,33 @@ async function localize(srcDir, lang) {
     : existsSync(sub) && readdirSync(sub).find((f) => /^voice\.(wav|mp3|m4a|flac|ogg)$/i.test(f)) ? join(sub, readdirSync(sub).find((f) => /^voice\./i.test(f))) : null;
   const scriptSrc = find(new RegExp(`^script[-_]${lang}\\.(txt|srt|json)$`, "i")) ? join(srcDir, find(new RegExp(`^script[-_]${lang}\\.(txt|srt|json)$`, "i")))
     : existsSync(join(sub, "script.txt")) ? join(sub, "script.txt") : null;
-  if (!voiceSrc || !scriptSrc) die(`For the ${lang} version, put these next to voice.wav and script.txt in ${srcDir}:\n  voice-${lang}.wav    the ${lang} narration\n  script-${lang}.txt   the ${lang} text with time segments — the SAME number of sentences, in the same order`);
+  // a multi-voice story: dialogue-ar.json lists one recording per line, like dialogue.json
+  const dialogueFile = `dialogue-${lang}.json`;
+  const multiVoice = existsSync(join(srcDir, dialogueFile));
+  if (!multiVoice && existsSync(join(srcDir, "dialogue.json")) && (!voiceSrc || !scriptSrc)) die(`For the ${lang} version of a multi-voice story, put ${dialogueFile} next to dialogue.json: the same lines in the same order, each with its own ${lang} recording (for example voices-${lang}/01.wav).`);
+  if (!multiVoice && (!voiceSrc || !scriptSrc)) die(`For the ${lang} version, put these next to voice.wav and script.txt in ${srcDir}:\n  voice-${lang}.wav    the ${lang} narration\n  script-${lang}.txt   the ${lang} text with time segments — the SAME number of sentences, in the same order`);
   // 1. the source video must be planned (its storyboard is the model)
   const srcCtx = await plan(srcDir);
   // 2. the target project
   const name = `${basename(srcDir)}-${lang}`;
   const dst = join(ROOT, "projects", name);
   mkdirSync(dst, { recursive: true });
-  const voiceDst = join(dst, "voice" + extname(voiceSrc).toLowerCase());
-  if (!existsSync(voiceDst) || statSync(voiceDst).size !== statSync(voiceSrc).size || statSync(voiceDst).mtimeMs < statSync(voiceSrc).mtimeMs) copyFileSync(voiceSrc, voiceDst);
-  copyFileSync(scriptSrc, join(dst, "script" + extname(scriptSrc).toLowerCase()));
+  if (multiVoice) {
+    const manifest = readDialogue(srcDir, dialogueFile);
+    const missing = missingClips(srcDir, manifest);
+    if (missing.length) die(`${missing.length} recording(s) named in ${dialogueFile} are missing:\n  ${missing.join("\n  ")}`);
+    const source = readDialogue(srcDir);
+    if (source.clips.length !== manifest.clips.length) die(`${dialogueFile} has ${manifest.clips.length} clips but dialogue.json has ${source.clips.length}. They must match line for line.`);
+    for (const c of manifest.clips) {
+      mkdirSync(dirname(resolve(dst, c.file)), { recursive: true });
+      copyFileSync(resolve(srcDir, c.file), resolve(dst, c.file));
+    }
+    writeJson(join(dst, "dialogue.json"), { ...manifest, cast: manifest.cast ?? source.cast });
+  } else {
+    const voiceDst = join(dst, "voice" + extname(voiceSrc).toLowerCase());
+    if (!existsSync(voiceDst) || statSync(voiceDst).size !== statSync(voiceSrc).size || statSync(voiceDst).mtimeMs < statSync(voiceSrc).mtimeMs) copyFileSync(voiceSrc, voiceDst);
+    copyFileSync(scriptSrc, join(dst, "script" + extname(scriptSrc).toLowerCase()));
+  }
   if (existsSync(join(srcDir, "props"))) cpSync(join(srcDir, "props"), join(dst, "props"), { recursive: true });
   const vj = readJson(join(dst, "video.json"), null);
   const own = readJson(join(srcDir, "video.json"), {});
@@ -568,12 +653,60 @@ function doctor() {
     ok(true, `Arabic model: ${w.models.ar ?? "off (estimated timing)"}`);
   }
   w.warnings.forEach((m) => console.log("⚠ " + m));
+  const t = ttsSettings();
+  if (!t.exe && !Object.values(t.models).some(Boolean)) ok(true, "Voices from text: not set up (optional, see TTS.md)");
+  else for (const e of Object.keys(ENGINES)) {
+    if (!t.models[e] && e !== "voxcpm2") { ok(true, `${e} voices: not set up (optional)`); continue; }
+    const bad = [...t.errors, ...t.engineErrors[e]];
+    ok(!bad.length, `${e} voices: ${t.models[e]}`, bad.join("\n    → "));
+  }
 }
 
 /* ---------------- main ---------------- */
 const t0 = Date.now();
 try {
   switch (cmd) {
+    case "voices": {
+      const d = projectDir(pos[0]);
+      const lang = typeof flags.lang === "string" ? flags.lang.toLowerCase() : undefined;
+      const only = typeof flags.only === "string" ? flags.only.split(",").map((x) => x.trim()) : undefined;
+      let r;
+      try { r = await makeTakes(d, { lang, only, dryRun: !!flags["dry-run"] }); } catch (e) { die(e.message); }
+      if (flags["dry-run"]) { r.takes.forEach((t) => log(`${t.who} take ${t.take} (${t.engine}, seed ${t.seed}) → ${t.file}`)); break; }
+      for (const t of r.takes) log(t.failed ? `✗ ${t.who} take ${t.take}: ${t.failed.split("\n")[0]}` : `${t.who} take ${t.take}: ${t.duration.toFixed(1)} s, ${t.check.summary}`);
+      log(`Listen: ${r.review}`);
+      log(`Then pick one take per character: pnpm video voice-pick ${basename(d)}${lang ? ` --lang ${lang}` : ""} ${[...new Set(r.takes.map((t) => t.who))].map((w) => `${w}=1`).join(" ")}`);
+      if (r.takes.some((t) => t.failed)) process.exitCode = 1;
+      break;
+    }
+    case "voice-pick": {
+      const d = projectDir(pos[0]);
+      const lang = typeof flags.lang === "string" ? flags.lang.toLowerCase() : undefined;
+      let r;
+      try { r = pickTakes(d, parsePicks(pos.slice(1)), { lang, replace: !!flags.replace, forceDialogue: !!flags.dialogue }); } catch (e) { die(e.message); }
+      r.problems.forEach((p) => warn(p));
+      log(r.mode === "narration" ? `Wrote ${r.voice} and ${r.script} (one voice, so the take stays whole).` : `Wrote ${r.dialogue}: ${r.clips} clips, one recording per line.`);
+      if (r.sounds?.length) warn(`These sounds still need a recording (or a "file" on their line): ${r.sounds.join(", ")}`);
+      log(lang ? `Next: pnpm video localize ${basename(d)} --lang ${lang}` : `Next: pnpm video plan ${basename(d)}`);
+      break;
+    }
+    case "voice-ref": {
+      const d = projectDir(pos[0]);
+      const lang = typeof flags.lang === "string" ? flags.lang.toLowerCase() : undefined;
+      const picks = Object.entries(parsePicks(pos.slice(1)));
+      if (!picks.length) die("Name the take: pnpm video voice-ref <name> ali=2 [--save ali]");
+      if (flags.save && picks.length > 1) die("--save names one character: make one reference at a time.");
+      for (const [who, take] of picks) {
+        let r;
+        try { r = makeReference(d, who, take, { lang, save: typeof flags.save === "string" ? flags.save : undefined, overwrite: !!flags.overwrite }); } catch (e) { die(e.message); }
+        log(`${r.reference}: ${r.seconds.toFixed(1)} s, line(s) ${r.lines.join(", ")} of ${who} take ${take}${r.clean ? "" : " (warning: no clean line without tags or misheard words; listen to it)"}`);
+        log(`  words: ${r.referenceText}`);
+        if (r.saved) log(`  saved as ${r.saved}: later videos use { "library": "${flags.save}" } for this voice`);
+        else log(`  use it: "${who}": { "engine": "cosyvoice3", "reference": "${r.reference}", "referenceText": ${JSON.stringify(r.referenceText)} }`);
+      }
+      break;
+    }
+    case "dialogue": { const d = projectDir(pos[0]); const r=prepareDialogue(d); log(`Assembled ${r.timeline.length} clips into ${r.voice}`); break; }
     case "new": newProject(pos[0]); break;
     case "plan": { const d = projectDir(pos[0]); await plan(d, { force: !!flags.replan }); break; }
     case "audio": { const d = projectDir(pos[0]); await audio(d); break; }
@@ -606,10 +739,30 @@ try {
       break;
     }
     case "check": { const d = projectDir(pos[0]); await plan(d); await check(d); break; }
+    case "enhance": {
+      // Adobe Podcast Enhance through Claude in Chrome (ENHANCE.md): the file to upload, then the download back
+      const d = projectDir(pos[0]);
+      try {
+        if (flags["take-download"]) {
+          const r = takeDownload(d, { downloads: typeof flags.downloads === "string" ? flags.downloads : undefined });
+          log(`Moved ${r.from}\n    → ${r.to} (${r.seconds?.toFixed(3)} s; the original is ${r.original?.toFixed(3)} s)`);
+          if (!r.fits) die(`The enhanced file is not the same length as the original. Tell the user; do not use it.`);
+          log(`Next: pnpm video plan ${basename(d)}   (it switches the video to the enhanced voice)`);
+        } else {
+          const r = prepareUpload(d);
+          log(`Upload this file to https://podcast.adobe.com/en/enhance (Claude in Chrome, file_upload):\n  ${r.upload}`);
+          log(`When the download has finished: pnpm video enhance ${basename(d)} --take-download`);
+        }
+      } catch (e) { die(e.message); }
+      break;
+    }
     case "qc": { const d = projectDir(pos[0]); await qc(d); break; }
     case "make": {
       const d = projectDir(pos[0]);
       const ctx = await plan(d, { force: !!flags.replan });
+      // the final video waits for the user's enhanced voice (ENHANCE.md); drafts and --skip-enhance do not
+      if (ctx.enhance?.state === "waiting" && !flags.draft && !flags["skip-enhance"])
+        die(`The voice is waiting for your enhancement:\n  1. Clean ${join(d, "voices", "enhance", "original.wav")} (remove noise; keep the same length and words).\n  2. Save the result next to it, for example ${join(d, "voices", "enhance", "enhanced.wav")}\n  3. Run make again.\n(--draft renders a quick check with the original voice; --skip-enhance makes the final video without enhancement.)`);
       await audio(d, ctx);
       await render(d, ctx);
       log(`Finished in ${Math.round((Date.now() - t0) / 1000)}s. Videos are in ${join(d, "out")}`);

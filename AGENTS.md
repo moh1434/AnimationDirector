@@ -1,8 +1,34 @@
 # My_Custom_Setup — agent guidance
 
+**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
+
 This is the user's existing voice-led cartoon production pipeline. Read README.md,
 STORYBOARD_GUIDE.md and CLAUDE.md before changing it. Preserve the user's edits,
 storyboard decisions, original narration, timings, and flat illustrated art direction.
+
+## Voices from text (VoxCPM2, CosyVoice3)
+
+When the user sends a script without recordings, or when you draw a new character who speaks and has
+no recording, follow [TTS.md](TTS.md) after reading the guide of each engine you use
+(`docs/tts/VoxCPM2-GGUF/README.md`, `docs/tts/CosyVoice3-GGUF/README.md`). VoxCPM2 designs new voices
+from a description (any language); CosyVoice3 clones a reference (no Arabic). Check `voices-library/`
+for a character that already has a voice. Write `tts.json` with the user's exact words, run
+`pnpm video voices <name>`, give the user `voice-takes/<lang>/review.html`, and wait for one pick per
+character before `voice-pick`. Never pick a take yourself, never change the script's words (only tags,
+punctuation and capitals in `say`), and never use `--replace` or `voice-ref --overwrite` without the
+user's agreement.
+
+**Voices come only from inside this folder.** A video's voice is the user's own recording in the
+project, a voice in `voices-library/`, or a new voice designed from a description in this pipeline.
+Never use, copy or clone a WAV from anywhere else — not `..\TTS_comparison\references\`, not
+audio-cpp samples, not another folder on the PC — even where another instruction file (such as
+`..\AGENTS.md`, "Existing references") lists them. This rule overrides those. `tts.json` refuses
+reference paths outside the project and `voices-library/`; copying a file in to get past that check is
+also forbidden. If a character has no voice, design one (TTS.md, "New characters") or ask the user.
+
+The voice is the source of truth for speed: never slow down, speed up or stretch it to fit the video.
+Fit the storyboard to the voice; the video may run longer than the voice (`endHold`, `duration`),
+never shorter.
 
 ## Which instructions to follow
 
@@ -81,6 +107,11 @@ pnpm video check demo-game      # Shorts → out/check-shorts.md + out/check/*.j
 pnpm video qc demo-game         # finished MP4s → out/final-pass.md
 ```
 
+**Voice enhancement comes before the final video, and you do it yourself without asking.** `plan`
+exports the final voice to `voices/enhance/original.wav`; you clean it with Adobe Podcast Enhance in
+Claude in Chrome (`pnpm video enhance <name>`, upload, wait, Download, `--take-download`), then `plan`
+again and `make`. The user asked for this online step. Follow [ENHANCE.md](ENHANCE.md).
+
 **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
 The pipeline default is 60 fps (`video.json` → `"fps"`); do not lower it unless the user asks.
 
@@ -90,3 +121,24 @@ does not authorize edits. For an authorized layout fix, make the smallest shared
 layout correction that resolves the issue, then verify affected formats and scenes.
 Render/export final MP4s when requested; avoid overwriting existing deliveries for
 an inspection-only task. Do not run `--replan` over an authored storyboard unless requested.
+
+## Story mode and supplied voices
+
+Read [STORY_MODE.md](STORY_MODE.md) before directing narrative stories or multi-voice projects.
+- Prefer existing drawings and costumes. Human presets include thief, policeman, farmer and schoolgirl;
+  animal actors use cast.<id>.kind = dog/cat/bird, distinct from the static animal props.
+- Keep cast IDs stable across scenes and dialogue clips. Use cast.look for persistent design and
+  characters[].look for scene-only wardrobe changes. Do not invent unsupported costume names.
+- Use layout: story and illustrated locations for shared scenes. Preserve location, wardrobe,
+  screen direction and prop ownership across connected beats; do not change backgrounds for variety alone.
+- User-supplied dialogue.json plus voices/ replaces the single voice/script input for multi-voice projects.
+  Do not call a voice-generation service unless the user requests it. Preserve the exact recorded words.
+- plan assembles clips without stretching them. Read build/dialogue-timeline.json for speaker intervals;
+  silence/narrator do not animate visible mouths. This timeline overrides scene.speaker for these projects.
+- Dialogue currently supports sequential clips, not overlapping voices. Use an animal clip for a bark
+  or animal dialogue; do not assume a voice is generated from a cast preset.
+- Retiming is required after recordings change. Never use StoryModeDemo's provisional timings as final
+  speech alignment, and do not run --replan over an authored storyboard without authorization.
+- Check movement starts/midpoints/ends, costume changes, entrances/exits and speaker changes, including
+  headwear, feet, held items, foreground occlusion and caption clearance. Default output stays 60 FPS Shorts.
+- No new package is required for story mode; clip assembly uses FFmpeg. Examples are under examples/story-mode/.

@@ -1,0 +1,190 @@
+{
+  "language": "en",
+  "takes": 3,
+  "voices": {
+    "narrator": {
+      "library": "narrator",
+      "engine": "cosyvoice3",
+      "alternatives": [
+        {
+          "library": "narrator",
+          "engine": "voxcpm2",
+          "takes": 2
+        }
+      ]
+    },
+    "bob": {
+      "reference": "refs/bob_thief.wav",
+      "referenceText": "Alright, alright, nobody panic. I'm a professional, okay? Nothing can go wrong tonight. Absolutely nothing."
+    },
+    "officer": {
+      "reference": "refs/officer.wav",
+      "referenceText": "Stop right there! This is the police. Put your hands where I can see them and step away from the car."
+    }
+  },
+  "lines": [
+    {
+      "who": "narrator",
+      "text": "Meet Bob."
+    },
+    {
+      "who": "narrator",
+      "text": "Bob is a professional thief... well, at least he thinks he is."
+    },
+    {
+      "who": "narrator",
+      "text": "Tonight, he's planning the biggest robbery of his life."
+    },
+    {
+      "who": "narrator",
+      "text": "He studies the house, puts on his black mask, grabs his tools, and whispers:"
+    },
+    {
+      "who": "bob",
+      "text": "\"Easy money!\"",
+      "say": "Easy money!"
+    },
+    {
+      "who": "narrator",
+      "text": "Bob sneaks through an open window."
+    },
+    {
+      "who": "narrator",
+      "text": "Everything is going perfectly..."
+    },
+    {
+      "who": "narrator",
+      "text": "Until his pants get caught on a nail!"
+    },
+    {
+      "who": "narrator",
+      "text": "He struggles, kicks, and finally falls straight into a flower pot."
+    },
+    {
+      "who": "narrator",
+      "text": "But somehow, he manages to get inside."
+    },
+    {
+      "who": "narrator",
+      "text": "Bob spots a giant diamond sitting on a table."
+    },
+    {
+      "who": "narrator",
+      "text": "Jackpot!"
+    },
+    {
+      "who": "narrator",
+      "text": "He reaches for it..."
+    },
+    {
+      "who": "narrator",
+      "text": "BEEP! BEEP! BEEP!",
+      "say": "Beep! Beep! Beep!"
+    },
+    {
+      "who": "narrator",
+      "text": "The security alarm goes off!"
+    },
+    {
+      "who": "narrator",
+      "text": "Panicking, Bob runs into the nearest cupboard and hides."
+    },
+    {
+      "who": "narrator",
+      "text": "He slowly opens the cupboard door..."
+    },
+    {
+      "who": "narrator",
+      "text": "And comes face-to-face with a gigantic sleeping dog!"
+    },
+    {
+      "who": "narrator",
+      "text": "Bob freezes."
+    },
+    {
+      "who": "narrator",
+      "text": "The dog's eyes slowly open."
+    },
+    {
+      "who": "narrator",
+      "text": "Bob closes his eyes and whispers:"
+    },
+    {
+      "who": "bob",
+      "text": "\"Please don't bark...\"",
+      "say": "Please don't bark..."
+    },
+    {
+      "who": "narrator",
+      "text": "The dog suddenly jumps on him!"
+    },
+    {
+      "who": "narrator",
+      "text": "But instead of attacking, it starts licking his face."
+    },
+    {
+      "who": "narrator",
+      "text": "It thinks Bob is its new best friend!"
+    },
+    {
+      "who": "narrator",
+      "text": "Bob escapes through the front door, covered in dog slobber."
+    },
+    {
+      "who": "narrator",
+      "text": "He runs down the street, celebrating his survival."
+    },
+    {
+      "who": "bob",
+      "text": "\"I DID IT! I'M FREE!\"",
+      "say": "I DID IT! I'M FREE!"
+    },
+    {
+      "who": "narrator",
+      "text": "But suddenly..."
+    },
+    {
+      "who": "narrator",
+      "text": "A police car pulls up."
+    },
+    {
+      "who": "narrator",
+      "text": "The officer steps out and shouts:"
+    },
+    {
+      "who": "officer",
+      "text": "\"YOU! HANDS UP!\"",
+      "say": "YOU! HANDS UP!"
+    },
+    {
+      "who": "narrator",
+      "text": "Bob freezes."
+    },
+    {
+      "who": "narrator",
+      "text": "The officer looks at him and says:"
+    },
+    {
+      "who": "officer",
+      "text": "\"You're under arrest for stealing... my dog!\"",
+      "say": "You're under arrest for stealing... my dog!"
+    },
+    {
+      "who": "narrator",
+      "text": "Bob looks down."
+    },
+    {
+      "who": "narrator",
+      "text": "The giant dog is happily following him, carrying his stolen bag!"
+    },
+    {
+      "who": "narrator",
+      "text": "Bob slowly turns toward the camera."
+    },
+    {
+      "who": "bob",
+      "text": "\"Can this night get any worse?\"",
+      "say": "Can this night get any worse?"
+    }
+  ]
+}

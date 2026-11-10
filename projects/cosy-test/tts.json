@@ -1,0 +1,55 @@
+﻿{
+    "language":  "en",
+    "takes":  2,
+    "voices":  {
+                   "narrator":  {
+                                    "description":  "A deep, warm, middle-aged male storyteller with a calm, cinematic narration style"
+                                },
+                   "ali":  {
+                               "engine":  "cosyvoice3",
+                               "reference":  "refs/ali.wav",
+                               "referenceText":  "Ahmed! Come and look at this! A treasure box! I think it is full of gold. Spiders! Run!"
+                           },
+                   "ahmed":  {
+                                 "engine":  "cosyvoice3",
+                                 "reference":  "refs/ahmed.wav",
+                                 "referenceText":  "What is it now? Or full of spiders. I told you so.",
+                                 "style":  "angry"
+                             }
+               },
+    "lines":  [
+                  {
+                      "who":  "narrator",
+                      "text":  "Ali found a strange box in the garden."
+                  },
+                  {
+                      "who":  "ali",
+                      "text":  "Ahmed! Come and look at this!"
+                  },
+                  {
+                      "who":  "ahmed",
+                      "text":  "What is it now?",
+                      "say":  "[sigh] What is it now?"
+                  },
+                  {
+                      "who":  "ali",
+                      "text":  "A treasure box! I think it is full of gold."
+                  },
+                  {
+                      "who":  "ahmed",
+                      "text":  "Or full of spiders."
+                  },
+                  {
+                      "who":  "narrator",
+                      "text":  "Ali opened the box very slowly."
+                  },
+                  {
+                      "who":  "ali",
+                      "text":  "Spiders! Run!"
+                  },
+                  {
+                      "who":  "ahmed",
+                      "text":  "I told you so."
+                  }
+              ]
+}

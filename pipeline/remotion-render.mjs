@@ -1,5 +1,5 @@
 import { bundle } from "@remotion/bundler";
-import { renderMedia, renderStill, selectComposition, openBrowser } from "@remotion/renderer";
+import { makeCancelSignal, renderMedia, renderStill, selectComposition, openBrowser } from "@remotion/renderer";
 import { join } from "node:path";
 import { ROOT, remotionBrowser } from "./env.mjs";
 import { bundlerName } from "./whisper-config.mjs";
@@ -18,16 +18,45 @@ const common = () => {
   return b ? { browserExecutable: b } : {};
 };
 
-export async function renderVideo({ publicDir, inputProps, out, compositionId = "StoryVideo", draft = false, onProgress, concurrency }) {
+/** CPU: software drawing + x264. GPU: Chrome draws on the graphics card and NVENC encodes (it takes a bitrate, not a crf). */
+const engine = (gpu, draft) => (gpu
+  ? { chromiumOptions: { gl: "angle" }, hardwareAcceleration: "if-possible", videoBitrate: draft ? "3M" : GPU_BITRATE }
+  : { chromiumOptions: { gl: "swiftshader" }, crf: draft ? 28 : 18, x264Preset: draft ? "veryfast" : "medium" });
+const GPU_BITRATE = "6M";
+
+/**
+ * Run a GPU render so that any failure comes back as an error. When the hardware encoder dies, its
+ * pipe breaks outside Remotion's promise (write EPIPE) and would otherwise end the whole process.
+ */
+function catchingEncoderCrash(start) {
+  return new Promise((resolve, reject) => {
+    const { cancelSignal, cancel } = makeCancelSignal();
+    let crash = null;
+    const onCrash = (e) => { crash ??= e; cancel(); };
+    process.on("uncaughtException", onCrash);
+    start(cancelSignal).then(
+      (value) => (crash ? reject(crash) : resolve(value)),
+      (e) => reject(crash ?? e),
+    ).finally(() => process.off("uncaughtException", onCrash));
+  });
+}
+
+export async function renderVideo({ publicDir, inputProps, out, compositionId = "StoryVideo", draft = false, onProgress, concurrency, gpu = false, onGpuFailed }) {
   const serveUrl = await getBundle(publicDir);
   const composition = await selectComposition({ serveUrl, id: compositionId, inputProps, ...common() });
-  await renderMedia({
+  const run = (useGpu, cancelSignal) => renderMedia({
     serveUrl, composition, inputProps, codec: "h264", outputLocation: out,
-    scale: draft ? 0.5 : 1, crf: draft ? 28 : 18, pixelFormat: "yuv420p", audioBitrate: "192k",
-    concurrency: concurrency ?? null, x264Preset: draft ? "veryfast" : "medium",
+    scale: draft ? 0.5 : 1, pixelFormat: "yuv420p", audioBitrate: "192k",
+    concurrency: concurrency ?? null, cancelSignal,
     onProgress: ({ progress }) => onProgress?.(progress), ...common(),
-    chromiumOptions: { gl: "swiftshader" },
+    ...engine(useGpu, draft),
   });
+  if (!gpu) await run(false);
+  else try { await catchingEncoderCrash((signal) => run(true, signal)); } catch (e) {
+    // no NVIDIA card, an old driver, or a crash part way through: the video must still get made
+    onGpuFailed?.(e);
+    await run(false);
+  }
   return out;
 }
 

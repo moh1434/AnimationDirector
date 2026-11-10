@@ -90,6 +90,10 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
   const body = (b: number, wTop = 54, wBot = 66) =>
     `M${-wTop} ${top + 18} Q${-wTop} ${top} ${-wTop + 22} ${top} L${wTop - 22} ${top} Q${wTop} ${top} ${wTop} ${top + 18} L${wBot} ${b - 12} Q${wBot} ${b} ${wBot - 14} ${b} L${-wBot + 14} ${b} Q${-wBot} ${b} ${-wBot} ${b - 12}Z`;
   switch (o) {
+    case "striped":
+      return <g stroke={INK} strokeWidth={sw} strokeLinejoin="round"><path d={body(bottom)} fill={c}/>{[.25,.5,.75].map(k=><path key={k} d={`M-49 ${top+(bottom-top)*k} H49`} strokeWidth={12}/>)}</g>;
+    case "overalls":
+      return <g stroke={INK} strokeWidth={sw} strokeLinejoin="round"><path d={body(bottom)} fill={c}/><path d={`M-49 ${top} V${top+65} H-61 L-65 ${bottom} H65 L61 ${top+65} H49 V${top} H27 V${top+65} H-27 V${top}Z`} fill={look.pants??"#3b8df0"}/><rect x={-22} y={top+85} width={44} height={38} rx={6} fill="none"/></g>;
     case "police_uniform":
       return <g stroke={INK} strokeWidth={sw} strokeLinejoin="round">
         <path d={body(bottom)} fill={c}/>
@@ -356,6 +360,8 @@ const Hat: React.FC<{ look: Look; facing: number }> = ({ look, facing }) => {
   const acc = look.accent ?? "#ffc83d";
   const sw = 7;
   switch (look.hat) {
+    case "beanie": return <g stroke={INK} strokeWidth={7}><path d="M-96 -65 Q-103 -155 0 -155 Q103 -155 96 -65Z" fill={c}/><rect x={-101} y={-82} width={202} height={29} rx={12} fill={c}/></g>;
+    case "straw": return <g stroke={INK} strokeWidth={7}><path d="M-76 -78 L-50 -150 H50 L76 -78Z" fill={c}/><path d="M-66 -103 H66" strokeWidth={14} stroke="#805638"/><ellipse cy={-76} rx={136} ry={22} fill={c}/></g>;
     case "police_cap":
       return <g stroke={INK} strokeWidth={sw} strokeLinejoin="round">
         <path d="M-93 -47 L-110 -92 Q0 -141 110 -92 L93 -47Z" fill={c}/>
@@ -630,13 +636,15 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const t = p.t;
   const facing = p.motion ? (p.motion[7] < 0 ? -1 : 1) : p.facing === "left" ? -1 : 1;
   const hs = look.height ?? 1;
-  const poseName = p.walking ? "walk" : p.pose ?? (p.talking ? "talk" : "idle");
+  const poseName = p.walking ? (p.pose === "run" ? "run" : "walk") : p.pose ?? (p.talking ? "talk" : "idle");
   const to = POSES[poseName] ?? POSES.idle;
   const from = POSES[p.fromPose ?? poseName] ?? to;
   const k = p.poseT ?? 1;
   const mix = (a: ArmSpec, b: ArmSpec): ArmSpec => [lerp(a[0], b[0], k), lerp(a[1], b[1], k)];
-  const L: ArmSpec = p.motion ? [p.motion[0], p.motion[1]] : mix(from.l, to.l);
-  const R: ArmSpec = p.motion ? [p.motion[2], p.motion[3]] : mix(from.r, to.r);
+  // arms swing against the legs while travelling
+  const armSwing = p.walking ? Math.sin(t * (poseName === "run" ? 14 : 8)) * (poseName === "run" ? 22 : 12) : 0;
+  const L: ArmSpec = p.motion ? [p.motion[0] + armSwing, p.motion[1]] : mix(from.l, to.l);
+  const R: ArmSpec = p.motion ? [p.motion[2] - armSwing, p.motion[3]] : mix(from.r, to.r);
   const m = p.talking ? p.mouth ?? 0 : 0;
   const seed = p.seed ?? 1;
 
@@ -712,6 +720,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
         <g transform={`translate(0 ${breath * 0.3})`}>
           <ExtrasBack look={look} top={top} />
           <Torso look={look} top={top} bottom={legTop} />
+          {look.shirtSymbol && <g transform={`translate(0 ${top+68}) scale(.35)`} fill={look.accent??"#ffc83d"} stroke={INK} strokeWidth={6}>{look.shirtSymbol === "heart" ? <path d="M0 45 C-90 -10 -35 -70 0 -30 C35 -70 90 -10 0 45Z"/> : <path d="M0 -55 L17 -17 L59 -17 L25 9 L38 50 L0 25 L-38 50 L-25 9 L-59 -17 L-17 -17Z"/>}</g>}
           <ExtrasFront look={look} top={top} />
           <Accessory look={look} top={top} t={t} />
         </g>
@@ -726,6 +735,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
             </g>
           )}
           {look.facial !== "mustache" && <Facial look={look} />}
+          {look.accessory === "mask" && <g fill="#323640" stroke={INK} strokeWidth={5}><path d="M-92 -42 Q0 -63 92 -42 V13 Q0 -7 -92 13Z"/><ellipse cx={-36} cy={-23} rx={24} ry={21} fill={look.skin??"#fff"}/><ellipse cx={36} cy={-23} rx={24} ry={21} fill={look.skin??"#fff"}/></g>}
           <g transform={`scale(${hasWrap ? 0.86 : 1})`}>
             <Face weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} mouth={m} blink={blink} look={pupilLook} skin={look.skin ?? "#fff"} />
           </g>

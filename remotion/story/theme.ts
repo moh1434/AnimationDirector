@@ -55,6 +55,7 @@ export const FONT = {
 
 export type Look = {
   skin?: string;
+  shirtSymbol?: "star" | "heart";
   head?: "round" | "egg" | "wide";
   hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop
   hairColor?: string;
@@ -73,6 +74,9 @@ export type Look = {
 
 /** Ready-made cast. All original designs. */
 export const PRESETS: Record<string, Look> = {
+  thief: { skin:"#fff", hair:"none", hat:"beanie", hatColor:"#323640", shirt:"#fff", outfit:"striped", pants:"#323640", accessory:"mask" },
+  farmer: { skin:"#fff", hair:"side", hat:"straw", hatColor:"#e8c27a", shirt:"#3ddc97", outfit:"overalls", pants:"#3b8df0" },
+  schoolgirl: { skin:"#fff", hair:"sideponytail", hat:"bow", hatColor:"#ffc83d", outfit:"dress", shirt:"#ff6b8b", extras:["backpack"], height:.85 },
   policeman: {skin:"#ffffff", hair:"none", hat:"police_cap", hatColor:"#315486", outfit:"police_uniform", shirt:"#315486", pants:"#243955", accent:"#ffc83d"},
   // Default narrator / host: white round face, orange scarf, single curl.
   host: { skin: "#ffffff", hair: "tuft", hairColor: INK, outfit: "shirt", shirt: "#ffd23f", pants: INK, accessory: "scarf", accent: "#ff7a2f" },

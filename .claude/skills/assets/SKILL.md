@@ -9,6 +9,9 @@ First look in the library (Remotion Studio → `Library`, or `PROPS` in `remotio
 names and aliases are also matched from the narration by `pipeline/lexicon.mjs`). If nothing fits,
 draw one. Drawing beats searching: everything in the video then shares one look.
 
+**Night settings:** lit windows and lamps are drawn again above the darkening layer, so anything that hides them
+in the daytime picture will not hide them at night. Never let buildings overlap; render a night still to check.
+
 ## 1. Look before you draw — never trace
 
 When the object is unfamiliar, search the web for how flat icons and 2D cartoon illustrations show
@@ -62,3 +65,12 @@ images in the video description. When in doubt, draw it instead.
 
 Render a still (`pnpm video stills <name>`) and look at the new asset at Shorts size next to the
 existing props: same line weight, same colour family, readable at a glance.
+
+## Story actors and settings
+
+Read STORY_MODE.md before adding story artwork. Reuse Character.tsx human looks and Animal.tsx
+dog/cat/bird actors where appropriate; static animal props do not have actor motion or speaker routing.
+New clothing belongs in the human look system; persistent identity belongs in cast.look and a
+scene-only costume in characters[].look. Keep new hats within the rig's bounds. Do not replace
+existing farm/office backgrounds when adding a new setting. Register reusable additions in the
+catalogue and document their names; render with actors present to check floor contact and occlusion.

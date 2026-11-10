@@ -1,4 +1,13 @@
-# My Custom Setup — story video maker
+# AnimationDirector — cartoon stories and explainers
+
+Make illustrated stories with recurring characters, animal actors, scene-specific costumes,
+indoor/outdoor settings, and supplied voices. Or keep using the original single-narrator explainer workflow.
+
+- [Story mode and multi-voice setup](STORY_MODE.md)
+- [Storyboard field reference](STORYBOARD_GUIDE.md)
+- [Guide for local agents](LOCAL_MODEL_GUIDE.md)
+- [Voices from text](TTS.md): only a script, or a new character with no recording? VoxCPM2 (or CosyVoice3, for a cloned voice) makes a few takes per character on this PC,
+  you listen and pick one each, and they become the video's recordings.
 
 Give it **your narration (.wav)**, **the story text with time segments**, and it makes a cartoon
 explainer video in the style of the reference videos (round-headed characters with lip-sync,
@@ -12,13 +21,30 @@ objects with faces, flat colourful grounds, pop-in animation, music and sound ef
 * **Chrome or Edge** (for the music render). Remotion downloads its own headless browser during setup.
 * Installed by **setup.bat** for you: [pnpm](https://pnpm.io/) (JS packages),
   [uv](https://docs.astral.sh/uv/) (Python + pretty_midi, pedalboard, numpy), Remotion's browser, and `.env`.
-* Optional: **[FFmpeg](https://ffmpeg.org/)** (`winget install Gyan.FFmpeg`), needed for HyperFrames
-  renders and the full final-pass checks.
+* **[FFmpeg](https://ffmpeg.org/)** (`winget install Gyan.FFmpeg`), required for multi-voice clip assembly, HyperFrames
+  renders and the full final-pass checks; optional for the basic single-narrator path.
 * Recommended: **[whisper.cpp](https://github.com/ggml-org/whisper.cpp)** plus a model, for exact word
   timing (captions, objects that appear on a word). It lives outside this repo; point `.env` at it
   (see [whisper.cpp settings](#whispercpp-settings-env)).
 
-## Quick start (Windows)
+## Quick start: story with multiple voices
+
+1. Run `pnpm video new my-story --story`.
+2. Add recordings to `projects/my-story/voices/` and a `dialogue.json` manifest with each
+   clip's `who`, `file`, exact `text`, and optional `gap` or `start`.
+3. Run `pnpm video plan my-story`. It assembles clips and measures their durations, then runs
+   the existing voice analysis. Read `build/brief.md` and `build/dialogue-timeline.json`.
+4. Direct `storyboard.json` with matching cast IDs and `layout: "story"`, timed with `clip:N` so new takes need no retiming.
+5. Run `pnpm video validate my-story`, `pnpm video check my-story`, inspect the frames, then
+   `pnpm video make my-story` (60 FPS Shorts by default).
+
+No TTS model is needed when you supply the recordings. With only a script, [TTS.md](TTS.md) makes
+the voices locally with VoxCPM2 or CosyVoice3 and you pick one take per character. FFmpeg is required for
+clip assembly and is already available on this installation. See [STORY_MODE.md](STORY_MODE.md)
+for the complete manifest, limitations, wardrobe options and silent Studio demo.
+The original `voice.wav` + `script.txt` path below continues to work.
+
+## Quick start: single narration (Windows)
 
 1. Once: double-click **setup.bat** (installs the JS + Python packages and a headless browser, and
    creates your `.env` settings file — see [whisper.cpp settings](#whispercpp-settings-env) below).
@@ -38,7 +64,7 @@ objects with faces, flat colourful grounds, pop-in animation, music and sound ef
    Each project folder also has **stills.bat** (one picture per scene) and **preview-video.bat** (Remotion Studio).
    The root `make-video.bat` still works too: it asks for the project name.
 
-Options (add after the name): `--format youtube|shorts|both` · `--draft` (fast half-size test) ·
+Options (add after the name): `--format youtube|shorts|both` · `--draft` (fast half-size test) · `--gpu` / `--cpu` (override `REMOTION_RENDERER` for one run) ·
 `--replan` (rebuild the storyboard from scratch) · `--mood epic` · `--no-music`.
 
 Other buttons: **stills.bat** (one picture per scene, seconds instead of minutes) ·
@@ -97,11 +123,15 @@ WHISPER_EN_MODEL="small.en"           # model for English narration
 WHISPER_AR_MODEL="large-v3-turbo"     # model for Arabic (and other languages); must be multilingual
 ```
 
-`.env` can also set `REMOTION_BUNDLER="rspack"` (the default) or `"webpack"`: the bundler Remotion uses to
+`.env` can also set `REMOTION_RENDERER="gpu"` (the default: Chrome draws on the graphics card and NVENC encodes at
+6 Mbit/s; a failed GPU render retries on the CPU) or `"cpu"` (software drawing and x264, smaller files), and
+`REMOTION_BUNDLER="rspack"` (the default) or `"webpack"`: the bundler Remotion uses to
 build the video code before rendering and for Studio. Rspack builds the same video about 4–5× faster
 (cold 21 s → 4.3 s, cached 2.7 s → 0.7 s in a test); switch to webpack if anything ever looks different.
 
 A model name means the file `<WHISPER_PATH>/models/ggml-<name>.bin`; you can also give a path to a `.bin` file.
+Both settings may name the same multilingual model (for example `large-v3-turbo` in each) if you want one download
+for English and Arabic; a `.en` model only works for English.
 
 | Model | Size | Use |
 |---|---|---|
@@ -203,3 +233,10 @@ the storyboard like any library prop: `{ "prop": "game-engine" }`. Draw them in 
 `pnpm studio` (Remotion Studio, includes the Library catalogue) · `pnpm hf:preview` ·
 `uv run audio/make_jingle.py`. Remotion is free for individuals and small teams; larger companies
 need a [company license](https://www.remotion.dev/license).
+
+
+## Story mode: characters, animals and dialogue
+
+See [STORY_MODE.md](STORY_MODE.md) for multi-voice supplied recordings, animal actors,
+custom wardrobe, illustrated locations and eased character movement. Studio includes
+`StoryModeDemo`; the example script and recording manifest are in `examples/story-mode/`.

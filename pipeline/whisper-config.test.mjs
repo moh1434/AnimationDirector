@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { rendererName } from "./whisper-config.mjs";
 import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -50,4 +51,11 @@ test("empty values turn whisper (or one language) off without errors", () => {
 test("a typo in a key is pointed out", () => {
   const c = whisperConfig({ root: setup(GOOD + 'WHISPER_EN_MODLE="x"\n'), env: {} });
   assert.ok(c.warnings.some((w) => w.includes("WHISPER_EN_MODLE") && w.includes("WHISPER_EN_MODEL")));
+});
+
+test("the renderer setting defaults to the GPU and ignores case", () => {
+  const root = "C:/no-such-folder";
+  assert.equal(rendererName({ root, env: {} }), "gpu");
+  assert.equal(rendererName({ root, env: { REMOTION_RENDERER: "CPU" } }), "cpu");
+  assert.equal(rendererName({ root, env: { REMOTION_RENDERER: "gpu" } }), "gpu");
 });

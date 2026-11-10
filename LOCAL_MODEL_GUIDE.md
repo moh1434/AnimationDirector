@@ -1,5 +1,7 @@
 # Step-by-step guide for local / smaller AI models
 
+**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
+
 **Who this is for.** A model running on the user's computer (for example a 7–30B model in Ollama or
 LM Studio) that is asked to make a video with this pipeline. Follow it in order, exactly.
 
@@ -17,7 +19,9 @@ user's narration. The pipeline does everything else: drawing, animation, music, 
 ## Never do these
 
 1. Never change the user's words, `script.txt`, or `voice.wav`.
-2. Never edit code files (`pipeline/`, `remotion/`, `audio/`). Only edit `storyboard.json`.
+2. Never edit code files (`pipeline/`, `remotion/`, `audio/`). Direct `storyboard.json`; when asked
+   to prepare supplied voices, also create/edit the project's `dialogue.json` using STORY_MODE.md.
+   Do not change recordings or their transcripts.
 3. Never invent names. Every layout, prop, background, pose, expression and character must come from
    the list in `build/brief.md` (or `pnpm video catalog`). Unknown names stop the render.
 4. Never run `--replan` on a project someone already directed. It erases their storyboard.
@@ -29,6 +33,30 @@ user's narration. The pipeline does everything else: drawing, animation, music, 
 
 ## The steps
 
+### Step 0 — only if the user sent text and no recordings: make the voices
+Read [TTS.md](TTS.md) and do exactly these steps:
+1. `pnpm video new <name> --tts`, then fill `projects/<name>/tts.json`. Copy the user's words
+   exactly into `lines`, one entry each time the speaker changes, in order. Give every speaker a
+   `description` in English: age and role, pitch and texture, mood and pace (for example
+   `A deep-voiced, gruff older man with a low, slow, grumpy baritone voice`). No parentheses.
+2. `pnpm video voices <name>`. Fix every error it prints and run it again.
+3. Send the user `projects/<name>/voice-takes/en/review.html` and ask: "Which take do you want for
+   each character?" **Stop and wait for the answer. Never choose a take yourself.**
+4. `pnpm video voice-pick <name> narrator=2 ali=1 …` with the user's numbers. Tell the user every ⚠
+   line it prints. Then go on with Step 1.
+
+Use VoxCPM2 (the default: no `engine` needed). Use CosyVoice3 only when TTS.md says so (a saved
+`library` voice in English, or a reference the user wants cloned). If you add a new speaking character
+to a story that already has the user's recordings, follow "New characters and adding a voice to a
+story" in TTS.md: every recording of theirs stays as a line with its `file`.
+
+**Never take a voice from outside this folder.** Only the user's recordings in the project,
+`voices-library/`, or a voice you design with a `description`. Never copy a WAV from `TTS_comparison`
+or any other folder, even if another file says you can.
+
+**Never change the speed of a voice.** If the picture needs more time, make the scene or the ending
+longer (`"endHold": 1.5` in storyboard.json); the video may be longer than the voice, never shorter.
+
 ### Step 1 — prepare
 ```
 pnpm video plan <name>
@@ -39,10 +67,20 @@ This analyses the voice and writes two files:
   word, good scene start times, the cast, and every valid name.
 
 Read `build/brief.md` completely. You do not need to read any code.
+If recordings have long silences at their start or end, tell the user before directing: they should be trimmed
+(see "Pacing" in STORY_MODE.md). Never stretch or cut them yourself. A Short may run past 60 seconds.
+
+For a story, copy the sizes from the table in "Scale and layers" in STORY_MODE.md. Never make a person bigger
+than 0.42 beside a building: use `camera.zoom` for a close-up. Keep animals at 0.7 or less. Keep props an actor
+touches behind the actor (`zIndex` 4) unless they hide the actor on purpose.
+
+For a story with several speakers, first read [STORY_MODE.md](STORY_MODE.md). Supply dialogue.json
+and the listed voice files before plan. Also read build/dialogue-timeline.json: these measured
+intervals determine who speaks, even when scene.speaker names someone else.
 
 ### Step 2 — plan the scenes (write the plan down first)
-- **One scene per sentence.** Split a long sentence (over ~7 s) at a comma; join two very short
-  sentences only if they are one idea.
+- **One story beat per scene.** Use a sentence as a starting point; keep related dialogue and
+  reactions together when they share a location and action. Split at natural pauses.
 - Take each scene's `start` from "Good scene start times" in the brief. The first scene starts at `0`.
 - `end` = the next scene's `start` (the last scene ends at the voice length).
 - For each scene, decide: the **layout** (table below), the **1–3 objects** that show what is being
@@ -51,6 +89,7 @@ Read `build/brief.md` completely. You do not need to read any code.
 ### Step 3 — choose a layout
 | The sentence… | layout | needs |
 |---|---|---|
+| shows characters acting together in a setting | `story` | cast members, illustrated `bg`, optional movement |
 | explains something, 1–3 things | `host_talk` | `props` (1–3) |
 | is about ONE important thing | `hero` | `props` (1, with a `face`) |
 | asks someone something / a dialogue | `duo` | 2 `characters` + `bubble` |
@@ -62,7 +101,8 @@ Read `build/brief.md` completely. You do not need to read any code.
 | gives a number | `number` | `number: {"value": 42}` |
 | talks about many people | `crowd` | 3–4 `characters` |
 
-Do not use the same layout three times in a row. Change `bg` (background colour) every scene.
+Keep the same layout and illustrated setting while the story stays in the same place. Change
+shots when the action needs it. Do not change background colours or mirror actors arbitrarily.
 
 ### Step 4 — write each scene from a template
 Copy the template, then replace the CAPITAL words. Keep all quotes, commas and brackets.
@@ -165,9 +205,16 @@ use fewer objects). If you can look at images, open 2–3 stills in `out/check/`
 scene shows what the sentence says. Then run `validate` again.
 
 ### Step 7 — render the Shorts video
+First the voice is cleaned with Adobe Podcast Enhance. If you can use Claude in Chrome, do it
+yourself without asking: follow "The steps" in ENHANCE.md exactly. If you cannot use a browser, tell
+the user in these words: "Please remove the noise from `projects/<name>/voices/enhance/original.wav`
+and save the result next to it as `enhanced.wav`. Keep the same length and words." **Stop and wait.**
+Then run `pnpm video plan <name>` and check it prints "Using the enhanced voice". Then:
 ```
 pnpm video make <name>
 ```
+If `make` says the voice is waiting for enhancement, ask the user again. Never use `--skip-enhance`
+unless the user tells you to. More in ENHANCE.md.
 This takes a few minutes. When it finishes, read `projects/<name>/out/final-pass.md`. Every line
 should have ✔.
 

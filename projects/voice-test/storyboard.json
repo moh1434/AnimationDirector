@@ -1,0 +1,372 @@
+{
+  "version": 1,
+  "title": "My video",
+  "language": "en",
+  "fps": 60,
+  "duration": 19.97,
+  "cast": {
+    "host": {
+      "preset": "host"
+    },
+    "ali": {
+      "preset": "host",
+      "name": "ali"
+    },
+    "ahmed": {
+      "preset": "host",
+      "name": "ahmed"
+    }
+  },
+  "directedBy": "auto",
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0.25,
+      "end": 3.58,
+      "text": "Ali found a strange box in the garden.",
+      "speaker": "host",
+      "characters": [
+        {
+          "who": "host",
+          "expression": "neutral",
+          "pose": "explain",
+          "emoteAt": 0.4
+        }
+      ],
+      "props": [
+        {
+          "name": "eye",
+          "at": 0.5,
+          "face": "happy"
+        }
+      ],
+      "actions": [
+        {
+          "at": 0.55,
+          "who": "host",
+          "pose": "point"
+        },
+        {
+          "at": 1.95,
+          "who": "host",
+          "pose": "explain"
+        }
+      ],
+      "bg": "garden",
+      "camera": {
+        "zoom": [
+          1,
+          1.06
+        ],
+        "punch": [
+          0.3
+        ]
+      },
+      "layout": "host_talk"
+    },
+    {
+      "id": "s2",
+      "start": 3.58,
+      "end": 5.59,
+      "text": "Ahmed! Come and look at this!",
+      "speaker": "host",
+      "characters": [
+        {
+          "who": "host",
+          "expression": "excited",
+          "pose": "talk"
+        }
+      ],
+      "props": [
+        {
+          "name": "eye",
+          "at": 0.98,
+          "label": "look"
+        }
+      ],
+      "actions": [
+        {
+          "at": 1.03,
+          "who": "host",
+          "pose": "point"
+        }
+      ],
+      "bg": "lime",
+      "camera": {
+        "zoom": [
+          1.06,
+          1
+        ],
+        "punch": [
+          0.12
+        ]
+      },
+      "layout": "host_talk"
+    },
+    {
+      "id": "s3",
+      "start": 5.59,
+      "end": 7.97,
+      "text": "What is it now?",
+      "speaker": "host",
+      "characters": [
+        {
+          "who": "host",
+          "expression": "thinking",
+          "pose": "think",
+          "emote": "question",
+          "emoteAt": 0.5
+        }
+      ],
+      "bubble": {
+        "kind": "thought",
+        "text": "",
+        "prop": "question",
+        "at": 0.4
+      },
+      "bg": "cream",
+      "camera": {
+        "zoom": [
+          1,
+          1.06
+        ]
+      },
+      "layout": "thought"
+    },
+    {
+      "id": "s4",
+      "start": 7.97,
+      "end": 10.9,
+      "text": "A treasure box! I think it is full of gold.",
+      "speaker": "host",
+      "items": [
+        {
+          "prop": "moneybag",
+          "label": "treasure",
+          "at": 0.12
+        },
+        {
+          "prop": "brain",
+          "label": "think",
+          "at": 1.19
+        },
+        {
+          "prop": "coin",
+          "label": "gold",
+          "at": 2.31,
+          "face": "happy"
+        }
+      ],
+      "characters": [
+        {
+          "who": "host",
+          "expression": "excited",
+          "pose": "talk"
+        }
+      ],
+      "bg": "paper",
+      "camera": {
+        "zoom": [
+          1.06,
+          1
+        ],
+        "punch": [
+          0.12
+        ]
+      },
+      "layout": "steps"
+    },
+    {
+      "id": "s5",
+      "start": 10.9,
+      "end": 12.82,
+      "text": "Or full of spiders.",
+      "speaker": "none",
+      "title": "Or full of spiders",
+      "bg": {
+        "type": "burst",
+        "color": "black",
+        "color2": "#7a2a3b"
+      },
+      "characters": [],
+      "transition": "whip",
+      "camera": {
+        "zoom": [
+          1,
+          1.06
+        ]
+      },
+      "layout": "title"
+    },
+    {
+      "id": "s6",
+      "start": 12.82,
+      "end": 15.87,
+      "text": "Ali opened the box very slowly.",
+      "speaker": "host",
+      "characters": [
+        {
+          "who": "host",
+          "expression": "happy",
+          "pose": "talk"
+        }
+      ],
+      "props": [],
+      "texts": [
+        {
+          "text": "opened",
+          "style": "label",
+          "size": 64,
+          "at": 0.16
+        }
+      ],
+      "bg": "mint",
+      "camera": {
+        "zoom": [
+          1.06,
+          1
+        ]
+      },
+      "layout": "host_talk"
+    },
+    {
+      "id": "s7",
+      "start": 15.87,
+      "end": 17.69,
+      "text": "Spiders! Run!",
+      "speaker": "host",
+      "characters": [
+        {
+          "who": "host",
+          "expression": "excited",
+          "pose": "talk"
+        }
+      ],
+      "props": [],
+      "texts": [
+        {
+          "text": "Spiders",
+          "style": "label",
+          "size": 64,
+          "at": 0.12
+        }
+      ],
+      "bg": "yellow",
+      "mirror": true,
+      "camera": {
+        "zoom": [
+          1,
+          1.06
+        ],
+        "punch": [
+          0.12
+        ]
+      },
+      "layout": "host_talk"
+    },
+    {
+      "id": "s8",
+      "start": 17.69,
+      "end": 19.97,
+      "text": "I told you so.",
+      "speaker": "host",
+      "characters": [
+        {
+          "who": "host",
+          "expression": "excited",
+          "pose": "wave",
+          "emote": "sparkle",
+          "emoteAt": 0.3
+        }
+      ],
+      "props": [
+        {
+          "name": "eye",
+          "at": 0.3,
+          "face": "happy",
+          "motion": "bounce"
+        }
+      ],
+      "transition": "zoom",
+      "actions": [
+        {
+          "at": 0.35,
+          "who": "host",
+          "pose": "point"
+        }
+      ],
+      "bg": "lilac",
+      "camera": {
+        "zoom": [
+          1.06,
+          1
+        ]
+      },
+      "layout": "host_talk"
+    }
+  ],
+  "dialogue": [
+    {
+      "clip": 1,
+      "who": "narrator",
+      "start": 0.25,
+      "end": 3.33,
+      "text": "Ali found a strange box in the garden."
+    },
+    {
+      "clip": 2,
+      "who": "ali",
+      "start": 3.58,
+      "end": 5.34,
+      "text": "Ahmed! Come and look at this!"
+    },
+    {
+      "clip": 3,
+      "who": "ahmed",
+      "start": 5.59,
+      "end": 7.72,
+      "text": "What is it now?"
+    },
+    {
+      "clip": 4,
+      "who": "ali",
+      "start": 7.97,
+      "end": 10.65,
+      "text": "A treasure box! I think it is full of gold."
+    },
+    {
+      "clip": 5,
+      "who": "ahmed",
+      "start": 10.9,
+      "end": 12.57,
+      "text": "Or full of spiders."
+    },
+    {
+      "clip": 6,
+      "who": "narrator",
+      "start": 12.82,
+      "end": 15.620000000000001,
+      "text": "Ali opened the box very slowly."
+    },
+    {
+      "clip": 7,
+      "who": "ali",
+      "start": 15.870000000000001,
+      "end": 17.44,
+      "text": "Spiders! Run!"
+    },
+    {
+      "clip": 8,
+      "who": "ahmed",
+      "start": 17.69,
+      "end": 19.970000000000002,
+      "text": "I told you so."
+    }
+  ],
+  "inputsHash": "83c99d162dbe",
+  "captionsByFormat": {
+    "youtube": false,
+    "shorts": true,
+    "square": true
+  }
+}

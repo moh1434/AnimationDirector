@@ -1,6 +1,7 @@
 import React from "react";
 import { LIFE_PROPS } from "./LifeProps";
 import { EVERYDAY_PROPS } from "./EverydayProps";
+import { STAGING_PROPS } from "./StagingProps";
 import { MECHANISM_PROPS } from "./MechanismProps";
 import { STORY_PROPS } from "./StoryProps";
 import { HISTORY_PROPS } from "./HistoryProps";
@@ -43,6 +44,7 @@ export const PROPS: Record<string, Art> = {
   ...STORY_PROPS,
   ...HISTORY_PROPS,
   ...EVERYDAY_PROPS,
+  ...STAGING_PROPS,
   ...LIFE_PROPS,
   sun: {
     draw: (t, o) => (
