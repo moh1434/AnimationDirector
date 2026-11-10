@@ -127,7 +127,7 @@ export const StoryVideo: React.FC<RenderProps & { audit?: boolean }> = (props) =
         return (
           <Sequence key={s.id ?? i} from={from} durationInFrames={d + (scenes[i+1]?.transition && scenes[i+1].transition !== "cut" ? Math.round(Math.min(MOTION.transition, ((scenes[i+1].end - scenes[i+1].start) * 0.4)) * fps) : 0)} name={`${i + 1}. ${s.layout ?? ""} ${(s.text ?? "").slice(0, 30)}`}>
             <TransitionWrap scene={s} next={scenes[i + 1]} durFrames={d} W={W} H={H}>
-              <SceneView scene={s} sb={sb} mouth={mouth} startFrame={from} index={i} W={W} H={H} captionsOn={captionsOn} />
+              <SceneView scene={s} sb={sb} mouth={mouth} words={words} startFrame={from} index={i} W={W} H={H} captionsOn={captionsOn} />
             </TransitionWrap>
           </Sequence>
         );

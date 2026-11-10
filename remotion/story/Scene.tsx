@@ -16,6 +16,7 @@ import { Pop, TitleText, Tag, Note, Bubble, NameCard, NumberReveal, Arrow, Badge
 
 
 import { MOTION, sampleTrack, speechEnvelope } from "./motion";
+import { mouthShapeAt } from "./viseme";
 
 const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["living_room", "house_exterior", "park", "farm", "schoolyard", "street", "village", "ruins", "hilltop", "office", "airport", "forest", "garden", "kitchen", "workshop", "space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
 
@@ -104,7 +105,7 @@ const motionOf = (p: PropRef, t: number, seed: number) => {
   }
 };
 
-export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]; startFrame: number; index: number; W: number; H: number; captionsOn?: boolean }> = ({ scene, sb, mouth, startFrame, index, W, H, captionsOn }) => {
+export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]; words?: { w: string; s: number; e: number }[]; startFrame: number; index: number; W: number; H: number; captionsOn?: boolean }> = ({ scene, sb, mouth, words, startFrame, index, W, H, captionsOn }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -117,6 +118,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
   const textCol = ["space", "night", "dark", "burst", "grid"].includes(bg.type ?? "") ? "#fff" : textColorOn(bgColor);
   const gf = startFrame + frame;
   const mouthNow = speechEnvelope(mouth, gf, fps);
+  const shapeNow = mouthShapeAt(words, gf / fps);
   const speaker = dialogueSpeaker(sb,gf/fps) ?? speakerAt(scene, t);
   const actions = (scene.actions ?? []).slice().sort((a, b) => a.at - b.at);
 
@@ -184,6 +186,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
             fromPose={st.prevPose}
             poseT={st.poseT}
             mouth={talking ? mouthNow : 0}
+            mouthShape={talking ? shapeNow : undefined}
             talking={talking}
             facing={facing}
             t={t}

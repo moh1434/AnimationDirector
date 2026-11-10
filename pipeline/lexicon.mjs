@@ -202,6 +202,7 @@ export const CAST_WORDS = {
   adventurer: ["hiker", "camping", "explorer girl", "girl scout", "رحله تخييم", "مخيم", "مستكشفه", "مغامره"],
   bookworm: ["nerd", "geek", "bookworm", "reader", "programmer", "smart guy", "دافور", "قارئ", "مبرمج", "ذكي"],
   buddy: ["friend", "buddy", "brother", "صديق", "صاحب", "اخ"],
+  nova: ["nova", "نوفا"],
   ponytail_girl: ["sister", "little girl", "her friend", "اخت", "صديقتها"],
 };
 

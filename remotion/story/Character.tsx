@@ -1,5 +1,5 @@
-import React from "react";
-import { Face, Expression, EXPR, isBlinking } from "./Face";
+import React, { useId } from "react";
+import { Face, Expression, EXPR, blinkAmount, type MouthShape } from "./Face";
 import { INK, Look } from "./theme";
 import { PropArt } from "./Props";
 import { rand } from "./anim";
@@ -51,6 +51,7 @@ export type CharacterProps = {
   fromPose?: Pose;
   poseT?: number; // 0..1 blend from fromPose to pose
   mouth?: number; // lip-sync openness 0..1
+  mouthShape?: MouthShape; // lip shape of the sound being spoken (viseme.ts)
   talking?: boolean;
   facing?: "left" | "right" | "front";
   t: number; // seconds (scene-local)
@@ -64,7 +65,25 @@ export type CharacterProps = {
   walking?: boolean;
 };
 
+/** Overlapping circles drawn as one curly shape with a single outline. Each blob is [x, y, r]. */
+const cloud = (blobs: number[][], fill: string) => (
+  <g>
+    {blobs.map(([x, y, r], i) => <circle key={`o${i}`} cx={x} cy={y} r={r} fill={fill} stroke={INK} strokeWidth={14} />)}
+    {blobs.map(([x, y, r], i) => <circle key={`f${i}`} cx={x} cy={y} r={r} fill={fill} />)}
+  </g>
+);
+/** A little spiral line that marks a curl. */
+const spiral = (x: number, y: number, s = 1, r = 0) => (
+  <path transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`} d="M-2 16 C-20 14 -20 -12 -2 -14 C12 -15 16 2 6 7 C-2 10 -7 3 -2 -2" fill="none" stroke={INK} strokeWidth={4.5 / s} strokeLinecap="round" />
+);
 const rad = (d: number) => (d * Math.PI) / 180;
+/** A lighter version of a #rrggbb colour (k = how much white), for the shine on hair. */
+const tint = (hex: string, k: number) => {
+  const h = hex.replace("#", "");
+  if (h.length !== 6) return hex;
+  const c = (i: number) => Math.round(parseInt(h.slice(i, i + 2), 16) * (1 - k) + 255 * k).toString(16).padStart(2, "0");
+  return `#${c(0)}${c(2)}${c(4)}`;
+};
 const lerp = (a: number, b: number, p: number) => a + (b - a) * p;
 
 const armPoints = (side: 1 | -1, spec: ArmSpec, sx: number, sy: number, up = 86, fore = 82, wiggle = 0) => {
@@ -77,8 +96,15 @@ const armPoints = (side: 1 | -1, spec: ArmSpec, sx: number, sy: number, up = 86,
   return { ex, ey, hx, hy, a2 };
 };
 
-const Hand: React.FC<{ x: number; y: number; a: number; side: 1 | -1; kind?: string }> = ({ x, y }) => (
-  <circle cx={x} cy={y} r={16} fill="#fff" stroke={INK} strokeWidth={5.5} />
+const Hand: React.FC<{ x: number; y: number; a: number; side: 1 | -1; kind?: string; fill?: string }> = ({ x, y, a, side, kind, fill = "#fff" }) => (
+  // Drawn in the forearm's frame: +y points away from the elbow, so fingers follow the arm.
+  <g transform={`translate(${x} ${y}) rotate(${(-side * a * 180) / Math.PI})`} fill={fill} stroke={INK} strokeWidth={5.5} strokeLinejoin="round" strokeLinecap="round">
+    {kind === "point" && <path d="M-7.5 4 V31 Q-7.5 39 0 39 Q7.5 39 7.5 31 V4Z" />}
+    {kind === "open" && [-1, 0, 1].map((i) => <ellipse key={i} cx={i * 11.5} cy={16 - Math.abs(i) * 3} rx={6.8} ry={11.5} transform={`rotate(${-i * 18} ${i * 11.5} 14)`} />)}
+    <ellipse cx={side * 14.5} cy={1} rx={7.5} ry={9.5} transform={`rotate(${-side * 24} ${side * 14.5} 1)`} />
+    <circle r={17} />
+    {kind === "fist" && <path d="M-7 5 V13 M0 7 V15 M7 5 V13" fill="none" strokeWidth={3.5} opacity={0.55} />}
+  </g>
 );
 
 /* ---------------- torso / outfit ---------------- */
@@ -194,6 +220,51 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
         </g>
       );
     }
+    case "dungarees": { // tee (shirt colour) under short dungarees (pants colour): straps, buttons, a heart pocket
+      const dc = look.pants ?? "#7cc4ad";
+      const waist = top + 92, hem = bottom + 38, bib = top + 44;
+      return (
+        <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+          <path d={body(waist + 12, 54, 56)} fill={c} strokeWidth={sw} />
+          {[-1, 1].map((s) => (
+            <g key={s}>
+              <path d={`M${s * 42} ${top + 3} L${s * 30} ${bib + 8}`} strokeWidth={24} fill="none" />
+              <path d={`M${s * 42} ${top + 3} L${s * 30} ${bib + 8}`} stroke={dc} strokeWidth={13} fill="none" />
+            </g>
+          ))}
+          <path d={`M-58 ${waist} L-72 ${hem - 8} Q-73 ${hem} -64 ${hem} L-12 ${hem} L0 ${hem - 24} L12 ${hem} L64 ${hem} Q73 ${hem} 72 ${hem - 8} L58 ${waist}Z`} fill={dc} strokeWidth={sw} />
+          <path d={`M-40 ${bib + 10} Q-40 ${bib} -30 ${bib} L30 ${bib} Q40 ${bib} 40 ${bib + 10} L40 ${waist + 4} L-40 ${waist + 4}Z`} fill={dc} strokeWidth={sw} />
+          <path d={`M-58 ${waist + 4} H-40 M40 ${waist + 4} H58`} strokeWidth={5} fill="none" />
+          <path d={`M-69 ${hem - 14} H-9 M9 ${hem - 14} H69`} strokeWidth={4} fill="none" opacity={0.45} />
+          <circle cx={-28} cy={bib + 12} r={7} fill="#ffffff" strokeWidth={3.5} />
+          <circle cx={28} cy={bib + 12} r={7} fill="#ffffff" strokeWidth={3.5} />
+          <path d={`M-22 ${bib + 26} H22 V${bib + 50} Q22 ${bib + 62} 0 ${bib + 64} Q-22 ${bib + 62} -22 ${bib + 50}Z`} fill={dc} strokeWidth={4.5} />
+          <path transform={`translate(0 ${bib + 46}) scale(.19)`} d="M0 45 C-90 -10 -35 -70 0 -30 C35 -70 90 -10 0 45Z" fill={acc} strokeWidth={16} />
+        </g>
+      );
+    }
+    case "pinafore": { // white tee with a round collar under a bib dress: straps, two buttons, a star, a flared skirt
+      const waist = top + 94, hem = bottom + 40, bib = top + 46;
+      return (
+        <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+          <path d={body(waist + 12, 54, 56)} fill="#ffffff" strokeWidth={sw} />
+          <path d={`M-3 ${top + 12} Q-30 ${top + 6} -36 ${top + 24} Q-22 ${top + 42} -3 ${top + 26}Z M3 ${top + 12} Q30 ${top + 6} 36 ${top + 24} Q22 ${top + 42} 3 ${top + 26}Z`} fill="#ffffff" strokeWidth={4.5} />
+          {[-1, 1].map((s) => (
+            <g key={s}>
+              <path d={`M${s * 42} ${top + 3} L${s * 30} ${bib + 8}`} strokeWidth={24} fill="none" />
+              <path d={`M${s * 42} ${top + 3} L${s * 30} ${bib + 8}`} stroke={c} strokeWidth={13} fill="none" />
+            </g>
+          ))}
+          <path d={`M-56 ${waist} L-92 ${hem - 12} Q-94 ${hem} -80 ${hem} L80 ${hem} Q94 ${hem} 92 ${hem - 12} L56 ${waist}Z`} fill={c} strokeWidth={sw} />
+          <path d={`M-40 ${bib + 10} Q-40 ${bib} -30 ${bib} L30 ${bib} Q40 ${bib} 40 ${bib + 10} L40 ${waist + 4} L-40 ${waist + 4}Z`} fill={c} strokeWidth={sw} />
+          <path d={`M-58 ${waist + 4} H58`} strokeWidth={5} fill="none" />
+          <path d={`M-74 ${hem - 22} Q0 ${hem - 12} 74 ${hem - 22}`} stroke="#ffffff" strokeWidth={7} fill="none" opacity={0.9} />
+          <circle cx={-28} cy={bib + 13} r={7} fill={acc} strokeWidth={3.5} />
+          <circle cx={28} cy={bib + 13} r={7} fill={acc} strokeWidth={3.5} />
+          <path transform={`translate(0 ${bib + 30}) scale(.27)`} d="M0 -55 L17 -17 L59 -17 L25 9 L38 50 L0 25 L-38 50 L-25 9 L-59 -17 L-17 -17Z" fill="#ffffff" strokeWidth={12} />
+        </g>
+      );
+    }
     case "sweatervest": // white collared shirt under a V-neck sweater vest with argyle diamonds
       return (
         <g>
@@ -254,10 +325,52 @@ const ExtrasFront: React.FC<{ look: Look; top: number }> = ({ look, top }) => (
 );
 
 /* ---------------- hair & hats (head centred at 0,0, r=100) ---------------- */
-const HairBack: React.FC<{ look: Look }> = ({ look }) => {
+const HairBack: React.FC<{ look: Look; t?: number }> = ({ look, t = 0 }) => {
   const hc = look.hairColor ?? INK;
   const sw = 7;
+  const clipId = "hb" + useId().replace(/[^a-zA-Z0-9_-]/g, "");
   switch (look.hair) {
+    case "curlypuff": { // a cloud of curls around the head, with one curl flicking out at the lower left
+      const flick = "M-100 78 Q-132 82 -130 102 Q-126 118 -110 110";
+      return (
+        <g>
+          <g fill="none" strokeLinecap="round">
+            <path d={flick} stroke={INK} strokeWidth={26} />
+            <path d={flick} stroke={hc} strokeWidth={13} />
+          </g>
+          {cloud([[-50, -94, 40], [2, -106, 36], [-92, -44, 40], [-108, 8, 38], [-98, 54, 34], [60, -96, 36], [100, -8, 32], [100, 38, 28]], hc)}
+          {spiral(-118, 10, 1.1, -20)}
+        </g>
+      );
+    }
+    case "starbuns": { // two big round buns that jiggle, and a fluffy bob whose ends flick outwards
+      const shine = tint(hc, 0.4);
+      const back = "M0 -114 Q-102 -114 -110 -20 Q-128 34 -118 74 Q-150 82 -162 112 Q-124 130 -98 106 Q-86 126 -62 108 Q-56 90 -36 88 L36 88 Q56 90 62 108 Q86 126 98 106 Q124 130 162 112 Q150 82 118 74 Q128 34 110 -20 Q102 -114 0 -114Z";
+      const bun = (s: 1 | -1) => {
+        const j = Math.sin(t * 2.3 + (s > 0 ? 0 : 1.7));
+        return (
+          <g key={s} transform={`translate(${s * 90} ${-102 + j * 1.5}) rotate(${j * 3}) scale(${s} 1)`}>
+            <circle r={47} fill={hc} stroke={INK} strokeWidth={sw} />
+            <path d="M-18 10 Q-26 -20 2 -23 Q25 -21 21 2 Q17 17 1 13 Q-9 9 -5 0" fill="none" stroke={INK} strokeWidth={4} strokeLinecap="round" opacity={0.4} />
+            <path d="M10 -35 Q28 -30 34 -12" fill="none" stroke={shine} strokeWidth={7} strokeLinecap="round" />
+          </g>
+        );
+      };
+      return (
+        <g>
+          {bun(-1)}
+          {bun(1)}
+          <path d={back} fill={hc} />
+          {look.hairTips && (
+            <g>
+              <defs><clipPath id={clipId}><path d="M-200 92 Q-150 82 -112 100 L-60 100 L-60 150 L-200 150Z M200 92 Q150 82 112 100 L60 100 L60 150 L200 150Z" /></clipPath></defs>
+              <path d={back} fill={look.hairTips} clipPath={`url(#${clipId})`} />
+            </g>
+          )}
+          <path d={back} fill="none" stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+        </g>
+      );
+    }
     case "long":
       return <path d="M-104 -10 Q-118 120 -70 150 L70 150 Q118 120 104 -10 Q100 -110 0 -112 Q-100 -110 -104 -10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
     case "wavy":
@@ -296,11 +409,49 @@ const HairBack: React.FC<{ look: Look }> = ({ look }) => {
   }
 };
 
-const HairFront: React.FC<{ look: Look }> = ({ look }) => {
+const HairFront: React.FC<{ look: Look; t?: number; bounce?: number }> = ({ look, t = 0, bounce = 0 }) => {
   const hc = look.hairColor ?? INK;
   const sw = 7;
   const cap = (fringe = -40) => `M-100 -8 Q-104 -108 0 -110 Q104 -108 100 -8 Q70 ${fringe - 10} 20 ${fringe} Q-50 ${fringe - 6} -100 -8Z`;
   switch (look.hair) {
+    case "curlypuff": { // curly fringe, a big curly puff high on one side that wobbles, and a bow at its base
+      const j = Math.sin(t * 2.2) * 2.5 + bounce * Math.sin(t * 9) * 2;
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-100 8 Q-108 -112 0 -114 Q108 -112 102 -6 Q100 -40 82 -60 Q64 -52 48 -74 Q28 -54 0 -70 Q-24 -50 -52 -62 Q-68 -42 -88 -44 Q-100 -22 -100 8Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          {spiral(-52, -86, 1, 10)}
+          {spiral(4, -93, 0.75, 200)}
+          <g transform={`translate(90 -110) rotate(${j}) scale(.9)`}>
+            {cloud([[0, 0, 46], [-36, -18, 30], [-14, -48, 30], [26, -46, 32], [52, -14, 32], [46, 28, 30], [8, 40, 28], [-30, 22, 26]], hc)}
+            {spiral(-14, -24, 1.25, 0)}
+            {spiral(34, -18, 1.1, 150)}
+            {spiral(14, 26, 1, 60)}
+          </g>
+          <g stroke={INK} strokeWidth={5.5} fill={look.hatColor ?? "#ff6b5e"} transform="translate(50 -82) rotate(24) scale(.5)">
+            <path d="M0 0 L-58 -34 Q-74 0 -58 34Z" />
+            <path d="M0 0 L58 -34 Q74 0 58 34Z" />
+            <rect x={-14} y={-16} width={28} height={32} rx={9} />
+          </g>
+        </g>
+      );
+    }
+    case "starbuns": { // swept fringe in three chunky locks, side locks, a springy curl on the parting, a star clip
+      const shine = tint(hc, 0.4);
+      const curl = "M2 -102 C-10 -150 36 -172 48 -143 C55 -124 33 -115 28 -131";
+      const spring = Math.sin(t * 2.6) * 6 + bounce * Math.sin(t * 9) * 7;
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <g transform={`rotate(${spring} 2 -102)`} fill="none">
+            <path d={curl} stroke={INK} strokeWidth={19} />
+            <path d={curl} stroke={hc} strokeWidth={8} />
+          </g>
+          <path d="M-96 62 Q-118 40 -106 -10 Q-108 -112 0 -114 Q108 -112 106 -10 Q118 40 96 62 Q82 32 84 -4 Q80 -40 58 -58 Q52 -74 40 -82 Q32 -42 -10 -44 Q-14 -54 -22 -62 Q-26 -40 -54 -38 Q-56 -48 -62 -56 Q-66 -32 -82 -26 Q-86 -14 -84 -4 Q-82 32 -96 62Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M-78 -66 Q-52 -96 -8 -98" fill="none" stroke={shine} strokeWidth={8} />
+          <path d="M8 -97 L16 -96" fill="none" stroke={shine} strokeWidth={8} />
+          <path transform="translate(76 -62) rotate(14) scale(.42)" d="M0 -55 L17 -17 L59 -17 L25 9 L38 50 L0 25 L-38 50 L-25 9 L-59 -17 L-17 -17Z" fill={look.hatColor ?? "#ffd23f"} stroke={INK} strokeWidth={11} />
+        </g>
+      );
+    }
     case "tuft":
       return <path d="M-6 -99 C-14 -128 18 -142 26 -124 C32 -110 14 -104 10 -116" stroke={INK} strokeWidth={8} fill="none" strokeLinecap="round" />;
     case "spiky":
@@ -650,12 +801,14 @@ export const Character: React.FC<CharacterProps> = (p) => {
 
   // body motion
   const breath = Math.sin(t * Math.PI * 0.9 + seed) * 3;
-  const bodyY = p.motion?.[4] ?? lerp(from.bodyY ?? 0, to.bodyY ?? 0, k);
+  // a small hop while a gesture changes, so a new pose lands with a bounce
+  const hop = Math.sin(Math.max(0, Math.min(1, k)) * Math.PI);
+  const bodyY = (p.motion?.[4] ?? lerp(from.bodyY ?? 0, to.bodyY ?? 0, k)) - hop * 6;
   const jumpWeight = p.motion?.[6] ?? lerp(p.fromPose === "celebrate" ? 1 : 0, poseName === "celebrate" ? 1 : 0, k);
   const jumpY = -(1 - Math.cos(t * 7)) * 12 * Math.max(0, jumpWeight);
   const walkPhase = p.walking || poseName === "run" ? t * (poseName === "run" ? 14 : 8) : 0;
   const stepBob = p.walking || poseName === "run" ? -(1 - Math.cos(walkPhase * 2)) * 4 : 0;
-  const lean = (p.motion?.[5] ?? lerp(from.lean ?? 0, to.lean ?? 0, k)) + m * (Math.sin(t * 3.1) * 0.6 + 1);
+  const lean = (p.motion?.[5] ?? lerp(from.lean ?? 0, to.lean ?? 0, k)) + m * (Math.sin(t * 3.1) * 0.6 + 1) + Math.sin(t * 0.9 + seed * 1.3) * 0.7; // + a slow idle sway
   const exprTilt = p.motion ? Object.values(EXPR).reduce((sum, spec, i) => sum + (spec.tilt ?? 0) * p.motion![10+i], 0) : EXPR[p.expression ?? "neutral"]?.tilt ?? 0;
   const headTilt = exprTilt + (Math.sin(t * 1.3 + seed) * 0.7 + m * Math.sin(t * 3 + seed) * 1.5);
 
@@ -673,6 +826,8 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const la = armPoints(-1, L, -sx, sy, 86, 82, (p.motion?.[motionIndex+1] ?? (poseName === "explain" ? 1 : 0)) * wig * 0.7);
   const sleeve = ["robe", "coat", "suit", "hoodie", "armor", "tunic"].includes(look.outfit ?? "");
   const sleeveColor = look.outfit === "coat" ? "#fbfbfb" : look.shirt ?? "#ffd23f";
+  // short sleeve at the shoulder (its colour), for outfits with a tee underneath
+  const puffSleeve = look.outfit === "pinafore" ? "#ffffff" : look.outfit === "dungarees" ? look.shirt ?? "#ffd23f" : null;
 
   const leg = (side: 1 | -1) => {
     const sw = Math.sin(walkPhase + (side === 1 ? 0 : Math.PI)) * 26;
@@ -685,7 +840,14 @@ export const Character: React.FC<CharacterProps> = (p) => {
     return (
       <g key={side}>
         <path d={`M${hipX} ${hipY} L${fx} ${fy}`} stroke={INK} strokeWidth={10} strokeLinecap="round" />
-        <ellipse cx={fx + facing * 10} cy={fy + 2} rx={24} ry={11} fill={INK} />
+        {look.shoes ? (
+          <g>
+            <ellipse cx={fx + facing * 10} cy={fy + 1} rx={25} ry={12} fill={look.shoes} stroke={INK} strokeWidth={5.5} />
+            <path d={`M${fx + facing * 22} ${fy - 6} q${facing * 9} 6 ${facing * 4} 14`} stroke="#ffffff" strokeWidth={4} fill="none" strokeLinecap="round" />
+          </g>
+        ) : (
+          <ellipse cx={fx + facing * 10} cy={fy + 2} rx={24} ry={11} fill={INK} />
+        )}
       </g>
     );
   };
@@ -699,12 +861,24 @@ export const Character: React.FC<CharacterProps> = (p) => {
         </>
       )}
       <path d={`M${side * sx} ${sy} L${a.ex} ${a.ey} L${a.hx} ${a.hy}`} stroke={INK} strokeWidth={10} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <Hand x={a.hx} y={a.hy} a={a.a2} side={side} kind={hand} />
+      {puffSleeve && (
+        <>
+          <path d={`M${side * sx} ${sy} L${lerp(side * sx, a.ex, 0.34)} ${lerp(sy, a.ey, 0.34)}`} stroke={INK} strokeWidth={38} strokeLinecap="round" fill="none" />
+          <path d={`M${side * sx} ${sy} L${lerp(side * sx, a.ex, 0.34)} ${lerp(sy, a.ey, 0.34)}`} stroke={puffSleeve} strokeWidth={26} strokeLinecap="round" fill="none" />
+        </>
+      )}
+      <Hand x={a.hx} y={a.hy} a={a.a2} side={side} kind={hand} fill={look.hands} />
     </g>
   );
 
-  const pupilLook = p.motion ? {x:p.motion[8],y:p.motion[9]} : p.lookAt ?? { x: 0.25, y: 0 };
-  const blink = isBlinking(p.frame, p.fps, seed);
+  const gaze = p.motion ? {x:p.motion[8],y:p.motion[9]} : p.lookAt ?? { x: 0.25, y: 0 };
+  // eye darts: the gaze shifts a little every couple of seconds instead of staying frozen
+  const dartClock = (t + seed * 0.37) / 1.9, dartN = Math.floor(dartClock);
+  const dartAt = (n: number) => ({ x: (rand(seed, n) - 0.5) * 0.26, y: (rand(seed, n + 500) - 0.5) * 0.14 });
+  const dartP = Math.min(1, ((dartClock - dartN) * 1.9) / 0.1), d0 = dartAt(dartN - 1), d1 = dartAt(dartN);
+  const pupilLook = { x: Math.max(-1, Math.min(1, gaze.x + lerp(d0.x, d1.x, dartP))), y: Math.max(-1, Math.min(1, gaze.y + lerp(d0.y, d1.y, dartP))) };
+  const closed = blinkAmount(p.frame, p.fps, seed); // 0 open .. 1 shut, so lids close and open over a few frames
+  const blink = closed > 0.75;
   const hasWrap = ["headscarf", "keffiyeh", "pharaoh"].includes(look.hat ?? "");
   const headRx = look.head === "egg" ? 92 : look.head === "wide" ? 108 : 100;
   const headRy = look.head === "egg" ? 108 : look.head === "wide" ? 94 : 100;
@@ -713,9 +887,20 @@ export const Character: React.FC<CharacterProps> = (p) => {
   return (
     <g transform={`scale(${hs}) scale(${p.motion ? Math.max(-1, Math.min(1, p.motion[7])) : facing} 1)`}>
       {/* ground shadow */}
-      <ellipse cx={0} cy={0} rx={90} ry={12} fill="#000" opacity={0.12} />
+      <ellipse cx={0} cy={0} rx={90 * (1 + jumpY / 80)} ry={12 * (1 + jumpY / 80)} fill="#000" opacity={0.12} />
       <g transform={`translate(0 ${stepBob + jumpY})`}>
-      {poseName !== "sit" && [leg(-1), leg(1)]}
+      {poseName !== "sit" ? [leg(-1), leg(1)] : [-1, 1].map((side) => {
+        // seated: thighs forward, shins down
+        const hx = side * 22, hy = legTop + bodyY, kx = hx + 64 + side * 8, ky = hy + 10, fx = kx + 6;
+        return (
+          <g key={side}>
+            <path d={`M${hx} ${hy} L${kx} ${ky} L${fx} -8`} stroke={INK} strokeWidth={10} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            {look.shoes
+              ? <ellipse cx={fx + 10} cy={-5} rx={25} ry={12} fill={look.shoes} stroke={INK} strokeWidth={5.5} />
+              : <ellipse cx={fx + 10} cy={-4} rx={24} ry={11} fill={INK} />}
+          </g>
+        );
+      })}
       <g transform={`translate(0 ${bodyY + breath * 0.4}) rotate(${lean} 0 ${legTop})`}>
         <g transform={`translate(0 ${breath * 0.3})`}>
           <ExtrasBack look={look} top={top} />
@@ -724,8 +909,11 @@ export const Character: React.FC<CharacterProps> = (p) => {
           <ExtrasFront look={look} top={top} />
           <Accessory look={look} top={top} t={t} />
         </g>
-        <g transform={`translate(0 ${headY + breath}) rotate(${headTilt}) scale(${HEAD})`}>
-          <HairBack look={look} />
+        <g transform={`translate(0 ${headY + breath - m * 5}) rotate(${headTilt}) scale(${HEAD})`}>
+          {/* the hair behind the head lags a little behind the head's tilt */}
+          <g transform={`rotate(${-headTilt * 0.35 + Math.sin(t * 1.7 + seed) * 0.9} 0 -40)`}>
+            <HairBack look={look} t={t} />
+          </g>
           {hasWrap && <Wrap look={look} />}
           <ellipse cx={0} cy={0} rx={hasWrap ? headRx * 0.8 : headRx} ry={hasWrap ? headRy * 0.86 : headRy} fill={look.skin ?? "#fff"} stroke={INK} strokeWidth={7} />
           {look.blush && (
@@ -734,14 +922,21 @@ export const Character: React.FC<CharacterProps> = (p) => {
               <ellipse cx={56} cy={26} rx={16} ry={9} />
             </g>
           )}
+          {look.freckles && (
+            <g fill="#d9826b">
+              {[-1, 1].map((s) => [[-66, 17], [-55, 23], [-45, 16]].map(([x, y], i) => <circle key={`${s}${i}`} cx={s * x} cy={y} r={3.2} />))}
+            </g>
+          )}
           {look.facial !== "mustache" && <Facial look={look} />}
           {look.accessory === "mask" && <g fill="#323640" stroke={INK} strokeWidth={5}><path d="M-92 -42 Q0 -63 92 -42 V13 Q0 -7 -92 13Z"/><ellipse cx={-36} cy={-23} rx={24} ry={21} fill={look.skin??"#fff"}/><ellipse cx={36} cy={-23} rx={24} ry={21} fill={look.skin??"#fff"}/></g>}
           <g transform={`scale(${hasWrap ? 0.86 : 1})`}>
-            <Face weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} mouth={m} blink={blink} look={pupilLook} skin={look.skin ?? "#fff"} />
+            <Face weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} mouth={m} blink={blink} eyeOpen={1 - closed} mouthShape={p.mouthShape} look={pupilLook} skin={look.skin ?? "#fff"} lashes={look.lashes} />
           </g>
           {look.facial === "mustache" && <Facial look={{ ...look }} />}
           <Glasses kind={look.accessory} />
-          {!hasWrap && <HairFront look={look} />}
+          {!hasWrap && <HairFront look={look} t={t} bounce={m} />}
+          {/* a low fringe would hide the eyebrows, so they are drawn again over it */}
+          {!hasWrap && (look.hair === "starbuns" || look.hair === "curlypuff") && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
           <Hat look={look} facing={1} />
           {p.emote && (
             <g transform="translate(155 -70)">

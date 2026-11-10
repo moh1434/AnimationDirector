@@ -51,22 +51,40 @@ export type FaceProps = {
   eyeY?: number;
   mouthY?: number;
   frame?: number;
+  eyeOpen?: number; // 1 = fully open; lower values squash the eye (the in-between frames of a blink)
+  mouthShape?: MouthShape;
+  lashes?: boolean; // two little eyelashes at the outer corner of each eye
+  part?: "brows"; // draw only the eyebrows (to show them again over a fringe)
 };
+
+/** Lip shape of the sound being spoken: wide = -1 (rounded "oo") .. 1 (spread "ee"); close = 0 .. 1 (lips shut, "m/b/p"). */
+export type MouthShape = { wide: number; close: number };
 
 const sid = (s: string) => s.replace(/[^a-zA-Z0-9_-]/g, "");
 
 const Eye: React.FC<{
   cx: number; cy: number; side: -1 | 1; spec: Spec; blink?: boolean; look: { x: number; y: number };
-  skin: string; sw: number; id: string;
-}> = ({ cx, cy, side, spec, blink, look, skin, sw, id }) => {
+  skin: string; sw: number; id: string; lashes?: boolean; open?: number;
+}> = ({ cx, cy, side, spec, blink, look, skin, sw, id, lashes, open = 1 }) => {
   const kind = blink ? "closed" : spec.eyes;
   const rx = kind === "wide" ? 23 : 20;
-  const ry = kind === "wide" ? 29 : 25;
+  const ry = (kind === "wide" ? 29 : 25) * Math.max(0.3, Math.min(1, open));
+  const lash = (d: string) => lashes ? <path d={d} stroke={INK} strokeWidth={sw * 0.8} fill="none" strokeLinecap="round" /> : null;
   if (kind === "closed") {
-    return <path d={`M${cx - 17} ${cy + 3} Q${cx} ${cy + 11} ${cx + 17} ${cy + 3}`} stroke={INK} strokeWidth={sw} fill="none" strokeLinecap="round" />;
+    return (
+      <g>
+        <path d={`M${cx - 17} ${cy + 3} Q${cx} ${cy + 11} ${cx + 17} ${cy + 3}`} stroke={INK} strokeWidth={sw} fill="none" strokeLinecap="round" />
+        {lash(`M${cx + side * 15} ${cy + 5} l${side * 11} 5 M${cx + side * 9} ${cy + 8} l${side * 7} 9`)}
+      </g>
+    );
   }
   if (kind === "happy") {
-    return <path d={`M${cx - 17} ${cy + 6} Q${cx} ${cy - 16} ${cx + 17} ${cy + 6}`} stroke={INK} strokeWidth={sw} fill="none" strokeLinecap="round" />;
+    return (
+      <g>
+        <path d={`M${cx - 17} ${cy + 6} Q${cx} ${cy - 16} ${cx + 17} ${cy + 6}`} stroke={INK} strokeWidth={sw} fill="none" strokeLinecap="round" />
+        {lash(`M${cx + side * 14} ${cy - 1} l${side * 12} -5 M${cx + side * 8} ${cy - 7} l${side * 9} -10`)}
+      </g>
+    );
   }
   if (kind === "heart") {
     const s = 1.15;
@@ -81,7 +99,7 @@ const Eye: React.FC<{
   if (kind === "dizzy") {
     return <path d={`M${cx} ${cy} m-3 0 a3 3 0 1 1 6 0 a7 7 0 1 1 -14 0 a11 11 0 1 1 22 0 a15 15 0 1 1 -30 0`} stroke={INK} strokeWidth={sw * 0.6} fill="none" />;
   }
-  const pr = 9.5 * (spec.pupil ?? 1);
+  const pr = 11 * (spec.pupil ?? 1);
   const px = cx + look.x * (rx - pr - 3);
   const py = cy + look.y * (ry - pr - 4) + 2;
   // eyelids: polygons covering part of the sclera, clipped to it
@@ -108,15 +126,20 @@ const Eye: React.FC<{
       <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="#fff" />
       <g clipPath={`url(#${id})`}>
         <circle cx={px} cy={py} r={pr} fill={INK} />
-        <circle cx={px + pr * 0.35} cy={py - pr * 0.4} r={pr * 0.3} fill="#fff" />
+        <circle cx={px + pr * 0.35} cy={py - pr * 0.4} r={pr * 0.32} fill="#fff" />
+        <circle cx={px - pr * 0.4} cy={py + pr * 0.42} r={pr * 0.14} fill="#fff" opacity={0.85} />
         {lid && <path d={lid} fill={skin} stroke={INK} strokeWidth={sw * 0.7} />}
       </g>
       <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="none" stroke={INK} strokeWidth={sw} />
+      {lash(`M${cx + side * rx * 0.62} ${cy - ry * 0.78} l${side * 10} -11 M${cx + side * rx * 0.92} ${cy - ry * 0.4} l${side * 13} -6`)}
     </g>
   );
 };
 
-const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number }> = ({ spec, m, y, sw }) => {
+const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number; shape?: MouthShape }> = ({ spec, m: loud, y, sw, shape }) => {
+  // the sound being spoken shapes the lips: shut on m/b/p, spread on "ee", rounded on "oo"
+  const wide = Math.max(-1, Math.min(1, shape?.wide ?? 0));
+  const m = loud * (1 - 0.85 * Math.max(0, Math.min(1, shape?.close ?? 0)));
   const talkingOpen = m > 0.06;
   const kind = spec.mouth;
   const dark = "#5e1222";
@@ -128,8 +151,8 @@ const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number }> = ({ spe
     const open = Math.max(m, talkingOpen ? 0 : base);
     // talking opens the mouth less than a shocked/open expression does (max 30 vs 48 units)
     const TALK_MAX = 24;
-    const h = 6 + open * (talkingOpen ? TALK_MAX : 42);
-    const w = kind === "o" ? 20 + open * 6 : kind === "grin" || kind === "smile" ? 50 - open * 6 : 40 - open * 4;
+    const h = 6 + open * (talkingOpen ? TALK_MAX * (1 + Math.max(0, -wide) * 0.22) : 42);
+    const w = (kind === "o" ? 20 + open * 6 : kind === "grin" || kind === "smile" ? 50 - open * 6 : 40 - open * 4) * (talkingOpen ? 1 + wide * (wide < 0 ? 0.34 : 0.2) : 1);
     if (kind === "o" && !talkingOpen) {
       return <ellipse cx={0} cy={y + 4} rx={w * 0.55} ry={h * 0.5} fill={dark} stroke={INK} strokeWidth={sw} />;
     }
@@ -182,12 +205,20 @@ const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number }> = ({ spe
 /** A cartoon face centered at (0,0) for a head of radius ≈100 (use `scale` for others). */
 const FaceLayer: React.FC<FaceProps> = ({
   expression = "neutral", mouth = 0, blink, look = { x: 0, y: 0 }, skin = "#fff", scale = 1,
-  stroke = 5.5, eyeSpacing = 34, eyeY = -10, mouthY = 40,
+  stroke = 5.5, eyeSpacing = 34, eyeY = -10, mouthY = 40, lashes, part, eyeOpen = 1, mouthShape,
 }) => {
   const spec = EXPR[expression] ?? EXPR.neutral;
   const uid = sid(useId());
   const sw = stroke;
   const browY = eyeY - 38 - (spec.brow?.[2] ?? 0) * 0.6 + (blink ? 3 : 0);
+  if (part === "brows") {
+    return spec.brow ? (
+      <g transform={`scale(${scale})`} stroke={INK} strokeWidth={sw * 1.15} strokeLinecap="round">
+        <line x1={-eyeSpacing - 15} y1={browY} x2={-eyeSpacing + 15} y2={browY} transform={`rotate(${-spec.brow[0]} ${-eyeSpacing} ${browY})`} />
+        <line x1={eyeSpacing - 15} y1={browY} x2={eyeSpacing + 15} y2={browY} transform={`rotate(${spec.brow[1]} ${eyeSpacing} ${browY})`} />
+      </g>
+    ) : null;
+  }
   return (
     <g transform={`scale(${scale})`}>
       {spec.brow && (
@@ -196,9 +227,9 @@ const FaceLayer: React.FC<FaceProps> = ({
           <line x1={eyeSpacing - 15} y1={browY} x2={eyeSpacing + 15} y2={browY} transform={`rotate(${spec.brow[1]} ${eyeSpacing} ${browY})`} />
         </g>
       )}
-      <Eye cx={-eyeSpacing} cy={eyeY} side={-1} spec={spec} blink={blink} look={look} skin={skin} sw={sw} id={`el${uid}`} />
-      <Eye cx={eyeSpacing} cy={eyeY} side={1} spec={spec} blink={blink} look={look} skin={skin} sw={sw} id={`er${uid}`} />
-      <Mouth spec={spec} m={mouth} y={mouthY} sw={sw} />
+      <Eye cx={-eyeSpacing} cy={eyeY} side={-1} spec={spec} blink={blink} look={look} skin={skin} sw={sw} id={`el${uid}`} lashes={lashes} open={eyeOpen} />
+      <Eye cx={eyeSpacing} cy={eyeY} side={1} spec={spec} blink={blink} look={look} skin={skin} sw={sw} id={`er${uid}`} lashes={lashes} open={eyeOpen} />
+      <Mouth spec={spec} m={mouth} y={mouthY} sw={sw} shape={mouthShape} />
       {spec.tears && (
         <g fill="#7cc8ff" stroke={INK} strokeWidth={sw * 0.5}>
           <path d={`M${-eyeSpacing - 6} ${eyeY + 22} q-8 16 0 22 q8 -6 0 -22z`} />
@@ -216,6 +247,17 @@ export const Face: React.FC<FaceProps> = (props) => {
   const weights = props.weights.map((w) => Math.max(0,w));
   const total = weights.reduce((a,b) => a+b,0) || 1;
   return <g>{names.map((expression,i) => weights[i] > 0.001 ? <g key={expression} opacity={weights[i]/total}><FaceLayer {...props} expression={expression} /></g> : null)}</g>;
+};
+
+/** How shut the eyes are (0 open .. 1 shut): the lids close fast, hold, then open a little slower. Same schedule as isBlinking. */
+export const blinkAmount = (frame: number, fps: number, seed: number) => {
+  const period = Math.round(fps * (2.6 + (seed % 7) * 0.35));
+  const s = ((frame + seed * 13) % period) / fps;
+  const down = 0.05, hold = 0.07, up = 0.1;
+  if (s < down) return s / down;
+  if (s < down + hold) return 1;
+  if (s < down + hold + up) return 1 - (s - down - hold) / up;
+  return 0;
 };
 
 /** Deterministic blink schedule: closed for ~4 frames every few seconds. */

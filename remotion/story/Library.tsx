@@ -6,10 +6,21 @@ import { EXPR, Expression } from "./Face";
 import { PRESETS, FONT, INK } from "./theme";
 
 /** Visual catalogue of everything the director can use (open it in Remotion Studio). */
-export const Library: React.FC<{ page?: "props" | "characters" | "faces" }> = ({ page = "props" }) => {
+export const Library: React.FC<{ page?: "props" | "characters" | "faces" | "character"; name?: string; pose?: Pose; expression?: Expression; talking?: boolean; background?: string }> = ({ page = "props", name = "host", pose = "idle", expression = "happy", talking = false, background = "transparent" }) => {
   const frame = useCurrentFrame();
   const { fps, width: W, height: H } = useVideoConfig();
   const t = frame / fps;
+  if (page === "character") {
+    // one character, large, for a picture of it (LibraryCharacter; --props '{"name":"farmer","pose":"talk","expression":"laughing"}')
+    const s = (H * 0.9) / 800;
+    return (
+      <AbsoluteFill style={{ background }}>
+        <svg width={W} height={H} viewBox={`${-W / 2 / s} ${-770} ${W / s} ${H / s}`}>
+          <Character look={PRESETS[name] ?? PRESETS.host} pose={pose} expression={expression} t={t} frame={frame} fps={fps} seed={1} talking={talking} mouth={talking ? Math.abs(Math.sin(t * 9 + 1)) * 0.8 : 0} mouthShape={talking ? { wide: Math.sin(t * 5.3), close: Math.max(0, Math.sin(t * 3.1) - 0.6) * 2.5 } : undefined} />
+        </svg>
+      </AbsoluteFill>
+    );
+  }
   if (page === "characters") {
     const names = Object.keys(PRESETS);
     const poses = Object.keys(POSES) as Pose[];

@@ -135,16 +135,21 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
 
 * **who** – a cast id. Cast presets: `host` (default narrator), `scientist`, `student`, `girl`, `woman`,
   `kid`, `king`, `sage`, `soldier`, `worker`, `boss`, `explorer`, `pharaoh`, `bedouin`, `chef`,
-  `wizard`, `grandpa`, `robotguy`, and the user's own designs: `adventurer` (explorer girl with a safari
+  `wizard`, `grandpa`, `robotguy`, `nova` (the channel's leader: indigo bun hair with pink ends, a springy curl
+  and a star clip, freckles, yellow pinafore; also `leader`, `main_female`), `curly_girl` (plum curls with a big side puff and a coral bow, freckles,
+  yellow tee, teal short dungarees with a heart pocket), and the user's own designs: `adventurer` (explorer girl with a safari
   hat and backpack), `ponytail_girl` (pink side ponytail, bow, frilled dress), `buddy` (spiky orange
   hair, blue shirt, red scarf), `bookworm` (curly hair, round glasses, sweater vest). Their sheet
   folder names also work (`first_female`, `second_female`, `second_male`, `third_male`; `main_male` =
   `host`). A cast entry can override the look:
   `"look": {"skin":"#fff","hair":"curly","hairColor":"#3a2a20","hat":"turban","facial":"beard","outfit":"robe","shirt":"#3fa58c","accessory":"glasses","accent":"#ffc83d","blush":true,"height":0.8}`
-  * hair: none tuft spiky curly curlytop long bob bun side messy bald wavy ponytail flowing sideponytail
+  * hair: none tuft spiky curly curlytop long bob bun side messy bald wavy ponytail flowing sideponytail starbuns curlypuff
+    (`starbuns` also takes `"hairTips"`, the colour of the ends, and `"hatColor"` for its star clip; `curlypuff` takes `"hatColor"` for its bow)
   * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh safari bow
-  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic belted frilldress sweatervest
+  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic belted frilldress sweatervest pinafore dungarees
+    (`dungarees`: `shirt` is the tee, `pants` the dungarees, `accent` the heart)
   * accessory: glasses sunglasses monocle scarf tie bowtie medal neckerchief · extras: `["backpack", "flower_necklace"]`
+  * small details: `"freckles": true`, `"lashes": true`, `"shoes": "#ff6b6b"` (shoe colour), `"hands": "#ffe8cf"` (hand colour, to match a non-white `skin`)
 * **pose** – idle talk explain point point_up point_down wave think shrug celebrate cheer hips scared
   present cross hold hold_up facepalm walk run bow fist write phone
 * **expression** – neutral happy excited laughing proud sad crying angry determined surprised shocked

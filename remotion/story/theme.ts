@@ -55,20 +55,25 @@ export const FONT = {
 
 export type Look = {
   skin?: string;
+  hands?: string; // hand colour (default white); set it with a non-white skin
   shirtSymbol?: "star" | "heart";
   head?: "round" | "egg" | "wide";
-  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop
+  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff
   hairColor?: string;
+  hairTips?: string; // colour of the dip-dyed ends (starbuns)
   hat?: string; // none|cap|grad|crown|turban|helmet|hardhat|tophat|headscarf|beret|wizard|chef|fez|keffiyeh|safari|bow
   hatColor?: string;
   facial?: string; // none|beard|mustache|goatee|longbeard
   shirt?: string;
-  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest
+  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees
   pants?: string;
   accessory?: string; // none|glasses|sunglasses|scarf|tie|bowtie|medal|monocle|neckerchief
   extras?: string[]; // backpack|flower_necklace (drawn in addition to the accessory)
   accent?: string;
   blush?: boolean;
+  freckles?: boolean;
+  lashes?: boolean; // eyelashes
+  shoes?: string; // shoe colour (default: plain dark feet)
   height?: number; // relative, 1 = normal
 };
 
@@ -78,6 +83,12 @@ export const PRESETS: Record<string, Look> = {
   farmer: { skin:"#fff", hair:"side", hat:"straw", hatColor:"#e8c27a", shirt:"#3ddc97", outfit:"overalls", pants:"#3b8df0" },
   schoolgirl: { skin:"#fff", hair:"sideponytail", hat:"bow", hatColor:"#ffc83d", outfit:"dress", shirt:"#ff6b8b", extras:["backpack"], height:.85 },
   policeman: {skin:"#ffffff", hair:"none", hat:"police_cap", hatColor:"#315486", outfit:"police_uniform", shirt:"#315486", pants:"#243955", accent:"#ffc83d"},
+  // The channel's leader. Indigo "star buns" hair with a springy curl and a star clip, freckles,
+  // a sunny pinafore over a white tee, coral shoes. Original design.
+  nova: { skin: "#ffffff", hair: "starbuns", hairColor: "#5b4be0", hairTips: "#ff7d9c", outfit: "pinafore", shirt: "#ffc83d", accent: "#ff6b6b", shoes: "#ff6b6b", blush: true, freckles: true, lashes: true, height: 0.9 },
+  // From the user's character sheet: plum curls with a big side puff and a coral bow, freckles,
+  // yellow tee under teal short dungarees with a heart pocket, coral sneakers.
+  curly_girl: { skin: "#ffe8cf", hands: "#ffe8cf", hair: "curlypuff", hairColor: "#7a2a55", hatColor: "#ff6b5e", outfit: "dungarees", shirt: "#ffc83d", pants: "#7cc4ad", accent: "#ff6b5e", shoes: "#ff6b5e", freckles: true, lashes: true, height: 0.88 },
   // Default narrator / host: white round face, orange scarf, single curl.
   host: { skin: "#ffffff", hair: "tuft", hairColor: INK, outfit: "shirt", shirt: "#ffd23f", pants: INK, accessory: "scarf", accent: "#ff7a2f" },
   scientist: { skin: "#ffffff", hair: "messy", hairColor: "#cfd4da", outfit: "coat", shirt: "#ffffff", accessory: "glasses", accent: "#4f7bff" },
@@ -112,6 +123,7 @@ export const PRESETS: Record<string, Look> = {
 export const PRESET_ALIASES: Record<string, string> = {
   police: "policeman", police_officer: "policeman",
   main_male: "host", main_male_character: "host",
+  leader: "nova", main_female: "nova", main_female_character: "nova", main_girl: "nova",
   first_female: "adventurer", first_female_character: "adventurer", explorer_girl: "adventurer",
   second_female: "ponytail_girl", second_female_character: "ponytail_girl",
   second_male: "buddy", second_male_character: "buddy",
