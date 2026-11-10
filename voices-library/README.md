@@ -31,6 +31,9 @@ voices-library/
    - Spoken the way the character usually talks: the clone copies the tone and delivery too.
 2. In **`voice.json`**, write the **exact** words spoken in it as `"referenceText_<language>"`
    (same words, same order; punctuation as spoken). A wrong transcript makes the clone worse.
+3. Over 15 s? Run `pnpm video ref-trim voices-library/<id>`: each reference longer than 15 s is cut at
+   its last pause before 15 s (the last words are dropped), `voice.json` gets the words left, and the
+   originals go to `voices-library/<id>/full/`. Shorter references are left as they are.
 
 The folder name is the voice's id: lower case, letters, digits and `_` only.
 

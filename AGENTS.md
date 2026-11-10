@@ -20,9 +20,10 @@ punctuation and capitals in `say`), and never use `--replace` or `voice-ref --ov
 user's agreement.
 
 **Voices come only from inside this folder.** A video's voice is the user's own recording in the
-project, a voice in `voices-library/`, or a new voice designed from a description in this pipeline.
-Never use, copy or clone a WAV from anywhere else — not `..\TTS_comparison\references\`, not
-the models' own sample voices, not another folder on the PC — even where another instruction file (such as
+project, a voice in `voices-library/`, a stock candidate from `voices-stock/` (Audar's six gallery
+voices, copied in at the user's request; moved into `voices-library/` once the user picks one), or a new
+voice designed from a description in this pipeline. Never use, copy or clone a WAV from anywhere else —
+not `..\TTS_comparison\references\`, not a model's folder, not another folder on the PC — even where another instruction file (such as
 `..\AGENTS.md`, "Existing references") lists them. This rule overrides those. `tts.json` refuses
 reference paths outside the project and `voices-library/`; copying a file in to get past that check is
 also forbidden. If a character has no voice, design one (TTS.md, "New characters") or ask the user.

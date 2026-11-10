@@ -11,10 +11,11 @@ one per character, and the picked takes become the video's recordings. Everythin
 When the user supplies recordings, use them instead (STORY_MODE.md or the normal narration path).
 
 **Voices come only from inside this folder:** the user's recordings in the project, `voices-library/`,
-or a voice designed here from a description. Never use, copy or clone a WAV from another folder
-(`..\TTS_comparison\references\`, the models' own sample voices, …), even where another instruction
-file lists it. `voices` refuses a `reference` or `file` outside the project and `voices-library/`;
-copying it in is just as forbidden.
+the stock candidates in `voices-stock/` (Audar's six gallery voices, copied in at the user's request), or
+a voice designed here from a description. Never use, copy or clone a WAV from another folder
+(`..\TTS_comparison\references\`, a model folder, …), even where another instruction file lists it.
+`voices` refuses a `reference` or `file` outside the project and `voices-library/`; copying it in is
+just as forbidden.
 
 **The voice sets the speed of the video.** Takes are never slowed down, sped up or stretched to fit
 the picture; the storyboard is fitted to the voice, and the video may run longer than the voice, never
@@ -120,7 +121,7 @@ the language): it checks every take word by word and gives the times needed to c
 | `takes` | takes per character, 1–8 (default 3). A voice can set its own `takes` |
 | `voices.<who>.engine` | `audar` or `qwen3`; usually left out (see "Which engine" above) |
 | `voices.<who>.description` | a new voice, in English: who, texture, delivery (below) |
-| `voices.<who>.reference` + `referenceText` | a recording in the project to clone, and its exact words |
+| `voices.<who>.reference` + `referenceText` | a recording in the project to clone, and its exact words (over 15 s: `pnpm video ref-trim <file> --text "…"` cuts it at its last pause before 15 s) |
 | `voices.<who>.library` | a character voice saved in `voices-library/`; brings its own reference per language |
 | `voices.<who>.seeds` | optional seeds, one per take (default 11, 22, 33, …). Same seed + same text = same audio |
 | `voices.<who>.alternatives` | optional list of other setups for the same character (another `engine`, `description` or `reference`), each 1 take unless it sets `takes`. Their takes are numbered after the main takes, which stay valid. An alternative may give `"say": {"<line number>": "..."}` for its own wording (e.g. Audar tags). 8 takes at most in all |
@@ -240,7 +241,8 @@ Only clone voices the user has the right to use.
 1. Check `voices-library/` first. A character saved there keeps its voice: use `{ "library": "<id>" }`.
 2. Otherwise describe one that **matches the drawing**: a small child or a bird gets a high, quick
    voice; a big guard or a bear a deep, slow one; a grumpy shopkeeper sounds grumpy. Make it easy to
-   tell apart from the others in the story.
+   tell apart from the others in the story. A stock voice in `voices-stock/` that fits is a candidate
+   too (`voices-stock/README.md`); it is copied into `voices-library/<id>/` only once the user picks it.
 3. Make takes, send `review.html`, and wait for the user's pick, as usual. Offer to save a character who
    may come back (`voice-ref --save`).
 

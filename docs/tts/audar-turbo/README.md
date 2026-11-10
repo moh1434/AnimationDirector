@@ -19,6 +19,10 @@ recording. Model card: `C:\Users\lenovo\tts-new-models\audar-turbo\weights\READM
 
 - 5–15 s of one clean speaker (only the first 15 s are used), with its **exact transcript**
   (`referenceText`). A wrong transcript makes the clone worse.
+- **Longer than 15 s?** `pnpm video ref-trim <file.wav | folder>` cuts it at its last pause before 15 s,
+  dropping the last words, and keeps the original in `full/`. On a `voices-library/<id>` folder it also
+  writes the words left to `voice.json`; for one file, pass `--text "…"` and it prints them. Files of
+  15 s or less are never touched.
 - The clone copies the reference's tone and delivery: an excited reference gives excited speech.
 - An English reference can speak Arabic and the other way round; a reference in the video's own
   language is closer (`voices-library/<id>/reference_<lang>.wav`).

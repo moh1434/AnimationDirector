@@ -1,0 +1,50 @@
+[
+  {
+    "id": "en_intro_youtuber.wav",
+    "gender": "female",
+    "category": "Storytelling - mystery and suspense",
+    "referenceText_en": " Every great story starts with a single moment. Tonight, I want to tell you about one that changed everything.",
+    "referenceText_ar": "كل قصة عظيمة تبدأ بلحظة واحدة. الليلة، أود أن أحكي لكم عن لحظة جميلة غيّرت كل شيء.",
+    "description": "A youthful feminine voice with a medium pitch, bright and warm tone, and lively, expressive delivery. Naturally cheerful, playful, outgoing, and slightly mischievous. Speaks in a casual, conversational American accent with clear articulation, dynamic intonation, and natural emotional variation. Sounds energetic and spontaneous without being excessively , childish, or overly sweet. YouTuber."
+  },
+  {
+    "id": "en_story_mystery.wav",
+    "gender": "female",
+    "category": "Storytelling - mystery and suspense",
+    "referenceText_en": "That night, Samer heard a strange noise coming from downstairs. He paused for a moment, then slowly approached the door. But what he found behind it was something he had never expected.",
+    "referenceText_ar": "في تلك الليلة، سمع سامر صوتاً غريباً قادماً من الطابق السفلي. توقّف للحظة، ثم اقترب ببطء من الباب، لكن ما وجده خلفه كان شيئاً لم يتوقعه أبداً.",
+    "description": "A calm, low-to-mid-pitched male storyteller. Speak slowly and clearly, with a mysterious, slightly tense atmosphere. Build suspense gradually, pause naturally before the final reveal, and avoid sounding overly theatrical."
+  },
+  {
+    "id": "en_story_emotional.wav",
+    "gender": "female",
+    "category": "Storytelling - emotional and reflective",
+    "referenceText_en": "He stood in front of the old house, gazing at the window where he used to see his mother every evening. Many years had passed, but his memories of that place remained unchanged.",
+    "referenceText_ar": "وقف أمام المنزل القديم، يتأمل النافذة التي اعتاد أن يرى أمه خلفها كل مساء. مرّت سنوات طويلة، لكن ذكرياته هناك لم تتغير.",
+    "description": "A gentle, warm female voice with a mature, slightly wistful tone. Deliver the lines softly and sincerely, with restrained sadness and natural pacing. Keep the emotion subtle rather than melodramatic."
+  },
+  {
+    "id": "en_story_adventure_estelle_inspired.wav",
+    "gender": "female",
+    "category": "Storytelling - energetic adventure",
+    "referenceText_en": "Layla had only one choice: cross the bridge before sunset. The winds were growing stronger, and the ground was trembling beneath her feet. But she refused to turn back.",
+    "referenceText_ar": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع.",
+    "description": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor."
+  },
+  {
+    "id": "en_general_science.wav",
+    "gender": "female",
+    "category": "General explanation - educational",
+    "referenceText_en": "Did you know that an octopus has three hearts? Two hearts pump blood to the gills, while the third circulates it throughout the rest of the body. And here's something even stranger.",
+    "referenceText_ar": "هل تعلم أن الأخطبوط يمتلك ثلاثة قلوب؟ قلبان يضخان الدم إلى الخياشيم، بينما يتولى القلب الثالث توزيعه على بقية الجسم.",
+    "description": "A clear, articulate male presenter with a medium pitch and a curious, engaging tone. Sound informative and approachable, as if sharing a fascinating fact in a short educational video. Emphasize the surprising details without rushing."
+  },
+  {
+    "id": "en_general_technology.wav",
+    "gender": "female",
+    "category": "General explanation - technology and motivation",
+    "referenceText_en": "Have you ever thought about creating your own app without being an expert programmer? Today, AI tools can help you write code, design user interfaces, and even test your project.",
+    "referenceText_ar": "هل فكرت يوماً في صناعة تطبيق خاص بك دون أن تكون خبيراً في البرمجة؟ اليوم، أصبحت أدوات الذكاء الاصطناعي قادرة على مساعدتك في كتابة الأكواد، وتصميم الواجهات.",
+    "description": "A friendly, modern male content creator with a warm, confident, conversational voice. Speak directly to the listener with enthusiasm and clarity. Keep the pace brisk but natural, like an engaging YouTube Shorts explainer, and make the opening question inviting."
+  }
+]

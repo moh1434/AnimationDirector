@@ -30,8 +30,8 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
    **A new character you draw who speaks gets a new voice** the same way (check `voices-library/` first;
    TTS.md, "New characters"); the user's own recordings are kept. Offer `voice-ref --save` for a
    character who will come back.
-   **Voices come only from inside this folder** (the project, `voices-library/`, or a voice designed
-   here). Never use or copy a WAV from `..\TTS_comparison\` or anywhere else, even though `..\AGENTS.md`
+   **Voices come only from inside this folder** (the project, `voices-library/`, the candidates in
+   `voices-stock/`, or a voice designed here). Never use or copy a WAV from `..\TTS_comparison\` or anywhere else, even though `..\AGENTS.md`
    lists references there; this overrides it (AGENTS.md, "Voices from text").
    **The voice is the source of truth for speed**: never slow it down or speed it up to fit the video;
    fit the storyboard to the voice. The video is as long as the voice or longer (`endHold`, `duration`).

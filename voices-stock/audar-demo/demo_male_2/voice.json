@@ -1,0 +1,8 @@
+{
+  "id": "demo_male_3",
+  "gender": "male",
+  "description": "Male, bright, curious (Audar's own words for it).",
+  "referenceText_en": "Wait, really? [curious] You built the whole thing yourself over the weekend? [excited] That is genuinely incredible — tell me everything, right now!",
+  "referenceText_ar": "لحظة، حقاً؟ [curious] هل بنيتَ كلّ هذا بنفسك في يومين فقط؟ [excited] هذا مذهلٌ فعلاً — احكِ لي كلّ التفاصيل الآن!",
+  "source": "Audar-TTS-V1-Turbo voice gallery (weights/samples/demo_male_3_*.wav), synthetic voice, free to use (weights/README.md, \"Voice Gallery\"). source.wav is the gallery's reference voice; its words are not published, so it is for listening only."
+}
