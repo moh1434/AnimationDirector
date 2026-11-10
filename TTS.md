@@ -187,7 +187,7 @@ made from an older `tts.json`, so what the user heard is what goes into the vide
 | `voice-takes/<lang>/picked.json` | `voice-pick` | what was picked and which files it wrote |
 | `dialogue.json` + `voices/` (or `voice.wav` + `script.txt`) | `voice-pick` | the recordings the video uses |
 | `refs/<who>.wav` + `.json` | `voice-ref` | a reference cut from a take, with its exact words |
-| `voices-library/<id>/reference.wav` + `voice.json` | `voice-ref --save` | a character voice for every video (outside the projects) |
+| `voices-library/<id>/reference_<lang>.wav` + `voice.json` | `voice-ref --save` (or the user) | a character voice for every video, one reference per language (outside the projects) |
 
 `voice-pick` never overwrites a file it did not write (the user's own recordings, or a `dialogue.json`
 made by hand): it stops and changes nothing. `--replace` overwrites anyway, so use it only when the
@@ -231,10 +231,13 @@ a recurring character, or the English voice speaking the Arabic version.
    A clone has no description, because the model would read it aloud; the voice and much of its
    delivery come from the reference.
 3. **A character who will come back** is saved once: `pnpm video voice-ref my-story ali=2 --save ali`
-   copies the reference into `voices-library/ali/` (`reference.wav` + `voice.json`). Any later video then
-   writes `"ali": { "library": "ali" }`. It clones with CosyVoice3 for the languages it speaks, and with
-   VoxCPM2 otherwise (Arabic). Add `"engine"` or `"style"` to change that. `--save` never replaces a
-   saved voice: other videos depend on it. Use `--overwrite` only when the user agrees.
+   copies the reference into `voices-library/ali/` as `reference_<lang>.wav` (the take's language) and
+   writes its words to `voice.json` as `"referenceText_<lang>"`; saving another language adds to the same
+   folder. Any later video then writes `"ali": { "library": "ali" }` and gets the reference in its own
+   language (another one, English first, when that language has none; `voices` warns). It clones with
+   CosyVoice3 for the languages it speaks, and with VoxCPM2 otherwise (Arabic, or across languages). Add
+   `"engine"` or `"style"` to change that. `--save` never replaces a saved language: other videos depend on
+   it. Use `--overwrite` only when the user agrees. Format: `voices-library/README.md`.
 
 Only clone voices the user has the right to use.
 

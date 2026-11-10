@@ -11,7 +11,7 @@
 // CosyVoice3 only clones a reference recording, but clones closest and most consistently; a
 // reference can be cut from a picked VoxCPM2 take (voice-ref) and kept in voices-library/ so a
 // character sounds the same in every video.
-import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync, rmSync, statSync, copyFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync, rmSync, statSync, copyFileSync, readdirSync } from "node:fs";
 import { join, resolve, dirname, basename, relative } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -43,7 +43,7 @@ const ALL_OPTIONS = [...new Set(Object.values(ENGINES).flatMap((e) => e.options)
 const DEFAULT_SEEDS = [11, 22, 33, 44, 55, 66, 77, 88];
 /** Above this a single take may speed up, buzz or fail to stop (model guides): warn and check it. */
 export const LONG_TAKE_CHARS = 1400;
-/** Character voices kept between videos: voices-library/<id>/reference.wav + voice.json. */
+/** Character voices kept between videos: voices-library/<id>/reference_<lang>.wav + voice.json ("referenceText_<lang>"). */
 export const LIBRARY = join(ROOT, "voices-library");
 
 const readJson = (p) => JSON.parse(readFileSync(p, "utf8").replace(/^﻿/, ""));
@@ -83,11 +83,33 @@ export const settingsProblems = (settings, engines) => [...settings.errors, ...[
 
 /* ---------------- the character voice library ---------------- */
 
-/** A saved character voice, or null. */
-export function libraryVoice(id, library = LIBRARY) {
-  const f = join(library, id, "voice.json"), wav = join(library, id, "reference.wav");
-  if (!ID.test(id) || !existsSync(f) || !existsSync(wav)) return null;
-  return { ...readJson(f), reference: wav };
+/**
+ * The languages a saved voice has a reference for: reference_<lang>.wav with "referenceText_<lang>"
+ * in voice.json (an older voice may have one reference.wav with "referenceText" and "language").
+ */
+export function libraryLanguages(id, library = LIBRARY) {
+  const folder = join(library, id), f = join(folder, "voice.json");
+  if (!ID.test(id) || !existsSync(f)) return null;
+  const json = readJson(f), refs = {};
+  for (const file of readdirSync(folder)) {
+    const m = file.match(/^reference_([a-z]{2,3})\.wav$/i);
+    if (m) refs[m[1].toLowerCase()] = { reference: join(folder, file), referenceText: json[`referenceText_${m[1].toLowerCase()}`] };
+  }
+  if (existsSync(join(folder, "reference.wav"))) refs[json.language ?? "en"] ??= { reference: join(folder, "reference.wav"), referenceText: json.referenceText };
+  return { json, refs };
+}
+
+/**
+ * A saved character voice for one language, or null. The reference in that language is used; when
+ * there is none, another language's (an English reference can speak Arabic with VoxCPM2), English first.
+ */
+export function libraryVoice(id, library = LIBRARY, language = "en") {
+  const found = libraryLanguages(id, library);
+  if (!found) return null;
+  const { json, refs } = found;
+  const lang = refs[language] ? language : refs.en ? "en" : Object.keys(refs)[0];
+  if (!lang) return null;
+  return { ...json, ...refs[lang], referenceLanguage: lang, crossLingual: lang !== language, file: basename(refs[lang].reference) };
 }
 
 /* ---------------- the voice plan (tts.json) ---------------- */
@@ -138,11 +160,13 @@ export function readVoicePlan(dir, lang, options = {}) {
     if (!v || typeof v !== "object" || Array.isArray(v)) { errors.push(`${label}: must be an object such as {"description": "..."}`); return null; }
     if (v.library !== undefined) {
       // a character voice saved by voice-ref --save: cloned, so the character is the same person in every video
-      const lib = libraryVoice(String(v.library), options.library);
-      if (!lib) { errors.push(`${label}: no voice "${v.library}" in voices-library/ (save one with: pnpm video voice-ref <project> ${who}=<take> --save ${v.library})`); return null; }
+      const lib = libraryVoice(String(v.library), options.library, language);
+      if (!lib) { errors.push(`${label}: no voice "${v.library}" in voices-library/ (it needs reference_<language>.wav and voice.json; save one with: pnpm video voice-ref <project> ${who}=<take> --save ${v.library})`); return null; }
       if (v.reference || v.description) errors.push(`${label}: a "library" voice brings its own reference; leave out "reference" and "description"`);
-      if (!String(lib.referenceText ?? "").trim()) errors.push(`${label}: voices-library/${v.library}/voice.json needs "referenceText", the exact words spoken in reference.wav`);
-      const engine = v.engine ?? (ENGINES.cosyvoice3.languages.includes(language) ? "cosyvoice3" : "voxcpm2");
+      if (!String(lib.referenceText ?? "").trim()) errors.push(`${label}: voices-library/${v.library}/voice.json needs "referenceText_${lib.referenceLanguage}", the exact words spoken in ${lib.file}`);
+      if (lib.crossLingual) warnings.push(`${who}: voices-library/${v.library} has no ${language} reference; its ${lib.referenceLanguage} one speaks ${language} (cross-lingual). Add reference_${language}.wav for a closer voice.`);
+      // CosyVoice3 clones closest in the languages it speaks; VoxCPM2 otherwise (Arabic), and always across languages
+      const engine = v.engine ?? (ENGINES.cosyvoice3.languages.includes(language) && !lib.crossLingual ? "cosyvoice3" : "voxcpm2");
       v = { ...v, engine, reference: lib.reference, referenceText: lib.referenceText, note: lib.description };
     }
     const engine = engineOf(v), E = ENGINES[engine];
@@ -764,11 +788,13 @@ export function makeReference(dir, who, take, { lang, save, library = LIBRARY, o
   let saved = null;
   if (save) {
     if (!ID.test(save)) throw new Error(`--save needs a lower-case id such as "ali" (got "${save}")`);
-    const folder = join(library, save);
-    if (existsSync(join(folder, "reference.wav")) && !overwrite) throw new Error(`voices-library/${save} already exists. It is the voice other videos use for "${save}"; pick another name, or add --overwrite only if the user agrees to replace it.`);
+    // one reference per language: reference_<lang>.wav + "referenceText_<lang>"; other languages stay
+    const folder = join(library, save), lang = plan.language, wavName = `reference_${lang}.wav`, f = join(folder, "voice.json");
+    if (libraryLanguages(save, library)?.refs[lang] && !overwrite) throw new Error(`voices-library/${save} already has a ${lang} voice. It is the voice other videos use for "${save}"; pick another name, or add --overwrite only if the user agrees to replace it.`);
     mkdirSync(folder, { recursive: true });
-    copyFileSync(join(dir, rel), join(folder, "reference.wav"));
-    writeJson(join(folder, "voice.json"), { id: save, ...meta, project: basename(dir), savedAt: new Date().toISOString() });
+    copyFileSync(join(dir, rel), join(folder, wavName));
+    const old = existsSync(f) ? readJson(f) : {};
+    writeJson(f, { id: save, ...old, [`referenceText_${lang}`]: text, description: old.description ?? meta.description, [`from_${lang}`]: `${meta.from}, project ${basename(dir)}, ${new Date().toISOString()}` });
     saved = relative(ROOT, folder).replace(/\\/g, "/");
   }
   return { reference: rel, referenceText: text, seconds: meta.seconds, clean: best.clean, lines: lines.slice(best.a, best.b + 1).map((l) => l.index + 1), saved };

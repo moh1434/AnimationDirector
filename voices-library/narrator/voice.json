@@ -1,8 +1,8 @@
 {
   "id": "narrator",
   "preset": "host",
-  "referenceText": "Every great story starts with a single moment. Tonight, I want to tell you about one that changed everything, a moment filled with unexpected twists, strange encounters, and a little bit of bad luck.",
-  "language": "en",
-  "description": "Main narrator / host of the channel / female",
+  "referenceText_en": "Every great story starts with a single moment. Tonight, I want to tell you about one that changed everything, a moment filled with unexpected twists, strange encounters, and a little bit of bad luck.",
+  "referenceText_ar": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع، فقد كان صديقها ينتظرها في الجهة الأخرى.",
+  "description": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor.",
   "from": "user's own reference"
 }

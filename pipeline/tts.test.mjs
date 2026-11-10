@@ -204,14 +204,24 @@ test("a picked take becomes a reference and a library voice that later videos cl
   const r = makeReference(dir, "ali", 1, { save: "ali", library });
   assert.deepEqual(r.lines, [1, 3]);
   assert.equal(r.referenceText, "Hello Ahmed. I am fine, thank you!", "tags are not part of the words");
-  assert.ok(existsSync(join(dir, "refs", "ali.wav")) && existsSync(join(library, "ali", "reference.wav")));
-  assert.throws(() => makeReference(dir, "ali", 1, { save: "ali", library }), /already exists/);
+  assert.ok(existsSync(join(dir, "refs", "ali.wav")) && existsSync(join(library, "ali", "reference_en.wav")));
+  assert.equal(JSON.parse(readFileSync(join(library, "ali", "voice.json"), "utf8")).referenceText_en, "Hello Ahmed. I am fine, thank you!");
+  assert.throws(() => makeReference(dir, "ali", 1, { save: "ali", library }), /already has a en voice/);
   const next = project({ language: "en", voices: { bob: { library: "ali" } }, lines: [{ who: "bob", text: "Hi there." }] });
   const plan = readVoicePlan(next, undefined, { library });
   assert.equal(plan.voices.bob.engine, "cosyvoice3", "English library voices clone with CosyVoice3");
   assert.equal(plan.voices.bob.referenceText, "Hello Ahmed. I am fine, thank you!");
   const ar = project({ language: "ar", voices: { bob: { library: "ali" } }, lines: [{ who: "bob", text: "مرحبا" }] });
   assert.equal(readVoicePlan(ar, undefined, { library }).voices.bob.engine, "voxcpm2", "Arabic falls back to VoxCPM2's clone");
+  // an Arabic reference next to the English one: each language uses its own
+  writeFileSync(join(library, "ali", "reference_ar.wav"), readFileSync(join(library, "ali", "reference_en.wav")).subarray(0, 4000));
+  const json = JSON.parse(readFileSync(join(library, "ali", "voice.json"), "utf8"));
+  writeFileSync(join(library, "ali", "voice.json"), JSON.stringify({ ...json, referenceText_ar: "مرحبا يا أحمد" }));
+  const arPlan = readVoicePlan(ar, undefined, { library });
+  assert.equal(arPlan.voices.bob.referenceText, "مرحبا يا أحمد");
+  assert.match(arPlan.voices.bob.reference, /reference_ar.wav$/);
+  assert.ok(!arPlan.warnings.some((w) => /cross-lingual/.test(w)));
+  assert.match(readVoicePlan(next, undefined, { library }).voices.bob.reference, /reference_en.wav$/, "English still uses the English one");
   assert.throws(() => readVoicePlan(project({ language: "en", voices: { bob: { library: "nobody" } }, lines: [{ who: "bob", text: "Hi." }] }), undefined, { library }), /no voice "nobody"/);
 });
 
