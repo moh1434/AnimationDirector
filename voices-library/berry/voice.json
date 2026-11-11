@@ -1,7 +1,8 @@
 {
-  "id": "berry",
-  "preset": "berry",
-  "referenceText_en": "That is... not true. On this channel, we tell you fun stories. Maybe not giant cookies. So follow us, and see you in the next video!",
-  "description": "A confident, friendly ten-year-old girl with a bright, clear, medium-high voice. Warm and cheerful, like the host of a kids' cartoon show, speaking at a lively, natural pace",
-  "from_en": "qwen3 nova take 1, project meet-nova, 2026-11-11T11:12:45.528Z"
+  "id": "narrator",
+  "preset": "host",
+  "referenceText_en": "Leila had only one choice: cross the bridge before sunset. The winds were growing stronger, and the ground was trembling beneath her feet. But she refused to turn back, for her friend was waiting on the other side.",
+  "referenceText_ar": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع، فقد كان صديقها ينتظرها في الجهة الأخرى.",
+  "description": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor.",
+  "from": "user's own reference"
 }

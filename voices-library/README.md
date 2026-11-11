@@ -13,16 +13,6 @@ voices-library/
 
 `voice.json`:
 
-```json
-{
-  "id": "narrator",
-  "preset": "host",
-  "referenceText_en": "The exact words spoken in reference_en.wav.",
-  "referenceText_ar": "الكلمات المنطوقة في reference_ar.wav بالضبط.",
-  "description": "What the voice is like (a note for people; it is not sent to the model)."
-}
-```
-
 ## Adding a voice or a language
 
 1. Put the recording in the character's folder as **`reference_<language>.wav`** (`reference_en.wav`,
