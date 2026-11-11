@@ -59,3 +59,13 @@ test("the renderer setting defaults to the GPU and ignores case", () => {
   assert.equal(rendererName({ root, env: { REMOTION_RENDERER: "CPU" } }), "cpu");
   assert.equal(rendererName({ root, env: { REMOTION_RENDERER: "gpu" } }), "gpu");
 });
+
+test("VIDEO_FPS sets the frame rate, 30 when missing or wrong", async () => {
+  const { videoFps } = await import("./whisper-config.mjs");
+  assert.equal(videoFps({ root: "C:/no-such-folder", env: {} }), 30);
+  assert.equal(videoFps({ root: "C:/no-such-folder", env: { VIDEO_FPS: "60" } }), 60);
+  assert.equal(videoFps({ root: "C:/no-such-folder", env: { VIDEO_FPS: "33" } }), 30);
+  assert.equal(videoFps({ root: setup(GOOD + 'VIDEO_FPS="24"\n'), env: {} }), 24);
+  assert.ok(whisperConfig({ root: setup(GOOD + 'VIDEO_FPS="33"\n'), env: {} }).errors.some((e) => e.includes("VIDEO_FPS")));
+  assert.deepEqual(whisperConfig({ root: setup(GOOD + 'VIDEO_FPS="30"\n'), env: {} }).warnings.filter((w) => w.includes("VIDEO_FPS")), []);
+});

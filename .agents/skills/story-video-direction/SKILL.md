@@ -78,5 +78,5 @@ Never invent facts, statistics, maps or likenesses of real people; never draw re
 ## 7. Loop
 
 `pnpm video plan <name>` → rewrite `storyboard.json` → `pnpm video check <name>` (Shorts layout;
-see `layout-composition`) → fix → `pnpm video make <name>` (Shorts only, 60 fps) → read `out/final-pass.md`
+see `layout-composition`) → fix → `pnpm video make <name>` (Shorts only, at `VIDEO_FPS`) → read `out/final-pass.md`
 (see `final-pass`). Drawing a missing object: see `assets`. Music and effects: see `music-scoring`.

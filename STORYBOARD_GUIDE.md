@@ -39,7 +39,7 @@ The notes below describe the original house-style references, not every newer re
   "version": 1,
   "title": "How old is the Earth?",
   "language": "en",                // "ar" switches text to right-to-left
-  "fps": 60,                       // follows video.json (default 60)
+  "fps": 30,                       // follows video.json, else VIDEO_FPS in .env (default 30)
   "duration": 31.2,                // the voice's length; the video is never shorter, and may be longer
   "endHold": 0,                    // optional: seconds the picture runs on after the voice ends
   "cast": {
@@ -135,7 +135,7 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
 
 * **who** – a cast id. Cast presets: `host` (default narrator), `scientist`, `student`, `girl`, `woman`,
   `kid`, `king`, `sage`, `soldier`, `worker`, `boss`, `explorer`, `pharaoh`, `bedouin`, `chef`,
-  `wizard`, `grandpa`, `robotguy`, `nova` (the channel's leader: indigo bun hair with pink ends, a springy curl
+  `wizard`, `grandpa`, `robotguy`, `berry` (the channel's leader: berry-pink bun hair with light pink ends, a springy curl
   and a star clip, freckles, yellow pinafore; also `leader`, `main_female`), `curly_girl` (plum curls with a big side puff and a coral bow, freckles,
   yellow tee, teal short dungarees with a heart pocket), and the user's own designs: `adventurer` (explorer girl with a safari
   hat and backpack), `ponytail_girl` (pink side ponytail, bow, frilled dress), `buddy` (spiky orange

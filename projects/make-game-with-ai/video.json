@@ -6,6 +6,5 @@
   "music": "auto",
   "host": "host",
   "sfx": true,
-  "fps": 60,
   "watermark": ""
 }

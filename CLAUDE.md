@@ -5,7 +5,7 @@ routing, compatibility checks, and project-specific overrides to generic effects
 For padding, whitespace, alignment, or portrait framing issues, use
 [LAYOUT_REVIEW.md](LAYOUT_REVIEW.md) before changing scene coordinates.
 Project skills in `.claude/skills/`: story-video-direction, layout-composition, music-scoring,
-assets, final-pass — use them when directing, laying out, scoring, drawing or checking a video.
+assets, color-harmony, final-pass — use them when directing, laying out, scoring, drawing, colouring or checking a video.
 A smaller local model should follow [LOCAL_MODEL_GUIDE.md](LOCAL_MODEL_GUIDE.md) instead; for you it is optional.
 
 **One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
@@ -62,7 +62,7 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
    voice (`--draft` is fine; `--skip-enhance` only if the user says so). A new voice needs enhancing again.
 6. `pnpm video make <name>` → `out/<name>-shorts.mp4` and `.srt`, then read `out/final-pass.md` and
    the frame sheet (final-pass skill). Use `--draft` for quick checks.
-   **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
+   **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos run at `VIDEO_FPS` in `.env` (30 now).
 
 ## When the user sends two languages (English + Arabic)
 
@@ -117,5 +117,5 @@ Read [STORY_MODE.md](STORY_MODE.md) before directing narrative stories or multi-
   survive new recordings; run plan after recordings change. Never use StoryModeDemo's timings as final
   speech alignment, and do not run --replan over an authored storyboard without authorization.
 - Check movement starts/midpoints/ends, costume changes, entrances/exits and speaker changes, including
-  headwear, feet, held items, foreground occlusion and caption clearance. Default output stays 60 FPS Shorts.
+  headwear, feet, held items, foreground occlusion and caption clearance. Default output stays Shorts at `VIDEO_FPS`.
 - No new package is required for story mode; clip assembly uses FFmpeg. Examples are under examples/story-mode/.

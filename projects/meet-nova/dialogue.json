@@ -1,0 +1,67 @@
+{
+  "voicesFrom": "tts.json (nova take 1, curly take 2)",
+  "cast": {
+    "nova": {
+      "preset": "nova",
+      "name": "Nova"
+    },
+    "curly": {
+      "preset": "curly_girl"
+    }
+  },
+  "clips": [
+    {
+      "who": "nova",
+      "file": "voices/01-nova.wav",
+      "text": "Hi! I'm Nova, the new leader of this channel!"
+    },
+    {
+      "who": "curly",
+      "file": "voices/02-curly.wav",
+      "text": "And I'm her best friend! I do all the hard work."
+    },
+    {
+      "who": "nova",
+      "file": "voices/03-nova.wav",
+      "text": "That is... not true.",
+      "gap": 0.5
+    },
+    {
+      "who": "curly",
+      "file": "voices/04-curly.wav",
+      "text": "Okay. I bring all the snacks."
+    },
+    {
+      "who": "nova",
+      "file": "voices/05-nova.wav",
+      "text": "On this channel, we tell you fun stories."
+    },
+    {
+      "who": "curly",
+      "file": "voices/06-curly.wav",
+      "text": "With cats! And robots! And giant cookies!"
+    },
+    {
+      "who": "nova",
+      "file": "voices/07-nova.wav",
+      "text": "Maybe not giant cookies."
+    },
+    {
+      "who": "curly",
+      "file": "voices/08-curly.wav",
+      "text": "Definitely giant cookies.",
+      "gap": 0.45
+    },
+    {
+      "who": "nova",
+      "file": "voices/09-nova.wav",
+      "text": "So follow us, and see you in the next video!"
+    },
+    {
+      "who": "curly",
+      "file": "voices/10-curly.wav",
+      "text": "Bye bye!",
+      "gap": 0.3
+    }
+  ]
+}

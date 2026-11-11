@@ -36,7 +36,7 @@ objects with faces, flat colourful grounds, pop-in animation, music and sound ef
    the existing voice analysis. Read `build/brief.md` and `build/dialogue-timeline.json`.
 4. Direct `storyboard.json` with matching cast IDs and `layout: "story"`, timed with `clip:N` so new takes need no retiming.
 5. Run `pnpm video validate my-story`, `pnpm video check my-story`, inspect the frames, then
-   `pnpm video make my-story` (60 FPS Shorts by default).
+   `pnpm video make my-story` (Shorts by default, at `VIDEO_FPS` from `.env`).
 
 No TTS model is needed when you supply the recordings. With only a script, [TTS.md](TTS.md) makes
 the voices locally with Audar-TTS or Qwen3-TTS and you pick one take per character. FFmpeg is required for
@@ -59,7 +59,7 @@ The original `voice.wav` + `script.txt` path below continues to work.
    the `out` folder opens: `earth-age-youtube.mp4`, `earth-age-shorts.mp4`, and `earth-age.srt`.
    To make just one format (about half the time), use **make-short-video.bat** (9:16 Shorts) or
    **make-landscape-video.bat** (16:9 YouTube) in the same folder.
-   Videos render at **60 fps**. From the command line, `pnpm video make <name>` makes only the Shorts
+   Videos render at **`VIDEO_FPS`** from `.env` (30 by default; a project's `video.json` may set `"fps"`). From the command line, `pnpm video make <name>` makes only the Shorts
    video (the `formats` setting); AI agents never render the YouTube version unless you ask.
    Each project folder also has **stills.bat** (one picture per scene) and **preview-video.bat** (Remotion Studio).
    The root `make-video.bat` still works too: it asks for the project name.
@@ -85,11 +85,11 @@ storyboard.json yourself — it is kept between runs unless you use `--replan`.
 `video.json` in each project holds settings:
 
 ```json
-{ "title": "How old is the Earth?", "language": "auto", "formats": ["shorts"], "fps": 60,
+{ "title": "How old is the Earth?", "language": "auto", "formats": ["shorts"],
   "captions": "auto", "music": "auto", "host": "host", "sfx": true, "watermark": "@mychannel" }
 ```
 * `formats`: what `pnpm video make` renders by default (`["shorts"]`); the .bat buttons choose for you.
-* `fps`: 60 by default (smoother; renders take about twice as long as 30).
+* `fps`: leave it out to use `VIDEO_FPS` from `.env` (30 by default); set it only for a project that needs its own rate (60 is smoother, renders take about twice as long).
 * `captions`: `"auto"` = burned-in word captions on Shorts only; `true`/`false`; or `{"youtube": true}`.
 * `music`: `"auto"`, a mood (`playful curious epic space upbeat calm`), `"none"`, or a path to your own track.
 * `host`: the narrator's look (`host`, `scientist`, `girl`, `sage`, … see the guide), or `"hostLook": {...}`.
@@ -207,7 +207,7 @@ Shared motion uses frame-derived easing rather than CSS transitions. `remotion/s
 sets gesture, expression, dissolve and speech-smoothing durations in seconds. Interrupted gestures
 preserve position and velocity; non-cut transitions overlap scenes instead of exposing the backdrop.
 Faces blend between expression drawings, and captions/props use restrained emphasis. Existing
-narration and word triggers remain the timing source. The pipeline renders at 60 fps by default.
+narration and word triggers remain the timing source. The pipeline renders at `VIDEO_FPS` (`.env`, 30 by default).
 
 * **`pnpm video check <name>`** — samples settled poses, midpoints, entrance overshoot, gestures,
   punch zooms and the last hold before each transition in each format, measures

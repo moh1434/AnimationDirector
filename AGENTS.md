@@ -114,8 +114,8 @@ exports the final voice to `voices/enhance/original.wav`; you clean it with Adob
 Claude in Chrome (`pnpm video enhance <name>`, upload, wait, Download, `--take-download`), then `plan`
 again and `make`. The user asked for this online step. Follow [ENHANCE.md](ENHANCE.md).
 
-**Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos are 60 fps.
-The pipeline default is 60 fps (`video.json` → `"fps"`); do not lower it unless the user asks.
+**Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly).
+The frame rate is `VIDEO_FPS` in `.env` (30 now, the user's choice); a project's `video.json` may set its own `"fps"`. Do not change either unless the user asks.
 
 Inspect the generated images. Also sample settled, middle, and exit frames where
 the single per-scene still misses the reported problem. A review request alone
@@ -142,5 +142,5 @@ Read [STORY_MODE.md](STORY_MODE.md) before directing narrative stories or multi-
 - Retiming is required after recordings change. Never use StoryModeDemo's provisional timings as final
   speech alignment, and do not run --replan over an authored storyboard without authorization.
 - Check movement starts/midpoints/ends, costume changes, entrances/exits and speaker changes, including
-  headwear, feet, held items, foreground occlusion and caption clearance. Default output stays 60 FPS Shorts.
+  headwear, feet, held items, foreground occlusion and caption clearance. Default output stays Shorts at `VIDEO_FPS`.
 - No new package is required for story mode; clip assembly uses FFmpeg. Examples are under examples/story-mode/.

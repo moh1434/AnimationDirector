@@ -56,6 +56,7 @@ export const RemotionRoot = () => {
       <Composition id="Library" component={Library as any} durationInFrames={240} fps={30} width={1920} height={1080} defaultProps={{ page: "props" }} />
       <Composition id="LibraryCharacters" component={Library as any} durationInFrames={240} fps={30} width={1920} height={1080} defaultProps={{ page: "characters" }} />
       <Composition id="LibraryCharacter" component={Library as any} durationInFrames={240} fps={30} width={1080} height={1080} defaultProps={{ page: "character", name: "farmer", pose: "talk", expression: "laughing" }} />
+      <Composition id="LibraryLooks" component={Library as any} durationInFrames={240} fps={30} width={1920} height={1080} defaultProps={{ page: "looks", name: "berry", pose: "wave", expression: "happy" }} />
       <Composition id="LibraryNewProps" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"props", portrait:false}} />
       <Composition id="LibraryBackgrounds" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"backgrounds", portrait:false}} />
       <Composition id="LibraryLifeProps" component={AssetExpansionLibrary} durationInFrames={1} fps={60} width={1920} height={1080} defaultProps={{page:"props", portrait:false, batch:2}} />

@@ -3,10 +3,10 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "./engine";
 import { PROP_NAMES, PropArt } from "./Props";
 import { Character, POSES, Pose } from "./Character";
 import { EXPR, Expression } from "./Face";
-import { PRESETS, FONT, INK } from "./theme";
+import { PRESETS, FONT, INK, type Look } from "./theme";
 
 /** Visual catalogue of everything the director can use (open it in Remotion Studio). */
-export const Library: React.FC<{ page?: "props" | "characters" | "faces" | "character"; name?: string; pose?: Pose; expression?: Expression; talking?: boolean; background?: string }> = ({ page = "props", name = "host", pose = "idle", expression = "happy", talking = false, background = "transparent" }) => {
+export const Library: React.FC<{ page?: "props" | "characters" | "faces" | "character" | "looks"; looks?: { label: string; look: Look; background?: string }[]; name?: string; pose?: Pose; expression?: Expression; talking?: boolean; background?: string }> = ({ page = "props", name = "host", pose = "idle", expression = "happy", talking = false, background = "transparent", looks }) => {
   const frame = useCurrentFrame();
   const { fps, width: W, height: H } = useVideoConfig();
   const t = frame / fps;
@@ -18,6 +18,28 @@ export const Library: React.FC<{ page?: "props" | "characters" | "faces" | "char
         <svg width={W} height={H} viewBox={`${-W / 2 / s} ${-770} ${W / s} ${H / s}`}>
           <Character look={PRESETS[name] ?? PRESETS.host} pose={pose} expression={expression} t={t} frame={frame} fps={fps} seed={1} talking={talking} mouth={talking ? Math.abs(Math.sin(t * 9 + 1)) * 0.8 : 0} mouthShape={talking ? { wide: Math.sin(t * 5.3), close: Math.max(0, Math.sin(t * 3.1) - 0.6) * 2.5 } : undefined} />
         </svg>
+      </AbsoluteFill>
+    );
+  }
+  if (page === "looks") {
+    // one character in several colourings side by side (LibraryLooks; --props '{"name":"berry","looks":[{"label":"cocoa","look":{"hairColor":"#7a4a32"}}]}')
+    const list = looks?.length ? looks : [{ label: name, look: {} }];
+    const cols = Math.min(4, list.length), rows = Math.ceil(list.length / cols);
+    const cw = W / cols, ch = H / rows;
+    const GROUNDS = ["#9ff5cf", "#fff3a3", "#cfb6ff", "#a8dcff", "#ffc9a8", "#c6f7ee", "#ffb3c7", "#fff1d6"];
+    return (
+      <AbsoluteFill style={{ background: "#fbfbf8" }}>
+        {list.map((v, i) => {
+          const s = (ch * 0.8) / 780;
+          return (
+            <div key={i} style={{ position: "absolute", left: (i % cols) * cw, top: Math.floor(i / cols) * ch, width: cw, height: ch, background: v.background ?? GROUNDS[i % GROUNDS.length] }}>
+              <svg width={cw} height={ch * 0.88} viewBox={`${-cw / 2 / s} ${-770} ${cw / s} ${(ch * 0.88) / s}`}>
+                <Character look={{ ...(PRESETS[name] ?? PRESETS.host), ...v.look }} pose={pose} expression={expression} t={t} frame={frame} fps={fps} seed={1} />
+              </svg>
+              <div style={{ textAlign: "center", fontFamily: FONT.body, fontWeight: 800, fontSize: 34, color: INK }}>{v.label}</div>
+            </div>
+          );
+        })}
       </AbsoluteFill>
     );
   }

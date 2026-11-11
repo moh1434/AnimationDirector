@@ -35,7 +35,7 @@ import { catalog } from "./catalog.mjs";
 import { enhanceStep, prepareUpload, takeDownload } from "./enhance.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
-import { requireWhisperConfig, whisperConfig, modelFor, bundlerName, rendererName } from "./whisper-config.mjs";
+import { requireWhisperConfig, whisperConfig, modelFor, bundlerName, rendererName, videoFps } from "./whisper-config.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -89,7 +89,7 @@ const py = (script, args) => run(findPython(), [join(ROOT, "audio", script), ...
 
 function settingsOf(dir) {
   const s = readJson(join(dir, "video.json"), {});
-  return { title: basename(dir), language: "auto", formats: ["shorts"], captions: "auto", music: "auto", host: "host", sfx: true, fps: 60, ...s };
+  return { title: basename(dir), language: "auto", formats: ["shorts"], captions: "auto", music: "auto", host: "host", sfx: true, fps: videoFps(), ...s }; // fps: VIDEO_FPS in .env unless video.json sets it
 }
 
 function formatsOf(settings) {

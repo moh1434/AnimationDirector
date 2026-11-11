@@ -1,0 +1,67 @@
+{
+  "voicesFrom": "tts.json (berry take 1)",
+  "cast": {
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "curly": {
+      "preset": "curly_girl"
+    }
+  },
+  "clips": [
+    {
+      "who": "berry",
+      "file": "voices/01-berry.wav",
+      "text": "Hi! I'm Berry, the new leader of this channel!"
+    },
+    {
+      "who": "curly",
+      "file": "voices/02-curly.wav",
+      "text": "And I'm her best friend! I do all the hard work."
+    },
+    {
+      "who": "berry",
+      "file": "voices/03-berry.wav",
+      "text": "That is... not true.",
+      "gap": 0.5
+    },
+    {
+      "who": "curly",
+      "file": "voices/04-curly.wav",
+      "text": "Okay. I bring all the snacks."
+    },
+    {
+      "who": "berry",
+      "file": "voices/05-berry.wav",
+      "text": "On this channel, we tell you fun stories."
+    },
+    {
+      "who": "curly",
+      "file": "voices/06-curly.wav",
+      "text": "With cats! And robots! And giant cookies!"
+    },
+    {
+      "who": "berry",
+      "file": "voices/07-berry.wav",
+      "text": "Maybe not giant cookies."
+    },
+    {
+      "who": "curly",
+      "file": "voices/08-curly.wav",
+      "text": "Definitely giant cookies.",
+      "gap": 0.45
+    },
+    {
+      "who": "berry",
+      "file": "voices/09-berry.wav",
+      "text": "So follow us, and see you in the next video!"
+    },
+    {
+      "who": "curly",
+      "file": "voices/10-curly.wav",
+      "text": "Bye bye!",
+      "gap": 0.3
+    }
+  ]
+}

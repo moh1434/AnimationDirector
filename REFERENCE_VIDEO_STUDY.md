@@ -68,7 +68,7 @@ Potential later renderer work, in order of value:
 
 ## Measurements and limits
 
-All five references are 720×1280 at 30 fps. Our output stays at 60 fps.
+All five references are 720×1280 at 30 fps. Our output uses `VIDEO_FPS` from `.env` (30 by default).
 Measurements below are FFmpeg loudnorm **input** values, measured over each complete audio stream.
 
 | File | Integrated LUFS | True peak dBTP | LRA LU |

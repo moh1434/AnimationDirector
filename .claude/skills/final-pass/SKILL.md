@@ -17,7 +17,7 @@ It writes `out/final-pass.md` and a one-frame-per-second sheet `out/<name>-<form
 
 | check | pass when |
 |---|---|
-| format | 1080×1920 (Shorts) / 1920×1080 (YouTube, only when the user renders it), 60 fps, audio stream present |
+| format | 1080×1920 (Shorts) / 1920×1080 (YouTube, only when the user renders it), `VIDEO_FPS` from `.env` (or the project's `video.json` `"fps"`), audio stream present |
 | duration | within max(0.15 s, 2 %) of the voice length |
 | black | no stretch of black ≥0.25 s (blackdetect) |
 | frozen | no identical picture ≥2.5 s (freezedetect) — fine only for a designed hold |

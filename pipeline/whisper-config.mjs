@@ -9,7 +9,10 @@ import { ROOT, IS_WIN } from "./env.mjs";
 
 const WHISPER_KEYS = ["WHISPER_PATH", "WHISPER_EN_MODEL", "WHISPER_AR_MODEL"];
 /** Every setting .env may contain (the REMOTION_ ones are optional). */
-export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER", "REMOTION_RENDERER", "TTS_AUDAR_DIR", "TTS_QWEN3_DIR", "TTS_UV", "TTS_COOLDOWN_SECONDS"];
+export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER", "REMOTION_RENDERER", "TTS_AUDAR_DIR", "TTS_QWEN3_DIR", "TTS_UV", "TTS_COOLDOWN_SECONDS", "VIDEO_FPS"];
+/** Frame rate of every video unless its video.json says "fps": VIDEO_FPS in .env. */
+export const DEFAULT_FPS = 30;
+const FPS_CHOICES = [24, 25, 30, 50, 60];
 const lev = (a, b) => {
   const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
   for (let j = 1; j <= b.length; j++) d[0][j] = j;
@@ -62,6 +65,8 @@ export function whisperConfig({ root = ROOT, env = process.env } = {}) {
   if (renderer !== undefined && renderer !== "" && !["gpu", "cpu"].includes(String(renderer).trim().toLowerCase())) errors.push(`.env: REMOTION_RENDERER="${renderer}" must be "gpu" or "cpu".`);
   const bundler = get("REMOTION_BUNDLER");
   if (bundler !== undefined && bundler !== "" && !["rspack", "webpack"].includes(String(bundler).trim().toLowerCase())) errors.push(`.env: REMOTION_BUNDLER="${bundler}" must be "rspack" or "webpack".`);
+  const fps = get("VIDEO_FPS");
+  if (fps !== undefined && fps !== "" && !FPS_CHOICES.includes(Number(String(fps).trim()))) errors.push(`.env: VIDEO_FPS="${fps}" must be one of ${FPS_CHOICES.join(", ")}.`);
   for (const k of WHISPER_KEYS) if (get(k) === undefined) errors.push(`.env: ${k} is missing. Add it (see .env.example); use ${k}="" to turn it off.`);
   if (errors.length) return out;
 
@@ -128,6 +133,14 @@ export function rendererName({ root = ROOT, env = process.env } = {}) {
   let v = env.REMOTION_RENDERER;
   if (!v) { const f = join(root, ".env"); if (existsSync(f)) v = parseEnv(readFileSync(f, "utf8")).vars.REMOTION_RENDERER; }
   return String(v ?? "").trim().toLowerCase() === "cpu" ? "cpu" : "gpu";
+}
+
+/** Frame rate for videos whose video.json has no "fps": VIDEO_FPS in .env, 30 when it is missing or not a valid choice. */
+export function videoFps({ root = ROOT, env = process.env } = {}) {
+  let v = env.VIDEO_FPS;
+  if (!v) { const f = join(root, ".env"); if (existsSync(f)) v = parseEnv(readFileSync(f, "utf8")).vars.VIDEO_FPS; }
+  const n = Number(String(v ?? "").trim());
+  return FPS_CHOICES.includes(n) ? n : DEFAULT_FPS;
 }
 
 /** Which bundler Remotion uses: REMOTION_BUNDLER in .env ("rspack" by default, "webpack" to go back). */

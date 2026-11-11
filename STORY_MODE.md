@@ -23,7 +23,7 @@ come back in later videos is saved with `voice-ref --save`, so it keeps the same
    it lists all of them. It then writes `build/brief.md`, showing every clip's number and speaker.
 4. Direct `storyboard.json` (below). Time things with `clip:N`, so new takes need no retiming.
 5. `pnpm video validate my-story`, then `pnpm video check my-story`, then look at the frames.
-6. `pnpm video make my-story` renders the 60 fps Shorts video.
+6. `pnpm video make my-story` renders the Shorts video (at `VIDEO_FPS` from `.env`).
 
 After replacing a recording, run `plan` again; the other commands refuse to use stale audio.
 `projects/unluckiest-thief` is a complete directed example, and `examples/story-mode/` keeps a copy of

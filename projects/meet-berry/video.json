@@ -1,0 +1,13 @@
+{
+  "title": "Meet Berry",
+  "language": "en",
+  "formats": [
+    "shorts"
+  ],
+  "captions": "auto",
+  "music": "playful",
+  "host": "berry",
+  "sfx": true,
+  "watermark": "",
+  "fps": 60
+}

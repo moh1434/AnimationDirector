@@ -1,0 +1,60 @@
+{
+  "language": "en",
+  "takes": 2,
+  "voices": {
+    "berry": {
+      "library": "berry"
+    }
+  },
+  "lines": [
+    {
+      "who": "berry",
+      "text": "Hi! I'm Berry, the new leader of this channel!"
+    },
+    {
+      "who": "curly",
+      "text": "And I'm her best friend! I do all the hard work.",
+      "file": "voices/02-curly.wav"
+    },
+    {
+      "who": "berry",
+      "text": "That is... not true.",
+      "file": "voices/03-berry.wav"
+    },
+    {
+      "who": "curly",
+      "text": "Okay. I bring all the snacks.",
+      "file": "voices/04-curly.wav"
+    },
+    {
+      "who": "berry",
+      "text": "On this channel, we tell you fun stories.",
+      "file": "voices/05-berry.wav"
+    },
+    {
+      "who": "curly",
+      "text": "With cats! And robots! And giant cookies!",
+      "file": "voices/06-curly.wav"
+    },
+    {
+      "who": "berry",
+      "text": "Maybe not giant cookies.",
+      "file": "voices/07-berry.wav"
+    },
+    {
+      "who": "curly",
+      "text": "Definitely giant cookies.",
+      "file": "voices/08-curly.wav"
+    },
+    {
+      "who": "berry",
+      "text": "So follow us, and see you in the next video!",
+      "file": "voices/09-berry.wav"
+    },
+    {
+      "who": "curly",
+      "text": "Bye bye!",
+      "file": "voices/10-curly.wav"
+    }
+  ]
+}
