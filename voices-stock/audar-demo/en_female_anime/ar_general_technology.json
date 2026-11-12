@@ -1,0 +1,15 @@
+{
+  "text": "هل فكرت يوماً في صناعة تطبيق خاص بك دون أن تكون خبيراً في البرمجة؟ اليوم، أصبحت أدوات الذكاء الاصطناعي قادرة على مساعدتك في كتابة الأكواد، وتصميم الواجهات.",
+  "voiceId": "reference:voices-stock/audar-demo/en_female_anime/en_general_technology.wav",
+  "voiceName": "en_general_technology",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.8,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 11
+  }
+}

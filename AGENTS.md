@@ -11,13 +11,21 @@ storyboard decisions, original narration, timings, and flat illustrated art dire
 When the user sends a script without recordings, or when you draw a new character who speaks and has
 no recording, follow [TTS.md](TTS.md) after reading the guide of each engine you use
 (`docs/tts/audar-turbo/README.md`, `docs/tts/qwen3-tts/README.md`). Audar clones a reference in English
-and Arabic (the default); Qwen3-TTS (English only) designs new voices from a description. VoxCPM2 and
+and Arabic (the default, and the only engine that clones an existing voice); Qwen3-TTS (English only)
+only designs new voices from a description, never clones. VoxCPM2 and
 CosyVoice3 are no longer used here, whatever `..\AGENTS.md` says about VoxCPM2. Check `voices-library/`
 for a character that already has a voice. Write `tts.json` with the user's exact words, run
 `pnpm video voices <name>`, give the user `voice-takes/<lang>/review.html`, and wait for one pick per
 character before `voice-pick`. Never pick a take yourself, never change the script's words (only tags,
 punctuation and capitals in `say`), and never use `--replace` or `voice-ref --overwrite` without the
 user's agreement.
+
+**Every generated audio keeps its generation record** (the user's rule, for every agent): next to each
+generated `<name>.wav`, a `<name>.json` with `text`, `voiceId`, `voiceName`, `workerMode` and `settings`
+(`temperature`, `topK`, `topP`, `repeatPenalty`, `seed`). `pnpm video voices` and `voice-ref` write it; any
+audio you generate another way (your own script, a test) needs it written by you, with the real values.
+Clones reuse it: a reference's record or a library voice's `languages.<lang>.settings` set the settings
+and the seed of take 1. See TTS.md, "Every generated audio keeps its generation record".
 
 **Voices come only from inside this folder.** A video's voice is the user's own recording in the
 project, a voice in `voices-library/`, a stock candidate from `voices-stock/` (Audar's six gallery

@@ -1,0 +1,15 @@
+{
+  "text": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع.",
+  "voiceId": "reference:voices-stock/audar-demo/en_female_anime/en_story_adventure_estelle_inspired.wav",
+  "voiceName": "en_story_adventure_estelle_inspired",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.8,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 11
+  }
+}

@@ -1,8 +1,36 @@
 {
-  "id": "narrator",
-  "preset": "host",
-  "referenceText_en": "Leila had only one choice: cross the bridge before sunset. The winds were growing stronger, and the ground was trembling beneath her feet. But she refused to turn back, for her friend was waiting on the other side.",
-  "referenceText_ar": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع، فقد كان صديقها ينتظرها في الجهة الأخرى.",
+  "id": "berry",
+  "preset": "berry",
   "description": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor.",
-  "from": "user's own reference"
+  "from": "user's own reference",
+  "languages": {
+    "en": {
+      "file": "reference_en.wav",
+      "text": "Layla had only one choice: cross the bridge before sunset. The winds were growing stronger, and the ground was trembling beneath her feet. But she refused to turn back.",
+      "voiceId": "user:layla_one_choice_female_4bab8c",
+      "voiceName": "layla one choice female",
+      "workerMode": "clone",
+      "settings": {
+        "temperature": 0.75,
+        "topK": 40,
+        "topP": 0.9,
+        "repeatPenalty": 1.1,
+        "seed": 6572
+      }
+    },
+    "ar": {
+      "file": "reference_ar.wav",
+      "text": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع",
+      "voiceId": "user:layla_one_choice_female_4bab8c",
+      "voiceName": "layla one choice female",
+      "workerMode": "clone",
+      "settings": {
+        "temperature": 0.75,
+        "topK": 40,
+        "topP": 0.9,
+        "repeatPenalty": 1.1,
+        "seed": 6572
+      }
+    }
+  }
 }

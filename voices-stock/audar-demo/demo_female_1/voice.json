@@ -2,7 +2,6 @@
   "id": "demo_female_1",
   "gender": "female",
   "description": "Female, vibrant, joyful (Audar's own words for it).",
-  "referenceText_en": "Guess what just arrived in the mail — [excited] the acceptance letter we have been waiting for, [laughs] and I actually screamed out loud!",
   "referenceText_ar": "خمّن ماذا وصل في البريد للتوّ — [excited] رسالة القبول التي انتظرناها طويلاً، [laughs] لقد صرختُ من شدّة الفرح!",
   "source": "Audar-TTS-V1-Turbo voice gallery (weights/samples/demo_female_1_*.wav), synthetic voice, free to use (weights/README.md, \"Voice Gallery\"). source.wav is the gallery's reference voice; its words are not published, so it is for listening only."
 }

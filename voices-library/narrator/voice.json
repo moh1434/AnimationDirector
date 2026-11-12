@@ -1,9 +1,36 @@
 {
   "id": "narrator",
   "preset": "host",
-  "referenceText_en": "Leila had only one choice: cross the bridge before sunset. The winds were growing stronger, and the ground was trembling beneath her feet. But she refused to turn back, for her friend was waiting on the other side.",
-  "referenceText_ar": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع، فقد كان صديقها ينتظرها في الجهة الأخرى.",
-  "description_ar": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor.",
-  "description_en": "A warm, youthful masculine voice with a charismatic, adventurous, and confident personality. Use expressive, natural delivery with clear articulation and a relaxed, engaging rhythm. Give the character a sense of courage and determination, with a friendly warmth and a subtle hint of humor. The voice should feel approachable yet strong, balancing youthful enthusiasm with a touch of maturity. Inspired by the broad vocal qualities of a charming adventure-game protagonist, not an exact imitation of any specific character or voice actor.",
-  "from": "user's own reference"
+  "description": "A warm, youthful masculine voice with a charismatic, adventurous, and confident personality. Use expressive, natural delivery with clear articulation and a relaxed, engaging rhythm. Give the character a sense of courage and determination, with a friendly warmth and a subtle hint of humor. The voice should feel approachable yet strong, balancing youthful enthusiasm with a touch of maturity. Inspired by the broad vocal qualities of a charming adventure-game protagonist, not an exact imitation of any specific character or voice actor.",
+  "from": "user's own reference",
+  "languages": {
+    "en": {
+      "file": "reference_en.wav",
+      "text": "Leila had only one choice: cross the bridge before sunset. The winds were growing stronger, and the ground was trembling beneath her feet. But she refused to turn back.",
+      "voiceId": "builtin:demo_male_1__demo_male_1_en",
+      "voiceName": "narrator_en",
+      "workerMode": "clone",
+      "settings": {
+        "temperature": 0.75,
+        "topK": 40,
+        "topP": 0.9,
+        "repeatPenalty": 1.1,
+        "seed": 1234
+      }
+    },
+    "ar": {
+      "file": "reference_ar.wav",
+      "text": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع، فقد كان صديقها ينتظرها في الجهة الأخرى",
+      "voiceId": "builtin:demo_male_1__demo_male_1_en",
+      "voiceName": "narrator_en",
+      "workerMode": "clone",
+      "settings": {
+        "temperature": 0.75,
+        "topK": 40,
+        "topP": 0.9,
+        "repeatPenalty": 1.1,
+        "seed": 77003
+      }
+    }
+  }
 }

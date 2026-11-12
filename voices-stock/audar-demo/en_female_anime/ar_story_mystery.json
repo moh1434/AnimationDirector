@@ -1,0 +1,15 @@
+{
+  "text": "في تلك الليلة، سمع سامر صوتاً غريباً قادماً من الطابق السفلي. توقّف للحظة، ثم اقترب ببطء من الباب، لكن ما وجده خلفه كان شيئاً لم يتوقعه أبداً.",
+  "voiceId": "reference:voices-stock/audar-demo/en_female_anime/en_story_mystery.wav",
+  "voiceName": "en_story_mystery",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.8,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 11
+  }
+}

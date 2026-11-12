@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync, readFileSync, existsSync, readdirSync } from "node:fs";
+import { mkdtempSync, writeFileSync, readFileSync, existsSync, readdirSync, copyFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, basename } from "node:path";
 import { alignLines, keepsRecordings, makeReference, makeTakes, parseLines, parsePicks, pickTakes, readPcm, readVoicePlan, splitTake, takeChunks, takeCommand, takeRequests, DESIGN_TEXT } from "./tts.mjs";
@@ -85,9 +85,9 @@ test("Audar clones a reference in chunks of whole lines; tags and languages are 
   assert.match(errorsOf({ ...ali, style: "happy" }), /"style" was a CosyVoice3 setting/);
   assert.match(errorsOf({ engine: "qwen3", description: "A man" }, { language: "ar", lines: [{ who: "ali", text: "مرحبا" }, { who: "ahmed", text: "أهلا" }] }), /Qwen3-TTS does not speak "ar"/);
   assert.match(errorsOf({ engine: "vox" }), /unknown engine "vox"/);
-  // Qwen3-TTS can clone too (its Base weights)
-  const q = takeCommand(SETTINGS, dir, takeRequests(plan({ ...ali, engine: "qwen3" }, { lines: STORY.lines.slice(0, 2) }), dir)[0], join(dir, "o.wav")).job;
-  assert.equal(q.mode, "clone");
+  // Qwen3-TTS never clones an existing voice: only Audar does (the user's rule)
+  assert.match(errorsOf({ ...ali, engine: "qwen3" }), /Qwen3-TTS only designs new voices.*Audar-TTS Turbo only/);
+  assert.throws(() => takeCommand(SETTINGS, dir, { who: "ali", engine: "qwen3", voice: { ...ali, engine: "qwen3" }, chunks: ["Hi."] }, join(dir, "o.wav")), /only Audar-TTS Turbo clones/);
 });
 
 test("an Arabic description: Qwen3-TTS designs an English reference first, then Audar clones it", async () => {
@@ -226,7 +226,26 @@ test("a picked take becomes a reference and a library voice that later videos cl
   assert.deepEqual(r.lines, [1, 3]);
   assert.equal(r.referenceText, "Hello Ahmed. I am fine, thank you!", "the script's words, not the spoken form");
   assert.ok(existsSync(join(dir, "refs", "ali.wav")) && existsSync(join(library, "ali", "reference_en.wav")));
-  assert.equal(JSON.parse(readFileSync(join(library, "ali", "voice.json"), "utf8")).referenceText_en, "Hello Ahmed. I am fine, thank you!");
+  const saved = JSON.parse(readFileSync(join(library, "ali", "voice.json"), "utf8"));
+  assert.deepEqual({ ...saved.languages.en, from: undefined, voiceId: undefined }, { file: "reference_en.wav", text: "Hello Ahmed. I am fine, thank you!", voiceId: undefined, voiceName: "ali_en", workerMode: "design", from: undefined,
+    settings: { temperature: null, topK: null, topP: null, repeatPenalty: null, seed: 11 } }, "the take's seed and settings are kept");
+  assert.match(saved.languages.en.voiceId, /^design:[0-9a-f]{8}$/);
+  // every generated take records its words, voice, mode and settings next to the audio
+  const takeRec = JSON.parse(readFileSync(join(dir, "voice-takes", "en", "ali", "take-1.json"), "utf8"));
+  assert.deepEqual([takeRec.voiceName, takeRec.workerMode, takeRec.engine, takeRec.language, takeRec.settings.seed], ["ali", "design", "qwen3", "en", 11]);
+  assert.equal(takeRec.text, "Hello Ahmed.\nI am fine... thank you!", "the words sent to the model");
+  // and so does the reference cut from it
+  const refRec = JSON.parse(readFileSync(join(dir, "refs", "ali.json"), "utf8"));
+  assert.deepEqual([refRec.text, refRec.workerMode, refRec.settings.seed], ["Hello Ahmed. I am fine, thank you!", "design", 11]);
+  // cloning that reference uses its record: its words, its settings, and its seed for take 1
+  writeFileSync(join(dir, "refs", "ali.json"), JSON.stringify({ ...refRec, settings: { temperature: 0.6, topK: 30, topP: 0.85, repeatPenalty: 1.05, seed: 777 } }));
+  const again = project({ language: "en", voices: { ali: { reference: "refs/ali.wav" } }, lines: [{ who: "ali", text: "Again." }] });
+  mkdirSync(join(again, "refs"));
+  for (const f of ["ali.wav", "ali.json"]) copyFileSync(join(dir, "refs", f), join(again, "refs", f));
+  const againPlan = readVoicePlan(again);
+  assert.equal(againPlan.voices.ali.referenceText, "Hello Ahmed. I am fine, thank you!");
+  assert.deepEqual(againPlan.voices.ali.options, { temperature: 0.6, top_k: 30, top_p: 0.85, repeat_penalty: 1.05 });
+  assert.deepEqual(takeRequests(againPlan, again).map((r) => r.seed), [777, 788, 799]);
   assert.throws(() => makeReference(dir, "ali", 1, { save: "ali", library }), /already has a en voice/);
   const next = project({ language: "en", voices: { bob: { library: "ali" } }, lines: [{ who: "bob", text: "Hi there." }] });
   const plan = readVoicePlan(next, undefined, { library });
@@ -239,9 +258,14 @@ test("a picked take becomes a reference and a library voice that later videos cl
   // an Arabic reference next to the English one: each language uses its own
   writeFileSync(join(library, "ali", "reference_ar.wav"), readFileSync(join(library, "ali", "reference_en.wav")).subarray(0, 4000));
   const json = JSON.parse(readFileSync(join(library, "ali", "voice.json"), "utf8"));
-  writeFileSync(join(library, "ali", "voice.json"), JSON.stringify({ ...json, referenceText_ar: "مرحبا يا أحمد" }));
+  writeFileSync(join(library, "ali", "voice.json"), JSON.stringify({ ...json, languages: { ...json.languages, ar: { file: "reference_ar.wav", text: "مرحبا يا أحمد", voiceId: "user:x", voiceName: "ali_ar", workerMode: "clone", settings: { temperature: 0.7, topK: 35, topP: 0.9, repeatPenalty: 1.1, seed: 1579 } } } }));
   const arPlan = readVoicePlan(ar, undefined, { library });
   assert.equal(arPlan.voices.bob.referenceText, "مرحبا يا أحمد");
+  assert.deepEqual(arPlan.voices.bob.options, { temperature: 0.7, top_k: 35, top_p: 0.9, repeat_penalty: 1.1 }, "the reference's settings are the defaults");
+  assert.deepEqual(takeRequests(arPlan, ar).map((r) => r.seed), [1579, 1590, 1601], "its seed makes take 1");
+  // tts.json options win over the library's settings
+  const own = project({ language: "ar", voices: { bob: { library: "ali", options: { temperature: 1 } } }, lines: [{ who: "bob", text: "مرحبا" }] });
+  assert.equal(readVoicePlan(own, undefined, { library }).voices.bob.options.temperature, 1);
   assert.match(arPlan.voices.bob.reference, /reference_ar\.wav$/);
   assert.ok(!arPlan.warnings.some((w) => /cross-lingual/.test(w)));
   assert.match(readVoicePlan(next, undefined, { library }).voices.bob.reference, /reference_en\.wav$/, "English still uses the English one");

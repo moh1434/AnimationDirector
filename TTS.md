@@ -17,6 +17,30 @@ a voice designed here from a description. Never use, copy or clone a WAV from an
 `voices` refuses a `reference` or `file` outside the project and `voices-library/`; copying it in is
 just as forbidden.
 
+**Every generated audio keeps its generation record** (the user's rule). Next to each `<name>.wav` goes
+`<name>.json` with:
+
+```json
+{
+  "text": "the exact words sent to the model",
+  "voiceId": "library:narrator_ar",
+  "voiceName": "narrator_ar",
+  "workerMode": "clone",
+  "settings": { "temperature": 0.7, "topK": 35, "topP": 0.9, "repeatPenalty": 1.1, "seed": 1579 }
+}
+```
+
+`voiceId` says which voice made it: `library:<id>_<lang>`, `reference:<path>`, or `design:<…>` for a voice
+designed from a description; `workerMode` is `clone`, `design` or `design+clone`. `voices` writes it into
+each `take-N.json` (and `design-*.json`), `voice-ref` into `refs/<who>.json` and, with `--save`, into
+`voices-library/<id>/voice.json` (`languages.<lang>`). **Generating audio any other way** (a script of
+your own, a one-off test): write the same `<name>.json` yourself, with the real settings and seed.
+
+**Cloning uses it.** A `reference` with a record next to it (`refs/bob.wav` + `refs/bob.json`) and a library
+voice (`languages.<lang>.settings`) are cloned with the same settings, take 1 with the same seed (the next
+takes add 11 each), and the record's `text` when `referenceText` is left out. A project's `"options"`
+still win over the record.
+
 **The voice sets the speed of the video.** Takes are never slowed down, sped up or stretched to fit
 the picture; the storyboard is fitted to the voice, and the video may run longer than the voice, never
 shorter (STORY_MODE.md, "Pacing").
@@ -25,7 +49,7 @@ shorter (STORY_MODE.md, "Pacing").
 
 | | Audar-TTS Turbo (`audar`, the default) | Qwen3-TTS 1.7B (`qwen3`) |
 |---|---|---|
-| Makes a voice from | a **reference recording** (5–15 s) + its exact words | a **description** (VoiceDesign weights), or a reference (Base weights) |
+| Makes a voice from | a **reference recording** (5–15 s) + its exact words | a **description** only (VoiceDesign weights); it never clones |
 | Languages | **English and Arabic** (and code-switching) | **English only** |
 | Strong at | cloning a saved voice, in both languages | inventing a new voice for a new character |
 | Tags | `[laughs]` `[curious]` `[excited]` `[sighs]` `[exhales]` `[mischievously]` `[whispers]` `[sarcastic]` | none (the delivery goes in the description) |
@@ -33,8 +57,8 @@ shorter (STORY_MODE.md, "Pacing").
 
 Which engine a voice uses, when it does not say `"engine"`:
 
-- `library` or `reference` → **Audar** clones it (English or Arabic). `"engine": "qwen3"` clones with
-  Qwen3-TTS instead (English only).
+- `library` or `reference` → **Audar** clones it (English or Arabic). **Only Audar clones an existing
+  voice**: `"engine": "qwen3"` with a reference or library voice is refused (the user's rule).
 - `description` in an English video → **Qwen3-TTS** designs the voice.
 - `description` in an Arabic video → Qwen3-TTS first designs a short **English reference** from the
   description (`voice-takes/<lang>/<who>/design-*.wav`), then **Audar** clones it to speak the Arabic lines.
@@ -49,7 +73,7 @@ A voice made from a description is **a different person in every separate genera
 character speaks **all of their lines in one take**, in script order:
 
 - a **designed** take (Qwen3-TTS from a description) is one generation holding every line;
-- a **cloned** take (Audar, or Qwen3-TTS Base) is made a few whole lines at a time (Audar makes at most
+- a **cloned** take (always Audar) is made a few whole lines at a time (Audar makes at most
   ~36 s per generation) from the same reference, and the parts are joined with a short pause. The
   reference keeps it the same person from part to part.
 
@@ -222,11 +246,11 @@ names in Latin letters (ChatGPT, Godot).
    `pnpm video voice-ref my-story ali=2`. It picks whole lines of that take, about 5–12 s, preferring
    lines whose words were heard right and that have no tags, and writes `refs/ali.wav` and
    `refs/ali.json` with the exact words. It prints the `voices` entry to use:
-   `"ali": { "reference": "refs/ali.wav", "referenceText": "…" }` (Audar; add `"engine": "qwen3"` for
-   Qwen3-TTS, English only).
+   `"ali": { "reference": "refs/ali.wav", "referenceText": "…" }` (cloned by Audar).
 2. **A character who will come back** is saved once: `pnpm video voice-ref my-story ali=2 --save ali`
    copies the reference into `voices-library/ali/` as `reference_<lang>.wav` (the take's language) and
-   writes its words to `voice.json` as `"referenceText_<lang>"`; saving another language adds to the same
+   writes `languages.<lang>` to `voice.json` (its words as `text`, and the take's seed and settings);
+   saving another language adds to the same
    folder. Any later video then writes `"ali": { "library": "ali" }` and gets the reference in its own
    language (another one, English first, when that language has none; `voices` warns). `--save` never
    replaces a saved language: other videos depend on it. Use `--overwrite` only when the user agrees.
@@ -276,7 +300,7 @@ replace a file of the user's.
   can record it and give that line a `file`.
 - **Long designed takes.** A designed take is one generation; over ~1400 characters `voices` warns:
   listen to the last lines.
-- **Qwen3-TTS speaks English only**, and Audar only clones; `voices` refuses both mistakes.
+- **Qwen3-TTS speaks English only and only designs; Audar only clones.** `voices` refuses each mistake.
 - **Whisper's check is a guide, not proof.** It can mishear names and short lines. The user's ears decide.
 - **Pacing.** Clips are trimmed to the speech, and their speed is never changed: the picture follows the
   voice (STORY_MODE.md, "Pacing"). If a voice is too fast or too slow for the character, change it and

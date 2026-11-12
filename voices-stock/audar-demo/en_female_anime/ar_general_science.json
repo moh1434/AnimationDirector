@@ -1,0 +1,15 @@
+{
+  "text": "هل تعلم أن الأخطبوط يمتلك ثلاثة قلوب؟ قلبان يضخان الدم إلى الخياشيم، بينما يتولى القلب الثالث توزيعه على بقية الجسم.",
+  "voiceId": "reference:voices-stock/audar-demo/en_female_anime/en_general_science.wav",
+  "voiceName": "en_general_science",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.8,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 11
+  }
+}

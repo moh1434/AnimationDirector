@@ -1,0 +1,15 @@
+{
+  "text": "كل قصة عظيمة تبدأ بلحظة واحدة. الليلة، أود أن أحكي لكم عن لحظة جميلة غيّرت كل شيء.",
+  "voiceId": "reference:voices-stock/audar-demo/en_female_anime/en_intro_youtuber.wav",
+  "voiceName": "en_intro_youtuber",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.8,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 11
+  }
+}

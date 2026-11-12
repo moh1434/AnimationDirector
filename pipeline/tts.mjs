@@ -10,13 +10,13 @@
 //   audar  Audar-TTS-V1-Turbo: clones a reference recording (+ its exact words), English and Arabic.
 //          A clone take is made in chunks of a few lines (one generation is at most ~36 s) and joined.
 //   qwen3  Qwen3-TTS 1.7B, English only: designs a new voice from a description (VoiceDesign weights;
-//          the whole take in one generation, because a designed voice changes between generations),
-//          or clones a reference (Base weights).
+//          the whole take in one generation, because a designed voice changes between generations).
+//          It never clones: every clone of an existing voice is made by Audar (the user's rule).
 // A new character in an Arabic video (description, no reference) gets an English reference designed by
 // Qwen3-TTS first, which Audar then clones. A picked take can be cut into a reference (voice-ref) and kept
 // in voices-library/ so the character sounds the same in every video.
 import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync, rmSync, statSync, copyFileSync, readdirSync } from "node:fs";
-import { join, resolve, dirname, basename, relative } from "node:path";
+import { join, resolve, dirname, basename, relative, sep } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { ROOT, findFfmpeg } from "./env.mjs";
@@ -28,7 +28,7 @@ const RATE = DIALOGUE_RATE;
 export const AUDAR_TAGS = ["laughs", "curious", "excited", "sighs", "exhales", "mischievously", "whispers", "sarcastic"];
 export const ENGINES = {
   audar: { name: "Audar-TTS Turbo", env: "TTS_AUDAR_DIR", worker: "audar_worker.py", weights: ["weights"], options: ["seed", "temperature", "top_k", "top_p", "repeat_penalty"], defaults: {}, tags: AUDAR_TAGS, languages: ["en", "ar"], design: false, chunkChars: 240 },
-  qwen3: { name: "Qwen3-TTS", env: "TTS_QWEN3_DIR", worker: "qwen3_worker.py", weights: ["weights", "weights-base"], options: ["seed", "temperature", "top_k", "top_p"], defaults: {}, tags: [], languages: ["en"], design: true, chunkChars: 400 },
+  qwen3: { name: "Qwen3-TTS", env: "TTS_QWEN3_DIR", worker: "qwen3_worker.py", weights: ["weights"], options: ["seed", "temperature", "top_k", "top_p"], defaults: {}, tags: [], languages: ["en"], design: true, chunkChars: 400 },
 };
 /** The English sentence a designed reference speaks when Audar must clone a voice made from a description (about 10 s). */
 export const DESIGN_TEXT = "Hello there, it is good to meet you. I have a story to tell today, so sit back, get comfortable, and listen closely, because every word of it matters.";
@@ -86,17 +86,48 @@ export const settingsProblems = (settings, engines) => [...settings.errors, ...[
 
 /* ---------------- the character voice library ---------------- */
 
+/** voice.json "settings" (camelCase, as the user's voice tool writes them) → Audar options. Empty values are skipped. */
+const SETTING_NAMES = { temperature: "temperature", topK: "top_k", topP: "top_p", repeatPenalty: "repeat_penalty", seed: "seed" };
+export function settingsToOptions(settings) {
+  const out = {};
+  for (const [k, o] of Object.entries(SETTING_NAMES)) if (typeof settings?.[k] === "number") out[o] = settings[k];
+  return out;
+}
+/** Audar options → voice.json "settings". */
+export const optionsToSettings = (o = {}) => Object.fromEntries(Object.entries(SETTING_NAMES).map(([k, n]) => [k, typeof o[n] === "number" ? o[n] : null]));
 /**
- * The languages a saved voice has a reference for: reference_<lang>.wav with "referenceText_<lang>"
- * in voice.json (an older voice may have one reference.wav with "referenceText" and "language").
+ * What every generated audio file records next to it (the user's rule: keep this for each generation):
+ * the words, which voice made it, how (clone / design / design+clone) and the exact settings and seed.
+ */
+export function generationRecord({ text, voice = {}, who, engine, mode, options = {}, language, designedReference, dir = ROOT }) {
+  const lang = voice.libraryLanguage ?? language;
+  const voiceName = voice.library ? `${voice.library}_${lang}` : who ?? null;
+  const voiceId = voice.library ? `library:${voice.library}_${lang}`
+    : voice.reference ? `reference:${relative(ROOT, resolve(dir, String(voice.reference))).split(sep).join("/")}`
+    : designedReference ? `design:${designedReference}`
+    : voice.description ? `design:${sha(voice.description).slice(0, 8)}` : null;
+  return { text, voiceId, voiceName, workerMode: mode ?? null, engine: engine ?? null, language: language ?? null, settings: optionsToSettings(options) };
+}
+
+/** One language of a voice.json, every key present (null = not known yet). */
+export const languageEntry = (lang, e = {}) => ({ file: e.file ?? `reference_${lang}.wav`, text: e.text ?? null, voiceId: e.voiceId ?? null, voiceName: e.voiceName ?? null, workerMode: e.workerMode ?? null, settings: { ...optionsToSettings(), ...(e.settings ?? {}) } });
+
+/**
+ * The languages a saved voice has a reference for. voice.json lists them under "languages":
+ * { "en": { "file", "text", "voiceId", "voiceName", "workerMode", "settings": { temperature, topK, topP,
+ * repeatPenalty, seed } }, … }. Older files used reference_<lang>.wav + "referenceText_<lang>" (still read).
  */
 export function libraryLanguages(id, library = LIBRARY) {
   const folder = join(library, id), f = join(folder, "voice.json");
   if (!ID.test(id) || !existsSync(f)) return null;
   const json = readJson(f), refs = {};
+  for (const [lang, e] of Object.entries(json.languages ?? {})) {
+    const file = join(folder, e?.file ?? `reference_${lang}.wav`);
+    if (existsSync(file)) refs[lang.toLowerCase()] = { reference: file, referenceText: e?.text ?? null, settings: e?.settings ?? {} };
+  }
   for (const file of readdirSync(folder)) {
     const m = file.match(/^reference_([a-z]{2,3})\.wav$/i);
-    if (m) refs[m[1].toLowerCase()] = { reference: join(folder, file), referenceText: json[`referenceText_${m[1].toLowerCase()}`] };
+    if (m && !refs[m[1].toLowerCase()]) refs[m[1].toLowerCase()] = { reference: join(folder, file), referenceText: json[`referenceText_${m[1].toLowerCase()}`] };
   }
   if (existsSync(join(folder, "reference.wav"))) refs[json.language ?? "en"] ??= { reference: join(folder, "reference.wav"), referenceText: json.referenceText };
   return { json, refs };
@@ -165,9 +196,22 @@ export function readVoicePlan(dir, lang, options = {}) {
       const lib = libraryVoice(String(v.library), options.library, language);
       if (!lib) { errors.push(`${label}: no voice "${v.library}" in voices-library/ (it needs reference_<language>.wav and voice.json; save one with: pnpm video voice-ref <project> ${who}=<take> --save ${v.library})`); return null; }
       if (v.reference || v.description) errors.push(`${label}: a "library" voice brings its own reference; leave out "reference" and "description"`);
-      if (!String(lib.referenceText ?? "").trim()) errors.push(`${label}: voices-library/${v.library}/voice.json needs "referenceText_${lib.referenceLanguage}", the exact words spoken in ${lib.file}`);
+      if (!String(lib.referenceText ?? "").trim()) errors.push(`${label}: voices-library/${v.library}/voice.json needs languages.${lib.referenceLanguage}.text, the exact words spoken in ${lib.file}`);
       if (lib.crossLingual) warnings.push(`${who}: voices-library/${v.library} has no ${language} reference; its ${lib.referenceLanguage} one speaks ${language} (cross-lingual). Add reference_${language}.wav for a closer voice.`);
-      v = { ...v, engine: v.engine ?? "audar", reference: lib.reference, referenceText: lib.referenceText, note: lib.description };
+      // the reference's own settings are the defaults (tts.json "options" still win); its seed starts the takes
+      const { seed: libSeed, ...libOptions } = settingsToOptions(lib.settings);
+      v = { ...v, engine: v.engine ?? "audar", reference: lib.reference, referenceText: lib.referenceText, note: lib.description, libraryLanguage: lib.referenceLanguage, options: { ...libOptions, ...(v.options ?? {}) } };
+      if (libSeed !== undefined && !v.seeds) v.seeds = [libSeed];
+    }
+    else if (v.reference && !outsideVoice(dir, v.reference, options.library)) {
+      // a recording with its generation record next to it (refs/bob.json for refs/bob.wav): clone it with the
+      // same settings, take 1 with its seed, and its words when "referenceText" is left out
+      const side = resolve(dir, String(v.reference)).replace(/\.wav$/i, ".json"), rec = existsSync(side) ? readJson(side) : null;
+      if (rec) {
+        const { seed: recSeed, ...recOptions } = settingsToOptions(rec.settings);
+        v = { ...v, referenceText: v.referenceText ?? rec.text ?? rec.referenceText, options: { ...recOptions, ...(v.options ?? {}) } };
+        if (recSeed !== undefined && !v.seeds) v.seeds = [recSeed];
+      }
     }
     // the default engine: Audar clones (English and Arabic); a description is designed by Qwen3-TTS
     // (English), or, in another language, designed by Qwen3-TTS as an English reference that Audar clones
@@ -180,6 +224,7 @@ export function readVoicePlan(dir, lang, options = {}) {
   };
   const checkSetup = (who, v, engine, E) => {
     if (!E.languages.includes(language)) errors.push(`${who}: ${E.name} does not speak "${language}" (only ${E.languages.join(", ")}); use "engine": "audar" for this language`);
+    if (v.reference && engine !== "audar") errors.push(`${who}: ${E.name} only designs new voices; an existing voice (a reference or a library voice) is cloned with Audar-TTS Turbo only. Remove "engine": "${engine}".`);
     if (v.reference) {
       const outside = outsideVoice(dir, v.reference, options.library);
       if (outside) errors.push(`${who}: reference ${outside}`);
@@ -326,6 +371,7 @@ export function takeCommand(settings, dir, req, out, { reference, referenceText,
   const job = { modelDir: settings.dirs?.[engine], language: req.language ?? "en", chunks: req.chunks ?? [req.text], pause: 0.35, seed, options, cooldown, out };
   if (ref) Object.assign(job, { mode: "clone", reference: ref, referenceText: referenceText ?? v.referenceText });
   else Object.assign(job, { mode: "design", description: v.description });
+  if (engine !== "audar" && job.mode === "clone") throw new Error(`${req.who}: only Audar-TTS Turbo clones an existing voice; ${E.name} only designs`);
   if (engine === "audar" && job.mode !== "clone") throw new Error(`${req.who}: Audar only clones; it needs a reference (a designed one is made first)`);
   const jobFile = out.replace(/\.wav$/i, "") + ".job.json";
   return { exe: settings.uv ?? "uv", args: ["run", "--no-sync", "--project", job.modelDir, "python", "-I", join(WORKERS, E.worker), jobFile], job, jobFile };
@@ -572,6 +618,7 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
           log(`Designing ${r.who}'s voice for take ${r.take} (qwen3, seed ${r.seed})…`);
           const fail = await generate({ who: r.who, engine: r.design.engine, voice: { description: r.design.description }, chunks: [r.design.text], language: "en", options: { seed: r.design.seed } }, designed);
           if (fail) { takes.push({ who: r.who, take: r.take, seed: r.seed, failed: `designing the voice: ${fail}` }); log(`  failed: ${fail.split("\n")[0]}`); continue; }
+          writeJson(designed.replace(/\.wav$/i, ".json"), generationRecord({ text: r.design.text, voice: { description: r.design.description }, who: r.who, engine: r.design.engine, mode: "design", options: { seed: r.design.seed }, language: "en", dir }));
         }
       }
       await rest();
@@ -580,7 +627,8 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
       const fail = await generate(r, pending, designed ? { reference: designed, referenceText: r.design.text } : {});
       if (fail) { takes.push({ who: r.who, take: r.take, seed: r.seed, failed: fail }); log(`  failed: ${fail.split("\n")[0]}`); continue; }
       renameSync(pending, wav);
-      entry = { who: r.who, take: r.take, engine: r.engine, mode: r.mode, seed: r.seed, key: r.key, text: r.text, lines: r.lines.map((l) => ({ index: l.index, text: l.text })), ...(designed && { designedReference: basename(designed) }), seconds: Math.round((Date.now() - t0) / 100) / 10 };
+      entry = { ...generationRecord({ text: r.text, voice: r.voice, who: r.who, engine: r.engine, mode: r.mode, options: r.options, language: r.language, designedReference: designed && basename(designed), dir }),
+        who: r.who, take: r.take, engine: r.engine, mode: r.mode, seed: r.seed, key: r.key, text: r.text, lines: r.lines.map((l) => ({ index: l.index, text: l.text })), ...(designed && { designedReference: basename(designed) }), seconds: Math.round((Date.now() - t0) / 100) / 10 };
     }
     const audio = sha(readFileSync(wav));
     if (entry.audio !== audio || entry.heard == null) {
@@ -797,17 +845,23 @@ export function makeReference(dir, who, take, { lang, save, library = LIBRARY, o
   const rel = `refs/${who}.wav`;
   mkdirSync(join(dir, "refs"), { recursive: true });
   writeFileSync(join(dir, rel), audio);
-  writeJson(join(dir, `refs/${who}.json`), { reference: rel, ...meta });
+  // the take's voice, mode, settings and seed travel with the reference, so a clone of it can use them
+  const req = takeRequests(plan, dir, { only: [who] }).find((r) => r.take === take);
+  const opts = req?.options ?? {};
+  const record = generationRecord({ text, voice: v, who, engine: engineOf(v), mode: req?.mode, options: opts, language: plan.language, dir });
+  writeJson(join(dir, `refs/${who}.json`), { reference: rel, ...meta, ...record, text });
   let saved = null;
   if (save) {
     if (!ID.test(save)) throw new Error(`--save needs a lower-case id such as "ali" (got "${save}")`);
-    // one reference per language: reference_<lang>.wav + "referenceText_<lang>"; other languages stay
+    // one reference per language: languages.<lang> in voice.json (file, text, settings); other languages stay
     const folder = join(library, save), lang = plan.language, wavName = `reference_${lang}.wav`, f = join(folder, "voice.json");
     if (libraryLanguages(save, library)?.refs[lang] && !overwrite) throw new Error(`voices-library/${save} already has a ${lang} voice. It is the voice other videos use for "${save}"; pick another name, or add --overwrite only if the user agrees to replace it.`);
     mkdirSync(folder, { recursive: true });
     copyFileSync(join(dir, rel), join(folder, wavName));
     const old = existsSync(f) ? readJson(f) : {};
-    writeJson(f, { id: save, ...old, [`referenceText_${lang}`]: text, description: old.description ?? meta.description, [`from_${lang}`]: `${meta.from}, project ${basename(dir)}, ${new Date().toISOString()}` });
+    const entry = languageEntry(lang, { file: wavName, text, voiceId: record.voiceId, voiceName: `${save}_${lang}`, workerMode: record.workerMode, settings: optionsToSettings(opts) });
+    entry.from = `${meta.from}, project ${basename(dir)}, ${new Date().toISOString()}`;
+    writeJson(f, { id: save, ...old, description: old.description ?? meta.description, languages: { ...(old.languages ?? {}), [lang]: entry } });
     saved = relative(ROOT, folder).replace(/\\/g, "/");
   }
   return { reference: rel, referenceText: text, seconds: meta.seconds, clean: best.clean, lines: lines.slice(best.a, best.b + 1).map((l) => l.index + 1), saved };

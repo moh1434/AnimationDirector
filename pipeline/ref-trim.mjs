@@ -107,21 +107,25 @@ export function trimReference(file, { text, language = languageOf(file) ?? "en",
 
 /**
  * Shorten every reference_<lang>.wav of a voices-library folder that is longer than `max`, and
- * write the words left to voice.json ("referenceText_<lang>"). The old voice.json is kept in full/.
+ * write the words left to voice.json (languages.<lang>.text). The old voice.json is kept in full/.
  */
 export function trimLibraryVoice(folder, { max = MAX_REFERENCE_SECONDS, hear = hearMany, cooldown = () => {} } = {}) {
   const jsonFile = join(folder, "voice.json");
   const json = existsSync(jsonFile) ? JSON.parse(readFileSync(jsonFile, "utf8")) : {};
   const results = [];
   let changed = false;
-  for (const f of readdirSync(folder).filter((f) => /^reference_[a-z]{2}\.wav$/i.test(f)).sort()) {
-    const lang = f.slice(10, 12).toLowerCase(), key = `referenceText_${lang}`;
+  // languages.<lang>.file/.text (or the older reference_<lang>.wav + "referenceText_<lang>")
+  const entries = json.languages
+    ? Object.entries(json.languages).map(([lang, e]) => ({ lang, file: e?.file ?? `reference_${lang}.wav`, get: () => e?.text, set: (t) => { e.text = t; } }))
+    : readdirSync(folder).filter((f) => /^reference_[a-z]{2}\.wav$/i.test(f)).sort().map((f) => { const lang = f.slice(10, 12).toLowerCase(), key = `referenceText_${lang}`; return { lang, file: f, get: () => json[key], set: (t) => { json[key] = t; } }; });
+  for (const e of entries) {
+    if (!existsSync(join(folder, e.file))) continue;
     if (results.some((r) => r.trimmed)) cooldown();
-    const r = trimReference(join(folder, f), { text: json[key], language: lang, max, hear });
+    const r = trimReference(join(folder, e.file), { text: e.get() ?? undefined, language: e.lang, max, hear });
     results.push(r);
     if (r.trimmed && r.kept) {
       if (!changed && existsSync(jsonFile)) copyFileSync(jsonFile, join(folder, "full", "voice.json"));
-      json[key] = r.kept; changed = true;
+      e.set(r.kept); changed = true;
     }
   }
   if (changed) writeFileSync(jsonFile, JSON.stringify(json, null, 2) + "\n");

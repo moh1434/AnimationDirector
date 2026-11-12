@@ -1,0 +1,15 @@
+{
+  "text": "وقف أمام المنزل القديم، يتأمل النافذة التي اعتاد أن يرى أمه خلفها كل مساء. مرّت سنوات طويلة، لكن ذكرياته هناك لم تتغير.",
+  "voiceId": "reference:voices-stock/audar-demo/en_female_anime/en_story_emotional.wav",
+  "voiceName": "en_story_emotional",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.8,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 11
+  }
+}

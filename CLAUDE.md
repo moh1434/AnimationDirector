@@ -8,6 +8,8 @@ Project skills in `.claude/skills/`: story-video-direction, layout-composition, 
 assets, color-harmony, final-pass — use them when directing, laying out, scoring, drawing, colouring or checking a video.
 A smaller local model should follow [LOCAL_MODEL_GUIDE.md](LOCAL_MODEL_GUIDE.md) instead; for you it is optional.
 
+To remove a silent moment from a voice file, follow [SILENCE_TRIMMING.md](SILENCE_TRIMMING.md) (keep 0.1 s at the start, 0.4 s elsewhere).
+
 **One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
 
 This folder is a voice-led cartoon video pipeline (Remotion + GSAP + HyperFrames + Tone.js +
@@ -30,6 +32,10 @@ grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before w
    **A new character you draw who speaks gets a new voice** the same way (check `voices-library/` first;
    TTS.md, "New characters"); the user's own recordings are kept. Offer `voice-ref --save` for a
    character who will come back.
+   **Every generated audio keeps its record**: `<name>.json` next to the `.wav` with `text`, `voiceId`,
+   `voiceName`, `workerMode` and `settings` (temperature, topK, topP, repeatPenalty, seed). `voices` and
+   `voice-ref` write it; write it yourself for any audio you generate another way. Clones reuse a reference's
+   or library voice's settings and seed (TTS.md, "Every generated audio keeps its generation record").
    **Voices come only from inside this folder** (the project, `voices-library/`, the candidates in
    `voices-stock/`, or a voice designed here). Never use or copy a WAV from `..\TTS_comparison\` or anywhere else, even though `..\AGENTS.md`
    lists references there; this overrides it (AGENTS.md, "Voices from text").

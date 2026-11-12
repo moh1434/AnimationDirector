@@ -1,8 +1,0 @@
-{
-  "id": "demo_female_3",
-  "gender": "female",
-  "description": "Female, airy, dreamy (Audar's own words for it).",
-  "referenceText_en": "You won't believe the view from up here — [excited] the whole city is glowing at sunset, [laughs] it honestly looks just like a dream!",
-  "referenceText_ar": "لن تصدّقي هذا المنظر من هنا — [excited] المدينة كلّها تتلألأ عند الغروب، [laughs] وكأنّها لوحةٌ من حلمٍ جميل!",
-  "source": "Audar-TTS-V1-Turbo voice gallery (weights/samples/demo_female_3_*.wav), synthetic voice, free to use (weights/README.md, \"Voice Gallery\"). source.wav is the gallery's reference voice; its words are not published, so it is for listening only."
-}

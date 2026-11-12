@@ -1,0 +1,8 @@
+{
+  "id": "demo_female_2",
+  "gender": "female",
+  "description": "Female, velvety, playful (Audar's own words for it).",
+  "referenceText_en": "Okay, lean in for just a moment — [whispers] I found the most perfect little café downtown, [mischievously] and it is going to be our new secret spot.",
+  "referenceText_ar": "حسناً، اقتربي قليلاً — [whispers] وجدتُ مقهىً صغيراً رائعاً في وسط المدينة، [mischievously] وسيكون مكاننا السريّ الجديد!",
+  "source": "Audar-TTS-V1-Turbo voice gallery (weights/samples/demo_female_2_*.wav), synthetic voice, free to use (weights/README.md, \"Voice Gallery\"). source.wav is the gallery's reference voice; its words are not published, so it is for listening only."
+}
