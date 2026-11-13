@@ -1,6 +1,6 @@
 # The World's Unluckiest Thief
 
-Directed by claude · 31 scenes · 60 fps. Generated from `storyboard.json` (edit that file, not this one); see STORYBOARD_GUIDE.md in the tool folder.
+Directed by claude · 31 scenes · 30 fps. Generated from `storyboard.json` (edit that file, not this one); see STORYBOARD_GUIDE.md in the tool folder.
 
 | # | time | narration | visuals | ground |
 |---|---|---|---|---|
