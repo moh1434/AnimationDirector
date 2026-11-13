@@ -101,7 +101,14 @@ export type Scene = {
   symbol?: string; // compare: vs | = | ≠ | > | <
   number?: { value: number; from?: number; prefix?: string; suffix?: string; label?: string; decimals?: number; group?: boolean; at?: At };
   image?: { src: string; caption?: string; at?: At; fit?: "contain" | "cover" };
-  camera?: { zoom?: [number, number]; pan?: [number, number]; shake?: At[]; punch?: At[]; focus?: { x: number; y: number } };
+  /**
+   * zoom/pan run over the whole scene. "on" aims at a cast member's face and centres them (a close shot).
+   * moves change the shot inside the scene: at a time, to a zoom, onto a character (on) or a point (focus);
+   * duration 0 is a cut, the default 0.55 s a push. tilt is a slow roll in degrees; drift (default on) is a hand-held sway.
+   */
+  camera?: { zoom?: [number, number]; pan?: [number, number]; shake?: At[]; punch?: At[]; focus?: { x: number; y: number }; on?: string; tilt?: [number, number]; drift?: boolean; moves?: { at: At; zoom?: number; on?: string; focus?: { x: number; y: number }; duration?: number }[] };
+  /** The scene's lighting. Default: chosen from the background (day outdoors, warm indoors, night at night). */
+  light?: "day" | "warm" | "cool" | "dusk" | "night" | "spot" | "none";
   transition?: "cut" | "whip" | "iris" | "flash" | "zoom" | "fade" | "slide";
   actions?: Action[];
   sfx?: { at: At; name: string; gain?: number }[];

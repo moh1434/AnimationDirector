@@ -60,6 +60,7 @@ export function writeBrief(dir, { analysis, segments, settings, storyboard }) {
     "- Show the verb or consequence, not only a named prop. Plan setup, change and a readable result; use existing actions, props/items, at/out and supported layouts.",
     "- A mechanism can carry the picture without a visible host. Use speaker: none for an off-screen narrator; this does not remove narration audio.",
     "- Use one focal change at a time. Reactions follow the event; camera movement needs a purpose. A deliberate hold is valid.",
+    "- Frame like a film (ART_STYLE.md): show where we are, then go closer. camera.on aims at a cast member's face; camera.moves change the shot inside a scene (duration 0 cuts to a reaction, the default pushes in on a line). A person should usually fill a third of the frame height or more.",
     "- Keep captions readable in their reserved band; diagram labels name parts or values instead of duplicating the sentence. Preserve Arabic shaping and reading order.",
     "- Check the opening, cause, result and transition frames, then watch the sequence at playback speed. Geometry checks alone cannot judge whether it explains the line.", "");
   if (storyboard?.scenes?.length) {
@@ -250,6 +251,7 @@ export function validateStoryboard(sb, { words = [], voiced = [], duration, proj
       isAt(x.at, sceneWords, `${at}, sfx[${j}].at`);
     });
     for (const k of ["punch", "shake"]) (s.camera?.[k] ?? []).forEach((a, j) => isAt(a, sceneWords, `${at}, camera.${k}[${j}]`));
+    (s.camera?.moves ?? []).forEach((m, j) => isAt(m.at, sceneWords, `${at}, camera.moves[${j}].at`));
     if (s.bubble) {
       if (!s.bubble.text && !s.bubble.prop) E(`${at}, bubble`, `needs "text" or "prop"`);
       if (s.bubble.prop && !isProp(s.bubble.prop)) E(`${at}, bubble.prop`, `"${s.bubble.prop}" is not a drawing.${propHint(s.bubble.prop, c, customProps)}`);

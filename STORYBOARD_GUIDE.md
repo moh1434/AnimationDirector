@@ -18,16 +18,18 @@ or layout across related beats when that helps understanding; 3–7 s is a draft
 not a requirement to reset the picture. A host is useful for personality and reactions, but
 a mechanism or geographic explanation can carry the picture without a visible narrator.
 The notes below describe the original house-style references, not every newer reference.
+The look itself (lighting, shading, camera, transitions) is in [ART_STYLE.md](ART_STYLE.md).
 
 * **One idea per shot, 3–7 s.** A shot changes when the narration moves on. Long lines are split.
 * **A narrator character on screen most of the time**, talking (lip-synced) and gesturing at things.
-* **Flat, saturated grounds** that change colour from shot to shot (mint, yellow, lilac, sky, peach…).
+* **Saturated grounds** (lit by the renderer: see ART_STYLE.md) that change colour from shot to shot (mint, yellow, lilac, sky, peach…).
   Space topics use a starry ground; history uses warm/paper tones; title cards use black.
 * **Big simple objects with faces** (a smug sun, a worried Earth, a scared rock). Objects appear
   exactly when they are *said*.
 * **Very little text**: a word-tag under an object, a big one-word card ("Yes!"), a name card, a number.
-* **Limited animation**: poses hold, then snap to the next pose; eyes blink; mouths flap; things pop in
-  with squash & stretch; small camera push-ins and punch-zooms on surprises.
+* **Pose-to-pose animation**: poses hold, then move to the next pose with anticipation and overshoot;
+  eyes blink; mouths follow the words; things pop in with squash & stretch; the camera frames close,
+  cuts to reactions and pushes in on surprises.
 * Comedy beats: a confused face + "?", a shrug on "but…", a celebration on good news.
 
 ---
@@ -269,9 +271,23 @@ Leave diagram faces off to keep roots, liquid levels and markings unobscured.
 
 ## Camera & transitions
 
-`camera: {zoom:[from,to], pan:[dx,dy], punch:[times], shake:[times], focus:{x,y}}` — a slow push-in
-is applied by default; `punch` = quick zoom bump on a surprising word; `shake` = impact.
-`transition` (into this scene): cut (default, like the references), whip, iris, flash, zoom, fade, slide.
+`camera: {zoom:[from,to], pan:[dx,dy], punch:[times], shake:[times], focus:{x,y}, on, moves, tilt, drift}` — a slow
+push-in and a slight hand-held drift are applied by default; `punch` = quick zoom bump on a surprising
+word; `shake` = impact.
+
+* `on: "berry"` aims at that cast member's face and centres them (a close shot; use `zoom` 1.8–2.0).
+* `moves: [{at, zoom, on, focus, duration}]` change the shot inside the scene. `at` takes seconds, `"@word"` or
+  `"clip:N"`. `duration: 0` is a cut, the default 0.55 s a push-in. Example: cut to the listener's face on a word:
+  `{"at": "@work", "zoom": 1.9, "on": "berry", "duration": 0}`; back to both: `{"at": "clip:4", "zoom": 1.4, "focus": {"x": 0.5, "y": 0.84}}`.
+* `tilt: [from, to]` rolls the camera slowly (degrees). `drift: false` holds the shot perfectly still.
+* Frame close: a person should usually fill a third of the frame height or more. In dialogue, change the shot
+  every 2–4 s with `moves` and keep the setting.
+
+`light` (per scene): `day warm cool dusk night spot none`. Left out, it follows the background (day outdoors, warm
+indoors, night at night). `spot` is a spotlight on a dark frame, for a punchline or an aside.
+
+`transition` (into this scene): cut (default), whip (sideways streak), slide (push), zoom (through the picture),
+iris (circle opens), flash (white), fade. See ART_STYLE.md for when to use each.
 
 ## Sound
 

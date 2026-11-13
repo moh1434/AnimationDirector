@@ -91,6 +91,7 @@ export function compile(storyboard, analysis, { format }) {
     fix(sc.image);
     if (sc.camera) {
       for (const k of ["punch", "shake"]) if (sc.camera[k]) sc.camera[k] = sc.camera[k].map((a) => resolveAt(a, sc, sw, sb.dialogue)).filter((x) => x !== undefined);
+      if (sc.camera.moves) sc.camera.moves = sc.camera.moves.map((m) => ({ ...m, at: resolveAt(m.at, sc, sw, sb.dialogue) })).filter((m) => m.at !== undefined).sort((a, b) => a.at - b.at);
     }
     // default stagger for elements without times
     let k = 0;

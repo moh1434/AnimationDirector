@@ -4,7 +4,8 @@
 
 This is the user's existing voice-led cartoon production pipeline. Read README.md,
 STORYBOARD_GUIDE.md and CLAUDE.md before changing it. Preserve the user's edits,
-storyboard decisions, original narration, timings, and flat illustrated art direction.
+storyboard decisions, original narration, timings, and the art direction in ART_STYLE.md
+(a lit cartoon: flat drawings that the renderer shades and lights).
 
 ## Voices from text (Audar-TTS Turbo, Qwen3-TTS)
 
@@ -77,11 +78,11 @@ never shorter.
 - Supplementary motion/design guidance: `remotion-motion-graphics`, installed at
   `C:/Users/lenovo/.codex/skills/remotion-motion-graphics/SKILL.md`.
   Use its render/inspect/fix workflow and appropriate motion patterns.
-- These project requirements override the community skill's universal aesthetic
-  prescriptions: solid backgrounds, intentional stillness, simple cuts, linear
-  constant-speed motion, and restrained effects are all valid here. Do not add
-  gradient meshes, grain, vignettes, camera motion, or movement to every element
-  merely to satisfy that skill. Do not refactor unrelated scenes for style compliance.
+- The project's own style (ART_STYLE.md) overrides the community skill's universal aesthetic
+  prescriptions. Lighting, cel shade, grain, vignette, depth blur and the hand-held camera drift
+  are applied by the renderer to every scene (`light.tsx`, `shade.tsx`, `Scene.tsx`): do not add
+  another layer of them per scene, and do not draw gradients or shadows into single assets.
+  Intentional stillness and plain cuts remain valid. Do not refactor unrelated scenes for style compliance.
 - Official guidance is the primary API reference, but verify its examples against
   the installed packages. After the requested upgrade, this project and the
   installed official skill both use 4.0.540; recheck versions on future updates.

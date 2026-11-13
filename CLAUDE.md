@@ -15,8 +15,9 @@ To remove a silent moment from a voice file, follow [SILENCE_TRIMMING.md](SILENC
 This folder is a voice-led cartoon video pipeline (Remotion + GSAP + HyperFrames + Tone.js +
 pretty_midi + pedalboard). The user supplies a narration `.wav`, the story text and time segments;
 the pipeline makes YouTube (16:9) and Shorts (9:16) videos in the style of
-`..\Source Videos To Train On` (round-headed cartoon characters, objects with faces, flat colourful
-grounds, limited animation). Read `README.md` and `STORYBOARD_GUIDE.md` before working here.
+`..\Source Videos To Train On` (round-headed cartoon characters, objects with faces), now drawn as a
+**lit cartoon**: the renderer shades every drawing and lights every scene, and the camera frames
+close and changes shots. Read [ART_STYLE.md](ART_STYLE.md), `README.md` and `STORYBOARD_GUIDE.md` before working here.
 
 ## When the user asks for a video
 

@@ -7,8 +7,8 @@ description: Use when directing a video in this pipeline — turning the narrati
 
 The voice is the spine. Every visual decision is timed to a word the viewer hears, and the picture
 explains or comments on that word — never competes with it. The style is the one in
-`..\Source Videos To Train On`: round-headed cartoon narrator, objects with faces, flat colour
-grounds, limited (pose-to-pose) animation, very little text.
+`..\Source Videos To Train On`: round-headed cartoon narrator, objects with faces, pose-to-pose animation, very little text,
+shaded and lit by the renderer and shot close (`ART_STYLE.md`).
 
 Read `STORYBOARD_GUIDE.md` for the full field reference; this skill is about *choices*.
 For narrative stories also read `STORY_MODE.md`. Treat supplied script directions as creative
@@ -61,10 +61,14 @@ Its bundled voices are test placeholders; never present them as the final voiced
   what the voice says). `compile` warns when a title, note or bubble is up for less.
 - **Ease**: entrances overshoot a little (`back.out` / squash-and-stretch pops), exits are quick and
   plain. Human poses blend through the shared motion system, then hold; eyes blink and mouths follow audio.
-- **Camera**: a slow push-in is automatic. Use `punch` on the one surprising word in a scene,
-  `shake` only for impact. Not every scene needs a camera move.
-- **Transitions**: the reference style mostly cuts. Use `whip`/`zoom` to mark a new section, `flash`
-  into a title card. A transition always carries the eye somewhere — the screen should never sit
+- **Camera**: a slow push-in and a slight drift are automatic. Frame close: a wide shot to show where
+  we are, then `zoom` 1.3–1.5 on two people or `on` one face at 1.8–2.0. In dialogue change the shot
+  every 2–4 s with `camera.moves` (`duration: 0` cuts to the listener's reaction; the default pushes
+  in on a line). Use `punch` on the one surprising word, `shake` only for impact, `tilt` rarely.
+  Keep faces clear of the caption band.
+- **Transitions**: most changes are cuts. Use `whip` for a jump in time or place, `slide` for the next
+  step, `zoom` to go into a topic, `iris` for a chapter or the ending, `flash` into a title card.
+- **Light**: leave `light` out and the scene is lit from its background; `spot` isolates a punchline. A transition always carries the eye somewhere — the screen should never sit
   empty or black between shots.
 
 ## 4. Character acting

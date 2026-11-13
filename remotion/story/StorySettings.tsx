@@ -1,5 +1,6 @@
 import React from "react";
 import { INK, resolveColor } from "./theme";
+import { CelFilter } from "./shade";
 
 /**
  * Places a story happens in. Actors stand on the ground line at 82 % of the height, so every setting
@@ -11,17 +12,22 @@ export type TimeOfDay = "day" | "dusk" | "night";
 
 const GROUND = 0.82;
 const SKY: Record<TimeOfDay, string> = { day: "#bfe6ff", dusk: "#ffc59a", night: "#27336f" };
+const SKY_TOP: Record<TimeOfDay, string> = { day: "#7fc4ff", dusk: "#ff9d86", night: "#141b52" };
+const SKY_LOW: Record<TimeOfDay, string> = { day: "#e8f7ff", dusk: "#ffe2b0", night: "#3b4a94" };
 const DARK: Record<TimeOfDay, [string, number]> = { day: ["#000", 0], dusk: ["#a1425e", 0.16], night: ["#10163f", 0.5] };
 const ROOM_DARK = "#2a2f6b"; // indoors a blue dusk reads better than the outdoor black
 const GLOW = "#ffe08a";
 const st = { stroke: INK, strokeWidth: 6, strokeLinejoin: "round" as const, strokeLinecap: "round" as const };
 
+// Scenery takes the same cel shade as the actors (filter "setCel", defined once per setting).
+const CEL = "url(#setCel)";
 const Tree: React.FC<{ tone?: string }> = ({ tone = "#52b882" }) => <g {...st}>
-  <path d="M-30 0 L-22 -340 H22 L30 0Z" fill="#ba885b" />
-  <path d="M-150 -300 Q-215 -400 -120 -440 Q-140 -570 -20 -570 Q80 -640 130 -530 Q240 -500 170 -400 Q210 -310 130 -290Z" fill={tone} />
+  <path d="M-30 0 L-22 -340 H22 L30 0Z" fill="#ba885b" filter={CEL} />
+  <g filter={CEL}><path d="M-150 -300 Q-215 -400 -120 -440 Q-140 -570 -20 -570 Q80 -640 130 -530 Q240 -500 170 -400 Q210 -310 130 -290Z" fill={tone} /></g>
+  <path d="M-96 -420 Q-104 -500 -34 -522 M-50 -372 Q-20 -356 20 -366 M60 -470 Q104 -470 118 -432" fill="none" stroke="#ffffff" strokeWidth={9} opacity={0.22} />
 </g>;
 
-const Bush: React.FC<{ tone?: string }> = ({ tone = "#3d986d" }) => <path d="M-110 0 Q-140 -70 -70 -74 Q-40 -125 10 -86 Q80 -106 90 -50 Q130 -30 110 0Z" fill={tone} {...st} />;
+const Bush: React.FC<{ tone?: string }> = ({ tone = "#3d986d" }) => <g filter={CEL}><path d="M-110 0 Q-140 -70 -70 -74 Q-40 -125 10 -86 Q80 -106 90 -50 Q130 -30 110 0Z" fill={tone} {...st} /></g>;
 
 const Fence: React.FC<{ from: number; to: number }> = ({ from, to }) => {
   const posts: number[] = [];
@@ -32,9 +38,10 @@ const Fence: React.FC<{ from: number; to: number }> = ({ from, to }) => {
   </g>;
 };
 
-const Clouds: React.FC<{ W: number; H: number; u: number }> = ({ W, H, u }) => <g fill="#fff" opacity={0.85}>
+const Clouds: React.FC<{ W: number; H: number; u: number }> = ({ W, H, u }) => <g opacity={0.92}>
   {[[0.2, 0.3, 1.1], [0.74, 0.25, 0.8], [0.52, 0.4, 0.7]].map(([x, y, s]) => <g key={x} transform={`translate(${W * x} ${H * y}) scale(${s * u})`}>
-    <ellipse cx={-62} cy={8} rx={72} ry={34} /><ellipse cx={62} cy={10} rx={72} ry={32} /><ellipse cy={-22} rx={68} ry={46} />
+    <g fill="#c9d6f2" transform="translate(6 12)"><ellipse cx={-62} cy={8} rx={72} ry={34} /><ellipse cx={62} cy={10} rx={72} ry={32} /><ellipse cy={-22} rx={68} ry={46} /></g>
+    <g fill="#fff"><ellipse cx={-62} cy={8} rx={72} ry={34} /><ellipse cx={62} cy={10} rx={72} ry={32} /><ellipse cy={-22} rx={68} ry={46} /></g>
   </g>)}
 </g>;
 
@@ -45,7 +52,12 @@ const NightSky: React.FC<{ W: number; H: number; u: number }> = ({ W, H, u }) =>
 </>;
 
 const Sky: React.FC<{ W: number; H: number; u: number; time: TimeOfDay; color?: string }> = ({ W, H, u, time, color }) => <>
-  <rect width={W} height={H} fill={resolveColor(color, SKY[time])} />
+  <defs>
+    <linearGradient id={`skyG${time}`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor={SKY_TOP[time]} /><stop offset="0.82" stopColor={resolveColor(color, SKY[time])} /><stop offset="1" stopColor={SKY_LOW[time]} />
+    </linearGradient>
+  </defs>
+  <rect width={W} height={H} fill={color ? resolveColor(color, SKY[time]) : `url(#skyG${time})`} />
   {time !== "night" && <Clouds W={W} H={H} u={u} />}
 </>;
 
@@ -130,7 +142,9 @@ const Scene: React.FC<{ type: string; W: number; H: number; u: number; time: Tim
   const at = (x: number, s = 1, y = G) => `translate(${W * x} ${y}) scale(${u * s})`;
   const grass = resolveColor(color2, "#9edb8c");
   const ground = <>
+    <defs><linearGradient id="grassG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffffff" stopOpacity={0.22} /><stop offset="0.5" stopColor="#ffffff" stopOpacity={0} /><stop offset="1" stopColor="#14301c" stopOpacity={0.2} /></linearGradient></defs>
     <rect y={G} width={W} height={H - G} fill={grass} />
+    <rect y={G} width={W} height={H - G} fill="url(#grassG)" />
     <path d={`M0 ${G} H${W}`} stroke={INK} strokeWidth={5 * u} />
   </>;
   switch (type) {
@@ -153,7 +167,7 @@ const Scene: React.FC<{ type: string; W: number; H: number; u: number; time: Tim
         <g transform={at(0.08, 1.45)}><Tree /></g>
         <g transform={at(0.92, 1.3)}><Tree tone="#3d986d" /></g>
         {ground}
-        <g transform={at(0.67)} {...st}>
+        <g transform={at(0.67)} {...st} filter={CEL}>
           <rect x={-170} y={-170} width={340} height={26} rx={6} fill="#c58c58" /><rect x={-170} y={-126} width={340} height={26} rx={6} fill="#c58c58" />
           <rect x={-182} y={-86} width={364} height={28} rx={6} fill="#e8a451" />
           <path d="M-142 -58 V0 M142 -58 V0 M-142 -170 V-86 M142 -170 V-86" fill="none" strokeWidth={13} />
@@ -170,7 +184,7 @@ const Scene: React.FC<{ type: string; W: number; H: number; u: number; time: Tim
       return <>
         <g transform={at(0.92, 1.2)}><Tree /></g>
         {ground}
-        <g transform={at(0.46, Math.min(1.1, W / (u * 960)))} {...st}>
+        <g transform={at(0.46, Math.min(1.1, W / (u * 960)))} {...st} filter={CEL}>
           <rect x={-420} y={-470} width={840} height={470} fill="#e8836b" />
           <path d="M-456 -466 H456 L420 -530 H-420Z" fill="#7c5ce0" />
           <rect x={-120} y={-610} width={240} height={150} fill="#e8836b" />
@@ -219,6 +233,7 @@ export const StorySetting: React.FC<{ type: string; W: number; H: number; color?
   const indoors = type === "living_room";
   const [shadow, amount] = DARK[time];
   return <>
+    <defs><CelFilter id="setCel" depth={15} opacity={0.2} /></defs>
     {indoors
       ? <LivingRoom W={W} H={H} u={u} time={time} wall={resolveColor(color, "#fff1d6")} floor={resolveColor(color2, "#c99a6d")} />
       : <><Sky W={W} H={H} u={u} time={time} color={color} /><Scene type={type} W={W} H={H} u={u} time={time} color={color} color2={color2} /></>}

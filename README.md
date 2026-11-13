@@ -11,7 +11,8 @@ indoor/outdoor settings, and supplied voices. Or keep using the original single-
 
 Give it **your narration (.wav)**, **the story text with time segments**, and it makes a cartoon
 explainer video in the style of the reference videos (round-headed characters with lip-sync,
-objects with faces, flat colourful grounds, pop-in animation, music and sound effects) — as
+objects with faces, cel shading and scene lighting, close camera work, pop-in animation, music and
+sound effects; the look is described in [ART_STYLE.md](ART_STYLE.md)) — as
 **YouTube 16:9** and **Shorts / Reels / TikTok 9:16** at the same time.
 
 ## Requirements

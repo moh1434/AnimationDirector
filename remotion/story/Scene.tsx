@@ -17,6 +17,7 @@ import { Pop, TitleText, Tag, Note, Bubble, NameCard, NumberReveal, Arrow, Badge
 
 import { MOTION, sampleTrack, speechEnvelope } from "./motion";
 import { mouthShapeAt } from "./viseme";
+import { LightBehind, Grade, moodFor } from "./light";
 
 const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["living_room", "house_exterior", "park", "farm", "schoolyard", "street", "village", "ruins", "hilltop", "office", "airport", "forest", "garden", "kitchen", "workshop", "space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
 
@@ -79,7 +80,8 @@ function charState(c: CharRef, actions: Action[], t: number) {
     state = { pose:a.pose ?? state.pose, expression:a.expression ?? state.expression, facing:a.facing ?? state.facing, look:a.lookAt ?? state.look };
     return {at:a.at,value:vector(state.pose,state.expression,state.facing,state.look)};
   });
-  const motion = sampleTrack(initial, events, t, MOTION.gesture);
+  // arms, body height and lean wind up before a gesture and overshoot it; facing, gaze and the face do not
+  const motion = sampleTrack(initial, events, t, MOTION.gesture, [0.16, 0.2, 0.16, 0.2, 0.35, 0.3]);
   const face = sampleTrack(initial.slice(10,10+names.length), events.map((e) => ({at:e.at,value:e.value.slice(10,10+names.length)})), t, MOTION.expression);
   motion.splice(10,names.length,...face);
   return { pose, prevPose, poseT: prog(t, poseAt, MOTION.gesture, "sine.inOut"), expression, emote, emoteAt, facing, lookAt, motion, holding, look };
@@ -138,9 +140,40 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     }
   }
   // zoom toward the content, not the frame centre, so the push-in doesn't carry objects off the edge
-  const fx = (cam.focus?.x ?? (0.5 + (rcx(L.stage) / W - 0.5) * 0.6)) * 100, fy = (cam.focus?.y ?? (0.5 + (rcy(L.stage) / H - 0.5) * 0.6)) * 100;
+  // "on" aims the camera at a character's face; a shot on a character is also centred on them.
+  const faceOf = (who?: string) => {
+    const c = who ? L.chars.find((x) => x.who === who) : undefined;
+    if (!c) return undefined;
+    const at = travel({ x: c.px, y: c.py }, c.move, t, W, H); // where the actor is now, not where they started
+    return { x: at.x / W, y: (at.y - c.ps * 0.72) / H };
+  };
+  let aim = cam.focus ?? faceOf(cam.on) ?? { x: 0.5 + (rcx(L.stage) / W - 0.5) * 0.6, y: 0.5 + (rcy(L.stage) / H - 0.5) * 0.6 };
+  let centre = cam.on && !cam.focus ? 1 : 0; // 0 = the aim stays where it is on screen, 1 = it travels to the middle
+  // moves: cuts and pushes inside the scene ("at" a word, to a zoom, onto a character)
+  for (const mv of cam.moves ?? []) {
+    if (t < mv.at) break;
+    const p = mv.duration === 0 ? 1 : prog(t, mv.at, mv.duration ?? 0.55, "power2.inOut");
+    const to = mv.focus ?? faceOf(mv.on) ?? aim;
+    aim = { x: aim.x + (to.x - aim.x) * p, y: aim.y + (to.y - aim.y) * p };
+    centre += ((mv.on && !mv.focus ? 1 : mv.focus || mv.on === "" ? 0 : centre) - centre) * p;
+    zoom += ((mv.zoom ?? zoom) - zoom) * p;
+  }
+  const fx = aim.x * 100, fy = aim.y * 100;
   const panX = (cam.pan?.[0] ?? 0) * W * prog(t, 0, Math.max(dur, 0.5), "sine.inOut");
   const panY = (cam.pan?.[1] ?? 0) * H * prog(t, 0, Math.max(dur, 0.5), "sine.inOut");
+  // bring the aim toward the middle of the frame as the camera closes in, without showing past the picture's edge
+  const lim = (v: number, lo: number, hi: number) => Math.max(Math.min(lo, hi), Math.min(Math.max(lo, hi), v));
+  const pull = centre * clamp((zoom - 1) / 0.25);
+  const cx = lim((0.5 - aim.x) * W * pull, -(W - aim.x * W) * (zoom - 1), aim.x * W * (zoom - 1));
+  const cy = lim((0.46 - aim.y) * H * pull, -(H - aim.y * H) * (zoom - 1), aim.y * H * (zoom - 1));
+  // a hand-held drift and a slow tilt keep a held shot alive
+  const drift = cam.drift === false ? 0 : 1;
+  const dX = (Math.sin(t * 0.83 + index) * 3.2 + Math.sin(t * 1.9 + index * 2) * 1.1) * (U / 1080) * drift;
+  const dY = (Math.sin(t * 0.67 + index * 1.3) * 2.6) * (U / 1080) * drift;
+  const tilt = (cam.tilt ? cam.tilt[0] + (cam.tilt[1] - cam.tilt[0]) * prog(t, 0, Math.max(dur, 0.5), "sine.inOut") : 0) + Math.sin(t * 0.5 + index) * 0.12 * drift;
+  const mood = moodFor(bg.type, bg.time, scene.light);
+  // the background goes softly out of focus when the camera is close on the actors
+  const dof = Math.min(3, Math.max(0, zoom - 1.22) * 7) * (U / 1080);
 
   const charSvg = (c: Placed<CharRef>, i: number) => {
     const st = charState(c, actions, t);
@@ -212,6 +245,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     const floorGap = p.anchor === "bottom" ? p.ps * 0.1 : 0;
     return (
       <Pop key={`p${i}`} x={route.x + m.dx} y={route.y + m.dy + floorGap} t={t} at={p.at ?? 0} out={p.out} enter={p.enter ?? "pop"} rotate={(p.rotate ?? 0) + m.r + route.rotate} z={p.zIndex ?? 4} anchor={p.anchor}>
+        {p.anchor === "bottom" && <div style={{ position: "absolute", left: "8%", width: "92%", top: "84%", height: "12%", background: "radial-gradient(closest-side, rgba(27,20,54,0.32), rgba(27,20,54,0.14) 60%, rgba(27,20,54,0))" }} />}
         <svg data-box={`prop:${p.name}`} width={p.ps * 1.2} height={p.ps * 1.2} viewBox="-120 -120 240 240" style={{ overflow: "visible", display: "block", transform: `scale(${(p.flip ? -1 : 1) * m.s}, ${m.s})` }}>
           <PropArt name={p.name} size={200} face={p.face} mouth={isSpeaker ? mouthNow : 0} t={t} color={p.color} color2={p.color2} blink={isBlinking(gf, fps, 3 + i)} />
         </svg>
@@ -383,9 +417,10 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
 
   return (
     <AbsoluteFill style={{ overflow: "hidden", background: bgColor }}>
-      <AbsoluteFill style={{ transform: `translate(${shx - panX}px, ${shy - panY}px) scale(${zoom})`, transformOrigin: `${fx}% ${fy}%` }}>
-        <div style={{ position: "absolute", inset: -40 }}>
+      <AbsoluteFill style={{ transform: `translate(${shx - panX + cx + dX}px, ${shy - panY + cy + dY}px) rotate(${tilt}deg) scale(${zoom * (1 + (Math.abs(tilt) > 0.01 || drift ? 0.012 : 0))})`, transformOrigin: `${fx}% ${fy}%` }}>
+        <div style={{ position: "absolute", inset: -40, filter: dof > 0.3 ? `blur(${dof.toFixed(2)}px)` : undefined }}>
           <Background spec={bg} W={W + 80} H={H + 80} t={t} frame={gf} seed={`b${index}`} />
+          <LightBehind mood={mood} W={W + 80} H={H + 80} t={t} />
         </div>
         {L.props.map(propEl)}
         {itemEls()}
@@ -394,6 +429,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
         {bubbleEl()}
         {textEls}
       </AbsoluteFill>
+      <Grade mood={mood} W={W} H={H} />
     </AbsoluteFill>
   );
 };

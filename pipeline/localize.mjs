@@ -130,6 +130,7 @@ export function localizeStoryboard(src, { srcAnalysis, dstAnalysis, dstSegments,
     for (const list of ["characters", "props", "texts", "items", "actions", "sfx"]) (ns[list] ?? []).forEach(fix);
     fix(ns.bubble); fix(ns.number); fix(ns.image);
     if (ns.camera) for (const k of ["punch", "shake"]) if (ns.camera[k]) ns.camera[k] = ns.camera[k].map(rel);
+    if (ns.camera?.moves) ns.camera.moves = ns.camera.moves.map((m) => ({ ...m, at: rel(m.at) }));
     // the words of the new voice that fall in this scene
     const said = words.filter((w) => w.s >= start - 0.02 && w.s < end).map((w) => w.w).join(" ");
     ns.text = said || ns.text;
