@@ -17,7 +17,7 @@ so it decides whether they stay.
   sneakers: warm, funny, a head full of strange questions. He says what the viewer is thinking.
 - **Cherry** (id `cherry`) is a friend of Berry and Benny. A girl with a dark brown ponytail, a cherry
   hair clip, a red hoodie and a black skirt. Use her when a story needs a third friend.
-- Other people when the story needs them, at most one or two per video: a chef, a scientist, a
+- Other people when the story needs them: a chef, a scientist, a
   policeman, a thief, a king, a wizard, a farmer, a grandpa, a schoolgirl, a robot; a dog, a cat or
   a bird. Give each a short lower-case id (`chef`, `dog`).
 
