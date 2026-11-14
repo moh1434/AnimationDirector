@@ -17,9 +17,11 @@ const RIGS: Record<Exclude<LightMood, "none">, Rig> = {
   spot: { bloom: "rgba(255,244,210,0.5)", bloomAt: [0.5, 0.3], shafts: 0, floor: "rgba(10,8,40,0.3)", warm: "rgba(255,240,200,0.2)", cold: "rgba(20,14,70,0.4)", vignette: 0.62 },
 };
 
+export const LIGHT_MOODS = [...Object.keys(RIGS), "none"] as LightMood[];
+
 /** Which light a scene gets when the storyboard does not say: from the background's type and time. */
 export const moodFor = (bgType: string | undefined, time: string | undefined, asked?: LightMood): LightMood => {
-  if (asked) return asked;
+  if (asked && (asked === "none" || asked in RIGS)) return asked; // an unknown name falls back to the background's light
   if (time === "night") return "night";
   if (time === "dusk") return "dusk";
   if (["space", "night", "dark"].includes(bgType ?? "")) return "night";
@@ -37,17 +39,19 @@ export const LightBehind: React.FC<{ mood: LightMood; W: number; H: number; t: n
   const breathe = 1 + Math.sin(t * 0.6) * 0.03; // the light is never perfectly still
   return (
     <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+      {/* spot: the set goes dark around a pool of light; the actors, drawn above this layer, stay bright */}
+      {mood === "spot" && <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 62% 46% at 50% 56%, rgba(12,8,40,0) 0%, rgba(12,8,40,0.3) 55%, rgba(12,8,40,0.8) 100%)" }} />}
       <div style={{ position: "absolute", inset: 0, background: `radial-gradient(${W * 0.95 * breathe}px ${W * 0.95 * breathe}px at ${bx * 100}% ${by * 100}%, ${r.bloom}, rgba(255,255,255,0) 70%)` }} />
       {r.shafts > 0 && (
         <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", inset: 0 }}>
           <defs>
-            <linearGradient id="shaftFade" x1="0" y1="0" x2="0.55" y2="1">
+            <linearGradient id={`shaftFade-${mood}`} x1="0" y1="0" x2="0.55" y2="1">
               <stop offset="0" stopColor="#fff8dc" stopOpacity={r.shafts * 2.2} />
               <stop offset="1" stopColor="#fff8dc" stopOpacity={0} />
             </linearGradient>
           </defs>
           {[[0.02, 0.2, 0.52], [0.3, 0.44, 0.84]].map(([a, b, c], i) => (
-            <path key={i} d={`M${W * (bx - 0.12 + a * 0.3)} ${-20} L${W * (bx + a * 0.3 + 0.06)} ${-20} L${W * (c + 0.16 + Math.sin(t * 0.25 + i) * 0.01)} ${H * 0.78} L${W * (b + Math.sin(t * 0.25 + i) * 0.01)} ${H * 0.78}Z`} fill="url(#shaftFade)" />
+            <path key={i} d={`M${W * (bx - 0.12 + a * 0.3)} ${-20} L${W * (bx + a * 0.3 + 0.06)} ${-20} L${W * (c + 0.16 + Math.sin(t * 0.25 + i) * 0.01)} ${H * 0.78} L${W * (b + Math.sin(t * 0.25 + i) * 0.01)} ${H * 0.78}Z`} fill={`url(#shaftFade-${mood})`} />
           ))}
         </svg>
       )}

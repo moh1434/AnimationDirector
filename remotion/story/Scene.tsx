@@ -8,7 +8,7 @@ import { Character, Pose, POSES } from "./Character";
 import { PropArt } from "./Props";
 import type { Expression } from "./Face";
 import { EXPR, isBlinking } from "./Face";
-import { lookFor, resolveColor, INK, BG, SHIRTS } from "./theme";
+import { lookFor, resolveColor, INK, BG, SHIRTS, isDark } from "./theme";
 import { prog, rand, Enter, enterStyle, exitStyle, clamp } from "./anim";
 import { layoutScene, Placed } from "./Layout";
 import { tagHeight, rcx, rcy, rh } from "./frame";
@@ -170,8 +170,14 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
   const drift = cam.drift === false ? 0 : 1;
   const dX = (Math.sin(t * 0.83 + index) * 3.2 + Math.sin(t * 1.9 + index * 2) * 1.1) * (U / 1080) * drift;
   const dY = (Math.sin(t * 0.67 + index * 1.3) * 2.6) * (U / 1080) * drift;
-  const tilt = (cam.tilt ? cam.tilt[0] + (cam.tilt[1] - cam.tilt[0]) * prog(t, 0, Math.max(dur, 0.5), "sine.inOut") : 0) + Math.sin(t * 0.5 + index) * 0.12 * drift;
-  const mood = moodFor(bg.type, bg.time, scene.light);
+  const tiltAsked = cam.tilt ? cam.tilt[0] + (cam.tilt[1] - cam.tilt[0]) * prog(t, 0, Math.max(dur, 0.5), "sine.inOut") : 0;
+  const tilt = Math.max(-4, Math.min(4, tiltAsked)) + Math.sin(t * 0.5 + index) * 0.12 * drift;
+  // a rolled frame needs a bigger picture: enough for the far corner, wherever the camera is aimed
+  const cover = 1 + Math.abs(Math.sin((tilt * Math.PI) / 180)) * (Math.max(W, H) / Math.min(W, H)) * 1.9 + (drift ? 0.01 : 0);
+  zoom = Math.max(1, zoom); // below 1 the picture would not fill the frame
+  // a dark flat ground (a black title card, a navy ground) is lit like night: no sun bloom or light shafts on it
+  const flatGround = !bg.type || ["solid", "gradient", "burst", "grid", "paper"].includes(bg.type);
+  const mood = moodFor(flatGround && isDark(bgColor) ? "night" : bg.type, bg.time, scene.light);
   // the background goes softly out of focus when the camera is close on the actors
   const dof = Math.min(3, Math.max(0, zoom - 1.22) * 7) * (U / 1080);
 
@@ -417,7 +423,7 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
 
   return (
     <AbsoluteFill style={{ overflow: "hidden", background: bgColor }}>
-      <AbsoluteFill style={{ transform: `translate(${shx - panX + cx + dX}px, ${shy - panY + cy + dY}px) rotate(${tilt}deg) scale(${zoom * (1 + (Math.abs(tilt) > 0.01 || drift ? 0.012 : 0))})`, transformOrigin: `${fx}% ${fy}%` }}>
+      <AbsoluteFill style={{ transform: `translate(${shx - panX + cx + dX}px, ${shy - panY + cy + dY}px) rotate(${tilt}deg) scale(${zoom * cover})`, transformOrigin: `${fx}% ${fy}%` }}>
         <div style={{ position: "absolute", inset: -40, filter: dof > 0.3 ? `blur(${dof.toFixed(2)}px)` : undefined }}>
           <Background spec={bg} W={W + 80} H={H + 80} t={t} frame={gf} seed={`b${index}`} />
           <LightBehind mood={mood} W={W + 80} H={H + 80} t={t} />

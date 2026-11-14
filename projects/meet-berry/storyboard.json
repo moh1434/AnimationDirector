@@ -423,7 +423,7 @@
           "y": 0.6,
           "size": 0.4,
           "at": "@giant",
-          "out": "clip:7+0.45",
+          "out": "clip:7+0.15",
           "zIndex": 4,
           "motion": "pulse"
         },

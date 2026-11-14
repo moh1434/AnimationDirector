@@ -10,8 +10,11 @@ export function sampleTrack(initial: number[], events: { at: number; value: numb
   let from = initial, to = initial, velocity = initial.map(() => 0), start = -duration;
   const evaluate = (t: number) => {
     const u = Math.max(0, Math.min(1, (t - start) / duration));
-    const value = from.map((a, i) => (2*u*u*u-3*u*u+1)*a + (u*u*u-2*u*u+u)*duration*velocity[i] + (-2*u*u*u+3*u*u)*to[i]);
-    const speed = from.map((a, i) => u === 1 ? 0 : ((6*u*u-6*u)*a + (3*u*u-4*u+1)*duration*velocity[i] + (-6*u*u+6*u)*to[i])/duration);
+    // wave: zero and flat at both ends; negative in the first half (anticipation), positive in the second (overshoot)
+    const wave = bounce ? -Math.sin(2 * Math.PI * u) * Math.sin(Math.PI * u) : 0;
+    const slope = bounce && u < 1 ? -(2 * Math.PI * Math.cos(2 * Math.PI * u) * Math.sin(Math.PI * u) + Math.PI * Math.sin(2 * Math.PI * u) * Math.cos(Math.PI * u)) : 0;
+    const value = from.map((a, i) => (2*u*u*u-3*u*u+1)*a + (u*u*u-2*u*u+u)*duration*velocity[i] + (-2*u*u*u+3*u*u)*to[i] + (to[i] - a) * (bounce?.[i] ?? 0) * wave);
+    const speed = from.map((a, i) => u === 1 ? 0 : ((6*u*u-6*u)*a + (3*u*u-4*u+1)*duration*velocity[i] + (-6*u*u+6*u)*to[i] + (to[i] - a) * (bounce?.[i] ?? 0) * slope)/duration);
     return { value, speed };
   };
   for (const event of events) {
@@ -19,12 +22,7 @@ export function sampleTrack(initial: number[], events: { at: number; value: numb
     const current = evaluate(event.at);
     from = current.value; velocity = current.speed; to = event.value; start = event.at;
   }
-  const value = evaluate(time).value;
-  if (!bounce) return value;
-  const u = Math.max(0, Math.min(1, (time - start) / duration));
-  // zero (and flat) at both ends; negative in the first half (anticipation), positive in the second (overshoot)
-  const wave = -Math.sin(2 * Math.PI * u) * Math.sin(Math.PI * u);
-  return value.map((v, i) => v + (to[i] - from[i]) * (bounce[i] ?? 0) * wave);
+  return evaluate(time).value;
 }
 export function speechEnvelope(samples: number[], frame: number, fps: number) {
   const radius = Math.max(1, Math.round(fps * MOTION.speech));

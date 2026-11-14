@@ -901,7 +901,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const celHead = `ch${uid}`, celBody = `cb${uid}`, celHair = `cr${uid}`, castId = `cs${uid}`;
   // squash and stretch while a gesture changes: a tiny dip, then a stretch as the pose lands
   const kk = Math.max(0, Math.min(1, k));
-  const squash = kk < 1 ? Math.sin(kk * Math.PI * 2) * 0.028 : 0;
+  const squash = kk < 1 ? Math.sin(kk * Math.PI * 2) * Math.sin(kk * Math.PI) * 0.024 : 0;
 
   return (
     <g transform={`scale(${hs}) scale(${p.motion ? Math.max(-1, Math.min(1, p.motion[7])) : facing} 1)`}>

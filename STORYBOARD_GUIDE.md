@@ -275,16 +275,20 @@ Leave diagram faces off to keep roots, liquid levels and markings unobscured.
 push-in and a slight hand-held drift are applied by default; `punch` = quick zoom bump on a surprising
 word; `shake` = impact.
 
-* `on: "berry"` aims at that cast member's face and centres them (a close shot; use `zoom` 1.8–2.0).
+* `on: "berry"` aims at that cast member's face and centres them (a close shot; use `zoom` 1.8–2.0). The character
+  must be in the scene; with both `on` and `focus`, `focus` wins. `zoom` is always 1 to 3.
 * `moves: [{at, zoom, on, focus, duration}]` change the shot inside the scene. `at` takes seconds, `"@word"` or
   `"clip:N"`. `duration: 0` is a cut, the default 0.55 s a push-in. Example: cut to the listener's face on a word:
   `{"at": "@work", "zoom": 1.9, "on": "berry", "duration": 0}`; back to both: `{"at": "clip:4", "zoom": 1.4, "focus": {"x": 0.5, "y": 0.84}}`.
-* `tilt: [from, to]` rolls the camera slowly (degrees). `drift: false` holds the shot perfectly still.
+* `tilt: [from, to]` rolls the camera slowly (−4 to 4 degrees; a tilted shot is also enlarged to cover the corners).
+  `drift: false` switches off the hand-held sway; add `zoom: [1, 1]` for a completely locked frame.
+  In a move, `on: ""` stops centring and keeps the current aim.
 * Frame close: a person should usually fill a third of the frame height or more. In dialogue, change the shot
   every 2–4 s with `moves` and keep the setting.
 
 `light` (per scene): `day warm cool dusk night spot none`. Left out, it follows the background (day outdoors, warm
-indoors, night at night). `spot` is a spotlight on a dark frame, for a punchline or an aside.
+indoors, night at night). `spot` darkens the set around a pool of light in the middle while the actors stay bright, for a punchline or an aside.
+`validate` refuses an unknown light, a camera `on` that is not in the scene, and a zoom below 1.
 
 `transition` (into this scene): cut (default), whip (sideways streak), slide (push), zoom (through the picture),
 iris (circle opens), flash (white), fade. See ART_STYLE.md for when to use each.

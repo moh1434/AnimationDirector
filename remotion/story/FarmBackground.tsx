@@ -20,7 +20,7 @@ export const FarmBackground: React.FC<{W:number; H:number; color?:string; color2
       <path d="M-185 0 V-118 M-105 0 V-118 M-25 0 V-118 M-203 -85 H0 M-203 -39 H0" fill="none" stroke="#bb8055" strokeWidth={12}/>
     </g>
     {[0,1].map(side=><g key={side} transform={`translate(${side ? W-55*u : 55*u} ${H*.98}) scale(${u})`} filter="url(#setCel)" {...line}>
-      {[-28,22].map((x,i)=><g key={x} transform={`translate(${x} ${i ? -10 : 0})`} filter="url(#setCel)"><path d="M0 0 V-86" fill="none"/><path d="M0 -20 Q-43 -27 -34 -52 Q-7 -49 0 -20 M0 -47 Q29 -49 30 -76 Q6 -74 0 -47" fill="#3ddc97"/><ellipse cy={-85} rx={10} ry={23} fill="#ffc83d"/></g>)}
+      {[-28,22].map((x,i)=><g key={x} transform={`translate(${x} ${i ? -10 : 0})`}><path d="M0 0 V-86" fill="none"/><path d="M0 -20 Q-43 -27 -34 -52 Q-7 -49 0 -20 M0 -47 Q29 -49 30 -76 Q6 -74 0 -47" fill="#3ddc97"/><ellipse cy={-85} rx={10} ry={23} fill="#ffc83d"/></g>)}
     </g>)}
   </>;
 };

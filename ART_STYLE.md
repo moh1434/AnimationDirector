@@ -39,8 +39,8 @@ A scene gets its mood from its background: `day` outdoors, `warm` indoors (livin
 classroom, office…), `cool` for sea/lab/airport, `dusk` and `night` from `"time"`, `night` for
 space and dark grounds. Override per scene with `"light"`:
 
-`day` · `warm` · `cool` · `dusk` · `night` · `spot` (a spotlight on a dark frame, for a punchline or
-an aside) · `none` (no lighting layers; `image` backgrounds use this by default).
+`day` · `warm` · `cool` · `dusk` · `night` · `spot` (the set goes dark around a pool of light in the middle while the actors stay bright, for a
+punchline or an aside) · `none` (no lighting layers; `image` backgrounds use this by default).
 
 ## Characters
 
@@ -58,10 +58,10 @@ an aside) · `none` (no lighting layers; `image` backgrounds use this by default
 | Field | Does |
 |---|---|
 | `zoom: [from, to]`, `pan`, `focus` | the slow move over the whole scene, as before |
-| `on: "berry"` | aims at that cast member's face and centres them: a close shot |
-| `moves: [{at, zoom, on, focus, duration}]` | changes the shot **inside** the scene: `duration: 0` cuts, the default 0.55 s pushes in |
-| `tilt: [from, to]` | a slow roll in degrees, for unease or energy |
-| `drift: false` | switches off the hand-held sway that every shot has by default |
+| `on: "berry"` | aims at that cast member's face and centres them: a close shot. The character must be in the scene. With both `on` and `focus`, `focus` wins |
+| `moves: [{at, zoom, on, focus, duration}]` | changes the shot **inside** the scene: `duration: 0` cuts, the default 0.55 s pushes in. `on: ""` stops centring and keeps the current aim |
+| `tilt: [from, to]` | a slow roll, −4 to 4 degrees, for unease or energy. The picture is enlarged to cover the corners (about 6 % per degree), so a tilted shot is also a closer shot |
+| `drift: false` | switches off the hand-held sway that every shot has by default (the slow push-in from `zoom` still runs; use `zoom: [1, 1]` for a locked frame) |
 | `punch`, `shake` | as before |
 
 How to use it:
@@ -72,7 +72,9 @@ How to use it:
   other one's face.
 - **Change the shot every 2–4 s** in dialogue, with `moves`, and keep the setting. The location,
   the actors' places and the screen direction stay the same across those shots.
-- A close shot must keep the face clear of the caption band; `check` reports it.
+- `zoom` is 1 to 3: below 1 the picture would not fill the frame, and `validate` refuses it.
+- A close shot must keep the face clear of the caption band; `check` looks at the frame after every
+  camera move and reports it.
 
 ## Transitions
 
@@ -80,7 +82,7 @@ How to use it:
 
 | `transition` | Looks like | Use for |
 |---|---|---|
-| `whip` | both pictures streak sideways with motion blur | a jump in time or place |
+| `whip` | both pictures streak sideways with a sideways-only motion blur | a jump in time or place |
 | `slide` | the new picture pushes the old one out | the next step of a list or story |
 | `zoom` | the old picture grows past the camera and the new one settles in behind it | going "into" a topic |
 | `iris` | a circle opens from the middle | a new chapter, an ending |
@@ -92,7 +94,8 @@ All last `MOTION.transition` (0.32 s) and never show an empty frame.
 ## Motion
 
 - **Anticipation and overshoot**: a gesture first dips a little the other way, passes its target,
-  then settles (`sampleTrack`'s `bounce`, set in `Scene.tsx`). Poses change over 0.5 s.
+  then settles (`sampleTrack`'s `bounce`, set in `Scene.tsx`). Poses change over 0.5 s. A gesture that
+  is interrupted carries on from where it is, at the speed it has.
 - **Squash and stretch** as a pose lands; a small hop with it.
 - **Secondary motion**: hair lags behind the head, buns and curls jiggle, the scarf sways, the light
   breathes, the camera drifts.

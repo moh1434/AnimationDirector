@@ -54,7 +54,7 @@ const NightSky: React.FC<{ W: number; H: number; u: number }> = ({ W, H, u }) =>
 const Sky: React.FC<{ W: number; H: number; u: number; time: TimeOfDay; color?: string }> = ({ W, H, u, time, color }) => <>
   <defs>
     <linearGradient id={`skyG${time}`} x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stopColor={SKY_TOP[time]} /><stop offset="0.82" stopColor={resolveColor(color, SKY[time])} /><stop offset="1" stopColor={SKY_LOW[time]} />
+      <stop offset="0" stopColor={SKY_TOP[time]} /><stop offset="0.82" stopColor={SKY[time]} /><stop offset="1" stopColor={SKY_LOW[time]} />
     </linearGradient>
   </defs>
   <rect width={W} height={H} fill={color ? resolveColor(color, SKY[time]) : `url(#skyG${time})`} />

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useLayoutEffect, useState } from "react";
+import React, { useMemo, useRef, useLayoutEffect, useState, useId } from "react";
 import { AbsoluteFill, Sequence, Audio, staticFile, useCurrentFrame, useVideoConfig, delayRender, continueRender, ENGINE } from "./engine";
 import type { RenderProps, Scene } from "./types";
 import { SceneView } from "./Scene";
@@ -64,9 +64,10 @@ const TransitionWrap: React.FC<{ scene: Scene; next?: Scene; durFrames: number; 
   const q = nextKind && f >= durFrames ? prog((f - durFrames) / fps, 0, nextDuration, nextKind === "whip" ? "power3.inOut" : "power2.inOut") : 0;
   const style: React.CSSProperties = {};
   const tf: string[] = [];
-  let flash = 0;
+  let flash = 0, smear = 0;
+  const smearId = "whip" + useId().replace(/[^a-zA-Z0-9_-]/g, "");
   if (kind && p < 1) {
-    if (kind === "whip") { tf.push(`translateX(${(1 - p) * W}px)`); style.filter = `blur(${(Math.sin(p * Math.PI) * 14 * (W / 1080)).toFixed(1)}px)`; }
+    if (kind === "whip") { tf.push(`translateX(${(1 - p) * W}px)`); smear = Math.sin(p * Math.PI) * 26 * (W / 1080); }
     else if (kind === "slide") tf.push(`translateX(${(1 - p) * W}px)`);
     else if (kind === "zoom") { tf.push(`scale(${1.35 - 0.35 * p})`); style.opacity = Math.min(1, p * 1.6); }
     else if (kind === "iris") style.clipPath = `circle(${(p * 78).toFixed(2)}% at 50% 46%)`;
@@ -74,13 +75,21 @@ const TransitionWrap: React.FC<{ scene: Scene; next?: Scene; durFrames: number; 
     else style.opacity = p;
   }
   if (q > 0) {
-    if (nextKind === "whip") { tf.push(`translateX(${-q * W}px)`); style.filter = `blur(${(Math.sin(q * Math.PI) * 14 * (W / 1080)).toFixed(1)}px)`; }
+    if (nextKind === "whip") { tf.push(`translateX(${-q * W}px)`); smear = Math.sin(q * Math.PI) * 26 * (W / 1080); }
     else if (nextKind === "slide") tf.push(`translateX(${-q * W}px)`);
     else if (nextKind === "zoom") tf.push(`scale(${1 + q * 0.45})`);
   }
   if (tf.length) style.transform = tf.join(" ");
+  if (smear > 0.5) style.filter = `url(#${smearId})`;
   return (
     <AbsoluteFill style={style}>
+      {smear > 0.5 && (
+        <svg width={0} height={0} style={{ position: "absolute" }}>
+          <filter id={smearId} x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+            <feGaussianBlur stdDeviation={`${smear.toFixed(1)} 0`} edgeMode="duplicate" />
+          </filter>
+        </svg>
+      )}
       {children}
       {flash > 0.01 && <AbsoluteFill style={{ background: "#fff", opacity: flash, zIndex: 80 }} />}
     </AbsoluteFill>
