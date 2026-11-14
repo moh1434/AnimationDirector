@@ -58,14 +58,14 @@ export type Look = {
   hands?: string; // hand colour (default white); set it with a non-white skin
   shirtSymbol?: "star" | "heart";
   head?: "round" | "egg" | "wide";
-  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff|highponytail|schoolbob
+  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff|highponytail|schoolbob|shaggy|quiff
   hairColor?: string;
   hairTips?: string; // colour of the dip-dyed ends (starbuns)
   hat?: string; // none|cap|grad|crown|turban|helmet|hardhat|tophat|headscarf|beret|wizard|chef|fez|keffiyeh|safari|bow
   hatColor?: string;
   facial?: string; // none|beard|mustache|goatee|longbeard
   shirt?: string;
-  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor|chefcoat
+  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor|chefcoat|hoodieskirt
   pants?: string;
   accessory?: string; // none|glasses|sunglasses|scarf|tie|bowtie|medal|monocle|neckerchief
   extras?: string[]; // backpack|flower_necklace (drawn in addition to the accessory)
@@ -75,6 +75,11 @@ export type Look = {
   lashes?: boolean; // eyelashes
   shoes?: string; // shoe colour (default: plain dark feet)
   socks?: string; // knee socks in this colour (bare-leg outfits)
+  tights?: string; // full-length tights in this colour (bare-leg outfits)
+  hightops?: boolean; // high-top sneakers in the shoes colour, with a white sole and toe cap
+  sneakers?: boolean; // low canvas sneakers in the shoes colour, with a white sole and toe cap
+  cargo?: boolean; // trousers with a pocket on each thigh and rolled-up cuffs (outfits with trousers)
+  hairClip?: string; // cherry (replaces the highponytail bow; the cherries take hatColor)
   height?: number; // relative, 1 = normal
 };
 
@@ -92,8 +97,10 @@ export const PRESETS: Record<string, Look> = {
   // From the user's character sheet: plum curls with a big side puff and a coral bow, freckles,
   // yellow tee under teal short dungarees with a heart pocket, coral sneakers.
   curly_girl: { skin: "#ffe8cf", hands: "#ffe8cf", hair: "curlypuff", hairColor: "#7a2a55", hatColor: "#ff6b5e", outfit: "dungarees", shirt: "#ffc83d", pants: "#7cc4ad", accent: "#ff6b5e", shoes: "#ff6b5e", freckles: true, lashes: true, height: 0.88 },
-  // Default narrator / host: white round face, orange scarf, single curl.
-  host: { skin: "#ffffff", hair: "tuft", hairColor: INK, outfit: "shirt", shirt: "#ffd23f", pants: INK, accessory: "scarf", accent: "#ff7a2f" },
+  // Benny: Berry's and Cherry's friend. White round face, brown quiff with cropped sides, a yellow hoodie with white-tipped
+  // drawstrings, dark grey cargo trousers with rolled cuffs, yellow sneakers.
+  // ("host" and "narrator" are his old names and still select him: PRESET_ALIASES.)
+  benny: { skin: "#ffffff", hair: "quiff", hairColor: "#7a4a2c", outfit: "hoodie", shirt: "#f6c220", pants: "#4a4c55", cargo: true, shoes: "#f6c220", sneakers: true },
   scientist: { skin: "#ffffff", hair: "messy", hairColor: "#cfd4da", outfit: "coat", shirt: "#ffffff", accessory: "glasses", accent: "#4f7bff" },
   student: { skin: "#ffffff", hair: "side", hairColor: "#3a2a20", outfit: "hoodie", shirt: "#4f7bff" },
   girl: { skin: "#ffffff", hair: "long", hairColor: "#5a3825", outfit: "dress", shirt: "#ff6b8b", blush: true },
@@ -116,6 +123,9 @@ export const PRESETS: Record<string, Look> = {
   adventurer: { skin: "#ffffff", hair: "flowing", hairColor: "#b58be0", hat: "safari", hatColor: "#f2d7a6", outfit: "belted", shirt: "#f2d7a6", accessory: "neckerchief", accent: "#ff8a2a", extras: ["backpack"], height: 0.9 },
   // Second_Female_Character — one high pink ponytail with a yellow bow at its root, strand fringe, purple frilled dress, flower necklace
   ponytail_girl: { skin: "#ffffff", hair: "highponytail", hairColor: "#f2607f", hatColor: "#ffd93b", outfit: "frilldress", shirt: "#9b6bd6", extras: ["flower_necklace"], blush: true, lashes: true, height: 0.86 },
+  // Cherry — from the user's sheet: dark brown high ponytail with a cherry clip, roomy red hoodie with white
+  // drawstrings, short black pleated skirt with a light stripe, black tights, red high-top sneakers.
+  cherry: { skin: "#ffe3d3", hands: "#ffe3d3", hair: "highponytail", hairColor: "#4a2a26", hatColor: "#e0263c", hairClip: "cherry", outfit: "hoodieskirt", shirt: "#d8283c", pants: "#2b2430", tights: "#2b2430", shoes: "#d8283c", hightops: true, blush: true, lashes: true, height: 0.88 },
   // Second_Male_Character — spiky orange hair, blue shirt, red scarf
   buddy: { skin: "#ffffff", hair: "spiky", hairColor: "#ff8a3d", outfit: "shirt", shirt: "#4f7bff", accessory: "scarf", accent: "#e53950", height: 0.85 },
   // Third_Male_Character — curly brown hair, round glasses, green argyle sweater vest over a white shirt
@@ -125,7 +135,7 @@ export const PRESETS: Record<string, Look> = {
 /** Other names that select a preset (the folder names of the user's character sheets). */
 export const PRESET_ALIASES: Record<string, string> = {
   police: "policeman", police_officer: "policeman",
-  main_male: "host", main_male_character: "host",
+  host: "benny", narrator: "benny", main_male: "benny", main_male_character: "benny",
   leader: "berry", main_female: "berry", main_female_character: "berry", main_girl: "berry",
   nova: "berry", // her first name; projects/meet-nova still casts her as "nova"
   first_female: "adventurer", first_female_character: "adventurer", explorer_girl: "adventurer",
@@ -135,6 +145,6 @@ export const PRESET_ALIASES: Record<string, string> = {
 };
 
 export const lookFor = (preset?: string, overrides?: Look): Look => ({
-  ...(PRESETS[preset ?? "host"] ?? PRESETS[PRESET_ALIASES[String(preset).toLowerCase()] ?? ""] ?? PRESETS.host),
+  ...(PRESETS[preset ?? "benny"] ?? PRESETS[PRESET_ALIASES[String(preset).toLowerCase()] ?? ""] ?? PRESETS.benny),
   ...(overrides ?? {}),
 });

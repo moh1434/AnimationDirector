@@ -72,6 +72,7 @@ export function catalog() {
       accessory: ["mask", ...casesIn("Character.tsx", "const Accessory:", "export const Emote")],
       facial: casesIn("Character.tsx", "const Facial:", "const Accessory:"),
       shirtSymbol: ["star", "heart"],
+      hairClip: ["cherry"],
     },
     presets: Object.keys(T.PRESETS),
     presetAliases: T.PRESET_ALIASES ?? {},

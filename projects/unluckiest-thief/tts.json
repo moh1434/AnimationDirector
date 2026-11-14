@@ -3,7 +3,7 @@
   "takes": 3,
   "voices": {
     "narrator": {
-      "library": "narrator"
+      "library": "benny"
     },
     "bob": {
       "reference": "refs/bob_thief.wav",

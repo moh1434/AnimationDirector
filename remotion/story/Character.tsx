@@ -174,11 +174,22 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
       );
     case "hoodie":
       return (
-        <g>
-          <path d={`M-58 ${top + 26} Q-66 ${top - 26} 0 ${top - 22} Q66 ${top - 26} 58 ${top + 26}Z`} fill={c} stroke={INK} strokeWidth={6} />
-          <path d={body(bottom)} fill={c} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
-          <path d={`M-34 ${bottom - 52} H34 L40 ${bottom - 14} H-40Z`} fill="none" stroke={INK} strokeWidth={4.5} strokeLinejoin="round" />
-          <path d={`M-12 ${top + 6} v34 M12 ${top + 6} v34`} stroke={INK} strokeWidth={4} strokeLinecap="round" />
+        // a hood folded round the neck over a white tee (V-neck), drawstrings with white tips, a front pocket, a ribbed hem
+        <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+          <path d={body(bottom)} fill={c} strokeWidth={sw} />
+          <path d={`M-62 ${bottom - 24} Q0 ${bottom - 18} 62 ${bottom - 24}`} fill="none" strokeWidth={4.5} opacity={0.45} />
+          <path d={`M-36 ${bottom - 72} H36 L44 ${bottom - 30} H-44Z`} fill={c} strokeWidth={4.5} />
+          <path d={`M-18 ${top + 4} L0 ${top + 34} L18 ${top + 4}Z`} fill="#ffffff" strokeWidth={4.5} />
+          <path d={`M-54 ${top + 8} Q-64 ${top - 22} 0 ${top - 18} Q64 ${top - 22} 54 ${top + 8} Q40 ${top + 30} 20 ${top + 4} L0 ${top + 40} L-20 ${top + 4} Q-40 ${top + 30} -54 ${top + 8}Z`} fill={c} strokeWidth={6} />
+          {[-1, 1].map((s) => {
+            const d = `M${s * 13} ${top + 22} Q${s * 17} ${top + 46} ${s * 14} ${top + 66}`;
+            return (
+              <g key={s}>
+                <path d={d} fill="none" strokeWidth={4} />
+                <rect x={s * 14 - 5} y={top + 64} width={10} height={14} rx={3} fill="#ffffff" strokeWidth={3.5} />
+              </g>
+            );
+          })}
         </g>
       );
     case "armor":
@@ -233,6 +244,32 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
             <path d={`M-4 ${top + 26} L-28 ${top + 44} L-8 ${top + 50}Z M4 ${top + 26} L28 ${top + 44} L8 ${top + 50}Z`} />
             <circle cx={0} cy={top + 27} r={8.5} />
           </g>
+        </g>
+      );
+    }
+    case "hoodieskirt": { // a roomy hoodie (shirt colour) with white drawstrings over a white tee hem, and a short pleated skirt (pants colour) with a light stripe
+      const sk = look.pants ?? "#2b2430";
+      const waist = top + 112, hem = bottom + 36;
+      return (
+        <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+          <path d={`M-58 ${waist} L-90 ${hem - 10} Q-92 ${hem} -78 ${hem} L78 ${hem} Q92 ${hem} 90 ${hem - 10} L58 ${waist}Z`} fill={sk} strokeWidth={sw} />
+          <path d={`M-48 ${waist + 8} L-60 ${hem - 4} M-24 ${waist + 8} L-30 ${hem - 2} M0 ${waist + 8} V${hem - 2} M24 ${waist + 8} L30 ${hem - 2} M48 ${waist + 8} L60 ${hem - 4}`} fill="none" stroke="#ffffff" strokeWidth={3.5} opacity={0.18} />
+          <path d={`M-84 ${hem - 15} Q0 ${hem - 9} 84 ${hem - 15}`} fill="none" stroke="#e6e2ea" strokeWidth={6} />
+          <path d={`M-58 ${waist - 14} H58 V${waist + 4} H-58Z`} fill="#ffffff" strokeWidth={5} />
+          <path d={body(waist - 10, 56, 64)} fill={c} strokeWidth={sw} />
+          <path d={`M-62 ${waist - 30} Q0 ${waist - 24} 62 ${waist - 30}`} fill="none" strokeWidth={4} opacity={0.35} />
+          <path d={`M-32 ${waist - 70} H32 L38 ${waist - 36} H-38Z`} fill="none" strokeWidth={4} opacity={0.6} />
+          <path d={`M-52 ${top + 6} Q-62 ${top - 22} 0 ${top - 18} Q62 ${top - 22} 52 ${top + 6} Q0 ${top + 40} -52 ${top + 6}Z`} fill={c} strokeWidth={6} />
+          <path d={`M-22 ${top + 4} Q0 ${top + 18} 22 ${top + 4}`} fill="none" strokeWidth={4.5} />
+          {[-1, 1].map((s) => {
+            const d = `M${s * 13} ${top + 16} Q${s * 16} ${top + 44} ${s * 12} ${top + 74}`;
+            return (
+              <g key={s} fill="none">
+                <path d={d} strokeWidth={10} />
+                <path d={d} stroke="#ffffff" strokeWidth={4.5} />
+              </g>
+            );
+          })}
         </g>
       );
     }
@@ -427,6 +464,15 @@ const HairBack: React.FC<{ look: Look; t?: number }> = ({ look, t = 0 }) => {
     }
     case "schoolbob": // a neat straight bob to the jaw, ends turned in
       return <path d="M-108 -10 Q-124 48 -114 90 Q-98 112 -74 100 L-58 90 L58 90 L74 100 Q98 112 114 90 Q124 48 108 -10 Q100 -112 0 -114 Q-100 -112 -108 -10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "shaggy": { // a messy mop of big curved locks, all swept the same way, with a crown lock that sways
+      const sway = Math.sin(t * 2.4) * 2.5;
+      return (
+        <g fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round">
+          <path transform={`rotate(${sway} 0 -110)`} d="M-10 -112 Q0 -160 46 -166 Q28 -146 36 -120Z" />
+          <path d="M-104 24 Q-122 -4 -116 -34 Q-134 -52 -130 -78 Q-112 -66 -100 -74 Q-108 -108 -86 -128 Q-78 -108 -60 -106 Q-52 -140 -14 -150 Q-20 -128 -4 -118 Q26 -146 70 -136 Q46 -124 50 -106 Q92 -110 120 -84 Q94 -80 96 -62 Q118 -50 124 -26 Q106 -28 100 -16 Q100 -72 0 -78 Q-104 -72 -104 24Z" />
+        </g>
+      );
+    }
     case "wavy":
       return <path d="M-106 -10 Q-122 50 -100 80 Q-80 100 -60 84 L60 84 Q80 100 100 80 Q122 50 106 -10 Q100 -110 0 -112 Q-100 -110 -106 -10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
     case "ponytail":
@@ -501,11 +547,22 @@ const HairFront: React.FC<{ look: Look; t?: number; bounce?: number }> = ({ look
         <g strokeLinejoin="round" strokeLinecap="round">
           <path d="M-104 12 Q-110 -112 0 -114 Q110 -112 104 4 Q102 28 92 44 Q84 14 82 -18 Q72 -44 52 -52 L42 -28 Q22 -56 -4 -58 L-12 -32 Q-34 -56 -58 -50 L-68 -24 Q-84 -40 -92 -16 Q-90 16 -96 42 Q-104 30 -104 12Z" fill={hc} stroke={INK} strokeWidth={sw} />
           <path d="M-70 -72 Q-40 -98 6 -98" fill="none" stroke={tint(hc, 0.4)} strokeWidth={8} />
-          <g stroke={INK} strokeWidth={6} fill={look.hatColor ?? "#ffd93b"} transform="translate(-52 -106) rotate(-24) scale(.82)">
-            <path d="M0 0 L-58 -34 Q-74 0 -58 34Z" />
-            <path d="M0 0 L58 -34 Q74 0 58 34Z" />
-            <rect x={-14} y={-16} width={28} height={32} rx={9} />
-          </g>
+          {look.hairClip === "cherry" ? (
+            // a pair of cherries on one stem with a leaf, where the ponytail starts
+            <g stroke={INK} strokeWidth={5} transform="translate(-50 -104) rotate(-12)">
+              <path d="M-16 6 Q-10 -22 4 -32 M16 8 Q12 -18 4 -32" fill="none" strokeWidth={4.5} />
+              <path d="M4 -32 Q16 -50 36 -44 Q26 -26 4 -32Z" fill="#6a9a3a" strokeWidth={4} />
+              <circle cx={-18} cy={18} r={17} fill={look.hatColor ?? "#e0263c"} />
+              <circle cx={18} cy={20} r={17} fill={look.hatColor ?? "#e0263c"} />
+              <path d="M-26 12 Q-24 6 -18 5 M10 14 Q12 8 18 7" fill="none" stroke="#ffffff" strokeWidth={4} opacity={0.85} />
+            </g>
+          ) : (
+            <g stroke={INK} strokeWidth={6} fill={look.hatColor ?? "#ffd93b"} transform="translate(-52 -106) rotate(-24) scale(.82)">
+              <path d="M0 0 L-58 -34 Q-74 0 -58 34Z" />
+              <path d="M0 0 L58 -34 Q74 0 58 34Z" />
+              <rect x={-14} y={-16} width={28} height={32} rx={9} />
+            </g>
+          )}
         </g>
       );
     }
@@ -537,6 +594,24 @@ const HairFront: React.FC<{ look: Look; t?: number; bounce?: number }> = ({ look
         </g>
       );
     }
+    case "shaggy": { // one big fringe swept across the forehead, its long lock ending beside the eye, ears free
+      const shine = tint(hc, 0.35);
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-102 16 Q-112 -112 0 -116 Q106 -112 102 -10 Q98 -40 82 -54 Q78 -36 70 -30 Q66 -50 52 -62 Q42 -44 26 -40 Q26 -58 14 -66 Q0 -46 -22 -40 Q-18 -56 -26 -66 Q-46 -50 -66 -44 Q-74 -30 -86 -14 Q-88 -36 -94 -42 Q-100 -22 -102 16Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M40 -96 Q0 -82 -40 -64 M72 -92 Q44 -80 14 -72 M-24 -102 Q-58 -86 -76 -50" fill="none" stroke={INK} strokeWidth={4} opacity={0.3} />
+          <path d="M-60 -92 Q-20 -108 30 -102" fill="none" stroke={shine} strokeWidth={8} />
+        </g>
+      );
+    }
+    case "quiff": // cropped temples and a lifted, two-lock forelock; open forehead
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-101 8 L-102 -40 Q-100 -84 -72 -101 Q-84 -124 -76 -143 Q-50 -125 -22 -127 Q-30 -146 -20 -157 Q8 -135 38 -132 Q80 -128 94 -92 Q106 -65 101 8 L86 -4 L82 -53 Q64 -72 48 -83 Q18 -65 -12 -72 Q-44 -79 -76 -55 L-85 -5Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M-62 -104 Q-22 -91 18 -104 Q36 -110 48 -112" fill="none" stroke={INK} strokeWidth={4} />
+          <path d="M-54 -121 Q-22 -110 6 -117" fill="none" stroke={tint(hc, 0.35)} strokeWidth={7} />
+        </g>
+      );
     case "tuft":
       return <path d="M-6 -99 C-14 -128 18 -142 26 -124 C32 -110 14 -104 10 -116" stroke={INK} strokeWidth={8} fill="none" strokeLinecap="round" />;
     case "spiky":
@@ -966,7 +1041,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const waveWig = (p.motion?.[motionIndex+2] ?? (poseName === "wave" ? 1 : 0)) * Math.sin(t * 7) * 14;
   const ra = armPoints(1, R, sx, sy, 86, 82, wig + waveWig);
   const la = armPoints(-1, L, -sx, sy, 86, 82, (p.motion?.[motionIndex+1] ?? (poseName === "explain" ? 1 : 0)) * wig * 0.7);
-  const sleeve = ["robe", "coat", "chefcoat", "suit", "hoodie", "armor", "tunic"].includes(look.outfit ?? "");
+  const sleeve = ["robe", "coat", "chefcoat", "suit", "hoodie", "hoodieskirt", "armor", "tunic"].includes(look.outfit ?? "");
   const sleeveColor = look.outfit === "coat" ? "#fbfbfb" : look.outfit === "chefcoat" ? "#ffffff" : look.shirt ?? "#ffd23f";
   // short sleeve at the shoulder (its colour), for outfits with a tee underneath
   const puffSleeve = look.outfit === "pinafore" ? "#ffffff" : look.outfit === "dungarees" ? look.shirt ?? "#ffd23f" : null;
@@ -983,10 +1058,19 @@ export const Character: React.FC<CharacterProps> = (p) => {
     );
   };
   const skin = look.skin ?? "#fff";
-  const bareLegs = ["dress", "frilldress", "pinafore", "tunic", "belted", "dungarees", "robe", "sailor"].includes(look.outfit ?? "");
-  const legColour = bareLegs ? skin : look.pants && look.pants !== INK ? look.pants : "#3b3f5c";
+  const bareLegs = ["dress", "frilldress", "pinafore", "tunic", "belted", "dungarees", "robe", "sailor", "hoodieskirt"].includes(look.outfit ?? "");
+  const legColour = bareLegs ? look.tights ?? skin : look.pants && look.pants !== INK ? look.pants : "#3b3f5c";
   const shoeColour = look.shoes ?? "#2c2a36";
-  const shoe = (fx: number, fy: number, dir: number) => (
+  const ankle = look.hightops ? 38 : 24; // high-tops reach over the ankle, sneakers stop below it
+  const shoe = (fx: number, fy: number, dir: number) => look.hightops || look.sneakers ? (
+    // canvas sneaker (high-top or low): laces, a chunky white sole and a white toe cap
+    <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+      <path d={`M${fx - dir * 17} ${fy + 4} L${fx - dir * 17} ${fy - ankle + 8} Q${fx - dir * 16} ${fy - ankle} ${fx - dir * 6} ${fy - ankle} L${fx + dir * 10} ${fy - ankle} Q${fx + dir * 16} ${fy - ankle + 2} ${fx + dir * 16} ${fy - ankle + 12} L${fx + dir * 18} ${fy - 13} Q${fx + dir * 40} ${fy - 12} ${fx + dir * 44} ${fy + 2}Z`} fill={shoeColour} strokeWidth={5.5} />
+      <path d={`M${fx + dir * 18} ${fy - 13} Q${fx + dir * 40} ${fy - 12} ${fx + dir * 44} ${fy + 2} L${fx + dir * 22} ${fy + 2} Q${fx + dir * 20} ${fy - 6} ${fx + dir * 18} ${fy - 13}Z`} fill="#ffffff" strokeWidth={4.5} />
+      <path d={`M${fx - dir * 21} ${fy + 2} H${fx + dir * 46} Q${fx + dir * 50} ${fy + 14} ${fx + dir * 40} ${fy + 15} H${fx - dir * 16} Q${fx - dir * 24} ${fy + 14} ${fx - dir * 21} ${fy + 2}Z`} fill="#ffffff" strokeWidth={5.5} />
+      <path d={look.hightops ? `M${fx - dir * 4} ${fy - 30} L${fx + dir * 10} ${fy - 24} M${fx - dir * 2} ${fy - 20} L${fx + dir * 13} ${fy - 15}` : `M${fx - dir * 2} ${fy - 20} L${fx + dir * 12} ${fy - 14} M${fx + dir * 6} ${fy - 22} L${fx + dir * 17} ${fy - 13}`} fill="none" stroke="#ffffff" strokeWidth={4} />
+    </g>
+  ) : (
     <g>
       <path d={`M${fx - dir * 15} ${fy - 9} Q${fx - dir * 19} ${fy + 11} ${fx - dir * 6} ${fy + 11} H${fx + dir * 30} Q${fx + dir * 43} ${fy + 10} ${fx + dir * 40} ${fy - 1} Q${fx + dir * 34} ${fy - 13} ${fx + dir * 14} ${fy - 13} Q${fx} ${fy - 16} ${fx - dir * 15} ${fy - 9}Z`} fill={shoeColour} stroke={INK} strokeWidth={5.5} strokeLinejoin="round" />
       <path d={`M${fx - dir * 11} ${fy + 5} H${fx + dir * 35}`} stroke="#ffffff" strokeWidth={4} strokeLinecap="round" opacity={0.75} />
@@ -995,24 +1079,36 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const leg = (side: 1 | -1) => {
     const swing = Math.sin(walkPhase + (side === 1 ? 0 : Math.PI));
     const lift = Math.max(0, swing) * 18;
-    const fx = side * 30 + swing * 26 * facing;
+    const fx = side * 30 + swing * 26; // the legs are inside the mirrored group, so "forward" is always +x here
     const fy = -12 - lift;
     // Follow the hip through the torso's breathing/lean transforms while feet stay planted.
     // Jumping is a separate whole-character transform below, so both feet leave the ground.
     const hipX = side * 22 * Math.cos(rad(lean)) - breath * 0.3 * Math.sin(rad(lean));
     const hipY = legTop + side * 22 * Math.sin(rad(lean)) + breath * 0.3 * Math.cos(rad(lean)) + bodyY + breath * 0.4 - 6;
     // the knee bends forward when the foot lifts
-    const kx = (hipX + fx) / 2 + facing * (lift * 1.5 + 2), ky = (hipY + fy) / 2;
+    const kx = (hipX + fx) / 2 + (lift * 1.5 + 2), ky = (hipY + fy) / 2;
+    const q = (u: number) => [(1 - u) * (1 - u) * hipX + 2 * (1 - u) * u * kx + u * u * fx, (1 - u) * (1 - u) * hipY + 2 * (1 - u) * u * ky + u * u * fy];
     return (
       <g key={side}>
         {tube(`M${hipX} ${hipY} Q${kx} ${ky} ${fx} ${fy}`, legColour, 15)}
+        {look.cargo && !bareLegs && (() => {
+          // cargo trousers: a patch pocket with a flap on the outside of the thigh, and a rolled-up cuff above the shoe
+          const [px, py] = q(0.42), [cx0, cy0] = q(0.8), [cx1, cy1] = q(0.9);
+          const ox = px + side * 9;
+          return (
+            <g key="cargo">
+              <rect x={ox - 8} y={py - 12} width={16} height={26} rx={3} fill={legColour} stroke={INK} strokeWidth={4} />
+              <path d={`M${ox - 8} ${py - 4} H${ox + 8}`} stroke={INK} strokeWidth={3.5} />
+              {tube(`M${cx0} ${cy0} L${cx1} ${cy1}`, tint(legColour, 0.12), 20, "cuff")}
+            </g>
+          );
+        })()}
         {look.socks && bareLegs && (() => {
           // knee socks: the lower half of the leg, from just under the knee to the shoe
-          const q = (u: number) => [(1 - u) * (1 - u) * hipX + 2 * (1 - u) * u * kx + u * u * fx, (1 - u) * (1 - u) * hipY + 2 * (1 - u) * u * ky + u * u * fy];
           const [ax, ay] = q(0.56), [bx, by] = q(0.8);
           return tube(`M${ax} ${ay} Q${bx} ${by} ${fx} ${fy}`, look.socks, 15, "sock");
         })()}
-        {shoe(fx, fy + 3, facing)}
+        {shoe(fx, fy + 3, 1)}
       </g>
     );
   };
@@ -1026,7 +1122,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
     return (
       <g>
         {tube(d, look.hands ?? skin, 13)}
-        {sleeve ? tube(d, sleeveColor, 22, "s", 0.72) : shortSleeve ? tube(d, shortSleeve, 24, "s", puffSleeve ? 0.2 : 0.26) : null}
+        {sleeve ? tube(d, sleeveColor, 22, "s", look.outfit === "hoodieskirt" ? 0.88 : 0.72) : shortSleeve ? tube(d, shortSleeve, 24, "s", puffSleeve ? 0.2 : 0.26) : null}
         <Hand x={a.hx} y={a.hy} a={a.a2} side={side} kind={hand} fill={look.hands ?? skin} />
       </g>
     );
@@ -1080,6 +1176,17 @@ export const Character: React.FC<CharacterProps> = (p) => {
         return (
           <g key={side}>
             {tube(frontSeat ? `M${hx} ${hy} Q${kx} ${hy + 18} ${kx} ${ky} L${fx} -14` : `M${hx} ${hy} L${kx} ${ky} L${fx} -14`, legColour, 15)}
+            {look.cargo && !bareLegs && (() => {
+              // the cargo pocket on the thigh and the rolled cuff on the shin, as when standing
+              const px = lerp(hx, kx, 0.55), py = lerp(hy, ky, 0.55);
+              return (
+                <g key="cargo">
+                  <rect x={px - 13} y={py - 8} width={26} height={16} rx={3} fill={legColour} stroke={INK} strokeWidth={4} />
+                  <path d={`M${px - 13} ${py - 2} H${px + 13}`} stroke={INK} strokeWidth={3.5} />
+                  {tube(`M${lerp(kx, fx, 0.74)} ${lerp(ky, -14, 0.74)} L${lerp(kx, fx, 0.86)} ${lerp(ky, -14, 0.86)}`, tint(legColour, 0.12), 20, "cuff")}
+                </g>
+              );
+            })()}
             {look.socks && bareLegs && tube(`M${lerp(kx, fx, 0.25)} ${lerp(ky, -14, 0.25)} L${fx} -14`, look.socks, 15, "sock")}
             {shoe(fx, -9, frontSeat ? side : 1)}
           </g>
@@ -1143,7 +1250,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
           {!hasWrap && <g filter={`url(#${celHair})`}><HairFront look={look} t={t} bounce={m} /></g>}
           {hasWrap && !fullWrap && <g filter={`url(#${celHair})`}><WrapFront look={look} /></g>}
           {/* a low fringe would hide the eyebrows, so they are drawn again over it */}
-          {((!hasWrap && ["starbuns", "curlypuff", "flowing", "highponytail", "schoolbob"].includes(look.hair ?? "")) || (hasWrap && !fullWrap)) && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
+          {((!hasWrap && ["starbuns", "curlypuff", "flowing", "highponytail", "schoolbob", "shaggy"].includes(look.hair ?? "")) || (hasWrap && !fullWrap)) && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
           <g filter={`url(#${celHair})`}><Hat look={hatLook} facing={1} /></g>
           {p.emote && (
             <g transform="translate(155 -70)">

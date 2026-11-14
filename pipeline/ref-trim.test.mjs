@@ -30,7 +30,7 @@ test("keptText keeps the beginning of the text that was heard, tags included", (
 });
 
 test("languageOf reads the language from the file name", () => {
-  assert.equal(languageOf("voices-library/narrator/reference_ar.wav"), "ar");
+  assert.equal(languageOf("voices-library/benny/reference_ar.wav"), "ar");
   assert.equal(languageOf("en_story_mystery.wav"), "en");
   assert.equal(languageOf("bob.wav"), null);
 });

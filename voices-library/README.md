@@ -5,7 +5,7 @@ character sounds like the same person in every video, with one reference recordi
 
 ```
 voices-library/
-  narrator/              ← the narrator (on-screen preset: host)
+  benny/                 ← Benny, Berry's friend and the narrator (on-screen preset: benny)
     reference_en.wav     ← the voice speaking English
     reference_ar.wav     ← the same voice speaking Arabic
     voice.json           ← per language: the file, its exact words and how it was made
@@ -15,8 +15,8 @@ voices-library/
 
 ```json
 {
-  "id": "narrator",
-  "preset": "host",
+  "id": "benny",
+  "preset": "benny",
   "description": "What the voice is like (a note for people; it is not sent to the model).",
   "languages": {
     "ar": {
@@ -70,7 +70,7 @@ In the project's `tts.json` (or `tts-ar.json`):
 
 ```json
 "voices": {
-  "narrator": { "library": "narrator" }
+  "narrator": { "library": "benny" }
 }
 ```
 

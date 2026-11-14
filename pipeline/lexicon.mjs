@@ -204,6 +204,7 @@ export const CAST_WORDS = {
   buddy: ["friend", "buddy", "brother", "صديق", "صاحب", "اخ"],
   berry: ["berry", "بيري"],
   ponytail_girl: ["sister", "little girl", "her friend", "اخت", "صديقتها"],
+  cherry: ["cherry", "شيري"],
 };
 
 export const BG_WORDS = {

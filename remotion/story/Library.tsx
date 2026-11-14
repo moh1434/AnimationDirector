@@ -3,10 +3,10 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "./engine";
 import { PROP_NAMES, PropArt } from "./Props";
 import { Character, POSES, Pose } from "./Character";
 import { EXPR, Expression } from "./Face";
-import { PRESETS, FONT, INK, type Look } from "./theme";
+import { PRESETS, FONT, INK, type Look, lookFor } from "./theme";
 
 /** Visual catalogue of everything the director can use (open it in Remotion Studio). */
-export const Library: React.FC<{ page?: "props" | "characters" | "faces" | "character" | "looks"; looks?: { label: string; look: Look; background?: string }[]; name?: string; pose?: Pose; expression?: Expression; talking?: boolean; background?: string }> = ({ page = "props", name = "host", pose = "idle", expression = "happy", talking = false, background = "transparent", looks }) => {
+export const Library: React.FC<{ page?: "props" | "characters" | "faces" | "character" | "looks"; looks?: { label: string; look: Look; background?: string }[]; name?: string; pose?: Pose; expression?: Expression; talking?: boolean; background?: string; facing?: "left" | "right"; walking?: boolean }> = ({ page = "props", name = "host", pose = "idle", expression = "happy", talking = false, background = "transparent", looks, facing, walking }) => {
   const frame = useCurrentFrame();
   const { fps, width: W, height: H } = useVideoConfig();
   const t = frame / fps;
@@ -16,7 +16,7 @@ export const Library: React.FC<{ page?: "props" | "characters" | "faces" | "char
     return (
       <AbsoluteFill style={{ background }}>
         <svg width={W} height={H} viewBox={`${-W / 2 / s} ${-770} ${W / s} ${H / s}`}>
-          <Character look={PRESETS[name] ?? PRESETS.host} pose={pose} expression={expression} t={t} frame={frame} fps={fps} seed={1} talking={talking} mouth={talking ? Math.abs(Math.sin(t * 9 + 1)) * 0.8 : 0} mouthShape={talking ? { wide: Math.sin(t * 5.3), close: Math.max(0, Math.sin(t * 3.1) - 0.6) * 2.5 } : undefined} />
+          <Character look={lookFor(name)} facing={facing} walking={walking} pose={pose} expression={expression} t={t} frame={frame} fps={fps} seed={1} talking={talking} mouth={talking ? Math.abs(Math.sin(t * 9 + 1)) * 0.8 : 0} mouthShape={talking ? { wide: Math.sin(t * 5.3), close: Math.max(0, Math.sin(t * 3.1) - 0.6) * 2.5 } : undefined} />
         </svg>
       </AbsoluteFill>
     );
@@ -34,7 +34,7 @@ export const Library: React.FC<{ page?: "props" | "characters" | "faces" | "char
           return (
             <div key={i} style={{ position: "absolute", left: (i % cols) * cw, top: Math.floor(i / cols) * ch, width: cw, height: ch, background: v.background ?? GROUNDS[i % GROUNDS.length] }}>
               <svg width={cw} height={ch * 0.88} viewBox={`${-cw / 2 / s} ${-770} ${cw / s} ${(ch * 0.88) / s}`}>
-                <Character look={{ ...(PRESETS[name] ?? PRESETS.host), ...v.look }} pose={pose} expression={expression} t={t} frame={frame} fps={fps} seed={1} />
+                <Character look={{ ...lookFor(name), ...v.look }} pose={pose} expression={expression} t={t} frame={frame} fps={fps} seed={1} />
               </svg>
               <div style={{ textAlign: "center", fontFamily: FONT.body, fontWeight: 800, fontSize: 34, color: INK }}>{v.label}</div>
             </div>

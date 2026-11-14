@@ -48,6 +48,7 @@ desktop.ini
 # But do not ignore /DEV/public and anything inside it
 !/DEV/public/
 !/DEV/public/**
+!/DEV/Scripts/video-script-prompt.md
 
 # ---------- Large media (uncomment if you don't want assets in git) ----------
 # assets/**/*.mp4

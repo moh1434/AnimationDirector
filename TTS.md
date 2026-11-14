@@ -130,7 +130,7 @@ the language): it checks every take word by word and gives the times needed to c
   "language": "en",
   "takes": 3,
   "voices": {
-    "narrator": { "library": "narrator" },
+    "narrator": { "library": "benny" },
     "ali": { "description": "An energetic young man with a bright, slightly high, cheerful cartoon voice, quick and playful" },
     "ahmed": { "reference": "refs/ahmed.wav", "referenceText": "The exact words spoken in ahmed.wav.", "seeds": [5, 17, 29] }
   },
