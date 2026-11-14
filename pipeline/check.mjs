@@ -118,6 +118,8 @@ export function checkFrames(sb) {
       ...ats.map((a) => a + 0.28),
       ...(s.actions ?? []).map((a) => a.at + 0.25),
       ...(s.camera?.punch ?? []).flatMap((a) => [a + 0.1, a + 0.2]),
+      // a cut or push to a new shot: the first settled frame of it, and the last frame before the next move
+      ...(s.camera?.moves ?? []).flatMap((m, j, all) => [m.at + (m.duration ?? 0.55) + 0.05, (all[j + 1]?.at ?? dur - 0.32) - 0.05]),
     ];
     const frames = [...new Set(candidates.filter((t) => t >= 0.32 && t <= dur - 0.3).map((t) => Math.round((s.start + t) * fps)))].sort((a, b) => a - b);
     if (!frames.length) frames.push(Math.round((s.start + dur / 2) * fps));

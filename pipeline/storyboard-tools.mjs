@@ -60,6 +60,7 @@ export function writeBrief(dir, { analysis, segments, settings, storyboard }) {
     "- Show the verb or consequence, not only a named prop. Plan setup, change and a readable result; use existing actions, props/items, at/out and supported layouts.",
     "- A mechanism can carry the picture without a visible host. Use speaker: none for an off-screen narrator; this does not remove narration audio.",
     "- Use one focal change at a time. Reactions follow the event; camera movement needs a purpose. A deliberate hold is valid.",
+    "- Frame like a film (ART_STYLE.md): show where we are, then go closer. camera.on aims at a cast member's face; camera.moves change the shot inside a scene (duration 0 cuts to a reaction, the default pushes in on a line). A person should usually fill a third of the frame height or more.",
     "- Keep captions readable in their reserved band; diagram labels name parts or values instead of duplicating the sentence. Preserve Arabic shaping and reading order.",
     "- Check the opening, cause, result and transition frames, then watch the sequence at playback speed. Geometry checks alone cannot judge whether it explains the line.", "");
   if (storyboard?.scenes?.length) {
@@ -250,6 +251,28 @@ export function validateStoryboard(sb, { words = [], voiced = [], duration, proj
       isAt(x.at, sceneWords, `${at}, sfx[${j}].at`);
     });
     for (const k of ["punch", "shake"]) (s.camera?.[k] ?? []).forEach((a, j) => isAt(a, sceneWords, `${at}, camera.${k}[${j}]`));
+    {
+      const here = new Set((s.characters ?? []).map((ch) => ch.who));
+      const LIGHTS = ["day", "warm", "cool", "dusk", "night", "spot", "none"];
+      if (s.light !== undefined && !LIGHTS.includes(s.light)) E(`${at}, light`, `"${s.light}" is not a light. Use one of: ${LIGHTS.join(", ")}, or leave it out.`);
+      const onOk = (who, where) => { if (who !== undefined && who !== "" && !here.has(who)) E(where, `"${who}" is not a character in this scene (${[...here].join(", ") || "it has none"}).`); };
+      const zoomOk = (z, where) => { if (z !== undefined && (typeof z !== "number" || z < 1 || z > 3)) E(where, `zoom ${z} must be between 1 and 3 (below 1 the picture does not fill the frame).`); };
+      const focusOk = (p, where) => { if (p && (!(p.x >= 0 && p.x <= 1) || !(p.y >= 0 && p.y <= 1))) E(where, `focus ${JSON.stringify(p)} must have x and y between 0 and 1.`); };
+      const cam = s.camera ?? {};
+      onOk(cam.on, `${at}, camera.on`);
+      (cam.zoom ?? []).forEach((z, j) => zoomOk(z, `${at}, camera.zoom[${j}]`));
+      focusOk(cam.focus, `${at}, camera.focus`);
+      if (cam.on && cam.focus) W(`${at}, camera`, `has both "on" and "focus": focus is used, "on" is ignored.`);
+      (cam.tilt ?? []).forEach((d, j) => { if (typeof d !== "number" || Math.abs(d) > 4) E(`${at}, camera.tilt[${j}]`, `tilt ${d} must be between -4 and 4 degrees.`); });
+      (cam.moves ?? []).forEach((m, j) => {
+        const where = `${at}, camera.moves[${j}]`;
+        if (m.at === undefined || m.at === null) E(where, `needs "at" (seconds, "@word" or "clip:N").`);
+        isAt(m.at, sceneWords, `${where}.at`);
+        onOk(m.on, `${where}.on`); zoomOk(m.zoom, `${where}.zoom`); focusOk(m.focus, `${where}.focus`);
+        if (m.zoom === undefined && m.on === undefined && !m.focus) E(where, `changes nothing: give it "zoom", "on" or "focus".`);
+        if (m.duration !== undefined && (typeof m.duration !== "number" || m.duration < 0 || m.duration > 3)) E(`${where}.duration`, `${m.duration} must be 0 (a cut) to 3 seconds.`);
+      });
+    }
     if (s.bubble) {
       if (!s.bubble.text && !s.bubble.prop) E(`${at}, bubble`, `needs "text" or "prop"`);
       if (s.bubble.prop && !isProp(s.bubble.prop)) E(`${at}, bubble.prop`, `"${s.bubble.prop}" is not a drawing.${propHint(s.bubble.prop, c, customProps)}`);

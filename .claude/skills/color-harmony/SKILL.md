@@ -79,6 +79,13 @@ so only the character changes. Then show the winner on three or four grounds fro
   hue is away from the main character's big areas.
 - **Text and titles:** white or ink with the ink outline; a highlight colour only for the spoken word.
 
+## Shade and light
+
+Pick the **flat, lit colour** of each area. The renderer adds the shadow side (a cool violet band,
+`SHADE` in `remotion/story/shade.tsx`) and the scene's light and colour grade (`light.tsx`), so never
+add a darker "shadow colour" of your own. Because of the shade, rule 6 matters more: a fill darker
+than L 0.40 loses both its ink lines and its shadow.
+
 ## Where the colours live
 
 `remotion/story/theme.ts`: `PRESETS` (per character: `hairColor`, `hairTips`, `shirt`, `pants`,

@@ -1,3 +1,4 @@
+import { CelFilter } from "./shade";
 import React from "react";
 import { StorySetting } from "./StorySettings";
 import { LifeBackground, LIFE_BACKGROUNDS } from "./LifeBackgrounds";
@@ -270,10 +271,22 @@ export const Background: React.FC<{ spec: BgSpec; W: number; H: number; t: numbe
       content = <rect width={W} height={H} fill={c} />;
   }
 
+  const horizon = [...EVERYDAY_BACKGROUNDS, ...LIFE_BACKGROUNDS].some((n) => n === type) ? 0.83 : type === "farm" || STORY_BACKGROUNDS.some((n) => n === type) ? 0.84 : undefined;
   return (
     <div style={{ position: "absolute", inset: 0 }}>
       <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", inset: 0 }}>
+        <defs>
+          {/* scenery in every setting takes the same cel shade as the actors */}
+          <CelFilter id="setCel" depth={15} opacity={0.2} />
+          <linearGradient id="wallLight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffffff" stopOpacity={0.3} /><stop offset="1" stopColor="#ffffff" stopOpacity={0} /></linearGradient>
+          <linearGradient id="floorShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#1b1436" stopOpacity={0.2} /><stop offset="0.35" stopColor="#1b1436" stopOpacity={0.04} /><stop offset="1" stopColor="#1b1436" stopOpacity={0.07} /></linearGradient>
+        </defs>
         {content}
+        {/* wall-and-floor settings: light falls down the wall, and the floor is darkest where it meets the wall */}
+        {horizon !== undefined && <>
+          <rect width={W} height={H * horizon} fill="url(#wallLight)" />
+          <rect y={H * horizon} width={W} height={H * (1 - horizon)} fill="url(#floorShade)" />
+        </>}
         <defs>
           <radialGradient id={`vg${seed}`} cx="50%" cy="50%" r="72%">
             <stop offset="60%" stopColor="#000" stopOpacity={0} />

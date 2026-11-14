@@ -38,8 +38,12 @@ your own, a one-off test): write the same `<name>.json` yourself, with the real 
 
 **Cloning uses it.** A `reference` with a record next to it (`refs/bob.wav` + `refs/bob.json`) and a library
 voice (`languages.<lang>.settings`) are cloned with the same settings, take 1 with the same seed (the next
-takes add 11 each), and the record's `text` when `referenceText` is left out. A project's `"options"`
-still win over the record.
+takes add 11 each), and the record's `text` when `referenceText` is left out.
+Precedence: the saved settings beat the project-wide `"options"` (which then do not apply to that voice;
+`voices` warns). Only `"options"` or `"seeds"` written on that voice itself replace them, and `voices` warns
+about that too, so nothing replaces `voice.json` silently. A library voice is used only as
+`{ "library": "<id>" }`: naming its file as a `"reference"` is refused, because the file alone leaves out
+the words, settings and seed in `voice.json`.
 
 **The voice sets the speed of the video.** Takes are never slowed down, sped up or stretched to fit
 the picture; the storyboard is fitted to the voice, and the video may run longer than the voice, never

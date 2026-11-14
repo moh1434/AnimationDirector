@@ -84,5 +84,5 @@ targets and narration priority. These measurements do not isolate music, voice o
 no claims about their relative loudness or exact cue timing follow from them.
 
 The references supply storytelling inspiration, not reusable illustrations, maps, characters,
-historical facts or soundtracks. Their detailed textures, glow and photographic backgrounds are
-optional stylistic choices; preserve this project's established flat cartoon direction.
+historical facts or soundtracks. Their lighting, shading, depth and camera work informed the project's lit cartoon style
+(ART_STYLE.md); their textures and photographic backgrounds were not adopted.

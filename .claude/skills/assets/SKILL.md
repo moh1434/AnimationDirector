@@ -26,7 +26,9 @@ character — draw a generic version (a "game engine" is an editor window, not a
 - 200×200 box centred on (0,0); the silhouette fills about 160–185 of it.
 - Ink outline `#1d1b20`, 6 px, round joins and caps, on every closed shape (use `{...st}`).
 - Flat fills from the palette (red `#e53950`, yellow `#ffc83d`, green `#3ddc97`, blue `#3b8df0`,
-  purple `#6a35d6`, grey `#b0bec5`, skin/wood tones); no gradients, no shadows, no textures.
+  purple `#6a35d6`, grey `#b0bec5`, skin/wood tones). **Do not draw gradients, shadows or textures
+  into the prop**: the renderer gives every prop the same cel shade and ground shadow as the
+  characters (ART_STYLE.md), and a second, hand-drawn shadow would fight it.
   At most one white highlight stroke for volume.
 - 2–4 colours per object; the big shape is one saturated colour.
 - Recognisable as a silhouette at 150 px (a phone shows props at roughly that size). Remove every

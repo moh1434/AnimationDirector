@@ -263,9 +263,26 @@ test("a picked take becomes a reference and a library voice that later videos cl
   assert.equal(arPlan.voices.bob.referenceText, "مرحبا يا أحمد");
   assert.deepEqual(arPlan.voices.bob.options, { temperature: 0.7, top_k: 35, top_p: 0.9, repeat_penalty: 1.1 }, "the reference's settings are the defaults");
   assert.deepEqual(takeRequests(arPlan, ar).map((r) => r.seed), [1579, 1590, 1601], "its seed makes take 1");
-  // tts.json options win over the library's settings
-  const own = project({ language: "ar", voices: { bob: { library: "ali", options: { temperature: 1 } } }, lines: [{ who: "bob", text: "مرحبا" }] });
-  assert.equal(readVoicePlan(own, undefined, { library }).voices.bob.options.temperature, 1);
+  // what Audar actually receives for take 1: the library recording, its words, its settings and its seed
+  const job = takeCommand(SETTINGS, ar, takeRequests(arPlan, ar)[0], join(ar, "o.wav")).job;
+  assert.deepEqual({ mode: job.mode, engine: basename(job.modelDir), text: job.referenceText, seed: job.seed, options: job.options },
+    { mode: "clone", engine: "audar-turbo", text: "مرحبا يا أحمد", seed: 1579, options: { temperature: 0.7, top_k: 35, top_p: 0.9, repeat_penalty: 1.1 } });
+  assert.match(job.reference, /ali[\\/]reference_ar\.wav$/);
+  // the project-wide "options" do not replace a saved voice's settings (and voices says so)
+  const wide = project({ language: "ar", options: { temperature: 1, top_k: 50 }, voices: { bob: { library: "ali" } }, lines: [{ who: "bob", text: "مرحبا" }] });
+  const widePlan = readVoicePlan(wide, undefined, { library });
+  assert.deepEqual(takeRequests(widePlan, wide)[0].options, { temperature: 0.7, top_k: 35, top_p: 0.9, repeat_penalty: 1.1, seed: 1579 });
+  assert.ok(widePlan.warnings.some((w) => /project-wide "options" \(temperature, top_k\) do not apply/.test(w)));
+  // the voice's own options and seeds do, with a warning
+  const own = project({ language: "ar", voices: { bob: { library: "ali", options: { temperature: 1 }, seeds: [5] } }, lines: [{ who: "bob", text: "مرحبا" }] });
+  const ownPlan = readVoicePlan(own, undefined, { library });
+  assert.equal(ownPlan.voices.bob.options.temperature, 1);
+  assert.equal(takeRequests(ownPlan, own)[0].seed, 5);
+  assert.ok(ownPlan.warnings.some((w) => /own "options" replace voices-library\/ali\/voice\.json \(ar\): temperature 0\.7 → 1/.test(w)));
+  assert.ok(ownPlan.warnings.some((w) => /own "seeds" replace the seed .*1579 → 5/.test(w)));
+  // a library recording named by path is refused: it would skip voice.json
+  const byPath = project({ language: "ar", voices: { bob: { reference: join(library, "ali", "reference_ar.wav"), referenceText: "x" } }, lines: [{ who: "bob", text: "مرحبا" }] });
+  assert.throws(() => readVoicePlan(byPath, undefined, { library }), /use \{"library": "ali"\}/);
   assert.match(arPlan.voices.bob.reference, /reference_ar\.wav$/);
   assert.ok(!arPlan.warnings.some((w) => /cross-lingual/.test(w)));
   assert.match(readVoicePlan(next, undefined, { library }).voices.bob.reference, /reference_en\.wav$/, "English still uses the English one");
@@ -341,4 +358,59 @@ test("takeChunks never splits a line and keeps a designed take whole", () => {
   const lines = ["One.", "Two two.", "Three three three."].map((text, i) => ({ text, index: i }));
   assert.deepEqual(takeChunks({ description: "x" }, lines), ["One.\nTwo two.\nThree three three."]);
   assert.deepEqual(takeChunks({ reference: "r.wav", referenceText: "r" }, lines), ["One. Two two. Three three three."]);
+});
+
+test("voice.json problems are named, and nothing silently replaces it", () => {
+  const library = mkdtempSync(join(tmpdir(), "voices-library-"));
+  const voice = (id, languages) => { mkdirSync(join(library, id), { recursive: true }); writeFileSync(join(library, id, "voice.json"), JSON.stringify({ id, languages })); };
+  const wav = (id, f) => writeFileSync(join(library, id, f), wavOf(tones([[0, 1]], 1)));
+  const S = (o = {}) => ({ temperature: 0.6, topK: 30, topP: 0.8, repeatPenalty: 1.1, seed: 500, ...o });
+  const planFor = (v, extra = {}) => readVoicePlan(project({ language: "en", voices: { bob: v }, lines: [{ who: "bob", text: "Hi there." }], ...extra }), undefined, { library });
+  voice("v", { en: { file: "reference_en.wav", text: "Hello.", settings: S() } }); wav("v", "reference_en.wav");
+  // an empty seed list is an error, never NaN seeds
+  assert.throws(() => planFor({ library: "v", seeds: [] }), /"seeds" must be a list of whole numbers/);
+  // the same effective settings give the same take key, whatever the project-wide options say
+  const plain = project({ language: "en", voices: { bob: { library: "v" } }, lines: [{ who: "bob", text: "Hi." }] });
+  const noisy = project({ language: "en", options: { top_p: 0.5, temperature: 1.2 }, voices: { bob: { library: "v" } }, lines: [{ who: "bob", text: "Hi." }] });
+  assert.equal(takeRequests(readVoicePlan(plain, undefined, { library }), plain)[0].key, takeRequests(readVoicePlan(noisy, undefined, { library }), noisy)[0].key);
+  // a voice's own option is not reported as "saved settings are used"
+  const mixed = planFor({ library: "v", options: { temperature: 0.5 } }, { options: { temperature: 1 } });
+  assert.equal(mixed.voices.bob.options.temperature, 0.5);
+  assert.ok(!mixed.warnings.some((w) => /project-wide/.test(w)), "the voice's own option wins, so no project-wide warning");
+  // alternatives get the project-wide warning too
+  const alt = readVoicePlan(project({ language: "en", options: { temperature: 1.3 }, voices: { bob: { description: "A man", alternatives: [{ library: "v" }] } }, lines: [{ who: "bob", text: "Hi." }] }), undefined, { library });
+  assert.ok(alt.warnings.some((w) => /bob alternative 1: the project-wide "options" \(temperature\) do not apply/.test(w)));
+  // a listed file that is missing is named, never swapped for another language's in silence
+  voice("w", { en: { file: "typo_en.wav", text: "Hello.", settings: S() }, ar: { file: "reference_ar.wav", text: "مرحبا", settings: S() } });
+  wav("w", "reference_ar.wav"); wav("w", "reference_en.wav");
+  assert.throws(() => planFor({ library: "w" }), /languages\.en\.file "typo_en\.wav" is not in voices-library\/w\//);
+  voice("x", { en: { file: "../v/reference_en.wav", text: "Hello.", settings: S() } });
+  assert.throws(() => planFor({ library: "x" }), /is outside voices-library\/x\//);
+  // bad settings name voice.json
+  voice("y", { en: { file: "reference_en.wav", text: "Hello.", settings: S({ temperature: "0.6", seed: 12.5, topP: 7 }) } }); wav("y", "reference_en.wav");
+  assert.throws(() => planFor({ library: "y" }), /voices-library\/y\/voice\.json \(en\): settings\.temperature must be a number.*settings\.topP 7.*settings\.seed 12\.5/s);
+  // a broken voice.json names the file
+  mkdirSync(join(library, "z")); writeFileSync(join(library, "z", "voice.json"), "{ nope");
+  assert.throws(() => planFor({ library: "z" }), /voices-library\/z\/voice\.json is not valid JSON/);
+  // qwen3 with a library voice: one clear error, not an unknown-option one as well
+  assert.throws(() => planFor({ library: "v", engine: "qwen3" }), (e) => /only designs new voices/.test(e.message) && !/unknown qwen3 option/.test(e.message));
+});
+
+test("voice-ref refuses a take made with older settings, and records the settings that made it", async () => {
+  const dir = await madeStory(), library = mkdtempSync(join(tmpdir(), "voices-library-"));
+  const tts = JSON.parse(readFileSync(join(dir, "tts.json"), "utf8"));
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...tts, voices: { ...tts.voices, ali: { ...tts.voices.ali, seeds: [99, 98] } } }));
+  assert.throws(() => makeReference(dir, "ali", 1, { save: "ali", library }), /made from an older tts\.json or voice\.json/);
+  writeFileSync(join(dir, "tts.json"), JSON.stringify(tts));
+  makeReference(dir, "ali", 1, { save: "ali", library });
+  const take = JSON.parse(readFileSync(join(dir, "voice-takes", "en", "ali", "take-1.json"), "utf8"));
+  assert.deepEqual(JSON.parse(readFileSync(join(dir, "refs", "ali.json"), "utf8")).settings, take.settings);
+});
+
+test("options written as text on a saved voice is a clear error", () => {
+  const library = mkdtempSync(join(tmpdir(), "voices-library-"));
+  mkdirSync(join(library, "v"));
+  writeFileSync(join(library, "v", "voice.json"), JSON.stringify({ id: "v", languages: { en: { file: "reference_en.wav", text: "Hello.", settings: { temperature: 0.6, topK: 30, topP: null, repeatPenalty: null, seed: 5 } } } }));
+  writeFileSync(join(library, "v", "reference_en.wav"), wavOf(tones([[0, 1]], 1)));
+  assert.throws(() => readVoicePlan(project({ language: "en", voices: { bob: { library: "v", options: "x" } }, lines: [{ who: "bob", text: "Hi." }] }), undefined, { library }), /"options" must be an object/);
 });

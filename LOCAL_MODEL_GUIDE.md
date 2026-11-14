@@ -47,12 +47,15 @@ Read [TTS.md](TTS.md) and do exactly these steps:
 
 Leave out `engine`: a `library` voice or a `reference` is cloned by Audar (English and Arabic), and a
 `description` is designed by Qwen3-TTS (English; in an Arabic video it designs an English reference that
-Audar clones). Tags such as `[excited]` work only with Audar (TTS.md, "Tags"). If you add a new speaking character
+Audar clones). Tags such as `[excited]` work only with Audar (TTS.md, "Tags").
+A voice in `voices-library/` is always written as `{ "library": "<id>" }`, never as a path to its file:
+then its `voice.json` (exact words, settings and seed) is used. Do not add `"options"` or `"seeds"` to it
+unless the user asks. If you add a new speaking character
 to a story that already has the user's recordings, follow "New characters and adding a voice to a
 story" in TTS.md: every recording of theirs stays as a line with its `file`.
 
 **Never take a voice from outside this folder.** Only the user's recordings in the project,
-`voices-library/`, or a voice you design with a `description`. Never copy a WAV from `TTS_comparison`
+`voices-library/`, `voices-stock/`, or a voice you design with a `description`. Never copy a WAV from `TTS_comparison`
 or any other folder, even if another file says you can.
 
 **Never change the speed of a voice.** If the picture needs more time, make the scene or the ending
@@ -183,6 +186,8 @@ Copy the template, then replace the CAPITAL words. Keep all quotes, commas and b
 - **Narrator acting**: 1–2 `actions` per scene. Point when an object appears (`"pose": "point"`),
   `"shrug"` on "but…", `"think"` on a question, `"celebrate"` on good news.
 - **Camera** (optional): `"camera": { "punch": ["@WORD"] }` on the one surprising word of a scene.
+  A close shot of one actor: `"camera": { "zoom": [1.8, 1.9], "on": "WHO" }`. A cut to another actor on a word:
+  `"moves": [{ "at": "@WORD", "zoom": 1.9, "on": "WHO", "duration": 0 }]` inside `camera`. Lighting and shading are automatic.
 - **Transitions** (optional): mostly leave them out (a cut). Use `"transition": "whip"` when a new
   part of the story starts.
 

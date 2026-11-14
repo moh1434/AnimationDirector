@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import { LIFE_PROPS } from "./LifeProps";
 import { EVERYDAY_PROPS } from "./EverydayProps";
 import { STAGING_PROPS } from "./StagingProps";
@@ -6,6 +6,7 @@ import { MECHANISM_PROPS } from "./MechanismProps";
 import { STORY_PROPS } from "./StoryProps";
 import { HISTORY_PROPS } from "./HistoryProps";
 import { INK } from "./theme";
+import { CelFilter, sid } from "./shade";
 import { Face, Expression } from "./Face";
 import { assetKey } from "./asset-validation";
 
@@ -1265,6 +1266,17 @@ export type PropArtProps = {
   look?: { x: number; y: number };
 };
 
+/** Gives a drawing the same cel shade as the characters (its own component, so PropArt stays a plain function). */
+const Shaded: React.FC<{ children?: React.ReactNode; html?: string }> = ({ children, html }) => {
+  const id = "cp" + sid(useId());
+  return (
+    <>
+      <defs><CelFilter id={id} depth={11} opacity={0.2} /></defs>
+      {html !== undefined ? <g filter={`url(#${id})`} dangerouslySetInnerHTML={{ __html: html }} /> : <g filter={`url(#${id})`}>{children}</g>}
+    </>
+  );
+};
+
 /** Draws a prop centred at (0,0). */
 export const PropArt: React.FC<PropArtProps> = ({ name, size = 200, face, mouth = 0, blink, t = 0, color, color2, glow, look }) => {
   const key = resolveProp(name);
@@ -1276,7 +1288,7 @@ export const PropArt: React.FC<PropArtProps> = ({ name, size = 200, face, mouth 
     const expr: Expression | null = face === true ? "happy" : face ? (face as Expression) : null;
     return (
       <g transform={`scale(${s})`}>
-        <g dangerouslySetInnerHTML={{ __html: svg }} />
+        <Shaded html={svg} />
         {expr && (
           <g transform="translate(0 0) scale(0.4)">
             <Face expression={expr} mouth={mouth} blink={blink} look={look ?? { x: 0, y: 0.1 }} stroke={7} />
@@ -1290,7 +1302,7 @@ export const PropArt: React.FC<PropArtProps> = ({ name, size = 200, face, mouth 
   const expr: Expression | null = face === true ? "happy" : face ? (face as Expression) : null;
   return (
     <g transform={`scale(${s})`}>
-      {art.draw(t, { color, color2, glow })}
+      <Shaded>{art.draw(t, { color, color2, glow })}</Shaded>
       {expr && (
         <g transform={`translate(${f.x} ${f.y}) scale(${f.s})`}>
           <Face expression={expr} mouth={mouth} blink={blink} look={look ?? { x: 0, y: 0.1 }} stroke={7} />

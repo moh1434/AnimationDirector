@@ -43,7 +43,7 @@ const ALL_OPTIONS = [...new Set(Object.values(ENGINES).flatMap((e) => e.options)
 const DEFAULT_SEEDS = [11, 22, 33, 44, 55, 66, 77, 88];
 /** Above this a designed take (one generation) may drift or fail to stop: warn and check it. */
 export const LONG_TAKE_CHARS = 1400;
-/** Character voices kept between videos: voices-library/<id>/reference_<lang>.wav + voice.json ("referenceText_<lang>"). */
+/** Character voices kept between videos: voices-library/<id>/ with voice.json "languages.<lang>" (file, text, settings). */
 export const LIBRARY = join(ROOT, "voices-library");
 
 const readJson = (p) => JSON.parse(readFileSync(p, "utf8").replace(/^﻿/, ""));
@@ -93,6 +93,19 @@ export function settingsToOptions(settings) {
   for (const [k, o] of Object.entries(SETTING_NAMES)) if (typeof settings?.[k] === "number") out[o] = settings[k];
   return out;
 }
+/** What is wrong with a voice.json / record "settings" block (empty = nothing); null values are fine. */
+export function voiceSettingsProblems(settings) {
+  const out = [];
+  if (settings == null) return out;
+  if (typeof settings !== "object" || Array.isArray(settings)) return ["\"settings\" must be an object"];
+  const num = (k) => settings[k] != null && typeof settings[k] !== "number" ? out.push(`settings.${k} must be a number, not ${JSON.stringify(settings[k])}`) && false : typeof settings[k] === "number";
+  if (num("temperature") && !(settings.temperature > 0 && settings.temperature <= 2)) out.push(`settings.temperature ${settings.temperature} must be above 0 and at most 2`);
+  if (num("topK") && !(Number.isInteger(settings.topK) && settings.topK >= 1)) out.push(`settings.topK ${settings.topK} must be a whole number of 1 or more`);
+  if (num("topP") && !(settings.topP > 0 && settings.topP <= 1)) out.push(`settings.topP ${settings.topP} must be above 0 and at most 1`);
+  if (num("repeatPenalty") && !(settings.repeatPenalty > 0)) out.push(`settings.repeatPenalty ${settings.repeatPenalty} must be above 0`);
+  if (num("seed") && !(Number.isInteger(settings.seed) && settings.seed >= 0)) out.push(`settings.seed ${settings.seed} must be a whole number of 0 or more`);
+  return out;
+}
 /** Audar options → voice.json "settings". */
 export const optionsToSettings = (o = {}) => Object.fromEntries(Object.entries(SETTING_NAMES).map(([k, n]) => [k, typeof o[n] === "number" ? o[n] : null]));
 /**
@@ -120,17 +133,22 @@ export const languageEntry = (lang, e = {}) => ({ file: e.file ?? `reference_${l
 export function libraryLanguages(id, library = LIBRARY) {
   const folder = join(library, id), f = join(folder, "voice.json");
   if (!ID.test(id) || !existsSync(f)) return null;
-  const json = readJson(f), refs = {};
+  let json;
+  try { json = readJson(f); } catch (e) { throw new Error(`voices-library/${id}/voice.json is not valid JSON: ${e.message}`); }
+  const refs = {}, missing = {}, listed = new Set(Object.keys(json.languages ?? {}).map((l) => l.toLowerCase()));
   for (const [lang, e] of Object.entries(json.languages ?? {})) {
-    const file = join(folder, e?.file ?? `reference_${lang}.wav`);
-    if (existsSync(file)) refs[lang.toLowerCase()] = { reference: file, referenceText: e?.text ?? null, settings: e?.settings ?? {} };
+    const name = e?.file ?? `reference_${lang}.wav`, file = join(folder, name);
+    // a language listed in voice.json uses its own file, or is reported missing (never another file in silence)
+    if (!isInside(folder, file)) missing[lang.toLowerCase()] = `languages.${lang}.file "${name}" is outside voices-library/${id}/`;
+    else if (!existsSync(file)) missing[lang.toLowerCase()] = `languages.${lang}.file "${name}" is not in voices-library/${id}/`;
+    else refs[lang.toLowerCase()] = { reference: file, referenceText: e?.text ?? null, settings: e?.settings ?? {} };
   }
   for (const file of readdirSync(folder)) {
     const m = file.match(/^reference_([a-z]{2,3})\.wav$/i);
-    if (m && !refs[m[1].toLowerCase()]) refs[m[1].toLowerCase()] = { reference: join(folder, file), referenceText: json[`referenceText_${m[1].toLowerCase()}`] };
+    if (m && !listed.has(m[1].toLowerCase())) refs[m[1].toLowerCase()] = { reference: join(folder, file), referenceText: json[`referenceText_${m[1].toLowerCase()}`] };
   }
   if (existsSync(join(folder, "reference.wav"))) refs[json.language ?? "en"] ??= { reference: join(folder, "reference.wav"), referenceText: json.referenceText };
-  return { json, refs };
+  return { json, refs, missing };
 }
 
 /**
@@ -187,31 +205,63 @@ export function readVoicePlan(dir, lang, options = {}) {
   voices = { ...(voices ?? {}) };
   const language = plan.language ?? lang ?? "en";
   const used = new Set((lines ?? []).filter((l) => l?.text && !isSoundLabel(l.text) && !l.file).map((l) => l.who));
+  /**
+   * A voice cloned from a saved recording takes the settings it was made with: they become the voice's
+   * options and its seed is take 1's. The voice's own "options"/"seeds" in tts.json replace them, and
+   * `voices` says so, so nothing replaces voice.json silently.
+   */
+  const withSavedSettings = (label, v, settings, source) => {
+    const bad = voiceSettingsProblems(settings);
+    if (bad.length) { errors.push(`${label}: ${source}: ${bad.join("; ")}`); return { ...v, ownOptions: v.options }; }
+    const { seed: savedSeed, ...saved } = settingsToOptions(settings);
+    if (v.options != null && (typeof v.options !== "object" || Array.isArray(v.options))) { errors.push(`${label}: "options" must be an object such as {"temperature": 0.7}`); return { ...v, options: saved, ownOptions: {} }; }
+    const own = v.options ?? {};
+    const replaced = Object.keys(own).filter((k) => k in saved && own[k] !== saved[k]);
+    if (replaced.length) warnings.push(`${label}: its own "options" replace ${source}: ${replaced.map((k) => `${k} ${saved[k]} → ${own[k]}`).join(", ")}`);
+    // the project-wide "options" never replace a saved setting (only this voice's own "options" do)
+    const overruled = Object.keys(saved).filter((k) => !(k in own) && plan.options?.[k] !== undefined && plan.options[k] !== saved[k]);
+    if (overruled.length) warnings.push(`${label}: the project-wide "options" (${overruled.join(", ")}) do not apply to this voice; ${source} is used (put "options" on the voice itself to change them)`);
+    const out = { ...v, options: { ...saved, ...own }, ownOptions: v.options };
+    if (savedSeed !== undefined) {
+      if (Array.isArray(v.seeds) && v.seeds.length) { if (v.seeds[0] !== savedSeed) warnings.push(`${label}: its own "seeds" replace the seed in ${source} (${savedSeed} → ${v.seeds[0]})`); }
+      else if (v.seeds === undefined) out.seeds = [savedSeed];
+    }
+    return out;
+  };
   /** Check one voice setup (the main one or an alternative); returns it resolved, or null. */
   const checkVoice = (who, v0, label) => {
     let v = v0;
     if (!v || typeof v !== "object" || Array.isArray(v)) { errors.push(`${label}: must be an object such as {"description": "..."}`); return null; }
     if (v.library !== undefined) {
       // a character voice saved by voice-ref --save: cloned, so the character is the same person in every video
+      const found = ID.test(String(v.library)) ? libraryLanguages(String(v.library), options.library) : null;
+      const gone = found?.missing ?? {};
+      if (gone[language] || (found && !Object.keys(found.refs).length && Object.keys(gone).length)) {
+        errors.push(`${label}: voices-library/${v.library}/voice.json: ${gone[language] ?? Object.values(gone).join("; ")}`);
+        return null;
+      }
       const lib = libraryVoice(String(v.library), options.library, language);
       if (!lib) { errors.push(`${label}: no voice "${v.library}" in voices-library/ (it needs reference_<language>.wav and voice.json; save one with: pnpm video voice-ref <project> ${who}=<take> --save ${v.library})`); return null; }
       if (v.reference || v.description) errors.push(`${label}: a "library" voice brings its own reference; leave out "reference" and "description"`);
       if (!String(lib.referenceText ?? "").trim()) errors.push(`${label}: voices-library/${v.library}/voice.json needs languages.${lib.referenceLanguage}.text, the exact words spoken in ${lib.file}`);
       if (lib.crossLingual) warnings.push(`${who}: voices-library/${v.library} has no ${language} reference; its ${lib.referenceLanguage} one speaks ${language} (cross-lingual). Add reference_${language}.wav for a closer voice.`);
-      // the reference's own settings are the defaults (tts.json "options" still win); its seed starts the takes
-      const { seed: libSeed, ...libOptions } = settingsToOptions(lib.settings);
-      v = { ...v, engine: v.engine ?? "audar", reference: lib.reference, referenceText: lib.referenceText, note: lib.description, libraryLanguage: lib.referenceLanguage, options: { ...libOptions, ...(v.options ?? {}) } };
-      if (libSeed !== undefined && !v.seeds) v.seeds = [libSeed];
+      // voice.json's settings for that language are used for every take (they beat the project-wide
+      // "options"); its seed is take 1's. Only this voice's own "options"/"seeds" replace them, with a warning.
+      v = { ...v, engine: v.engine ?? "audar", reference: lib.reference, referenceText: lib.referenceText, note: lib.description, libraryLanguage: lib.referenceLanguage };
+      v = withSavedSettings(label, v, lib.settings, `voices-library/${v.library}/voice.json (${lib.referenceLanguage})`);
+    }
+    else if (v.reference && isInside(options.library ?? LIBRARY, resolve(dir, String(v.reference)))) {
+      // a library recording named by path would skip voice.json (its text, settings and seed)
+      const id = relative(options.library ?? LIBRARY, resolve(dir, String(v.reference))).split(sep)[0].toLowerCase();
+      errors.push(`${label}: use {"library": "${id}"} for a voice in voices-library/, not its file as "reference" (the file alone leaves out voice.json's words, settings and seed)`);
     }
     else if (v.reference && !outsideVoice(dir, v.reference, options.library)) {
       // a recording with its generation record next to it (refs/bob.json for refs/bob.wav): clone it with the
       // same settings, take 1 with its seed, and its words when "referenceText" is left out
-      const side = resolve(dir, String(v.reference)).replace(/\.wav$/i, ".json"), rec = existsSync(side) ? readJson(side) : null;
-      if (rec) {
-        const { seed: recSeed, ...recOptions } = settingsToOptions(rec.settings);
-        v = { ...v, referenceText: v.referenceText ?? rec.text ?? rec.referenceText, options: { ...recOptions, ...(v.options ?? {}) } };
-        if (recSeed !== undefined && !v.seeds) v.seeds = [recSeed];
-      }
+      const side = resolve(dir, String(v.reference)).replace(/\.wav$/i, ".json");
+      let rec = null;
+      try { rec = existsSync(side) ? readJson(side) : null; } catch (e) { errors.push(`${label}: ${relative(dir, side).split(sep).join("/")} is not valid JSON: ${e.message}`); }
+      if (rec) v = withSavedSettings(label, { ...v, referenceText: v.referenceText ?? rec.text ?? rec.referenceText }, rec.settings, relative(dir, side).split(sep).join("/"));
     }
     // the default engine: Audar clones (English and Arabic); a description is designed by Qwen3-TTS
     // (English), or, in another language, designed by Qwen3-TTS as an English reference that Audar clones
@@ -233,8 +283,9 @@ export function readVoicePlan(dir, lang, options = {}) {
       if (v.description) errors.push(`${who}: give a description OR a reference, not both`);
     } else if (!v.description?.trim()) errors.push(`${who}: needs a "description" of the voice (identity, texture, delivery; see TTS.md) or a "reference"/"library" to clone`);
     if (v.style !== undefined) errors.push(`${who}: "style" was a CosyVoice3 setting and is gone; put the delivery in the description (Qwen3-TTS) or use Audar tags such as [excited] in "say"`);
-    if (v.seeds && (!Array.isArray(v.seeds) || !v.seeds.every(Number.isInteger))) errors.push(`${who}: "seeds" must be whole numbers`);
-    for (const k of Object.keys(v.options ?? {})) if (!E.options.includes(k)) errors.push(`${who}: unknown ${engine} option "${k}" (allowed: ${E.options.join(", ")})`);
+    if (v.seeds !== undefined && (!Array.isArray(v.seeds) || !v.seeds.length || !v.seeds.every(Number.isInteger))) errors.push(`${who}: "seeds" must be a list of whole numbers, such as [5, 17, 29]`);
+    // only the options written in tts.json are checked here; saved settings were checked against voice.json
+    for (const k of Object.keys(("ownOptions" in v ? v.ownOptions : v.options) ?? {})) if (!E.options.includes(k)) errors.push(`${who}: unknown ${engine} option "${k}" (allowed: ${E.options.join(", ")})`);
     if (v.takes !== undefined && (!Number.isInteger(v.takes) || v.takes < 1 || v.takes > 8)) errors.push(`${who}: "takes" must be 1 to 8`);
   };
   for (const [who, v0] of Object.entries(voices)) {
@@ -354,7 +405,8 @@ export function takeRequests(plan, dir, { only } = {}) {
       const options = { ...E.defaults, ...shared, ...v.options, seed };
       // a voice designed for Audar to clone: one English reference per description and seed
       const design = v.designWith ? { engine: v.designWith, description: v.description, text: DESIGN_TEXT, seed, key: sha(JSON.stringify({ d: v.description, t: DESIGN_TEXT, seed })).slice(0, 12) } : null;
-      const key = sha(JSON.stringify({ engine, mode, chunks, options, ref, refText: v.referenceText ?? null, description: v.description ?? null, language: plan.language })).slice(0, 16);
+      // sorted, so the same effective settings give the same key whatever order they were written in
+      const key = sha(JSON.stringify({ engine, mode, chunks, options: Object.fromEntries(Object.entries(options).sort(([a], [b]) => (a < b ? -1 : 1))), ref, refText: v.referenceText ?? null, description: v.description ?? null, language: plan.language })).slice(0, 16);
       return { who, take: first + k, seed, text, chunks, lines, voice: v, engine, mode, design, language: plan.language, options, key };
     });
   }));
@@ -825,6 +877,9 @@ export function makeReference(dir, who, take, { lang, save, library = LIBRARY, o
   const base = takesDir(dir, plan), info = join(base, who, `take-${take}.json`), wav = join(base, who, `take-${take}.wav`);
   if (!existsSync(info) || !existsSync(wav)) throw new Error(`${who} has no take ${take}`);
   const t = readJson(info);
+  // the take must still match tts.json and voice.json, or its saved settings would not be the ones that made it
+  const req = takeRequests(plan, dir, { only: [who] }).find((r) => r.take === take);
+  if (!req || req.key !== t.key) throw new Error(`${who} take ${take} was made from an older ${plan.file} or voice.json (the text, settings or seed changed). Run voices again and listen before making a reference.`);
   if (!t.heard) throw new Error("Cutting a reference needs whisper.cpp word times (turn it on in .env and run voices again).");
   const lines = linesOf(plan, who), pcm = readPcm(wav), { clips, check } = splitTake(pcm, lines, t.heard);
   const good = lines.map((l, k) => !check[k].missing.length && !check[k].extra && !tagsOf(l.say ?? l.text).length && !wrapsOf(l.say ?? "").length);
@@ -846,8 +901,8 @@ export function makeReference(dir, who, take, { lang, save, library = LIBRARY, o
   mkdirSync(join(dir, "refs"), { recursive: true });
   writeFileSync(join(dir, rel), audio);
   // the take's voice, mode, settings and seed travel with the reference, so a clone of it can use them
-  const req = takeRequests(plan, dir, { only: [who] }).find((r) => r.take === take);
-  const opts = req?.options ?? {};
+  // the settings that really made the take: its own record when it has one, else the request (same key)
+  const opts = t.settings ? settingsToOptions(t.settings) : req.options;
   const record = generationRecord({ text, voice: v, who, engine: engineOf(v), mode: req?.mode, options: opts, language: plan.language, dir });
   writeJson(join(dir, `refs/${who}.json`), { reference: rel, ...meta, ...record, text });
   let saved = null;
