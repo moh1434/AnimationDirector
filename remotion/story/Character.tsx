@@ -221,6 +221,24 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
         </g>
       );
     }
+    case "sailor": { // school uniform: white blouse, sailor collar with a white stripe, a ribbon, a pleated skirt (collar and skirt take the shirt colour)
+      const waist = top + 98, hem = bottom + 40;
+      return (
+        <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+          <path d={body(waist + 12, 54, 58)} fill="#ffffff" strokeWidth={sw} />
+          <path d={`M-58 ${waist} L-90 ${hem - 10} Q-92 ${hem} -78 ${hem} L78 ${hem} Q92 ${hem} 90 ${hem - 10} L58 ${waist}Z`} fill={c} strokeWidth={sw} />
+          <path d={`M-50 ${waist + 12} L-62 ${hem - 4} M-24 ${waist + 12} L-30 ${hem - 2} M0 ${waist + 12} V${hem - 2} M24 ${waist + 12} L30 ${hem - 2} M50 ${waist + 12} L62 ${hem - 4}`} fill="none" strokeWidth={4} opacity={0.35} />
+          <path d={`M-58 ${waist} H58 V${waist + 12} H-58Z`} fill={c} strokeWidth={5} />
+          <path d={`M-52 ${top + 4} Q-56 ${top + 30} -40 ${top + 44} L-6 ${top + 78} L0 ${top + 66} L6 ${top + 78} L40 ${top + 44} Q56 ${top + 30} 52 ${top + 4} Q0 ${top + 30} -52 ${top + 4}Z`} fill={c} strokeWidth={5.5} />
+          <path d={`M-44 ${top + 24} Q-42 ${top + 34} -34 ${top + 40} L-8 ${top + 66} M44 ${top + 24} Q42 ${top + 34} 34 ${top + 40} L8 ${top + 66}`} fill="none" stroke="#ffffff" strokeWidth={4} />
+          <g fill={acc} strokeWidth={4.5}>
+            <path d={`M0 ${top + 76} L-26 ${top + 64} L-24 ${top + 92}Z M0 ${top + 76} L26 ${top + 64} L24 ${top + 92}Z`} />
+            <path d={`M-6 ${top + 80} L-12 ${top + 112} L0 ${top + 104} L12 ${top + 112} L6 ${top + 80}Z`} />
+            <circle cx={0} cy={top + 77} r={8} />
+          </g>
+        </g>
+      );
+    }
     case "dungarees": { // tee (shirt colour) under short dungarees (pants colour): straps, buttons, a heart pocket
       const dc = look.pants ?? "#7cc4ad";
       const waist = top + 92, hem = bottom + 38, bib = top + 44;
@@ -326,6 +344,14 @@ const ExtrasFront: React.FC<{ look: Look; top: number }> = ({ look, top }) => (
 );
 
 /* ---------------- hair & hats (head centred at 0,0, r=100) ---------------- */
+/**
+ * Hair that hangs down the back. It is drawn before the body, so shoulders, arms and hands are in
+ * front of it and never look tangled in it. Only "long" uses it: straight hair to the middle of the
+ * back, a little wider than the shoulders, with a softly scalloped end.
+ */
+const HairBehind: React.FC<{ look: Look }> = ({ look }) => (
+  <path d="M-106 -10 Q-116 56 -98 118 Q-92 150 -86 170 Q-62 186 -42 170 Q-20 186 0 172 Q20 186 42 170 Q62 186 86 170 Q92 150 98 118 Q116 56 106 -10 Q100 -110 0 -112 Q-100 -110 -106 -10Z" fill={look.hairColor ?? INK} stroke={INK} strokeWidth={7} strokeLinejoin="round" />
+);
 const HairBack: React.FC<{ look: Look; t?: number }> = ({ look, t = 0 }) => {
   const hc = look.hairColor ?? INK;
   const sw = 7;
@@ -372,14 +398,33 @@ const HairBack: React.FC<{ look: Look; t?: number }> = ({ look, t = 0 }) => {
         </g>
       );
     }
-    case "long":
-      return <path d="M-104 -10 Q-118 120 -70 150 L70 150 Q118 120 104 -10 Q100 -110 0 -112 Q-100 -110 -104 -10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "long": // drawn by HairBehind, behind the shoulders, so the arms and hands stay clear of it
+      return null;
+    case "highponytail": { // one high, wavy ponytail to the side that sways from its root
+      const tail = "M-36 -104 Q-92 -196 -152 -138 Q-200 -84 -168 -22 Q-146 22 -170 62 Q-190 100 -150 122 Q-124 132 -112 108 Q-136 108 -138 86 Q-112 42 -128 -4 Q-146 -52 -112 -78 Q-88 -94 -58 -84Z";
+      return (
+        <g transform={`rotate(${Math.sin(t * 2.1) * 3} -46 -98)`} strokeLinejoin="round" strokeLinecap="round">
+          <path d={tail} fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M-130 -116 Q-168 -76 -150 -26 M-148 34 Q-158 62 -150 88" fill="none" stroke={INK} strokeWidth={4} opacity={0.3} />
+          <path d="M-96 -150 Q-128 -146 -150 -118" fill="none" stroke={tint(hc, 0.4)} strokeWidth={8} />
+        </g>
+      );
+    }
+    case "schoolbob": // a neat straight bob to the jaw, ends turned in
+      return <path d="M-108 -10 Q-124 48 -114 90 Q-98 112 -74 100 L-58 90 L58 90 L74 100 Q98 112 114 90 Q124 48 108 -10 Q100 -112 0 -114 Q-100 -112 -108 -10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
     case "wavy":
       return <path d="M-106 -10 Q-122 50 -100 80 Q-80 100 -60 84 L60 84 Q80 100 100 80 Q122 50 106 -10 Q100 -110 0 -112 Q-100 -110 -106 -10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
     case "ponytail":
       return <path d="M60 -80 Q150 -60 130 40 Q120 80 96 60 Q120 0 80 -40Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
-    case "flowing": // chin-length hair with curled ends; the middle stays behind the head
-      return <path d="M-104 -20 Q-122 36 -116 82 Q-134 112 -108 126 Q-84 134 -82 106 Q-60 88 0 86 Q60 88 82 106 Q84 134 108 126 Q134 112 116 82 Q122 36 104 -20 Q100 -112 0 -114 Q-100 -112 -104 -20Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "flowing": { // long wavy hair to the waist: two curtains that fall over the shoulders and curl out at the tips
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M0 -114 Q-100 -112 -106 -20 Q-128 28 -114 70 Q-100 106 -124 138 Q-144 168 -130 196 Q-124 210 -150 206 Q-128 240 -92 214 Q-64 190 -72 152 Q-80 118 -58 96 L-40 88 L40 88 L58 96 Q80 118 72 150 Q64 186 90 208 Q124 232 144 198 Q120 204 126 188 Q140 162 122 134 Q100 104 114 70 Q128 28 106 -20 Q100 -112 0 -114Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          {/* a few strands, so the long shape reads as hair */}
+          <path d="M-104 84 Q-92 118 -108 150 Q-118 174 -108 198 M-84 112 Q-92 146 -84 178 M104 86 Q92 118 106 148 Q116 170 108 190 M86 114 Q92 146 86 174" fill="none" stroke={INK} strokeWidth={4} opacity={0.3} />
+        </g>
+      );
+    }
     case "sideponytail": { // two big ponytails high on the head, curling down to the shoulders (symmetrical)
       const tail = "M-50 -92 Q-110 -150 -158 -100 Q-198 -40 -166 34 Q-148 86 -104 112 Q-138 50 -130 -10 Q-126 -46 -84 -58Z"; // inner edge: one smooth curve
       return (
@@ -436,6 +481,30 @@ const HairFront: React.FC<{ look: Look; t?: number; bounce?: number }> = ({ look
         </g>
       );
     }
+    case "highponytail": { // a fringe of pointed strands, a lock by each ear, and a big bow where the ponytail starts
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-104 12 Q-110 -112 0 -114 Q110 -112 104 4 Q102 28 92 44 Q84 14 82 -18 Q72 -44 52 -52 L42 -28 Q22 -56 -4 -58 L-12 -32 Q-34 -56 -58 -50 L-68 -24 Q-84 -40 -92 -16 Q-90 16 -96 42 Q-104 30 -104 12Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M-70 -72 Q-40 -98 6 -98" fill="none" stroke={tint(hc, 0.4)} strokeWidth={8} />
+          <g stroke={INK} strokeWidth={6} fill={look.hatColor ?? "#ffd93b"} transform="translate(-52 -106) rotate(-24) scale(.82)">
+            <path d="M0 0 L-58 -34 Q-74 0 -58 34Z" />
+            <path d="M0 0 L58 -34 Q74 0 58 34Z" />
+            <rect x={-14} y={-16} width={28} height={32} rx={9} />
+          </g>
+        </g>
+      );
+    }
+    case "schoolbob": { // a straight fringe cut just above the eyes, a long lock in front of each ear, a small clip
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-106 18 Q-112 -112 0 -114 Q112 -112 106 18 Q100 46 94 62 Q84 32 84 -6 L84 -42 Q42 -50 0 -50 Q-42 -50 -84 -42 L-84 -6 Q-84 32 -94 62 Q-100 46 -106 18Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M-34 -50 L-30 -40 M22 -50 L26 -40" fill="none" stroke={INK} strokeWidth={4} opacity={0.4} />
+          <path d="M-74 -72 Q-44 -96 -4 -98" fill="none" stroke={tint(hc, 0.32)} strokeWidth={8} />
+          <path d="M56 -70 L84 -60" fill="none" stroke={INK} strokeWidth={13} />
+          <path d="M56 -70 L84 -60" fill="none" stroke={look.hatColor ?? look.accent ?? "#e0445a"} strokeWidth={6} />
+        </g>
+      );
+    }
     case "starbuns": { // swept fringe in three chunky locks, side locks, a springy curl on the parting, a star clip
       const shine = tint(hc, 0.4);
       const curl = "M2 -102 C-10 -150 36 -172 48 -143 C55 -124 33 -115 28 -131";
@@ -472,8 +541,16 @@ const HairFront: React.FC<{ look: Look; t?: number; bounce?: number }> = ({ look
       );
     case "ponytail":
       return <path d={cap(-56)} fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
-    case "flowing": // side-swept fringe
-      return <path d="M-102 -4 Q-106 -108 0 -112 Q106 -108 102 -14 Q86 -50 50 -62 Q10 -70 -24 -46 Q-60 -36 -102 -4Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "flowing": { // a long fringe swept across the forehead to one cheek, and a lock in front of the other ear
+      const shine = tint(hc, 0.4);
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-106 26 Q-112 -112 0 -114 Q108 -112 104 -8 Q106 22 94 42 Q84 16 84 -18 Q80 -40 66 -50 Q36 -60 6 -48 Q-36 -36 -66 -8 Q-84 10 -92 40 Q-104 38 -106 26Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M40 -56 Q0 -50 -34 -28 M-52 -34 Q-74 -14 -84 10" fill="none" stroke={INK} strokeWidth={4} opacity={0.3} />
+          <path d="M-84 -52 Q-58 -84 -14 -92" fill="none" stroke={shine} strokeWidth={8} />
+        </g>
+      );
+    }
     case "sideponytail": // fringe
       return <path d={cap(-46)} fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
     case "messy":
@@ -842,7 +919,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
     );
   };
   const skin = look.skin ?? "#fff";
-  const bareLegs = ["dress", "frilldress", "pinafore", "tunic", "belted", "dungarees", "robe"].includes(look.outfit ?? "");
+  const bareLegs = ["dress", "frilldress", "pinafore", "tunic", "belted", "dungarees", "robe", "sailor"].includes(look.outfit ?? "");
   const legColour = bareLegs ? skin : look.pants && look.pants !== INK ? look.pants : "#3b3f5c";
   const shoeColour = look.shoes ?? "#2c2a36";
   const shoe = (fx: number, fy: number, dir: number) => (
@@ -865,12 +942,18 @@ export const Character: React.FC<CharacterProps> = (p) => {
     return (
       <g key={side}>
         {tube(`M${hipX} ${hipY} Q${kx} ${ky} ${fx} ${fy}`, legColour, 15)}
+        {look.socks && bareLegs && (() => {
+          // knee socks: the lower half of the leg, from just under the knee to the shoe
+          const q = (u: number) => [(1 - u) * (1 - u) * hipX + 2 * (1 - u) * u * kx + u * u * fx, (1 - u) * (1 - u) * hipY + 2 * (1 - u) * u * ky + u * u * fy];
+          const [ax, ay] = q(0.56), [bx, by] = q(0.8);
+          return tube(`M${ax} ${ay} Q${bx} ${by} ${fx} ${fy}`, look.socks, 15, "sock");
+        })()}
         {shoe(fx, fy + 3, facing)}
       </g>
     );
   };
 
-  const shortSleeve = puffSleeve ?? (["shirt", "striped", "overalls", "sweatervest", "vest", "police_uniform", "dress", "frilldress", "belted"].includes(look.outfit ?? "shirt") ? (look.outfit === "vest" ? "#fbfbfb" : look.shirt ?? "#ffd23f") : null);
+  const shortSleeve = puffSleeve ?? (["shirt", "striped", "overalls", "sweatervest", "vest", "police_uniform", "dress", "frilldress", "belted", "sailor"].includes(look.outfit ?? "shirt") ? (look.outfit === "vest" ? "#fbfbfb" : look.outfit === "sailor" ? "#ffffff" : look.shirt ?? "#ffd23f") : null);
   const arm = (a: ReturnType<typeof armPoints>, side: 1 | -1, hand?: string) => {
     // one smooth curve through the elbow (a soft "rubber hose" arm)
     const x0 = side * sx, y0 = sy;
@@ -897,6 +980,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const headRx = look.head === "egg" ? 92 : look.head === "wide" ? 108 : 100;
   const headRy = look.head === "egg" ? 108 : look.head === "wide" ? 94 : 100;
   const hold = p.holding;
+  const hatLook = look.hair === "highponytail" && look.hat === "bow" ? { ...look, hat: undefined } : look;
   const uid = sid(useId());
   const celHead = `ch${uid}`, celBody = `cb${uid}`, celHair = `cr${uid}`, castId = `cs${uid}`;
   // squash and stretch while a gesture changes: a tiny dip, then a stretch as the pose lands
@@ -921,11 +1005,19 @@ export const Character: React.FC<CharacterProps> = (p) => {
         return (
           <g key={side}>
             {tube(`M${hx} ${hy - 6} L${kx} ${ky} L${fx} -14`, legColour, 15)}
+            {look.socks && bareLegs && tube(`M${lerp(kx, fx, 0.25)} ${lerp(ky, -14, 0.25)} L${fx} -14`, look.socks, 15, "sock")}
             {shoe(fx, -9, 1)}
           </g>
         );
       })}
       <g transform={`translate(0 ${bodyY + breath * 0.4}) rotate(${lean} 0 ${legTop})`}>
+        {look.hair === "long" && !hasWrap && (
+          <g transform={`translate(0 ${headY + breath - m * 5}) rotate(${headTilt}) scale(${HEAD})`}>
+            <g transform={`rotate(${-headTilt * 0.35 + Math.sin(t * 1.7 + seed) * 0.9} 0 -40)`} filter={`url(#${celHair})`}>
+              <HairBehind look={look} />
+            </g>
+          </g>
+        )}
         <g transform={`translate(0 ${breath * 0.3})`} filter={`url(#${celBody})`}>
           <ExtrasBack look={look} top={top} />
           <Torso look={look} top={top} bottom={legTop} />
@@ -937,9 +1029,11 @@ export const Character: React.FC<CharacterProps> = (p) => {
         </g>
         <g transform={`translate(0 ${headY + breath - m * 5}) rotate(${headTilt}) scale(${HEAD})`}>
           {/* the hair behind the head lags a little behind the head's tilt */}
-          <g transform={`rotate(${-headTilt * 0.35 + Math.sin(t * 1.7 + seed) * 0.9} 0 -40)`} filter={`url(#${celHair})`}>
-            <HairBack look={look} t={t} />
-          </g>
+          {!hasWrap && (
+            <g transform={`rotate(${-headTilt * 0.35 + Math.sin(t * 1.7 + seed) * 0.9} 0 -40)`} filter={`url(#${celHair})`}>
+              <HairBack look={look} t={t} />
+            </g>
+          )}
           {hasWrap && <g filter={`url(#${celHair})`}><Wrap look={look} /></g>}
           <g filter={`url(#${celHead})`}>
             <ellipse cx={0} cy={0} rx={hasWrap ? headRx * 0.8 : headRx} ry={hasWrap ? headRy * 0.86 : headRy} fill={look.skin ?? "#fff"} stroke={INK} strokeWidth={7} />
@@ -949,7 +1043,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
             <g clipPath={`url(#cf${uid})`}>
               <g transform="translate(5 11)" filter={`url(#${castId})`}>
                 <HairFront look={look} t={t} bounce={m} />
-                <Hat look={look} facing={1} />
+                <Hat look={hatLook} facing={1} />
               </g>
             </g>
           )}
@@ -973,8 +1067,8 @@ export const Character: React.FC<CharacterProps> = (p) => {
           <Glasses kind={look.accessory} />
           {!hasWrap && <g filter={`url(#${celHair})`}><HairFront look={look} t={t} bounce={m} /></g>}
           {/* a low fringe would hide the eyebrows, so they are drawn again over it */}
-          {!hasWrap && (look.hair === "starbuns" || look.hair === "curlypuff") && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
-          <g filter={`url(#${celHair})`}><Hat look={look} facing={1} /></g>
+          {!hasWrap && ["starbuns", "curlypuff", "flowing", "highponytail", "schoolbob"].includes(look.hair ?? "") && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
+          <g filter={`url(#${celHair})`}><Hat look={hatLook} facing={1} /></g>
           {p.emote && (
             <g transform="translate(155 -70)">
               <g transform={`scale(${facing} 1)`}>

@@ -58,14 +58,14 @@ export type Look = {
   hands?: string; // hand colour (default white); set it with a non-white skin
   shirtSymbol?: "star" | "heart";
   head?: "round" | "egg" | "wide";
-  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff
+  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff|highponytail|schoolbob
   hairColor?: string;
   hairTips?: string; // colour of the dip-dyed ends (starbuns)
   hat?: string; // none|cap|grad|crown|turban|helmet|hardhat|tophat|headscarf|beret|wizard|chef|fez|keffiyeh|safari|bow
   hatColor?: string;
   facial?: string; // none|beard|mustache|goatee|longbeard
   shirt?: string;
-  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees
+  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor
   pants?: string;
   accessory?: string; // none|glasses|sunglasses|scarf|tie|bowtie|medal|monocle|neckerchief
   extras?: string[]; // backpack|flower_necklace (drawn in addition to the accessory)
@@ -74,6 +74,7 @@ export type Look = {
   freckles?: boolean;
   lashes?: boolean; // eyelashes
   shoes?: string; // shoe colour (default: plain dark feet)
+  socks?: string; // knee socks in this colour (bare-leg outfits)
   height?: number; // relative, 1 = normal
 };
 
@@ -81,7 +82,9 @@ export type Look = {
 export const PRESETS: Record<string, Look> = {
   thief: { skin:"#fff", hair:"none", hat:"beanie", hatColor:"#323640", shirt:"#fff", outfit:"striped", pants:"#323640", accessory:"mask" },
   farmer: { skin:"#fff", hair:"side", hat:"straw", hatColor:"#e8c27a", shirt:"#3ddc97", outfit:"overalls", pants:"#3b8df0" },
-  schoolgirl: { skin:"#fff", hair:"sideponytail", hat:"bow", hatColor:"#ffc83d", outfit:"dress", shirt:"#ff6b8b", extras:["backpack"], height:.85 },
+  // A schoolgirl in a generic sailor-style uniform: straight bob with a blunt fringe and a clip, white blouse,
+  // navy collar and pleated skirt, red ribbon, knee socks, loafers, backpack.
+  schoolgirl: { skin: "#ffffff", hair: "schoolbob", hairColor: "#4a4158", hatColor: "#e0445a", outfit: "sailor", shirt: "#4055a0", accent: "#e0445a", socks: "#4055a0", shoes: "#7a4f3a", extras: ["backpack"], blush: true, lashes: true, height: 0.88 },
   policeman: {skin:"#ffffff", hair:"none", hat:"police_cap", hatColor:"#315486", outfit:"police_uniform", shirt:"#315486", pants:"#243955", accent:"#ffc83d"},
   // Berry, the channel's leader. Berry-pink "star buns" hair with light pink ends, a springy curl and a star clip, freckles,
   // a sunny pinafore over a white tee, coral shoes. Original design.
@@ -111,8 +114,8 @@ export const PRESETS: Record<string, Look> = {
   // From the user's character sheets (remotion/characters/…):
   // First_Female_Character — explorer girl: purple flowing hair, safari hat with a leaf, orange neckerchief, backpack
   adventurer: { skin: "#ffffff", hair: "flowing", hairColor: "#b58be0", hat: "safari", hatColor: "#f2d7a6", outfit: "belted", shirt: "#f2d7a6", accessory: "neckerchief", accent: "#ff8a2a", extras: ["backpack"], height: 0.9 },
-  // Second_Female_Character — pink side ponytail, yellow bow, purple frilled dress, flower necklace
-  ponytail_girl: { skin: "#ffffff", hair: "sideponytail", hairColor: "#f2607f", hat: "bow", hatColor: "#ffd93b", outfit: "frilldress", shirt: "#9b6bd6", extras: ["flower_necklace"], blush: true, height: 0.86 },
+  // Second_Female_Character — one high pink ponytail with a yellow bow at its root, strand fringe, purple frilled dress, flower necklace
+  ponytail_girl: { skin: "#ffffff", hair: "highponytail", hairColor: "#f2607f", hatColor: "#ffd93b", outfit: "frilldress", shirt: "#9b6bd6", extras: ["flower_necklace"], blush: true, lashes: true, height: 0.86 },
   // Second_Male_Character — spiky orange hair, blue shirt, red scarf
   buddy: { skin: "#ffffff", hair: "spiky", hairColor: "#ff8a3d", outfit: "shirt", shirt: "#4f7bff", accessory: "scarf", accent: "#e53950", height: 0.85 },
   // Third_Male_Character — curly brown hair, round glasses, green argyle sweater vest over a white shirt
