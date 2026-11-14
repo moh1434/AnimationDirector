@@ -21,7 +21,7 @@ so it decides whether they stay.
   policeman, a thief, a king, a wizard, a farmer, a grandpa, a schoolgirl, a robot; a dog, a cat or
   a bird. Give each a short lower-case id (`chef`, `dog`).
 
-Keep to **three speakers or fewer**. Every extra voice costs clarity.
+Use **three speakers or fewer** (unless you really need more). Every extra voice costs clarity.
 
 ## 2. The curiosity loop
 
@@ -66,7 +66,7 @@ Never open with a greeting, a name, "today", "in this video", "did you know", or
 
 Pick the one that fits the idea. Each lists its beats in order.
 
-**A. Curious friend** (the default). Benny asks a strange question; Berry demonstrates the answer.
+**A. Curious friend**. Benny asks a strange question; Berry demonstrates the answer.
 
 1. Benny states a wrong or odd belief as fact → 2. Berry doubts it, or bets on it →
    3. a first test that seems to prove Benny right → 4. a second test that breaks it →
@@ -91,7 +91,7 @@ Pick the one that fits the idea. Each lists its beats in order.
    the clue → 6. one line that makes the viewer want to watch again and spot it.
    The clue must be one simple object or detail a cartoon can draw, and a viewer who rewinds must find it.
 
-## 5. Length
+## 5. Length(estimated)
 
 The voices speak at about 2.4 words a second, pauses included. Count your words.
 
@@ -123,7 +123,7 @@ Write only what this style can draw: simple round-headed characters in flat, lit
   visible screen), anything that needs to be read on screen, real people, brands and logos, maps,
   photos, two people talking at once.
 
-If a beat cannot be shown with the list above, change the beat.
+If a beat cannot be shown with the list above, change the beat a little bit.
 
 ## 7. Writing for the voice
 
@@ -132,7 +132,7 @@ If a beat cannot be shown with the list above, change the beat.
 - Write for the ear: short sentences, contractions, everyday words, one idea per line.
 - A character keeps one manner of speaking for the whole video. Show a change of feeling with
   the words and punctuation (`!`, `?`, `...`), not with stage directions.
-- No stage directions, sound words or emoji inside a line. A line is only what is spoken.
+- No stage directions, sound words or emoji inside a line. A line is only what is spoken. Do not use `;` in Arabic voice, because the TTS model can use them properly.
 - Write numbers the way they are said: "four hundred thousand", not "400,000".
 - Captions show your exact words, so spell and punctuate carefully.
 - At most one call to action, as the last line, and only if it is shorter than six words. An ending
