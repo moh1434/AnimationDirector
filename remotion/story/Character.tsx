@@ -1069,12 +1069,19 @@ export const Character: React.FC<CharacterProps> = (p) => {
         // Seen from the side: two parallel legs, thighs forward from under the hem, shins down to the floor.
         // The far leg (drawn first) sits a little behind the near one, so both read as legs.
         const far = side === -1;
-        const hx = side * 13 - 2, hy = legTop + bodyY + 12 - (far ? 5 : 0), kx = hx + (far ? 72 : 88), ky = hy + 4, fx = kx + 4;
+        // The chef's coat and shoulders face the camera: use a matching frontal seat,
+        // with separate knees, rather than hiding both hips under one side of the coat.
+        const frontSeat = look.hat === "chef";
+        const hx = frontSeat ? side * 27 : side * 13 - 2;
+        const hy = legTop + bodyY - (frontSeat ? 8 : -12 + (far ? 5 : 0));
+        const kx = frontSeat ? side * 51 : hx + (far ? 72 : 88);
+        const ky = hy + (frontSeat ? 48 : 4);
+        const fx = frontSeat ? side * 54 : kx + 4;
         return (
           <g key={side}>
-            {tube(`M${hx} ${hy} L${kx} ${ky} L${fx} -14`, legColour, 15)}
+            {tube(frontSeat ? `M${hx} ${hy} Q${kx} ${hy + 18} ${kx} ${ky} L${fx} -14` : `M${hx} ${hy} L${kx} ${ky} L${fx} -14`, legColour, 15)}
             {look.socks && bareLegs && tube(`M${lerp(kx, fx, 0.25)} ${lerp(ky, -14, 0.25)} L${fx} -14`, look.socks, 15, "sock")}
-            {shoe(fx, -9, 1)}
+            {shoe(fx, -9, frontSeat ? side : 1)}
           </g>
         );
       })}
