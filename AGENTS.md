@@ -26,7 +26,9 @@ generated `<name>.wav`, a `<name>.json` with `text`, `voiceId`, `voiceName`, `wo
 (`temperature`, `topK`, `topP`, `repeatPenalty`, `seed`). `pnpm video voices` and `voice-ref` write it; any
 audio you generate another way (your own script, a test) needs it written by you, with the real values.
 Clones reuse it: a reference's record or a library voice's `languages.<lang>.settings` set the settings
-and the seed of take 1. See TTS.md, "Every generated audio keeps its generation record".
+and the seed of take 1, and beat the project-wide `"options"`. Clone a `voices-library/` voice only with
+`pnpm video voices` and `{ "library": "<id>" }`, never by its file path or a hand-written job (both skip
+`voice.json`). See TTS.md, "Every generated audio keeps its generation record".
 
 **Voices come only from inside this folder.** A video's voice is the user's own recording in the
 project, a voice in `voices-library/`, a stock candidate from `voices-stock/` (Audar's six gallery

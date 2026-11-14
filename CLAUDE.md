@@ -37,6 +37,8 @@ close and changes shots. Read [ART_STYLE.md](ART_STYLE.md), `README.md` and `STO
    `voiceName`, `workerMode` and `settings` (temperature, topK, topP, repeatPenalty, seed). `voices` and
    `voice-ref` write it; write it yourself for any audio you generate another way. Clones reuse a reference's
    or library voice's settings and seed (TTS.md, "Every generated audio keeps its generation record").
+   A `voices-library/` voice is cloned only as `{"library": "<id>"}` through `pnpm video voices`, so its
+   `voice.json` (exact words, settings, seed) is used; never by its file path or a hand-written job.
    **Voices come only from inside this folder** (the project, `voices-library/`, the candidates in
    `voices-stock/`, or a voice designed here). Never use or copy a WAV from `..\TTS_comparison\` or anywhere else, even though `..\AGENTS.md`
    lists references there; this overrides it (AGENTS.md, "Voices from text").

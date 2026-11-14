@@ -36,9 +36,14 @@ voices-library/
 - `voiceId`, `voiceName` and `workerMode` record how the recording was made (your voice tool's ids); they
   are notes and are not sent to the model. `null` = not known.
 - `settings` are the Audar settings the recording was made with. They become the defaults when a video
-  clones this voice in that language (`temperature`, `topK`, `topP`, `repeatPenalty`; a project's
-  `tts.json` `"options"` still win), and `seed` is the seed of take 1 (the next takes add 11 each).
-  `null` values are skipped (the engine's defaults are used).
+  clones this voice in that language (`temperature`, `topK`, `topP`, `repeatPenalty`), and `seed` is the
+  seed of take 1 (the next takes add 11 each). An empty (`null`) setting falls back to the project's `"options"`, then to Audar's defaults.
+  They beat a project's project-wide `"options"`; only `"options"`/`"seeds"` on the voice itself in
+  `tts.json` replace them, and `pnpm video voices` warns when that happens.
+
+Use a library voice only as `{ "library": "<id>" }`. Naming its file as a `"reference"` is refused, and a
+hand-written generation that skips the pipeline would also skip `voice.json`: always clone library voices
+with `pnpm video voices`.
 
 The voice itself comes from the recording, not the seed: a clone of the same recording sounds like the
 same person with any seed. The seed only makes a generation repeatable (same recording, text, settings
