@@ -205,7 +205,7 @@ Fix the script until every answer is yes:
 - Three speakers or fewer, no `narrator`, one or two places, and every beat drawable from section 6?
 - Is every fact listed, and is each one true?
 
-## 11. Before you write, ask me for
+## 11. Before you write, ask me if you need
 
 1. The topic or idea (or ask me to choose from three you suggest).
 2. The format: A, B, C or D (or "you choose").
