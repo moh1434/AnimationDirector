@@ -148,10 +148,12 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
   * hair: none tuft spiky curly curlytop long bob bun side messy bald wavy ponytail flowing sideponytail starbuns curlypuff highponytail schoolbob
     (`starbuns` also takes `"hairTips"`, the colour of the ends, and `"hatColor"` for its star clip; `curlypuff` and `highponytail` take `"hatColor"` for their bow, so leave `hat` out with them;
     `schoolbob` takes `"hatColor"` (or `accent`) for its clip; `long` hangs behind the shoulders. Hair is hidden under
-    the wrap hats)
+    the wrap hats `headscarf`, `keffiyeh` and `pharaoh`. `keffiyeh`: `hatColor` is the cloth, `accent` its patterned edge.
+    `pharaoh`: `accent` is the cloth and the gold band, `hatColor` the stripes)
   * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh safari bow
-  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic belted frilldress sweatervest pinafore dungarees sailor
-    (`dungarees`: `shirt` is the tee, `pants` the dungarees, `accent` the heart; `sailor` is a school uniform:
+  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic belted frilldress sweatervest pinafore dungarees sailor chefcoat
+    (`dungarees`: `shirt` is the tee, `pants` the dungarees, `accent` the heart; `chefcoat` is a white chef's jacket: `accent` colours the neckerchief, `pants` the trousers;
+    `sailor` is a school uniform:
     `shirt` colours the collar and pleated skirt, `accent` the ribbon, the blouse is white; add `"socks"` for knee socks)
   * accessory: glasses sunglasses monocle scarf tie bowtie medal neckerchief · extras: `["backpack", "flower_necklace"]`
   * small details: `"freckles": true`, `"lashes": true`, `"shoes": "#ff6b6b"` (shoe colour), `"socks": "#4055a0"` (knee socks, with bare-leg outfits), `"hands": "#ffe8cf"` (hand colour, to match a non-white `skin`)

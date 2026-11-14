@@ -36,7 +36,7 @@ export const POSES: Record<Pose, PoseSpec> = {
   facepalm: { l: [10, 6], r: [-6, 196] },
   walk: { l: [12, 8], r: [12, 8] },
   run: { l: [30, 80], r: [30, 80], lean: 8 },
-  sit: { l: [20, 60], r: [20, 60] },
+  sit: { l: [20, 60], r: [20, 60], bodyY: 22 }, // the body drops a little, towards chair height (a floor-length robe must stay above the ground)
   bow: { l: [8, 4], r: [8, 4], lean: 18 },
   fist: { l: [10, 6], r: [40, 120], hand: "fist" },
   write: { l: [10, 6], r: [16, 84] },
@@ -218,6 +218,21 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
         <g>
           <path d={`M${-w + 4} ${hemY - 6} L${-w} ${hemY + 22} ${scallops} L${w - 4} ${hemY - 6}Z`} fill="#ffffff" stroke={INK} strokeWidth={5.5} strokeLinejoin="round" />
           <path d={body(hemY + 6, 50, 90)} fill={c} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+        </g>
+      );
+    }
+    case "chefcoat": { // a white double-breasted jacket: two rows of buttons, a stand collar and a knotted neckerchief (accent)
+      const hem = bottom + 16;
+      return (
+        <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+          <path d={body(hem, 56, 66)} fill="#ffffff" strokeWidth={sw} />
+          <path d={`M-8 ${top + 34} Q-20 ${top + 80} -16 ${hem}`} fill="none" strokeWidth={4.5} opacity={0.6} />
+          {[0, 1, 2, 3].flatMap((i) => [-38, 14].map((x) => <circle key={`${i}${x}`} cx={x} cy={top + 58 + i * 27} r={6.5} fill="#cfd4dc" strokeWidth={3.5} />))}
+          <path d={`M-32 ${top + 2} Q0 ${top + 20} 32 ${top + 2} L30 ${top + 18} Q0 ${top + 36} -30 ${top + 18}Z`} fill="#ffffff" strokeWidth={4.5} />
+          <g fill={acc} strokeWidth={4.5}>
+            <path d={`M-4 ${top + 26} L-28 ${top + 44} L-8 ${top + 50}Z M4 ${top + 26} L28 ${top + 44} L8 ${top + 50}Z`} />
+            <circle cx={0} cy={top + 27} r={8.5} />
+          </g>
         </g>
       );
     }
@@ -622,13 +637,13 @@ const Hat: React.FC<{ look: Look; facing: number }> = ({ look, facing }) => {
           <circle cx={48} cy={-104} r={8} fill="#3ddc97" strokeWidth={4} />
         </g>
       );
-    case "turban":
+    case "turban": // a wound cloth dome with crossing folds, a jewel, and the loose end hanging at one side
       return (
-        <g fill={c} stroke={INK} strokeWidth={sw} strokeLinejoin="round">
-          <ellipse cx={0} cy={-104} rx={112} ry={60} />
-          <path d="M-100 -96 Q0 -150 100 -120" fill="none" strokeWidth={5} />
-          <path d="M-104 -74 Q0 -126 104 -92" fill="none" strokeWidth={5} />
-          <circle cx={0} cy={-80} r={12} fill={acc} strokeWidth={4} />
+        <g fill={c} stroke={INK} strokeWidth={sw} strokeLinejoin="round" strokeLinecap="round">
+          <path d="M94 -80 Q132 -44 116 10 Q98 -6 90 -52Z" />
+          <path d="M-110 -54 Q-128 -154 0 -162 Q128 -154 110 -54 Q60 -78 0 -78 Q-60 -78 -110 -54Z" />
+          <path d="M-104 -84 Q-30 -150 86 -126 M-108 -62 Q-10 -124 102 -92 M-60 -144 Q6 -120 58 -142" fill="none" strokeWidth={5} opacity={0.75} />
+          <circle cx={0} cy={-92} r={12} fill={acc} strokeWidth={4} />
         </g>
       );
     case "helmet":
@@ -664,14 +679,12 @@ const Hat: React.FC<{ look: Look; facing: number }> = ({ look, facing }) => {
           <path d="M10 -170 l6 14 15 2 -11 10 3 15 -13 -7 -13 7 3 -15 -11 -10 15 -2z" fill="#ffc83d" strokeWidth={3} />
         </g>
       );
-    case "chef":
+    case "chef": // a toque: a puffed top on a pleated band that follows the head
       return (
-        <g fill="#fff" stroke={INK} strokeWidth={sw}>
-          <rect x={-70} y={-150} width={140} height={70} />
-          <circle cx={-50} cy={-170} r={40} />
-          <circle cx={0} cy={-190} r={46} />
-          <circle cx={50} cy={-170} r={40} />
-          <rect x={-66} y={-152} width={132} height={40} stroke="none" />
+        <g strokeLinejoin="round" strokeLinecap="round">
+          {cloud([[-52, -166, 40], [0, -186, 48], [52, -166, 40], [0, -156, 46]], "#ffffff")}
+          <path d="M-74 -82 L-78 -152 H78 L74 -82 Q0 -66 -74 -82Z" fill="#ffffff" stroke={INK} strokeWidth={sw} />
+          <path d="M-42 -148 V-88 M0 -150 V-80 M42 -148 V-88" fill="none" stroke={INK} strokeWidth={4} opacity={0.3} />
         </g>
       );
     case "safari": // wide-brimmed explorer hat with a band and a little leaf
@@ -704,31 +717,77 @@ const Hat: React.FC<{ look: Look; facing: number }> = ({ look, facing }) => {
   }
 };
 
-/** Head coverings that wrap the head (drawn behind the face skin). */
+/**
+ * Head coverings that wrap the head. Wrap is the cloth behind the face; WrapFront is the part that
+ * lies over the forehead (keffiyeh, pharaoh), drawn like a fringe so the face keeps its full size.
+ * A headscarf frames a slightly smaller face and has no front part.
+ */
 const Wrap: React.FC<{ look: Look }> = ({ look }) => {
   const c = look.hatColor ?? "#5e7ce2";
   const acc = look.accent ?? "#d93a4a";
-  if (look.hat === "headscarf") {
-    return <path d="M-118 0 Q-124 -128 0 -130 Q124 -128 118 0 Q122 110 70 140 L-70 140 Q-122 110 -118 0Z" fill={c} stroke={INK} strokeWidth={7} strokeLinejoin="round" />;
+  const id = "wr" + sid(useId());
+  switch (look.hat) {
+    case "headscarf":
+      return <path d="M-118 0 Q-124 -128 0 -130 Q124 -128 118 0 Q122 110 70 140 L-70 140 Q-122 110 -118 0Z" fill={c} stroke={INK} strokeWidth={7} strokeLinejoin="round" />;
+    case "keffiyeh": // a cloth that falls from the crown to the shoulders in soft folds
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-112 -30 Q-118 -126 0 -128 Q118 -126 112 -30 Q124 40 136 98 Q116 122 94 104 Q86 128 62 112 L56 92 L-56 92 L-62 112 Q-86 128 -94 104 Q-116 122 -136 98 Q-124 40 -112 -30Z" fill={c} stroke={INK} strokeWidth={7} />
+          <path d="M-106 4 Q-114 54 -118 98 M106 4 Q114 54 118 98 M-86 72 Q-88 94 -82 110 M86 72 Q88 94 82 110" fill="none" stroke={INK} strokeWidth={4} opacity={0.28} />
+          <path d="M-128 92 Q-114 108 -98 96 M128 92 Q114 108 98 96" fill="none" stroke={acc} strokeWidth={5} strokeDasharray="5 8" />
+        </g>
+      );
+    case "pharaoh": { // a striped headcloth: wide wings beside the face and two lappets down to the chest
+      const hood = "M-104 -40 Q-112 -132 0 -134 Q112 -132 104 -40 L148 58 Q126 70 110 62 L114 166 Q90 180 62 168 L58 92 L-58 92 L-62 168 Q-90 180 -114 166 L-110 62 Q-126 70 -148 58Z";
+      return (
+        <g strokeLinejoin="round">
+          <defs><clipPath id={id}><path d={hood} /></clipPath></defs>
+          <path d={hood} fill={acc} />
+          <g clipPath={`url(#${id})`} stroke={c} strokeWidth={13}>
+            {[-112, -84, -56, -28, 0, 28, 56, 84, 112, 140, 168].map((y) => <path key={y} d={`M-160 ${y} H160`} />)}
+          </g>
+          <path d={hood} fill="none" stroke={INK} strokeWidth={7} />
+        </g>
+      );
+    }
+    default:
+      return null;
   }
-  if (look.hat === "keffiyeh") {
-    return (
-      <g>
-        <path d="M-120 -10 Q-126 -128 0 -128 Q126 -128 120 -10 L140 150 L-140 150Z" fill={c} stroke={INK} strokeWidth={7} strokeLinejoin="round" />
-        {[-90, -50, -10, 30, 70].map((x) => [-60, 0, 60, 120].map((y) => <circle key={`${x}${y}`} cx={x + (y % 120 ? 20 : 0)} cy={y} r={5} fill={acc} />))}
-        <ellipse cx={0} cy={-96} rx={108} ry={26} fill="none" stroke={INK} strokeWidth={14} />
-      </g>
-    );
+};
+
+const WrapFront: React.FC<{ look: Look }> = ({ look }) => {
+  const c = look.hatColor ?? "#5e7ce2";
+  const acc = look.accent ?? "#d93a4a";
+  const id = "wf" + sid(useId());
+  const cap = "M-106 -18 Q-110 -126 0 -128 Q110 -126 106 -18 Q60 -64 0 -66 Q-60 -64 -106 -18Z";
+  switch (look.hat) {
+    case "keffiyeh": // the cloth over the forehead, a patterned edge, and the black cord that holds it
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d={cap} fill={c} stroke={INK} strokeWidth={7} />
+          <path d="M-98 -36 Q-58 -74 0 -76 Q58 -74 98 -36" fill="none" stroke={acc} strokeWidth={5} strokeDasharray="5 8" />
+          <path d="M-106 -64 Q0 -114 106 -64" fill="none" stroke={INK} strokeWidth={17} />
+          <path d="M-98 -68 Q0 -114 98 -68" fill="none" stroke="#5a5668" strokeWidth={3} />
+        </g>
+      );
+    case "pharaoh": // the striped brow of the headcloth, a gold band and a little cobra
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <defs><clipPath id={id}><path d={cap} /></clipPath></defs>
+          <path d={cap} fill={acc} />
+          <g clipPath={`url(#${id})`} stroke={c} strokeWidth={13}>
+            {[-112, -84].map((y) => <path key={y} d={`M-160 ${y} H160`} />)}
+          </g>
+          <path d={cap} fill="none" stroke={INK} strokeWidth={7} />
+          <path d="M-104 -22 Q-60 -62 0 -64 Q60 -62 104 -22" fill="none" stroke={INK} strokeWidth={17} />
+          <path d="M-104 -22 Q-60 -62 0 -64 Q60 -62 104 -22" fill="none" stroke={acc} strokeWidth={8} />
+          <path d="M-9 -60 Q-17 -94 0 -104 Q17 -94 9 -60Z" fill={acc} stroke={INK} strokeWidth={4.5} />
+          <circle cx={0} cy={-86} r={4} fill={INK} />
+        </g>
+      );
+    default:
+      return null;
   }
-  if (look.hat === "pharaoh") {
-    return (
-      <g stroke={INK} strokeWidth={7} strokeLinejoin="round">
-        <path d="M-110 -40 Q-110 -134 0 -136 Q110 -134 110 -40 L136 130 L-136 130Z" fill={acc} />
-        {[-100, -60, -20, 20, 60, 100].map((x, i) => <path key={i} d={`M${x * 1.05} -100 L${x * 1.28} 128`} stroke={c} strokeWidth={16} />)}
-      </g>
-    );
-  }
-  return null;
 };
 
 const Facial: React.FC<{ look: Look }> = ({ look }) => {
@@ -737,8 +796,13 @@ const Facial: React.FC<{ look: Look }> = ({ look }) => {
   switch (look.facial) {
     case "beard":
       return <path d="M-92 10 Q-90 104 0 112 Q90 104 92 10 Q70 56 40 60 Q0 34 -40 60 Q-70 56 -92 10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
-    case "longbeard":
-      return <path d="M-92 10 Q-96 140 0 210 Q96 140 92 10 Q70 56 40 62 Q0 36 -40 62 Q-70 56 -92 10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
+    case "longbeard": // full at the jaw, then narrowing to a wavy point on the chest, so the arms and robe stay visible
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-90 12 Q-94 78 -60 112 Q-38 132 -30 158 Q-22 190 2 198 Q12 176 30 156 Q40 130 60 112 Q94 78 90 12 Q70 54 40 60 Q0 36 -40 60 Q-70 54 -90 12Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M-44 84 Q-30 112 -22 142 M0 76 Q4 120 -2 166 M44 84 Q32 110 24 138" fill="none" stroke={INK} strokeWidth={4} opacity={0.25} />
+        </g>
+      );
     case "goatee":
       return <path d="M-22 70 Q0 120 22 70 Q0 80 -22 70Z" fill={hc} stroke={INK} strokeWidth={sw} />;
     case "mustache":
@@ -902,8 +966,8 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const waveWig = (p.motion?.[motionIndex+2] ?? (poseName === "wave" ? 1 : 0)) * Math.sin(t * 7) * 14;
   const ra = armPoints(1, R, sx, sy, 86, 82, wig + waveWig);
   const la = armPoints(-1, L, -sx, sy, 86, 82, (p.motion?.[motionIndex+1] ?? (poseName === "explain" ? 1 : 0)) * wig * 0.7);
-  const sleeve = ["robe", "coat", "suit", "hoodie", "armor", "tunic"].includes(look.outfit ?? "");
-  const sleeveColor = look.outfit === "coat" ? "#fbfbfb" : look.shirt ?? "#ffd23f";
+  const sleeve = ["robe", "coat", "chefcoat", "suit", "hoodie", "armor", "tunic"].includes(look.outfit ?? "");
+  const sleeveColor = look.outfit === "coat" ? "#fbfbfb" : look.outfit === "chefcoat" ? "#ffffff" : look.shirt ?? "#ffd23f";
   // short sleeve at the shoulder (its colour), for outfits with a tee underneath
   const puffSleeve = look.outfit === "pinafore" ? "#ffffff" : look.outfit === "dungarees" ? look.shirt ?? "#ffd23f" : null;
 
@@ -976,7 +1040,8 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const pupilLook = { x: Math.max(-1, Math.min(1, gaze.x + lerp(d0.x, d1.x, dartP))), y: Math.max(-1, Math.min(1, gaze.y + lerp(d0.y, d1.y, dartP))) };
   const closed = blinkAmount(p.frame, p.fps, seed); // 0 open .. 1 shut, so lids close and open over a few frames
   const blink = closed > 0.75;
-  const hasWrap = ["headscarf", "keffiyeh", "pharaoh"].includes(look.hat ?? "");
+  const hasWrap = ["headscarf", "keffiyeh", "pharaoh"].includes(look.hat ?? ""); // hair is hidden under these
+  const fullWrap = look.hat === "headscarf"; // the cloth frames the whole face, which is drawn a little smaller
   const headRx = look.head === "egg" ? 92 : look.head === "wide" ? 108 : 100;
   const headRy = look.head === "egg" ? 108 : look.head === "wide" ? 94 : 100;
   const hold = p.holding;
@@ -994,17 +1059,20 @@ export const Character: React.FC<CharacterProps> = (p) => {
         <CelFilter id={celBody} depth={13} opacity={0.2} />
         <CelFilter id={celHair} depth={12} opacity={0.26} />
         <ShadowFilter id={castId} opacity={0.2} />
-        <clipPath id={`cf${uid}`}><ellipse cx={0} cy={0} rx={(hasWrap ? headRx * 0.8 : headRx) - 3} ry={(hasWrap ? headRy * 0.86 : headRy) - 3} /></clipPath>
+        <clipPath id={`cf${uid}`}><ellipse cx={0} cy={0} rx={(fullWrap ? headRx * 0.8 : headRx) - 3} ry={(fullWrap ? headRy * 0.86 : headRy) - 3} /></clipPath>
       </defs>
       {/* soft ground shadow, leaning away from the light */}
       <GroundShadow id={`gs${uid}`} x={14} y={2} rx={118 * (1 + jumpY / 80)} ry={20 * (1 + jumpY / 80)} />
       <g transform={`translate(0 ${stepBob + jumpY}) scale(${1 + squash} ${1 - squash})`}>
       {poseName !== "sit" ? [leg(-1), leg(1)] : [-1, 1].map((side) => {
         // seated: thighs forward, shins down
-        const hx = side * 22, hy = legTop + bodyY, kx = hx + 64 + side * 8, ky = hy + 10, fx = kx + 6;
+        // Seen from the side: two parallel legs, thighs forward from under the hem, shins down to the floor.
+        // The far leg (drawn first) sits a little behind the near one, so both read as legs.
+        const far = side === -1;
+        const hx = side * 13 - 2, hy = legTop + bodyY + 12 - (far ? 5 : 0), kx = hx + (far ? 72 : 88), ky = hy + 4, fx = kx + 4;
         return (
           <g key={side}>
-            {tube(`M${hx} ${hy - 6} L${kx} ${ky} L${fx} -14`, legColour, 15)}
+            {tube(`M${hx} ${hy} L${kx} ${ky} L${fx} -14`, legColour, 15)}
             {look.socks && bareLegs && tube(`M${lerp(kx, fx, 0.25)} ${lerp(ky, -14, 0.25)} L${fx} -14`, look.socks, 15, "sock")}
             {shoe(fx, -9, 1)}
           </g>
@@ -1036,13 +1104,13 @@ export const Character: React.FC<CharacterProps> = (p) => {
           )}
           {hasWrap && <g filter={`url(#${celHair})`}><Wrap look={look} /></g>}
           <g filter={`url(#${celHead})`}>
-            <ellipse cx={0} cy={0} rx={hasWrap ? headRx * 0.8 : headRx} ry={hasWrap ? headRy * 0.86 : headRy} fill={look.skin ?? "#fff"} stroke={INK} strokeWidth={7} />
+            <ellipse cx={0} cy={0} rx={fullWrap ? headRx * 0.8 : headRx} ry={fullWrap ? headRy * 0.86 : headRy} fill={look.skin ?? "#fff"} stroke={INK} strokeWidth={7} />
           </g>
           {/* the fringe and the hat throw a shadow onto the face */}
-          {!hasWrap && (
+          {!fullWrap && (
             <g clipPath={`url(#cf${uid})`}>
               <g transform="translate(5 11)" filter={`url(#${castId})`}>
-                <HairFront look={look} t={t} bounce={m} />
+                {hasWrap ? <WrapFront look={look} /> : <HairFront look={look} t={t} bounce={m} />}
                 <Hat look={hatLook} facing={1} />
               </g>
             </g>
@@ -1060,14 +1128,15 @@ export const Character: React.FC<CharacterProps> = (p) => {
           )}
           {look.facial !== "mustache" && <Facial look={look} />}
           {look.accessory === "mask" && <g fill="#323640" stroke={INK} strokeWidth={5}><path d="M-92 -42 Q0 -63 92 -42 V13 Q0 -7 -92 13Z"/><ellipse cx={-36} cy={-23} rx={24} ry={21} fill={look.skin??"#fff"}/><ellipse cx={36} cy={-23} rx={24} ry={21} fill={look.skin??"#fff"}/></g>}
-          <g transform={`translate(${pupilLook.x * 5} ${pupilLook.y * 3}) scale(${hasWrap ? 0.86 : 1})`}>
+          <g transform={`translate(${pupilLook.x * 5} ${pupilLook.y * 3}) scale(${fullWrap ? 0.86 : 1})`}>
             <Face weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} mouth={m} blink={blink} eyeOpen={1 - closed} mouthShape={p.mouthShape} look={pupilLook} skin={look.skin ?? "#fff"} lashes={look.lashes} />
           </g>
           {look.facial === "mustache" && <Facial look={{ ...look }} />}
           <Glasses kind={look.accessory} />
           {!hasWrap && <g filter={`url(#${celHair})`}><HairFront look={look} t={t} bounce={m} /></g>}
+          {hasWrap && !fullWrap && <g filter={`url(#${celHair})`}><WrapFront look={look} /></g>}
           {/* a low fringe would hide the eyebrows, so they are drawn again over it */}
-          {!hasWrap && ["starbuns", "curlypuff", "flowing", "highponytail", "schoolbob"].includes(look.hair ?? "") && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
+          {((!hasWrap && ["starbuns", "curlypuff", "flowing", "highponytail", "schoolbob"].includes(look.hair ?? "")) || (hasWrap && !fullWrap)) && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
           <g filter={`url(#${celHair})`}><Hat look={hatLook} facing={1} /></g>
           {p.emote && (
             <g transform="translate(155 -70)">

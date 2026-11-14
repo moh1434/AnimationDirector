@@ -65,7 +65,7 @@ export type Look = {
   hatColor?: string;
   facial?: string; // none|beard|mustache|goatee|longbeard
   shirt?: string;
-  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor
+  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor|chefcoat
   pants?: string;
   accessory?: string; // none|glasses|sunglasses|scarf|tie|bowtie|medal|monocle|neckerchief
   extras?: string[]; // backpack|flower_necklace (drawn in addition to the accessory)
@@ -107,7 +107,7 @@ export const PRESETS: Record<string, Look> = {
   explorer: { skin: "#ffffff", hat: "cap", hatColor: "#c8a26b", outfit: "vest", shirt: "#a1887f", accessory: "none" },
   pharaoh: { skin: "#ffffff", hat: "pharaoh", hatColor: "#3f6fd8", accent: "#ffc83d", outfit: "tunic", shirt: "#f5f0e1", facial: "goatee", hairColor: INK },
   bedouin: { skin: "#ffffff", hat: "keffiyeh", hatColor: "#ffffff", accent: "#d93a4a", outfit: "robe", shirt: "#f2ece0", facial: "beard", hairColor: INK },
-  chef: { skin: "#ffffff", hat: "chef", outfit: "coat", shirt: "#ffffff", facial: "mustache", hairColor: INK },
+  chef: { skin: "#ffffff", hat: "chef", outfit: "chefcoat", shirt: "#ffffff", pants: "#6a7180", accent: "#e0445a", facial: "mustache", hairColor: INK },
   wizard: { skin: "#ffffff", hat: "wizard", hatColor: "#4b3aa8", facial: "longbeard", hairColor: "#ececec", outfit: "robe", shirt: "#4b3aa8" },
   grandpa: { skin: "#ffffff", hair: "bald", hairColor: "#dddddd", facial: "mustache", accessory: "glasses", outfit: "vest", shirt: "#8d6e63" },
   robotguy: { skin: "#dfe6ee", hair: "none", hat: "none", outfit: "armor", shirt: "#90a4ae", accessory: "sunglasses" },
