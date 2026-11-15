@@ -51,18 +51,20 @@ shorter (STORY_MODE.md, "Pacing").
 
 ## Two engines
 
-| | Audar-TTS Turbo (`audar`, the default) | Qwen3-TTS 1.7B (`qwen3`) |
+| | Audar-TTS Turbo (`audar`) | Qwen3-TTS 1.7B (`qwen3`) |
 |---|---|---|
-| Makes a voice from | a **reference recording** (5–15 s) + its exact words | a **description** only (VoiceDesign weights); it never clones |
+| Makes a voice from | a **reference recording** (5–15 s) + its exact words | a **reference recording** + its exact words (Base weights), or a **description** (VoiceDesign weights) |
 | Languages | **English and Arabic** (and code-switching) | **English only** |
-| Strong at | cloning a saved voice, in both languages | inventing a new voice for a new character |
+| Strong at | cloning in Arabic; Audar's tags | cloning English voices (the default), inventing a new voice |
 | Tags | `[laughs]` `[curious]` `[excited]` `[sighs]` `[exhales]` `[mischievously]` `[whispers]` `[sarcastic]` | none (the delivery goes in the description) |
 | Guide | [docs/tts/audar-turbo/README.md](docs/tts/audar-turbo/README.md) | [docs/tts/qwen3-tts/README.md](docs/tts/qwen3-tts/README.md) |
 
 Which engine a voice uses, when it does not say `"engine"`:
 
-- `library` or `reference` → **Audar** clones it (English or Arabic). **Only Audar clones an existing
-  voice**: `"engine": "qwen3"` with a reference or library voice is refused (the user's rule).
+- `library` or `reference` in an **English** video → **Qwen3-TTS** clones it (the user's rule: it clones
+  English better). A `voices-library/` voice.json may set `"engine"` for a language, and a voice in tts.json
+  may set `"engine": "audar"` (for Audar's tags, or a voice that sounds better in Audar).
+- `library` or `reference` in an **Arabic** video (or a library voice speaking another language) → **Audar** clones it.
 - `description` in an English video → **Qwen3-TTS** designs the voice.
 - `description` in an Arabic video → Qwen3-TTS first designs a short **English reference** from the
   description (`voice-takes/<lang>/<who>/design-*.wav`), then **Audar** clones it to speak the Arabic lines.
@@ -250,10 +252,10 @@ names in Latin letters (ChatGPT, Godot).
    `pnpm video voice-ref my-story ali=2`. It picks whole lines of that take, about 5–12 s, preferring
    lines whose words were heard right and that have no tags, and writes `refs/ali.wav` and
    `refs/ali.json` with the exact words. It prints the `voices` entry to use:
-   `"ali": { "reference": "refs/ali.wav", "referenceText": "…" }` (cloned by Audar).
+   `"ali": { "reference": "refs/ali.wav", "referenceText": "…" }` (cloned by Qwen3-TTS in English, Audar in Arabic).
 2. **A character who will come back** is saved once: `pnpm video voice-ref my-story ali=2 --save ali`
    copies the reference into `voices-library/ali/` as `reference_<lang>.wav` (the take's language) and
-   writes `languages.<lang>` to `voice.json` (its words as `text`, and the take's seed and settings);
+   writes `languages.<lang>` to `voice.json` (its words as `text`, the take's engine, seed and settings);
    saving another language adds to the same
    folder. Any later video then writes `"ali": { "library": "ali" }` and gets the reference in its own
    language (another one, English first, when that language has none; `voices` warns). `--save` never
@@ -304,7 +306,7 @@ replace a file of the user's.
   can record it and give that line a `file`.
 - **Long designed takes.** A designed take is one generation; over ~1400 characters `voices` warns:
   listen to the last lines.
-- **Qwen3-TTS speaks English only and only designs; Audar only clones.** `voices` refuses each mistake.
+- **Qwen3-TTS speaks English only; Audar only clones** (a description in Arabic is designed in English first). `voices` refuses each mistake.
 - **Whisper's check is a guide, not proof.** It can mishear names and short lines. The user's ears decide.
 - **Pacing.** Clips are trimmed to the speech, and their speed is never changed: the picture follows the
   voice (STORY_MODE.md, "Pacing"). If a voice is too fast or too slow for the character, change it and

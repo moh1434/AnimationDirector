@@ -1,6 +1,7 @@
 # Audar-TTS-V1-Turbo (engine `audar`)
 
-The pipeline's default voice engine: **zero-shot cloning** in **English and Arabic** (MSA and dialects,
+The pipeline's cloner for **Arabic** (and for English when a voice says `"engine": "audar"`; English clones default to
+Qwen3-TTS): **zero-shot cloning** in **English and Arabic** (MSA and dialects,
 code-switching between them). It never invents a voice: it always speaks in the voice of a reference
 recording. Model card: `C:\Users\lenovo\tts-new-models\audar-turbo\weights\README.md`.
 

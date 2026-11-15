@@ -22,8 +22,9 @@ close and changes shots. Read [ART_STYLE.md](ART_STYLE.md), `README.md` and `STO
 ## When the user asks for a video
 
 0. **Only text, no recordings?** Make the voices first: read [TTS.md](TTS.md) and the guide of each
-   engine you use (`docs/tts/audar-turbo/README.md` clones a reference, English and Arabic, the default;
-   `docs/tts/qwen3-tts/README.md` designs voices from a description, English only; VoxCPM2 and CosyVoice3
+   engine you use (`docs/tts/qwen3-tts/README.md` clones English references and library voices, the default for English,
+   and designs voices from a description, English only; `docs/tts/audar-turbo/README.md` clones in Arabic,
+   and in English with `"engine": "audar"`; VoxCPM2 and CosyVoice3
    are gone, whatever `..\AGENTS.md` says). Then `pnpm video new <name> --tts`,
    write `tts.json` (the user's exact words, one entry per speaker turn, and a voice per character),
    `pnpm video voices <name>`, and send `voice-takes/<lang>/review.html` to the user (SendUserFile).

@@ -6,7 +6,7 @@ indoor/outdoor settings, and supplied voices. Or keep using the original single-
 - [Story mode and multi-voice setup](STORY_MODE.md)
 - [Storyboard field reference](STORYBOARD_GUIDE.md)
 - [Guide for local agents](LOCAL_MODEL_GUIDE.md)
-- [Voices from text](TTS.md): only a script, or a new character with no recording? Audar-TTS (clones, English and Arabic) or Qwen3-TTS (designs new English voices) makes a few takes per character on this PC,
+- [Voices from text](TTS.md): only a script, or a new character with no recording? Qwen3-TTS (clones and designs English voices) or Audar-TTS (clones Arabic) makes a few takes per character on this PC,
   you listen and pick one each, and they become the video's recordings.
 
 Give it **your narration (.wav)**, **the story text with time segments**, and it makes a cartoon

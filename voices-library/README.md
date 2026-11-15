@@ -25,6 +25,7 @@ voices-library/
       "voiceId": "user:narrator_en_35aac8",
       "voiceName": "narrator_en",
       "workerMode": "clone",
+      "engine": "audar",
       "settings": { "temperature": 0.7, "topK": 35, "topP": 0.9, "repeatPenalty": 1.1, "seed": 1579 }
     },
     "en": { "file": "reference_en.wav", "text": "…", "…": "…" }
@@ -35,9 +36,11 @@ voices-library/
 - `file` and `text` are what the clone needs: the recording and its **exact** words.
 - `voiceId`, `voiceName` and `workerMode` record how the recording was made (your voice tool's ids); they
   are notes and are not sent to the model. `null` = not known.
-- `settings` are the Audar settings the recording was made with. They become the defaults when a video
+- `engine` (optional): the model that clones this language, `"qwen3"` or `"audar"`. Left out (`null`),
+  English is cloned by Qwen3-TTS and Arabic by Audar. A voice's own `"engine"` in `tts.json` still wins.
+- `settings` are the settings the recording was made with (Qwen3-TTS takes `repeatPenalty` too). They become the defaults when a video
   clones this voice in that language (`temperature`, `topK`, `topP`, `repeatPenalty`), and `seed` is the
-  seed of take 1 (the next takes add 11 each). An empty (`null`) setting falls back to the project's `"options"`, then to Audar's defaults.
+  seed of take 1 (the next takes add 11 each). An empty (`null`) setting falls back to the project's `"options"`, then to the model's defaults.
   They beat a project's project-wide `"options"`; only `"options"`/`"seeds"` on the voice itself in
   `tts.json` replace them, and `pnpm video voices` warns when that happens.
 
@@ -75,8 +78,8 @@ In the project's `tts.json` (or `tts-ar.json`):
 ```
 
 The video's language picks the reference: an English video uses `reference_en.wav`, an Arabic one
-`reference_ar.wav`. Both are cloned with Audar-TTS Turbo. If the language has no reference, another
-one is used (English first; Audar speaks across languages), and `voices` warns. Library voices are
-cloned only with Audar-TTS Turbo, never Qwen3-TTS. See TTS.md, "Cloning and the character library".
+`reference_ar.wav`. English is cloned with Qwen3-TTS and Arabic with Audar-TTS Turbo, unless the language's
+entry sets `"engine"` (`"qwen3"` or `"audar"`). If the language has no reference, another one is used
+(English first; Audar speaks across languages), and `voices` warns. See TTS.md, "Cloning and the character library".
 
 Other videos depend on these voices: don't replace a reference once videos use it.

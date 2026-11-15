@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, writeFileSync, readFileSync, existsSync, readdirSync, copyFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, basename } from "node:path";
-import { alignLines, keepsRecordings, makeReference, makeTakes, parseLines, parsePicks, pickTakes, readPcm, readVoicePlan, splitTake, takeChunks, takeCommand, takeRequests, DESIGN_TEXT } from "./tts.mjs";
+import { alignLines, keepsRecordings, makeReference, makeTakes, parseLines, parsePicks, pickTakes, readPcm, readVoicePlan, splitTake, takeChunks, takeCommand, takeRequests, settingsProblems, ttsSettings, DESIGN_TEXT } from "./tts.mjs";
 import { mkdirSync } from "node:fs";
 import { pcmWav } from "./dialogue.mjs";
 
@@ -68,13 +68,20 @@ test("an English description is designed by Qwen3-TTS: the whole take in one gen
 test("Audar clones a reference in chunks of whole lines; tags and languages are checked per engine", () => {
   const dir = project(STORY);
   writeFileSync(join(dir, "ali.wav"), "x");
-  const ali = { reference: "ali.wav", referenceText: "Hello there, my friend." };
+  // an English clone defaults to Qwen3-TTS (it has no tags), so this voice asks for Audar
+  const ali = { reference: "ali.wav", referenceText: "Hello there, my friend.", engine: "audar" };
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...STORY, voices: { ...STORY.voices, ali: { reference: "ali.wav", referenceText: "Hello there, my friend." } } }));
+  assert.equal(readVoicePlan(dir).voices.ali.engine, "qwen3", "an English reference is cloned by Qwen3-TTS by default");
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...STORY, language: "ar", voices: { ...STORY.voices, ali: { reference: "ali.wav", referenceText: "Hello there, my friend." }, ahmed: { reference: "ali.wav", referenceText: "Hello there, my friend." } } }));
+  assert.equal(readVoicePlan(dir).voices.ali.engine, "audar", "an Arabic video clones with Audar");
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...STORY, lines: [{ who: "ali", text: "Hi.", say: "[excited] Hi." }, { who: "ahmed", text: "Hi." }], voices: { ...STORY.voices, ali: { reference: "ali.wav", referenceText: "Hello there, my friend." } } }));
+  assert.throws(() => readVoicePlan(dir), /Qwen3-TTS has no inline tags such as \[excited\]; give the voice "engine": "audar"/);
   const plan = (voice, extra = {}) => { writeFileSync(join(dir, "tts.json"), JSON.stringify({ ...STORY, ...extra, voices: { ...STORY.voices, ali: voice } })); return readVoicePlan(dir); };
   const errorsOf = (voice, extra) => { try { plan(voice, extra); return ""; } catch (e) { return e.message; } };
   const long = "This sentence is here to fill up a chunk with enough words to matter.";
   const lines = [...Array(8)].map((_, i) => ({ who: "ali", text: `${i + 1}. ${long}`, ...(i === 0 && { say: `[excited] ${i + 1}. ${long}` }) })).concat([{ who: "ahmed", text: "Hi." }]);
   const p = plan(ali, { lines });
-  assert.equal(p.voices.ali.engine, "audar", "a reference is cloned by Audar by default");
+  assert.equal(p.voices.ali.engine, "audar", "a voice can ask for Audar");
   const r = takeRequests(p, dir).find((x) => x.who === "ali");
   assert.ok(r.chunks.length >= 3 && r.chunks.every((c) => c.length <= 240), JSON.stringify(r.chunks.map((c) => c.length)));
   assert.equal(r.chunks.join(" ").split(/\d\. /).length - 1, 8, "every line is in exactly one chunk, whole");
@@ -85,9 +92,12 @@ test("Audar clones a reference in chunks of whole lines; tags and languages are 
   assert.match(errorsOf({ ...ali, style: "happy" }), /"style" was a CosyVoice3 setting/);
   assert.match(errorsOf({ engine: "qwen3", description: "A man" }, { language: "ar", lines: [{ who: "ali", text: "مرحبا" }, { who: "ahmed", text: "أهلا" }] }), /Qwen3-TTS does not speak "ar"/);
   assert.match(errorsOf({ engine: "vox" }), /unknown engine "vox"/);
-  // Qwen3-TTS never clones an existing voice: only Audar does (the user's rule)
-  assert.match(errorsOf({ ...ali, engine: "qwen3" }), /Qwen3-TTS only designs new voices.*Audar-TTS Turbo only/);
-  assert.throws(() => takeCommand(SETTINGS, dir, { who: "ali", engine: "qwen3", voice: { ...ali, engine: "qwen3" }, chunks: ["Hi."] }, join(dir, "o.wav")), /only Audar-TTS Turbo clones/);
+  // Qwen3-TTS clones English (the default): a clone job with the reference and its words, chunked like Audar's
+  assert.equal(errorsOf({ ...ali, engine: "qwen3" }), "");
+  const q = takeCommand(SETTINGS, dir, { who: "ali", engine: "qwen3", voice: { ...ali, engine: "qwen3" }, chunks: ["Hi."], options: { seed: 5, temperature: 0.9, repeat_penalty: 1.1 } }, join(dir, "o.wav"));
+  assert.deepEqual([q.job.mode, q.job.referenceText, q.job.seed, q.job.options], ["clone", "Hello there, my friend.", 5, { temperature: 0.9, repeat_penalty: 1.1 }]);
+  assert.match(q.args.at(-2), /qwen3_worker\.py$/);
+  assert.match(errorsOf({ ...ali, engine: "qwen3" }, { language: "ar", lines: [{ who: "ali", text: "مرحبا" }, { who: "ahmed", text: "أهلا" }] }), /Qwen3-TTS does not speak "ar"/);
 });
 
 test("an Arabic description: Qwen3-TTS designs an English reference first, then Audar clones it", async () => {
@@ -227,7 +237,7 @@ test("a picked take becomes a reference and a library voice that later videos cl
   assert.equal(r.referenceText, "Hello Ahmed. I am fine, thank you!", "the script's words, not the spoken form");
   assert.ok(existsSync(join(dir, "refs", "ali.wav")) && existsSync(join(library, "ali", "reference_en.wav")));
   const saved = JSON.parse(readFileSync(join(library, "ali", "voice.json"), "utf8"));
-  assert.deepEqual({ ...saved.languages.en, from: undefined, voiceId: undefined }, { file: "reference_en.wav", text: "Hello Ahmed. I am fine, thank you!", voiceId: undefined, voiceName: "ali_en", workerMode: "design", from: undefined,
+  assert.deepEqual({ ...saved.languages.en, from: undefined, voiceId: undefined }, { file: "reference_en.wav", text: "Hello Ahmed. I am fine, thank you!", voiceId: undefined, voiceName: "ali_en", workerMode: "design", engine: "qwen3", from: undefined,
     settings: { temperature: null, topK: null, topP: null, repeatPenalty: null, seed: 11 } }, "the take's seed and settings are kept");
   assert.match(saved.languages.en.voiceId, /^design:[0-9a-f]{8}$/);
   // every generated take records its words, voice, mode and settings next to the audio
@@ -249,7 +259,7 @@ test("a picked take becomes a reference and a library voice that later videos cl
   assert.throws(() => makeReference(dir, "ali", 1, { save: "ali", library }), /already has a en voice/);
   const next = project({ language: "en", voices: { bob: { library: "ali" } }, lines: [{ who: "bob", text: "Hi there." }] });
   const plan = readVoicePlan(next, undefined, { library });
-  assert.equal(plan.voices.bob.engine, "audar", "library voices clone with Audar");
+  assert.equal(plan.voices.bob.engine, "qwen3", "an English library voice clones with the engine saved in voice.json (here the take's, Qwen3-TTS)");
   assert.equal(plan.voices.bob.referenceText, "Hello Ahmed. I am fine, thank you!");
   const ar = project({ language: "ar", voices: { bob: { library: "ali" } }, lines: [{ who: "bob", text: "مرحبا" }] });
   const cross = readVoicePlan(ar, undefined, { library });
@@ -323,7 +333,7 @@ test("alternatives add takes made another way, numbered after the main takes, wi
   const dir = project(STORY);
   writeFileSync(join(dir, "ali.wav"), wavOf(tones([[0, 1]], 1)));
   const alt = { ...STORY, lines: [...STORY.lines.slice(0, 3), { who: "ali", text: "Yes!" }], voices: { ...STORY.voices, ali: { ...STORY.voices.ali, alternatives: [
-    { reference: "ali.wav", referenceText: "Hello.", say: { 3: "[laughs] I am fine, thank you!", 4: "[excited] Yes!" } },
+    { reference: "ali.wav", referenceText: "Hello.", engine: "audar", say: { 3: "[laughs] I am fine, thank you!", 4: "[excited] Yes!" } },
     { description: "A bright, quick cartoon boy", takes: 2 },
   ] } } };
   writeFileSync(join(dir, "tts.json"), JSON.stringify(alt));
@@ -392,8 +402,12 @@ test("voice.json problems are named, and nothing silently replaces it", () => {
   // a broken voice.json names the file
   mkdirSync(join(library, "z")); writeFileSync(join(library, "z", "voice.json"), "{ nope");
   assert.throws(() => planFor({ library: "z" }), /voices-library\/z\/voice\.json is not valid JSON/);
-  // qwen3 with a library voice: one clear error, not an unknown-option one as well
-  assert.throws(() => planFor({ library: "v", engine: "qwen3" }), (e) => /only designs new voices/.test(e.message) && !/unknown qwen3 option/.test(e.message));
+  // an English library voice clones with Qwen3-TTS by default, with the saved settings (repeatPenalty included)
+  assert.equal(planFor({ library: "v" }).voices.bob.engine, "qwen3");
+  assert.equal(planFor({ library: "v", engine: "audar" }).voices.bob.engine, "audar", "the voice's own engine wins");
+  // voice.json can name the engine per language
+  voice("q", { en: { file: "reference_en.wav", text: "Hello.", engine: "audar", settings: S({ seed: 3 }) } }); wav("q", "reference_en.wav");
+  assert.equal(planFor({ library: "q" }).voices.bob.engine, "audar", "voice.json's engine for the language");
 });
 
 test("voice-ref refuses a take made with older settings, and records the settings that made it", async () => {
@@ -413,4 +427,33 @@ test("options written as text on a saved voice is a clear error", () => {
   writeFileSync(join(library, "v", "voice.json"), JSON.stringify({ id: "v", languages: { en: { file: "reference_en.wav", text: "Hello.", settings: { temperature: 0.6, topK: 30, topP: null, repeatPenalty: null, seed: 5 } } } }));
   writeFileSync(join(library, "v", "reference_en.wav"), wavOf(tones([[0, 1]], 1)));
   assert.throws(() => readVoicePlan(project({ language: "en", voices: { bob: { library: "v", options: "x" } }, lines: [{ who: "bob", text: "Hi." }] }), undefined, { library }), /"options" must be an object/);
+});
+
+test("the default cloner follows the recording's language; engine problems name where the engine came from", () => {
+  const lines = [{ who: "bob", text: "Hi there." }];
+  // a project recording whose record says it is Arabic: Audar, even in an English video
+  const dir = project({ language: "en", voices: { bob: { reference: "refs/ar.wav" } }, lines });
+  mkdirSync(join(dir, "refs")); writeFileSync(join(dir, "refs", "ar.wav"), "x");
+  writeFileSync(join(dir, "refs", "ar.json"), JSON.stringify({ text: "مرحبا بكم", language: "ar", settings: { seed: 4 } }));
+  assert.equal(readVoicePlan(dir).voices.bob.engine, "audar");
+  writeFileSync(join(dir, "refs", "ar.json"), JSON.stringify({ text: "Hello there.", language: "en", settings: { seed: 4 } }));
+  assert.equal(readVoicePlan(dir).voices.bob.engine, "qwen3");
+  // "engine" is not case-sensitive
+  writeFileSync(join(dir, "tts.json"), JSON.stringify({ language: "en", voices: { bob: { reference: "refs/ar.wav", engine: "Audar" } }, lines }));
+  assert.equal(readVoicePlan(dir).voices.bob.engine, "audar");
+  // a wrong engine in voice.json names voice.json
+  const library = mkdtempSync(join(tmpdir(), "voices-library-"));
+  mkdirSync(join(library, "w")); writeFileSync(join(library, "w", "reference_en.wav"), "x"); writeFileSync(join(library, "w", "reference_ar.wav"), "x");
+  writeFileSync(join(library, "w", "voice.json"), JSON.stringify({ id: "w", languages: { en: { file: "reference_en.wav", text: "Hello.", engine: "qwen5" }, ar: { file: "reference_ar.wav", text: "مرحبا", engine: "qwen3" } } }));
+  assert.throws(() => readVoicePlan(project({ language: "en", voices: { bob: { library: "w" } }, lines }), undefined, { library }), /unknown engine "qwen5" in voices-library\/w\/voice\.json languages\.en\.engine/);
+  assert.throws(() => readVoicePlan(project({ language: "ar", voices: { bob: { library: "w" } }, lines: [{ who: "bob", text: "مرحبا" }] }), undefined, { library }), /does not speak "ar".*voices-library\/w\/voice\.json languages\.ar\.engine asks for it/);
+});
+
+test("each kind of take checks the weights it needs before anything runs", () => {
+  const d = mkdtempSync(join(tmpdir(), "qwen3-"));
+  mkdirSync(join(d, ".venv")); mkdirSync(join(d, "weights"));
+  const s = ttsSettings({ root: d, env: { TTS_QWEN3_DIR: d, TTS_AUDAR_DIR: "" } });
+  assert.deepEqual(settingsProblems(s, ["qwen3:design"]), []);
+  assert.match(settingsProblems(s, ["qwen3:clone"]).join("\n"), /has no weights-base\/ folder \(needed to clone with Qwen3-TTS\)/);
+  assert.match(settingsProblems({ ...SETTINGS, modeErrors: {} }, ["qwen3"]).join(""), /^$/);
 });

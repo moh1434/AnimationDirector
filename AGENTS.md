@@ -11,9 +11,9 @@ storyboard decisions, original narration, timings, and the art direction in ART_
 
 When the user sends a script without recordings, or when you draw a new character who speaks and has
 no recording, follow [TTS.md](TTS.md) after reading the guide of each engine you use
-(`docs/tts/audar-turbo/README.md`, `docs/tts/qwen3-tts/README.md`). Audar clones a reference in English
-and Arabic (the default, and the only engine that clones an existing voice); Qwen3-TTS (English only)
-only designs new voices from a description, never clones. VoxCPM2 and
+(`docs/tts/audar-turbo/README.md`, `docs/tts/qwen3-tts/README.md`). Qwen3-TTS (English only) clones English
+references and library voices (the default for English: the user finds it clones English better) and designs
+new voices from a description; Audar clones in Arabic, and in English when a voice says `"engine": "audar"`. VoxCPM2 and
 CosyVoice3 are no longer used here, whatever `..\AGENTS.md` says about VoxCPM2. Check `voices-library/`
 for a character that already has a voice. Write `tts.json` with the user's exact words, run
 `pnpm video voices <name>`, give the user `voice-takes/<lang>/review.html`, and wait for one pick per

@@ -1,15 +1,21 @@
-# Qwen3-TTS 1.7B (engine `qwen3`, English only, design only)
+# Qwen3-TTS 1.7B (engine `qwen3`, English only)
 
-Used only for **new voices from a description** (voice design), never for cloning (Audar does that). Its
+The **default English cloner** (a reference or a `voices-library/` voice: the user finds it clones English
+better than Audar) and the engine for **new voices from a description** (voice design). Its
 supported languages are English, Chinese, French, German, Italian, Japanese, Korean, Portuguese,
 Russian and Spanish, but this pipeline uses it for **English only** (no Arabic).
 
 ## Setup on this PC
 
 - Folder: `TTS_QWEN3_DIR` in `.env` (`C:/Users/lenovo/tts-new-models/qwen3-tts`), holding `.venv` and
-  `weights/`: Qwen3-TTS-12Hz-1.7B-**VoiceDesign**, a voice from a description (`mode: design`).
-- **It never clones.** Cloning an existing voice (a reference or a `voices-library/` voice) is done only by
-  Audar-TTS Turbo (the user's rule). The `weights-base/` (Base, clone) weights in the folder are not used.
+  two sets of weights:
+  - `weights-base/`: Qwen3-TTS-12Hz-1.7B-**Base**, a zero-shot clone of a reference + its exact words (`mode: clone`).
+  - `weights/`: Qwen3-TTS-12Hz-1.7B-**VoiceDesign**, a voice from a description (`mode: design`).
+- **Cloning** is the default for English: a `library` voice or a `reference` in an English video. Arabic
+  (and a reference in another language) is cloned by Audar. A voice can ask for Audar with `"engine": "audar"`
+  (needed for Audar's tags such as `[excited]`), and a `voices-library/` voice.json can set `"engine"` per language.
+  A clone take is made a few lines at a time (up to ~400 characters per generation) and joined.
+  `repeatPenalty` from voice.json is passed to the model as `repetition_penalty`.
 - Runs on the GPU in bfloat16 (about 3.5 s of work per second of speech here). The "SoX could not be
   found" and "flash-attn is not installed" messages it prints are harmless.
 - Worker: `pipeline/tts_workers/qwen3_worker.py`, run with

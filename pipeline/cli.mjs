@@ -658,7 +658,7 @@ function doctor() {
   if (!Object.values(t.dirs).some(Boolean)) ok(true, "Voices from text: not set up (optional, see TTS.md)");
   else for (const [e, E] of Object.entries(ENGINES)) {
     if (!t.dirs[e]) { ok(true, `${E.name} voices: not set up (optional)`); continue; }
-    const bad = [...t.errors, ...t.engineErrors[e]];
+    const bad = [...t.errors, ...t.engineErrors[e], ...Object.values(t.modeErrors?.[e] ?? {})];
     ok(!bad.length, `${E.name} voices: ${t.dirs[e]}`, bad.join("\n    → "));
   }
 }

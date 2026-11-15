@@ -7,11 +7,13 @@
 // cut at pauses only, never stretched or re-timed: the voice's own pace is the pace of the video.
 //
 // Engines (each runs in its own Python environment, through a worker in pipeline/tts_workers/):
-//   audar  Audar-TTS-V1-Turbo: clones a reference recording (+ its exact words), English and Arabic.
+//   qwen3  Qwen3-TTS 1.7B, English only: clones a reference recording (+ its exact words) with its Base
+//          weights (weights-base/) — the default for English clones (the user's rule: it clones English
+//          better) — and designs a new voice from a description (VoiceDesign weights, weights/; the whole
+//          take in one generation, because a designed voice changes between generations).
+//   audar  Audar-TTS-V1-Turbo: clones a reference recording (+ its exact words), English and Arabic. The
+//          cloner for Arabic, and for English when a voice asks for it ("engine": "audar").
 //          A clone take is made in chunks of a few lines (one generation is at most ~36 s) and joined.
-//   qwen3  Qwen3-TTS 1.7B, English only: designs a new voice from a description (VoiceDesign weights;
-//          the whole take in one generation, because a designed voice changes between generations).
-//          It never clones: every clone of an existing voice is made by Audar (the user's rule).
 // A new character in an Arabic video (description, no reference) gets an English reference designed by
 // Qwen3-TTS first, which Audar then clones. A picked take can be cut into a reference (voice-ref) and kept
 // in voices-library/ so the character sounds the same in every video.
@@ -28,7 +30,7 @@ const RATE = DIALOGUE_RATE;
 export const AUDAR_TAGS = ["laughs", "curious", "excited", "sighs", "exhales", "mischievously", "whispers", "sarcastic"];
 export const ENGINES = {
   audar: { name: "Audar-TTS Turbo", env: "TTS_AUDAR_DIR", worker: "audar_worker.py", weights: ["weights"], options: ["seed", "temperature", "top_k", "top_p", "repeat_penalty"], defaults: {}, tags: AUDAR_TAGS, languages: ["en", "ar"], design: false, chunkChars: 240 },
-  qwen3: { name: "Qwen3-TTS", env: "TTS_QWEN3_DIR", worker: "qwen3_worker.py", weights: ["weights"], options: ["seed", "temperature", "top_k", "top_p"], defaults: {}, tags: [], languages: ["en"], design: true, chunkChars: 400 },
+  qwen3: { name: "Qwen3-TTS", env: "TTS_QWEN3_DIR", worker: "qwen3_worker.py", weights: [], modeWeights: { clone: "weights-base", design: "weights" }, options: ["seed", "temperature", "top_k", "top_p", "repeat_penalty"], defaults: {}, tags: [], languages: ["en"], design: true, chunkChars: 400 },
 };
 /** The English sentence a designed reference speaks when Audar must clone a voice made from a description (about 10 s). */
 export const DESIGN_TEXT = "Hello there, it is good to meet you. I have a story to tell today, so sit back, get comfortable, and listen closely, because every word of it matters.";
@@ -68,7 +70,7 @@ export function ttsSettings({ root = ROOT, env = process.env } = {}) {
   const f = join(root, ".env");
   const vars = existsSync(f) ? parseEnv(readFileSync(f, "utf8")).vars : {};
   const get = (k) => String(env[k] ?? vars[k] ?? "").trim();
-  const errors = [], dirs = {}, engineErrors = {};
+  const errors = [], dirs = {}, engineErrors = {}, modeErrors = {};
   const uv = get("TTS_UV") || "uv";
   if (spawnSync(uv, ["--version"], { encoding: "utf8", windowsHide: true }).status !== 0) errors.push(`uv is not found (${uv}). Install it, or set TTS_UV in .env to uv.exe.`);
   for (const [name, e] of Object.entries(ENGINES)) {
@@ -77,12 +79,14 @@ export function ttsSettings({ root = ROOT, env = process.env } = {}) {
     if (!existsSync(d)) { problems.push(`${e.env}: no folder at ${d}`); continue; }
     if (!existsSync(join(d, ".venv"))) problems.push(`${e.env}: ${d} has no .venv (its Python environment)`);
     for (const w of e.weights) if (!existsSync(join(d, w))) problems.push(`${e.env}: ${d} has no ${w}/ folder`);
+    // weights only one kind of take needs (Qwen3-TTS: weights-base/ to clone, weights/ to design)
+    for (const [mode, w] of Object.entries(e.modeWeights ?? {})) if (!existsSync(join(d, w))) (modeErrors[name] ??= {})[mode] = `${e.env}: ${d} has no ${w}/ folder (needed to ${mode} with ${e.name})`;
   }
-  return { uv, dirs, errors, engineErrors };
+  return { uv, dirs, errors, engineErrors, modeErrors };
 }
 
-/** What is wrong with the settings for these engines (an empty list when they can run). */
-export const settingsProblems = (settings, engines) => [...settings.errors, ...[...new Set(engines)].flatMap((e) => settings.engineErrors?.[e] ?? [])];
+/** What is wrong with the settings for these engines (an empty list when they can run); "qwen3:clone" also checks that mode's weights. */
+export const settingsProblems = (settings, engines) => [...settings.errors, ...[...new Set(engines)].flatMap((x) => { const [e, mode] = String(x).split(":"); return [...(settings.engineErrors?.[e] ?? []), ...(mode && settings.modeErrors?.[e]?.[mode] ? [settings.modeErrors[e][mode]] : [])]; }).filter((p, i, a) => a.indexOf(p) === i)];
 
 /* ---------------- the character voice library ---------------- */
 
@@ -123,7 +127,7 @@ export function generationRecord({ text, voice = {}, who, engine, mode, options 
 }
 
 /** One language of a voice.json, every key present (null = not known yet). */
-export const languageEntry = (lang, e = {}) => ({ file: e.file ?? `reference_${lang}.wav`, text: e.text ?? null, voiceId: e.voiceId ?? null, voiceName: e.voiceName ?? null, workerMode: e.workerMode ?? null, settings: { ...optionsToSettings(), ...(e.settings ?? {}) } });
+export const languageEntry = (lang, e = {}) => ({ file: e.file ?? `reference_${lang}.wav`, text: e.text ?? null, voiceId: e.voiceId ?? null, voiceName: e.voiceName ?? null, workerMode: e.workerMode ?? null, engine: e.engine ?? null, settings: { ...optionsToSettings(), ...(e.settings ?? {}) } });
 
 /**
  * The languages a saved voice has a reference for. voice.json lists them under "languages":
@@ -141,7 +145,7 @@ export function libraryLanguages(id, library = LIBRARY) {
     // a language listed in voice.json uses its own file, or is reported missing (never another file in silence)
     if (!isInside(folder, file)) missing[lang.toLowerCase()] = `languages.${lang}.file "${name}" is outside voices-library/${id}/`;
     else if (!existsSync(file)) missing[lang.toLowerCase()] = `languages.${lang}.file "${name}" is not in voices-library/${id}/`;
-    else refs[lang.toLowerCase()] = { reference: file, referenceText: e?.text ?? null, settings: e?.settings ?? {} };
+    else refs[lang.toLowerCase()] = { reference: file, referenceText: e?.text ?? null, settings: e?.settings ?? {}, engine: e?.engine ?? null };
   }
   for (const file of readdirSync(folder)) {
     const m = file.match(/^reference_([a-z]{2,3})\.wav$/i);
@@ -180,8 +184,14 @@ export const norm = (w) => w.toLowerCase().replace(/[ـ]/g, "").replace(/[^\p{L}
 export const wordsOf = (s) => String(s).replace(/\[[^\]]*\]/g, " ").replace(/<\/?[a-z_]+>/gi, " ").split(/\s+/).map(norm).filter(Boolean);
 const tagsOf = (s) => [...String(s).matchAll(/\[([^\]]*)\]/g)].map((m) => m[1]);
 const wrapsOf = (s) => [...String(s).matchAll(/<\/?([a-z_]+)>/gi)].map((m) => m[1]);
-/** The engine of a resolved voice setup (readVoicePlan sets it): Qwen3-TTS designs, Audar clones. */
+/** The engine of a resolved voice setup (readVoicePlan always sets it; this is the fallback). */
 export const engineOf = (voice) => voice?.engine ?? (voice?.description && !voice?.reference ? "qwen3" : "audar");
+/**
+ * The engine that clones a recording by default: Qwen3-TTS when the video and the recording are both
+ * English (it clones English better: the user's rule), Audar-TTS Turbo otherwise (Arabic, or a
+ * recording in another language speaking across languages).
+ */
+export const cloneEngine = (language, referenceLanguage = language) => (language === "en" && referenceLanguage === "en" ? "qwen3" : "audar");
 
 export const planFile = (lang) => (lang ? `tts-${lang}.json` : "tts.json");
 
@@ -232,6 +242,7 @@ export function readVoicePlan(dir, lang, options = {}) {
   const checkVoice = (who, v0, label) => {
     let v = v0;
     if (!v || typeof v !== "object" || Array.isArray(v)) { errors.push(`${label}: must be an object such as {"description": "..."}`); return null; }
+    if (typeof v.engine === "string") v = { ...v, engine: v.engine.trim().toLowerCase() };
     if (v.library !== undefined) {
       // a character voice saved by voice-ref --save: cloned, so the character is the same person in every video
       const found = ID.test(String(v.library)) ? libraryLanguages(String(v.library), options.library) : null;
@@ -247,7 +258,10 @@ export function readVoicePlan(dir, lang, options = {}) {
       if (lib.crossLingual) warnings.push(`${who}: voices-library/${v.library} has no ${language} reference; its ${lib.referenceLanguage} one speaks ${language} (cross-lingual). Add reference_${language}.wav for a closer voice.`);
       // voice.json's settings for that language are used for every take (they beat the project-wide
       // "options"); its seed is take 1's. Only this voice's own "options"/"seeds" replace them, with a warning.
-      v = { ...v, engine: v.engine ?? "audar", reference: lib.reference, referenceText: lib.referenceText, note: lib.description, libraryLanguage: lib.referenceLanguage };
+      // the engine: the voice's own "engine" in tts.json, else voice.json's for this language, else the default cloner
+      const libEngine = lib.crossLingual || lib.engine == null ? null : String(lib.engine).toLowerCase();
+      const engineFrom = v.engine == null && libEngine ? `voices-library/${v.library}/voice.json languages.${lib.referenceLanguage}.engine` : null;
+      v = { ...v, engine: v.engine ?? libEngine ?? cloneEngine(language, lib.referenceLanguage), ...(engineFrom && { engineFrom }), reference: lib.reference, referenceText: lib.referenceText, note: lib.description, libraryLanguage: lib.referenceLanguage };
       v = withSavedSettings(label, v, lib.settings, `voices-library/${v.library}/voice.json (${lib.referenceLanguage})`);
     }
     else if (v.reference && isInside(options.library ?? LIBRARY, resolve(dir, String(v.reference)))) {
@@ -261,20 +275,20 @@ export function readVoicePlan(dir, lang, options = {}) {
       const side = resolve(dir, String(v.reference)).replace(/\.wav$/i, ".json");
       let rec = null;
       try { rec = existsSync(side) ? readJson(side) : null; } catch (e) { errors.push(`${label}: ${relative(dir, side).split(sep).join("/")} is not valid JSON: ${e.message}`); }
-      if (rec) v = withSavedSettings(label, { ...v, referenceText: v.referenceText ?? rec.text ?? rec.referenceText }, rec.settings, relative(dir, side).split(sep).join("/"));
+      if (rec) v = withSavedSettings(label, { ...v, referenceText: v.referenceText ?? rec.text ?? rec.referenceText, ...(typeof rec.language === "string" && { referenceLanguage: rec.language.toLowerCase() }) }, rec.settings, relative(dir, side).split(sep).join("/"));
     }
-    // the default engine: Audar clones (English and Arabic); a description is designed by Qwen3-TTS
-    // (English), or, in another language, designed by Qwen3-TTS as an English reference that Audar clones
-    if (!v.engine) v = { ...v, engine: v.description && !v.reference && language !== "en" ? "audar" : engineOf(v) };
+    // the default engine: a recording is cloned by Qwen3-TTS in English and by Audar in Arabic; a description
+    // is designed by Qwen3-TTS (English), or, in another language, designed by Qwen3-TTS as an English
+    // reference that Audar clones
+    if (!v.engine) v = { ...v, engine: v.reference ? cloneEngine(language, v.referenceLanguage ?? language) : v.description && language !== "en" ? "audar" : "qwen3" };
     if (v.engine === "audar" && v.description && !v.reference) v = { ...v, designWith: "qwen3" };
     const engine = engineOf(v), E = ENGINES[engine];
-    if (!E) { errors.push(`${label}: unknown engine "${engine}" (use ${Object.keys(ENGINES).join(" or ")})`); return null; }
+    if (!E) { errors.push(`${label}: unknown engine "${engine}"${v.engineFrom ? ` in ${v.engineFrom}` : ""} (use ${Object.keys(ENGINES).join(" or ")})`); return null; }
     checkSetup(label, v, engine, E);
     return v;
   };
   const checkSetup = (who, v, engine, E) => {
-    if (!E.languages.includes(language)) errors.push(`${who}: ${E.name} does not speak "${language}" (only ${E.languages.join(", ")}); use "engine": "audar" for this language`);
-    if (v.reference && engine !== "audar") errors.push(`${who}: ${E.name} only designs new voices; an existing voice (a reference or a library voice) is cloned with Audar-TTS Turbo only. Remove "engine": "${engine}".`);
+    if (!E.languages.includes(language)) errors.push(`${who}: ${E.name} does not speak "${language}" (only ${E.languages.join(", ")}); ${v.engineFrom ? `${v.engineFrom} asks for it: set it to "audar" (or remove it)` : `use "engine": "audar" for this language`}`);
     if (v.reference) {
       const outside = outsideVoice(dir, v.reference, options.library);
       if (outside) errors.push(`${who}: reference ${outside}`);
@@ -330,7 +344,7 @@ export function readVoicePlan(dir, lang, options = {}) {
       const own = k > 0 ? v.say?.[i + 1] : undefined, said = own ?? l.say, spoken = said ?? l.text;
       const m = k > 0 ? `${n} (${l.who} alternative ${k})` : n, fix = k > 0 ? `add "say": {"${i + 1}": "..."} to that alternative` : `add "say"`;
       if (said !== undefined && /[()]/.test(said)) errors.push(`${m}: no parentheses in "say": words in parentheses may be read aloud`);
-      for (const t of tagsOf(spoken)) if (!E.tags.includes(t)) errors.push(E.tags.length ? `${m}: [${t}] is not a ${E.name} tag. Use one of: ${E.tags.map((x) => `[${x}]`).join(" ")}` : `${m}: ${E.name} has no inline tags such as [${t}]; put the delivery in the voice's description, or ${fix} without it`);
+      for (const t of tagsOf(spoken)) if (!E.tags.includes(t)) errors.push(E.tags.length ? `${m}: [${t}] is not a ${E.name} tag. Use one of: ${E.tags.map((x) => `[${x}]`).join(" ")}` : `${m}: ${E.name} has no inline tags such as [${t}]; ${v.reference ? `give the voice "engine": "audar" to use Audar's tags` : "put the delivery in the voice's description"}, or ${fix} without it`);
       for (const t of wrapsOf(spoken)) errors.push(`${m}: <${t}> is not understood by ${E.name}`);
       if (tagsOf(said ?? "").length > 2) warnings.push(`${m}: more than two tags in one line; the model card advises using them sparingly`);
     });
@@ -423,7 +437,6 @@ export function takeCommand(settings, dir, req, out, { reference, referenceText,
   const job = { modelDir: settings.dirs?.[engine], language: req.language ?? "en", chunks: req.chunks ?? [req.text], pause: 0.35, seed, options, cooldown, out };
   if (ref) Object.assign(job, { mode: "clone", reference: ref, referenceText: referenceText ?? v.referenceText });
   else Object.assign(job, { mode: "design", description: v.description });
-  if (engine !== "audar" && job.mode === "clone") throw new Error(`${req.who}: only Audar-TTS Turbo clones an existing voice; ${E.name} only designs`);
   if (engine === "audar" && job.mode !== "clone") throw new Error(`${req.who}: Audar only clones; it needs a reference (a designed one is made first)`);
   const jobFile = out.replace(/\.wav$/i, "") + ".job.json";
   return { exe: settings.uv ?? "uv", args: ["run", "--no-sync", "--project", job.modelDir, "python", "-I", join(WORKERS, E.worker), jobFile], job, jobFile };
@@ -632,7 +645,7 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
   }
   const base = takesDir(dir, plan);
   if (dryRun) return { plan, takes: reqs.map(({ who, take, seed, key, engine }) => ({ who, take, seed, key, engine, file: join(base, who, `take-${take}.wav`) })) };
-  const bad = settingsProblems(settings, reqs.map((r) => r.engine));
+  const bad = settingsProblems(settings, reqs.flatMap((r) => [`${r.engine}:${r.mode === "design" ? "design" : "clone"}`, ...(r.design ? [`${r.design.engine}:design`] : [])]));
   if (bad.length) throw new Error(`The voice settings in .env need fixing:\n  - ${bad.join("\n  - ")}`);
   const takes = [];
   let generated = false; // one generation at a time: never start a take while another model runs
@@ -914,7 +927,7 @@ export function makeReference(dir, who, take, { lang, save, library = LIBRARY, o
     mkdirSync(folder, { recursive: true });
     copyFileSync(join(dir, rel), join(folder, wavName));
     const old = existsSync(f) ? readJson(f) : {};
-    const entry = languageEntry(lang, { file: wavName, text, voiceId: record.voiceId, voiceName: `${save}_${lang}`, workerMode: record.workerMode, settings: optionsToSettings(opts) });
+    const entry = languageEntry(lang, { file: wavName, text, voiceId: record.voiceId, voiceName: `${save}_${lang}`, workerMode: record.workerMode, engine: record.engine, settings: optionsToSettings(opts) });
     entry.from = `${meta.from}, project ${basename(dir)}, ${new Date().toISOString()}`;
     writeJson(f, { id: save, ...old, description: old.description ?? meta.description, languages: { ...(old.languages ?? {}), [lang]: entry } });
     saved = relative(ROOT, folder).replace(/\\/g, "/");

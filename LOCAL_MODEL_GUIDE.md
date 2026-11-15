@@ -45,9 +45,11 @@ Read [TTS.md](TTS.md) and do exactly these steps:
 4. `pnpm video voice-pick <name> narrator=2 ali=1 …` with the user's numbers. Tell the user every ⚠
    line it prints. Then go on with Step 1.
 
-Leave out `engine`: a `library` voice or a `reference` is cloned by Audar (English and Arabic), and a
+Leave out `engine`: a `library` voice or a `reference` is cloned by Qwen3-TTS in an English video and by
+Audar in an Arabic one, and a
 `description` is designed by Qwen3-TTS (English; in an Arabic video it designs an English reference that
-Audar clones). Tags such as `[excited]` work only with Audar (TTS.md, "Tags").
+Audar clones). Tags such as `[excited]` work only with Audar: an English clone that needs them says
+`"engine": "audar"` (TTS.md, "Tags").
 A voice in `voices-library/` is always written as `{ "library": "<id>" }`, never as a path to its file:
 then its `voice.json` (exact words, settings and seed) is used. Do not add `"options"` or `"seeds"` to it
 unless the user asks. If you add a new speaking character

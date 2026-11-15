@@ -3,7 +3,8 @@
   "takes": 2,
   "voices": {
     "berry": {
-      "library": "berry"
+      "library": "berry",
+      "engine": "audar"
     }
   },
   "lines": [
