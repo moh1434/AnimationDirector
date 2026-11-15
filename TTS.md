@@ -36,6 +36,14 @@ each `take-N.json` (and `design-*.json`), `voice-ref` into `refs/<who>.json` and
 `voices-library/<id>/voice.json` (`languages.<lang>`). **Generating audio any other way** (a script of
 your own, a one-off test): write the same `<name>.json` yourself, with the real settings and seed.
 
+Records also keep `engine`, `language`, `description`, and a `design` object when the voice was
+designed. The original design engine, prompt, full text and settings survive reference trimming,
+library saving and later cloning. A Qwen3 design followed by an Audar clone records both stages
+separately. Unknown historical values stay null; omitted sampling settings use model defaults.
+Library entries may set `languages.<lang>.engineSettings.qwen3` and `.audar` independently. The chosen
+engine's profile replaces the legacy `settings` block; if absent, legacy settings remain supported.
+See [the library schema](voices-library/README.md#separate-engine-settings-and-original-voice-design).
+
 **Cloning uses it.** A `reference` with a record next to it (`refs/bob.wav` + `refs/bob.json`) and a library
 voice (`languages.<lang>.settings`) are cloned with the same settings, take 1 with the same seed (the next
 takes add 11 each), and the record's `text` when `referenceText` is left out.

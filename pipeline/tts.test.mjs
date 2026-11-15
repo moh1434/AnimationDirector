@@ -111,6 +111,9 @@ test("an Arabic description: Qwen3-TTS designs an English reference first, then 
   const r = await makeTakes(dir, { run, hear, settings: SETTINGS, log: () => {} });
   assert.deepEqual(runs, ["qwen3_worker.py:design", "audar_worker.py:clone", "qwen3_worker.py:design", "audar_worker.py:clone"]);
   assert.ok(r.takes.every((t) => t.designedReference && !t.failed));
+  assert.deepEqual(r.takes.map((t) => [t.engine, t.design.engine, t.design.settings.seed]), [["audar", "qwen3", 11], ["audar", "qwen3", 22]]);
+  assert.equal(r.takes[0].design.description, "A bright, friendly young woman");
+  assert.equal(r.takes[0].design.text, DESIGN_TEXT);
   await makeTakes(dir, { run, hear, settings: SETTINGS, log: () => {} });
   assert.equal(runs.length, 4, "nothing is made again");
 });
@@ -237,13 +240,17 @@ test("a picked take becomes a reference and a library voice that later videos cl
   assert.equal(r.referenceText, "Hello Ahmed. I am fine, thank you!", "the script's words, not the spoken form");
   assert.ok(existsSync(join(dir, "refs", "ali.wav")) && existsSync(join(library, "ali", "reference_en.wav")));
   const saved = JSON.parse(readFileSync(join(library, "ali", "voice.json"), "utf8"));
-  assert.deepEqual({ ...saved.languages.en, from: undefined, voiceId: undefined }, { file: "reference_en.wav", text: "Hello Ahmed. I am fine, thank you!", voiceId: undefined, voiceName: "ali_en", workerMode: "design", engine: "qwen3", from: undefined,
+  assert.deepEqual({ ...saved.languages.en, from: undefined, voiceId: undefined, engineSettings: undefined, design: undefined }, { file: "reference_en.wav", text: "Hello Ahmed. I am fine, thank you!", voiceId: undefined, voiceName: "ali_en", workerMode: "design", engine: "qwen3", from: undefined, engineSettings: undefined, design: undefined,
     settings: { temperature: null, topK: null, topP: null, repeatPenalty: null, seed: 11 } }, "the take's seed and settings are kept");
   assert.match(saved.languages.en.voiceId, /^design:[0-9a-f]{8}$/);
   // every generated take records its words, voice, mode and settings next to the audio
   const takeRec = JSON.parse(readFileSync(join(dir, "voice-takes", "en", "ali", "take-1.json"), "utf8"));
   assert.deepEqual([takeRec.voiceName, takeRec.workerMode, takeRec.engine, takeRec.language, takeRec.settings.seed], ["ali", "design", "qwen3", "en", 11]);
   assert.equal(takeRec.text, "Hello Ahmed.\nI am fine... thank you!", "the words sent to the model");
+  assert.equal(takeRec.description, STORY.voices.ali.description);
+  assert.deepEqual(saved.languages.en.engineSettings.qwen3, takeRec.settings);
+  assert.deepEqual(saved.languages.en.design, takeRec.design);
+  assert.equal(takeRec.design.text, takeRec.text);
   // and so does the reference cut from it
   const refRec = JSON.parse(readFileSync(join(dir, "refs", "ali.json"), "utf8"));
   assert.deepEqual([refRec.text, refRec.workerMode, refRec.settings.seed], ["Hello Ahmed. I am fine, thank you!", "design", 11]);
@@ -261,6 +268,7 @@ test("a picked take becomes a reference and a library voice that later videos cl
   const plan = readVoicePlan(next, undefined, { library });
   assert.equal(plan.voices.bob.engine, "qwen3", "an English library voice clones with the engine saved in voice.json (here the take's, Qwen3-TTS)");
   assert.equal(plan.voices.bob.referenceText, "Hello Ahmed. I am fine, thank you!");
+  assert.deepEqual(plan.voices.bob.design, takeRec.design, "original design survives a later library clone");
   const ar = project({ language: "ar", voices: { bob: { library: "ali" } }, lines: [{ who: "bob", text: "مرحبا" }] });
   const cross = readVoicePlan(ar, undefined, { library });
   assert.equal(cross.voices.bob.engine, "audar", "Audar speaks Arabic too");
@@ -408,6 +416,16 @@ test("voice.json problems are named, and nothing silently replaces it", () => {
   // voice.json can name the engine per language
   voice("q", { en: { file: "reference_en.wav", text: "Hello.", engine: "audar", settings: S({ seed: 3 }) } }); wav("q", "reference_en.wav");
   assert.equal(planFor({ library: "q" }).voices.bob.engine, "audar", "voice.json's engine for the language");
+  voice("profiles", { en: { file: "reference_en.wav", text: "Hello.", settings: S(), engineSettings: { qwen3: { temperature: 0.8, seed: 12 }, audar: { temperature: 0.5, seed: 90 } } } }); wav("profiles", "reference_en.wav");
+  for (const [engine, temperature, seed] of [["qwen3", 0.8, 12], ["audar", 0.5, 90]]) {
+    const p = planFor({ library: "profiles", engine }, { options: { top_k: 42 } });
+    const req = takeRequests(p, library)[0];
+    assert.equal(req.options.temperature, temperature);
+    assert.equal(req.seed, seed);
+    assert.equal(req.options.top_k, 42, "profile replaces legacy settings instead of mixing engines");
+  }
+  voice("badprofile", { en: { file: "reference_en.wav", text: "Hello.", engineSettings: { qwen3: { seed: -1 } } } }); wav("badprofile", "reference_en.wav");
+  assert.throws(() => planFor({ library: "badprofile" }), /engineSettings.qwen3.*settings.seed/);
 });
 
 test("voice-ref refuses a take made with older settings, and records the settings that made it", async () => {

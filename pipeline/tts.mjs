@@ -90,7 +90,7 @@ export const settingsProblems = (settings, engines) => [...settings.errors, ...[
 
 /* ---------------- the character voice library ---------------- */
 
-/** voice.json "settings" (camelCase, as the user's voice tool writes them) → Audar options. Empty values are skipped. */
+/** Shared camelCase voice settings → Qwen3/Audar worker options. Empty values are skipped. */
 const SETTING_NAMES = { temperature: "temperature", topK: "top_k", topP: "top_p", repeatPenalty: "repeat_penalty", seed: "seed" };
 export function settingsToOptions(settings) {
   const out = {};
@@ -110,7 +110,7 @@ export function voiceSettingsProblems(settings) {
   if (num("seed") && !(Number.isInteger(settings.seed) && settings.seed >= 0)) out.push(`settings.seed ${settings.seed} must be a whole number of 0 or more`);
   return out;
 }
-/** Audar options → voice.json "settings". */
+/** Qwen3/Audar worker options → voice.json settings. */
 export const optionsToSettings = (o = {}) => Object.fromEntries(Object.entries(SETTING_NAMES).map(([k, n]) => [k, typeof o[n] === "number" ? o[n] : null]));
 /**
  * What every generated audio file records next to it (the user's rule: keep this for each generation):
@@ -123,11 +123,28 @@ export function generationRecord({ text, voice = {}, who, engine, mode, options 
     : voice.reference ? `reference:${relative(ROOT, resolve(dir, String(voice.reference))).split(sep).join("/")}`
     : designedReference ? `design:${designedReference}`
     : voice.description ? `design:${sha(voice.description).slice(0, 8)}` : null;
-  return { text, voiceId, voiceName, workerMode: mode ?? null, engine: engine ?? null, language: language ?? null, settings: optionsToSettings(options) };
+  const settings = optionsToSettings(options);
+  const description = voice.description ?? voice.note ?? null;
+  const design = mode === "design" ? { engine, description, text, settings } : voice.design ?? null;
+  return { text, voiceId, voiceName, workerMode: mode ?? null, engine: engine ?? null, language: language ?? null, settings, description, design };
 }
 
 /** One language of a voice.json, every key present (null = not known yet). */
-export const languageEntry = (lang, e = {}) => ({ file: e.file ?? `reference_${lang}.wav`, text: e.text ?? null, voiceId: e.voiceId ?? null, voiceName: e.voiceName ?? null, workerMode: e.workerMode ?? null, engine: e.engine ?? null, settings: { ...optionsToSettings(), ...(e.settings ?? {}) } });
+export const languageEntry = (lang, e = {}) => ({ file: e.file ?? `reference_${lang}.wav`, text: e.text ?? null, voiceId: e.voiceId ?? null, voiceName: e.voiceName ?? null, workerMode: e.workerMode ?? null, engine: e.engine ?? null, settings: { ...optionsToSettings(), ...(e.settings ?? {}) }, engineSettings: e.engineSettings ?? {}, design: e.design ?? null });
+
+/** A profile replaces the legacy block, rather than borrowing values from another engine. */
+export function settingsForEngine(entry, engine) {
+  const profiles = entry.engineSettings;
+  if (profiles == null) return entry.settings;
+  if (typeof profiles !== "object" || Array.isArray(profiles)) throw new Error("engineSettings must be an object keyed by qwen3 or audar");
+  for (const [name, settings] of Object.entries(profiles)) {
+    if (!ENGINES[name]) throw new Error(`Unknown engineSettings engine "${name}" (use qwen3 or audar)`);
+    if (settings == null || typeof settings !== "object" || Array.isArray(settings)) throw new Error(`engineSettings.${name} must be a settings object`);
+    const bad = voiceSettingsProblems(settings);
+    if (bad.length) throw new Error(`engineSettings.${name}: ${bad.join("; ")}`);
+  }
+  return Object.hasOwn(profiles, engine) ? profiles[engine] : entry.settings;
+}
 
 /**
  * The languages a saved voice has a reference for. voice.json lists them under "languages":
@@ -145,7 +162,7 @@ export function libraryLanguages(id, library = LIBRARY) {
     // a language listed in voice.json uses its own file, or is reported missing (never another file in silence)
     if (!isInside(folder, file)) missing[lang.toLowerCase()] = `languages.${lang}.file "${name}" is outside voices-library/${id}/`;
     else if (!existsSync(file)) missing[lang.toLowerCase()] = `languages.${lang}.file "${name}" is not in voices-library/${id}/`;
-    else refs[lang.toLowerCase()] = { reference: file, referenceText: e?.text ?? null, settings: e?.settings ?? {}, engine: e?.engine ?? null };
+    else refs[lang.toLowerCase()] = { reference: file, referenceText: e?.text ?? null, settings: e?.settings ?? {}, engine: e?.engine ?? null, engineSettings: e?.engineSettings, design: e?.design ?? null };
   }
   for (const file of readdirSync(folder)) {
     const m = file.match(/^reference_([a-z]{2,3})\.wav$/i);
@@ -261,8 +278,8 @@ export function readVoicePlan(dir, lang, options = {}) {
       // the engine: the voice's own "engine" in tts.json, else voice.json's for this language, else the default cloner
       const libEngine = lib.crossLingual || lib.engine == null ? null : String(lib.engine).toLowerCase();
       const engineFrom = v.engine == null && libEngine ? `voices-library/${v.library}/voice.json languages.${lib.referenceLanguage}.engine` : null;
-      v = { ...v, engine: v.engine ?? libEngine ?? cloneEngine(language, lib.referenceLanguage), ...(engineFrom && { engineFrom }), reference: lib.reference, referenceText: lib.referenceText, note: lib.description, libraryLanguage: lib.referenceLanguage };
-      v = withSavedSettings(label, v, lib.settings, `voices-library/${v.library}/voice.json (${lib.referenceLanguage})`);
+      v = { ...v, engine: v.engine ?? libEngine ?? cloneEngine(language, lib.referenceLanguage), ...(engineFrom && { engineFrom }), reference: lib.reference, referenceText: lib.referenceText, note: lib.description, design: lib.design, libraryLanguage: lib.referenceLanguage };
+      v = withSavedSettings(label, v, settingsForEngine(lib, v.engine), `voices-library/${v.library}/voice.json (${lib.referenceLanguage})`);
     }
     else if (v.reference && isInside(options.library ?? LIBRARY, resolve(dir, String(v.reference)))) {
       // a library recording named by path would skip voice.json (its text, settings and seed)
@@ -275,7 +292,11 @@ export function readVoicePlan(dir, lang, options = {}) {
       const side = resolve(dir, String(v.reference)).replace(/\.wav$/i, ".json");
       let rec = null;
       try { rec = existsSync(side) ? readJson(side) : null; } catch (e) { errors.push(`${label}: ${relative(dir, side).split(sep).join("/")} is not valid JSON: ${e.message}`); }
-      if (rec) v = withSavedSettings(label, { ...v, referenceText: v.referenceText ?? rec.text ?? rec.referenceText, ...(typeof rec.language === "string" && { referenceLanguage: rec.language.toLowerCase() }) }, rec.settings, relative(dir, side).split(sep).join("/"));
+      if (rec) {
+        const referenceLanguage = typeof rec.language === "string" ? rec.language.toLowerCase() : language;
+        const engine = v.engine ?? cloneEngine(language, referenceLanguage);
+        v = withSavedSettings(label, { ...v, engine, referenceText: v.referenceText ?? rec.text ?? rec.referenceText, referenceLanguage, note: rec.description ?? v.note, design: rec.design ?? null }, settingsForEngine(rec, engine), relative(dir, side).split(sep).join("/"));
+      }
     }
     // the default engine: a recording is cloned by Qwen3-TTS in English and by Audar in Arabic; a description
     // is designed by Qwen3-TTS (English), or, in another language, designed by Qwen3-TTS as an English
@@ -674,7 +695,7 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
         return existsSync(out) && statSync(out).size > 1000 ? null : "no audio was written";
       };
       const t0 = Date.now();
-      let designed = null;
+      let designed = null, design = r.voice.design ?? null;
       if (r.design) {
         // a voice from a description for Audar: Qwen3-TTS designs an English reference first, kept per description + seed
         designed = join(folder, `design-${r.design.key}.wav`);
@@ -685,6 +706,11 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
           if (fail) { takes.push({ who: r.who, take: r.take, seed: r.seed, failed: `designing the voice: ${fail}` }); log(`  failed: ${fail.split("\n")[0]}`); continue; }
           writeJson(designed.replace(/\.wav$/i, ".json"), generationRecord({ text: r.design.text, voice: { description: r.design.description }, who: r.who, engine: r.design.engine, mode: "design", options: { seed: r.design.seed }, language: "en", dir }));
         }
+        const designInfo = designed.replace(/\.wav$/i, ".json");
+        if (existsSync(designInfo)) {
+          const rec = readJson(designInfo);
+          design = rec.design ?? { engine: r.design.engine, description: r.design.description, text: rec.text, settings: rec.settings ?? optionsToSettings() };
+        }
       }
       await rest();
       log(`Generating ${r.who}, take ${r.take} (${r.engine}, seed ${r.seed}, ${r.lines.length} line${r.lines.length > 1 ? "s" : ""} in ${r.chunks.length} part${r.chunks.length > 1 ? "s" : ""})…`);
@@ -692,7 +718,7 @@ export async function makeTakes(dir, { lang, only, dryRun = false, run = runProc
       const fail = await generate(r, pending, designed ? { reference: designed, referenceText: r.design.text } : {});
       if (fail) { takes.push({ who: r.who, take: r.take, seed: r.seed, failed: fail }); log(`  failed: ${fail.split("\n")[0]}`); continue; }
       renameSync(pending, wav);
-      entry = { ...generationRecord({ text: r.text, voice: r.voice, who: r.who, engine: r.engine, mode: r.mode, options: r.options, language: r.language, designedReference: designed && basename(designed), dir }),
+      entry = { ...generationRecord({ text: r.text, voice: { ...r.voice, design }, who: r.who, engine: r.engine, mode: r.mode, options: r.options, language: r.language, designedReference: designed && basename(designed), dir }),
         who: r.who, take: r.take, engine: r.engine, mode: r.mode, seed: r.seed, key: r.key, text: r.text, lines: r.lines.map((l) => ({ index: l.index, text: l.text })), ...(designed && { designedReference: basename(designed) }), seconds: Math.round((Date.now() - t0) / 100) / 10 };
     }
     const audio = sha(readFileSync(wav));
@@ -917,6 +943,8 @@ export function makeReference(dir, who, take, { lang, save, library = LIBRARY, o
   // the settings that really made the take: its own record when it has one, else the request (same key)
   const opts = t.settings ? settingsToOptions(t.settings) : req.options;
   const record = generationRecord({ text, voice: v, who, engine: engineOf(v), mode: req?.mode, options: opts, language: plan.language, dir });
+  // Keep the original full design prompt/text/seed even when this reference is only a short excerpt.
+  record.design = t.design ?? record.design;
   writeJson(join(dir, `refs/${who}.json`), { reference: rel, ...meta, ...record, text });
   let saved = null;
   if (save) {
@@ -927,7 +955,7 @@ export function makeReference(dir, who, take, { lang, save, library = LIBRARY, o
     mkdirSync(folder, { recursive: true });
     copyFileSync(join(dir, rel), join(folder, wavName));
     const old = existsSync(f) ? readJson(f) : {};
-    const entry = languageEntry(lang, { file: wavName, text, voiceId: record.voiceId, voiceName: `${save}_${lang}`, workerMode: record.workerMode, engine: record.engine, settings: optionsToSettings(opts) });
+    const entry = languageEntry(lang, { file: wavName, text, voiceId: record.voiceId, voiceName: `${save}_${lang}`, workerMode: record.workerMode, engine: record.engine, settings: optionsToSettings(opts), engineSettings: { ...(old.languages?.[lang]?.engineSettings ?? {}), [record.engine]: optionsToSettings(opts) }, design: record.design });
     entry.from = `${meta.from}, project ${basename(dir)}, ${new Date().toISOString()}`;
     writeJson(f, { id: save, ...old, description: old.description ?? meta.description, languages: { ...(old.languages ?? {}), [lang]: entry } });
     saved = relative(ROOT, folder).replace(/\\/g, "/");

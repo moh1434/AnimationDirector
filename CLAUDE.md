@@ -64,12 +64,12 @@ close and changes shots. Read [ART_STYLE.md](ART_STYLE.md), `README.md` and `STO
 4. `pnpm video check <name>` → read `out/check-shorts.md` and look at `out/check/*.jpg`.
    Fix every error; judge each warning (layout-composition skill). `stills` gives a quick contact sheet.
    Add `--format both` only when the user wants the YouTube layout checked too (stills, not a render).
-5. **Voice enhancement — do it yourself, without asking ([ENHANCE.md](ENHANCE.md)).** `plan` exports the
-   final voice to `voices/enhance/original.wav`. Run `pnpm video enhance <name>`, upload the printed file to
-   Adobe Podcast Enhance in **Claude in Chrome** (`file_upload`; never click "Choose files"), wait, click
-   Download, run `pnpm video enhance <name> --take-download`, then `plan` again. The user asked for this
-   online step; it is an exception to "local only". `make` refuses the final video without the enhanced
-   voice (`--draft` is fine; `--skip-enhance` only if the user says so). A new voice needs enhancing again.
+5. **Adobe enhancement is optional: ask once per video ([ENHANCE.md](ENHANCE.md)).** Check and record
+   the answer in the project's `production-decisions.json`; never repeat the question on resume or rerender.
+   If declined, use `make --skip-enhance`. If accepted, `plan` exports `voices/enhance/original.wav`:
+   run `enhance`, upload to Adobe, download, run `enhance --take-download`, then `plan` again.
+   Only the affirmative choice authorizes the Adobe upload. Changed recordings need a new enhancement
+   when the saved choice is yes; they do not require asking the same question again.
 6. `pnpm video make <name>` → `out/<name>-shorts.mp4` and `.srt`, then read `out/final-pass.md` and
    the frame sheet (final-pass skill). Use `--draft` for quick checks.
    **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly). Videos run at `VIDEO_FPS` in `.env` (30 now).

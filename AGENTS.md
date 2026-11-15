@@ -120,10 +120,11 @@ pnpm video check demo-game      # Shorts → out/check-shorts.md + out/check/*.j
 pnpm video qc demo-game         # finished MP4s → out/final-pass.md
 ```
 
-**Voice enhancement comes before the final video, and you do it yourself without asking.** `plan`
-exports the final voice to `voices/enhance/original.wav`; you clean it with Adobe Podcast Enhance in
-Claude in Chrome (`pnpm video enhance <name>`, upload, wait, Download, `--take-download`), then `plan`
-again and `make`. The user asked for this online step. Follow [ENHANCE.md](ENHANCE.md).
+**Adobe voice enhancement is optional. Ask once per video, and remember the answer.**
+Record the choice in the project's `production-decisions.json`; do not ask again on resuming or rerendering.
+If declined, use `pnpm video make <name> --skip-enhance`. If accepted, `plan` exports
+`voices/enhance/original.wav`; follow [ENHANCE.md](ENHANCE.md), then `plan` again and `make`.
+Do not upload audio to Adobe before the user chooses enhancement for that video.
 
 **Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly).
 The frame rate is `VIDEO_FPS` in `.env` (30 now, the user's choice); a project's `video.json` may set its own `"fps"`. Do not change either unless the user asks.

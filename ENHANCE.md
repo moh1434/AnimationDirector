@@ -1,10 +1,12 @@
 # Voice enhancement (Adobe Podcast Enhance)
 
-Before the final video is made, the voice is cleaned (noise removal) with **Adobe Podcast Enhance**.
-**The AI does this itself, every time, without asking the user**: it uploads the voice in the user's
-Chrome (Claude in Chrome, where the user is signed in to Adobe), waits, downloads the result and puts
-it in the project. The user asked for this; it is the one step that sends the voice to an online
-service, an exception to "work locally only".
+**Adobe Podcast Enhance is optional. Ask the user once per video whether to use it.** Check the
+project's `production-decisions.json` first and record the answer there as `adobeEnhancement: true`
+or `false`. This file records the user's decision for agents; it is not a CLI configuration file.
+Do not ask again on resuming, rerendering, or replacing recordings for the same video.
+If declined, do not upload audio: render with `pnpm video make <name> --skip-enhance`.
+If accepted, the AI uploads the voice in the user's signed-in Chrome, waits, downloads the result,
+and puts it in the project. That choice authorizes this online step for the video.
 
 The files live with the other voice files:
 
@@ -23,9 +25,9 @@ keep only one there. The user may also put their own cleaned file there by hand;
 
 As soon as the voice is final: right after the first `plan` with the user's recording, or after
 `voice-pick` and `plan` for generated voices. `plan` prints "Waiting for the enhanced voice" while it
-is missing. Directing, `check` and stills can go on with the original (same timing). `make` refuses
-the final video until the enhanced voice is there (`--draft` is fine; `--skip-enhance` only when the
-user says so).
+is missing. Directing, `check` and stills can go on with the original (same timing). For a saved
+choice of no, `make --skip-enhance` produces the final video with the original voice. For a choice
+of yes, obtain the enhanced file before the final export. Drafts can use the original voice.
 
 ## One-time setup (the user, in Chrome)
 

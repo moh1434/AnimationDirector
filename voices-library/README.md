@@ -48,6 +48,34 @@ Use a library voice only as `{ "library": "<id>" }`. Naming its file as a `"refe
 hand-written generation that skips the pipeline would also skip `voice.json`: always clone library voices
 with `pnpm video voices`.
 
+### Separate engine settings and original voice design
+
+Both engines use the same camelCase setting names. A language can keep separate cloning settings:
+
+```json
+"engineSettings": {
+  "qwen3": { "temperature": 0.8, "topK": 50, "topP": 0.9, "repeatPenalty": 1.05, "seed": 11 },
+  "audar": { "temperature": 0.7, "topK": 35, "topP": 0.9, "repeatPenalty": 1.1, "seed": 1579 }
+}
+```
+
+These are illustrative values, not recommended settings for an existing voice. Put this block inside
+`languages.<lang>`. The selected engine's profile replaces the legacy `settings` block; missing or null
+values in that profile fall back to project options and model defaults. If that engine has no profile,
+the older `settings` block still works. Explicit per-voice options and seeds in `tts.json` still win.
+`voice-ref --save` writes the selected engine's profile and preserves any other saved engine profiles.
+
+New generated audio records also keep `description` and `design`. For a designed voice, `design`
+contains the original `engine`, exact `description`, full generation `text`, and `settings` (including
+the seed). That design record travels through shortened references, saved library voices, and later
+clones. For an Arabic voice designed by Qwen3 and cloned by Audar, the design settings remain separate
+from Audar's final generation settings. The design description is provenance; cloning still uses the
+recording and its transcript, rather than designing the character again.
+
+Unknown historical values remain null. Unspecified sampling values mean the model's defaults were
+used; the pipeline does not guess their numerical values. Existing recordings are not regenerated or
+overwritten by this schema update.
+
 The voice itself comes from the recording, not the seed: a clone of the same recording sounds like the
 same person with any seed. The seed only makes a generation repeatable (same recording, text, settings
 and seed = the same audio) and changes small details of the delivery.
