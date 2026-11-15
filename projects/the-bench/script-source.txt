@@ -1,0 +1,58 @@
+# HOOK OPTIONS
+# 1. Why can't I move this stupid bench?
+# 2. This bench is holding me hostage.
+# 3. Don't help. I'm proving a point.
+# 4. I built it. Why won't it move?
+# 5. Can you be independent somewhere less inconvenient?
+# CHOSEN: 1 - An ordinary object is visibly defeating Benny, opening a practical question with an emotional answer.
+
+# TITLE: The Bench That Beat Benny
+# FORMAT: B, learning through a story
+# LENGTH: about 60 s, 135 spoken words
+# QUESTION: How will Benny get his bench outside when doing everything alone keeps failing?
+# ANSWERED AT: "Berry, the door? Cherry, the other end?"
+# CAST: berry, benny, cherry
+# PLACE: house doorway and the adjoining garden, dusk
+# TONE: Warm comedy about pride and accepting help; no spoken moral.
+# CONTINUITY: Benny has already built a simple bench; the doorway is wide enough, but its door swings closed when released.
+
+# SEE: Benny holds one end of a bench while the half-closed door blocks its other end.
+benny: Why can't I move this stupid bench?
+berry: Want a hand?
+benny: No. I built it myself. I'll move it myself.
+cherry: Where are we moving it?
+benny: Outside. Best spot in the garden. Before sunset.
+
+# SEE: Benny releases the bench to open the door, which swings shut as he picks the bench up again.
+benny: Stay.
+berry: I don't think doors learn commands.
+benny: This one will. We've spent enough time together.
+
+# SEE: Benny holds the door with one foot but cannot reach the bench's far end.
+cherry: You've run out of arms.
+benny: I've still got a perfectly good chin.
+berry: Please keep that attached.
+
+# SEE: Benny sits on the stranded bench as the warm patch of sunlight shrinks outside.
+benny: I wanted you to see something I'd done all by myself.
+cherry: We saw. It's a lovely bench.
+benny: It looks less impressive stuck in a doorway.
+berry: Only the moving part is stuck.
+benny: Feels like the whole thing.
+
+# SEE: Cherry holds the door for Berry to carry a small watering can outside.
+benny: You didn't even think about asking.
+berry: I had full hands. She had a free one.
+
+# SEE: Benny stands at one end of the bench and looks directly at his friends.
+benny: Berry, the door? Cherry, the other end?
+cherry: Ready when you are.
+benny: Together. Lift.
+
+# SEE: The three sit on the bench in the garden as the last sunlight reaches their shoes.
+berry: Still your bench.
+benny: Better with people on it.
+
+# FACTS TO CHECK
+# - Original fiction; no scientific, historical, or statistical claims.
+# - Cooperation is demonstrated through this particular task, not stated as a universal rule.

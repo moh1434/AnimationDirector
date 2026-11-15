@@ -1,0 +1,136 @@
+{
+  "voicesFrom": "projects/the-bench-that-beat-benny (tts.json (benny take 1, berry take 1, cherry take 1)); records in voices/source-records/",
+  "cast": {
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    },
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "cherry": {
+      "preset": "cherry",
+      "name": "Cherry"
+    }
+  },
+  "clips": [
+    {
+      "who": "benny",
+      "file": "voices/01-benny.wav",
+      "text": "Why can't I move this stupid bench?"
+    },
+    {
+      "who": "berry",
+      "file": "voices/02-berry.wav",
+      "text": "Want a hand?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/03-benny.wav",
+      "text": "No. I built it myself. I'll move it myself."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/04-cherry.wav",
+      "text": "Where are we moving it?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/05-benny.wav",
+      "text": "Outside. Best spot in the garden. Before sunset."
+    },
+    {
+      "who": "benny",
+      "file": "voices/06-benny.wav",
+      "text": "Stay.",
+      "gap": 0.21
+    },
+    {
+      "who": "berry",
+      "file": "voices/07-berry.wav",
+      "text": "I don't think doors learn commands."
+    },
+    {
+      "who": "benny",
+      "file": "voices/08-benny.wav",
+      "text": "This one will. We've spent enough time together."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/09-cherry.wav",
+      "text": "You've run out of arms."
+    },
+    {
+      "who": "benny",
+      "file": "voices/10-benny.wav",
+      "text": "I've still got a perfectly good chin."
+    },
+    {
+      "who": "berry",
+      "file": "voices/11-berry.wav",
+      "text": "Please keep that attached."
+    },
+    {
+      "who": "benny",
+      "file": "voices/12-benny.wav",
+      "text": "I wanted you to see something I'd done all by myself."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/13-cherry.wav",
+      "text": "We saw. It's a lovely bench."
+    },
+    {
+      "who": "benny",
+      "file": "voices/14-benny.wav",
+      "text": "It looks less impressive stuck in a doorway."
+    },
+    {
+      "who": "berry",
+      "file": "voices/15-berry.wav",
+      "text": "Only the moving part is stuck."
+    },
+    {
+      "who": "benny",
+      "file": "voices/16-benny.wav",
+      "text": "Feels like the whole thing."
+    },
+    {
+      "who": "benny",
+      "file": "voices/17-benny.wav",
+      "text": "You didn't even think about asking.",
+      "gap": 0.15
+    },
+    {
+      "who": "berry",
+      "file": "voices/18-berry.wav",
+      "text": "I had full hands. She had a free one."
+    },
+    {
+      "who": "benny",
+      "file": "voices/19-benny.wav",
+      "text": "Berry, the door? Cherry, the other end?"
+    },
+    {
+      "who": "cherry",
+      "file": "voices/20-cherry.wav",
+      "text": "Ready when you are."
+    },
+    {
+      "who": "benny",
+      "file": "voices/21-benny.wav",
+      "text": "Together. Lift."
+    },
+    {
+      "who": "berry",
+      "file": "voices/22-berry.wav",
+      "text": "Still your bench."
+    },
+    {
+      "who": "benny",
+      "file": "voices/23-benny.wav",
+      "text": "Better with people on it."
+    }
+  ]
+}

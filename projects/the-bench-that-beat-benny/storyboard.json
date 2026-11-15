@@ -1,0 +1,1193 @@
+{
+  "version": 1,
+  "title": "The Bench That Beat Benny",
+  "language": "en",
+  "fps": 30,
+  "duration": 47.54,
+  "cast": {
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    },
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "cherry": {
+      "preset": "cherry",
+      "name": "Cherry"
+    }
+  },
+  "directedBy": "codex",
+  "scenes": [
+    {
+      "id": "the-stubborn-bench",
+      "start": 0,
+      "layout": "story",
+      "bg": {
+        "type": "room",
+        "color": "#f6dfba",
+        "color2": "#c99668"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.25,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "present",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.49,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "cherry",
+          "x": 0.75,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "bench-door-ajar",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        },
+        {
+          "name": "story-bench",
+          "x": 0.52,
+          "y": 0.84,
+          "size": 0.66,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4,
+          "move": [
+            {
+              "at": 0.35,
+              "duration": 0.45,
+              "x": 0.55,
+              "ease": "power2.out"
+            },
+            {
+              "at": 1.05,
+              "duration": 0.4,
+              "x": 0.52,
+              "ease": "sine.inOut"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.28,
+          1.3
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "drift": false,
+        "moves": [
+          {
+            "at": "clip:2",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          },
+          {
+            "at": "clip:3",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:2",
+          "who": "berry",
+          "pose": "present",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:3",
+          "who": "benny",
+          "pose": "cross",
+          "expression": "proud"
+        }
+      ]
+    },
+    {
+      "id": "before-sunset",
+      "start": "clip:4",
+      "layout": "story",
+      "bg": {
+        "type": "room",
+        "color": "#f6dfba",
+        "color2": "#c99668"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.25,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "present",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.49,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "cherry",
+          "x": 0.75,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "bench-door-ajar",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        },
+        {
+          "name": "story-bench",
+          "x": 0.52,
+          "y": 0.84,
+          "size": 0.66,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.24,
+          1.265
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "drift": false,
+        "moves": [
+          {
+            "at": "clip:5",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:4",
+          "who": "cherry",
+          "pose": "shrug",
+          "expression": "thinking"
+        },
+        {
+          "at": "clip:5",
+          "who": "benny",
+          "pose": "point",
+          "expression": "proud"
+        }
+      ]
+    },
+    {
+      "id": "stay-door",
+      "start": "clip:6",
+      "layout": "story",
+      "bg": {
+        "type": "room",
+        "color": "#f6dfba",
+        "color2": "#c99668"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.25,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "present",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.49,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "cherry",
+          "x": 0.75,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "bench-door-open",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3,
+          "out": "clip:7"
+        },
+        {
+          "name": "bench-door-ajar",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": "clip:7",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        },
+        {
+          "name": "story-bench",
+          "x": 0.52,
+          "y": 0.84,
+          "size": 0.66,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.25,
+          1.275
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "drift": false,
+        "moves": [
+          {
+            "at": "clip:8",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:6",
+          "who": "benny",
+          "pose": "point",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:7",
+          "who": "berry",
+          "pose": "think",
+          "expression": "confused"
+        },
+        {
+          "at": "clip:8",
+          "who": "benny",
+          "pose": "hips",
+          "expression": "determined"
+        }
+      ]
+    },
+    {
+      "id": "out-of-arms",
+      "start": "clip:9",
+      "layout": "story",
+      "bg": {
+        "type": "room",
+        "color": "#f6dfba",
+        "color2": "#c99668"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.25,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "think",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.49,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "hold",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "move": [
+            {
+              "at": 0.15,
+              "duration": 0.5,
+              "x": 0.47,
+              "rotate": 2,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "who": "cherry",
+          "x": 0.75,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "point",
+          "expression": "smug",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "bench-door-open",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        },
+        {
+          "name": "story-bench",
+          "x": 0.52,
+          "y": 0.84,
+          "size": 0.66,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4,
+          "rotate": -5
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.26,
+          1.285
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "drift": false,
+        "moves": [
+          {
+            "at": "clip:10",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          },
+          {
+            "at": "clip:11",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:10",
+          "who": "benny",
+          "pose": "think",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:11",
+          "who": "berry",
+          "pose": "scared",
+          "expression": "worried"
+        }
+      ]
+    },
+    {
+      "id": "what-benny-wanted",
+      "start": "clip:12",
+      "layout": "story",
+      "bg": {
+        "type": "room",
+        "color": "#f6dfba",
+        "color2": "#c99668"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.25,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.49,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "sit",
+          "expression": "sad",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "cherry",
+          "x": 0.75,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "bench-door-ajar",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        },
+        {
+          "name": "story-bench",
+          "x": 0.52,
+          "y": 0.84,
+          "size": 0.66,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.3,
+          1.3
+        ],
+        "drift": false,
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        }
+      }
+    },
+    {
+      "id": "still-a-lovely-bench",
+      "start": "clip:13",
+      "layout": "story",
+      "bg": {
+        "type": "room",
+        "color": "#f6dfba",
+        "color2": "#c99668"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.25,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.49,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "sit",
+          "expression": "sad",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "cherry",
+          "x": 0.75,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "present",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "bench-door-ajar",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        },
+        {
+          "name": "story-bench",
+          "x": 0.52,
+          "y": 0.84,
+          "size": 0.66,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.25,
+          1.275
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "drift": false,
+        "moves": [
+          {
+            "at": "clip:14",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          },
+          {
+            "at": "clip:15",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          },
+          {
+            "at": "clip:16",
+            "zoom": 1.3,
+            "duration": 0,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            }
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:15",
+          "who": "berry",
+          "pose": "present",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:16",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "sad"
+        }
+      ]
+    },
+    {
+      "id": "a-free-hand",
+      "start": "clip:17",
+      "layout": "story",
+      "bg": {
+        "type": "room",
+        "color": "#f6dfba",
+        "color2": "#c99668"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.23,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "hold",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.48,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "sit",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.67,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "hold",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "holding": "story-watering-can",
+          "move": [
+            {
+              "at": 0.1,
+              "duration": 1.4,
+              "x": 0.76,
+              "ease": "sine.inOut"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "bench-door-open",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        },
+        {
+          "name": "story-bench",
+          "x": 0.46,
+          "y": 0.84,
+          "size": 0.66,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.12,
+          1.145
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.81
+        },
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:17",
+          "who": "benny",
+          "pose": "think",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "together-lift",
+      "start": "clip:19",
+      "layout": "story",
+      "bg": {
+        "type": "room",
+        "color": "#f6dfba",
+        "color2": "#c99668"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "point",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.44,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "cherry",
+          "x": 0.75,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "bench-door-open",
+          "x": 0.52,
+          "y": 0.815,
+          "size": 0.64,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        },
+        {
+          "name": "story-bench",
+          "x": 0.57,
+          "y": 0.84,
+          "size": 0.66,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4,
+          "move": [
+            {
+              "at": "clip:21+0.25",
+              "until": "clip:22-0.1",
+              "x": 0.57,
+              "y": 0.81,
+              "ease": "sine.inOut"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.15,
+          1.1749999999999998
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "drift": false,
+        "moves": [
+          {
+            "at": "clip:21",
+            "zoom": 1.08,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            },
+            "duration": 0.4
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:19",
+          "who": "benny",
+          "pose": "present",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:20",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:21",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "determined"
+        }
+      ]
+    },
+    {
+      "id": "better-with-people",
+      "start": "clip:22",
+      "layout": "story",
+      "bg": {
+        "type": "garden",
+        "color": "#efb1a1",
+        "color2": "#a7b985"
+      },
+      "light": "dusk",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.29,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "sit",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "benny",
+          "x": 0.5,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "sit",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "cherry",
+          "x": 0.71,
+          "y": 0.81,
+          "size": 0.49,
+          "pose": "sit",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "story-bench",
+          "x": 0.5,
+          "y": 0.84,
+          "size": 0.74,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4
+        },
+        {
+          "name": "sun",
+          "x": 0.5,
+          "y": 0.34,
+          "size": 0.18,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 2
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.105
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.81
+        },
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:23",
+          "who": "benny",
+          "pose": "sit",
+          "expression": "happy"
+        }
+      ]
+    }
+  ],
+  "dialogue": [
+    {
+      "clip": 1,
+      "who": "benny",
+      "start": 0.25,
+      "end": 2.44,
+      "text": "Why can't I move this stupid bench?"
+    },
+    {
+      "clip": 2,
+      "who": "berry",
+      "start": 2.69,
+      "end": 3.46,
+      "text": "Want a hand?"
+    },
+    {
+      "clip": 3,
+      "who": "benny",
+      "start": 3.71,
+      "end": 6.96,
+      "text": "No. I built it myself. I'll move it myself."
+    },
+    {
+      "clip": 4,
+      "who": "cherry",
+      "start": 7.21,
+      "end": 8.62,
+      "text": "Where are we moving it?"
+    },
+    {
+      "clip": 5,
+      "who": "benny",
+      "start": 8.87,
+      "end": 12.239999999999998,
+      "text": "Outside. Best spot in the garden. Before sunset."
+    },
+    {
+      "clip": 6,
+      "who": "benny",
+      "start": 12.45,
+      "end": 13.104999999999999,
+      "text": "Stay."
+    },
+    {
+      "clip": 7,
+      "who": "berry",
+      "start": 13.354999999999999,
+      "end": 15.155,
+      "text": "I don't think doors learn commands."
+    },
+    {
+      "clip": 8,
+      "who": "benny",
+      "start": 15.405,
+      "end": 17.915,
+      "text": "This one will. We've spent enough time together."
+    },
+    {
+      "clip": 9,
+      "who": "cherry",
+      "start": 18.165,
+      "end": 19.349999999999998,
+      "text": "You've run out of arms."
+    },
+    {
+      "clip": 10,
+      "who": "benny",
+      "start": 19.599999999999998,
+      "end": 21.269999999999996,
+      "text": "I've still got a perfectly good chin."
+    },
+    {
+      "clip": 11,
+      "who": "berry",
+      "start": 21.519999999999996,
+      "end": 22.869999999999997,
+      "text": "Please keep that attached."
+    },
+    {
+      "clip": 12,
+      "who": "benny",
+      "start": 23.119999999999997,
+      "end": 26.029999999999998,
+      "text": "I wanted you to see something I'd done all by myself."
+    },
+    {
+      "clip": 13,
+      "who": "cherry",
+      "start": 26.279999999999998,
+      "end": 28.384999999999998,
+      "text": "We saw. It's a lovely bench."
+    },
+    {
+      "clip": 14,
+      "who": "benny",
+      "start": 28.634999999999998,
+      "end": 30.834999999999997,
+      "text": "It looks less impressive stuck in a doorway."
+    },
+    {
+      "clip": 15,
+      "who": "berry",
+      "start": 31.084999999999997,
+      "end": 32.57,
+      "text": "Only the moving part is stuck."
+    },
+    {
+      "clip": 16,
+      "who": "benny",
+      "start": 32.82,
+      "end": 34.18,
+      "text": "Feels like the whole thing."
+    },
+    {
+      "clip": 17,
+      "who": "benny",
+      "start": 34.33,
+      "end": 35.87,
+      "text": "You didn't even think about asking."
+    },
+    {
+      "clip": 18,
+      "who": "berry",
+      "start": 36.12,
+      "end": 38.419999999999995,
+      "text": "I had full hands. She had a free one."
+    },
+    {
+      "clip": 19,
+      "who": "benny",
+      "start": 38.669999999999995,
+      "end": 41.91,
+      "text": "Berry, the door? Cherry, the other end?"
+    },
+    {
+      "clip": 20,
+      "who": "cherry",
+      "start": 42.16,
+      "end": 43.26,
+      "text": "Ready when you are."
+    },
+    {
+      "clip": 21,
+      "who": "benny",
+      "start": 43.51,
+      "end": 44.89,
+      "text": "Together. Lift."
+    },
+    {
+      "clip": 22,
+      "who": "berry",
+      "start": 45.14,
+      "end": 46.080041666666666,
+      "text": "Still your bench."
+    },
+    {
+      "clip": 23,
+      "who": "benny",
+      "start": 46.330041666666666,
+      "end": 47.540125,
+      "text": "Better with people on it."
+    }
+  ],
+  "inputsHash": "780501622e31",
+  "captionsByFormat": {
+    "youtube": false,
+    "shorts": true,
+    "square": true
+  },
+  "endHold": 1.8,
+  "sfxDensity": "sparse"
+}
