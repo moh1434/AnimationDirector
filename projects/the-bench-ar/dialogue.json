@@ -1,0 +1,123 @@
+{
+  "voicesFrom": "tts-ar.json (benny take 2, berry take 1, cherry take 2)",
+  "cast": {},
+  "clips": [
+    {
+      "who": "benny",
+      "file": "voices-ar/01-benny.wav",
+      "text": "لماذا لا أستطيع تحريك هذا المقعد السخيف؟"
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/02-berry.wav",
+      "text": "تريد مساعدة؟"
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/03-benny.wav",
+      "text": "لا. صنعته بنفسي، وسأحرّكه بنفسي."
+    },
+    {
+      "who": "cherry",
+      "file": "voices-ar/04-cherry.wav",
+      "text": "إلى أين سننقله؟"
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/05-benny.wav",
+      "text": "إلى الخارج. أجمل مكان في الحديقة. قبل غروب الشمس."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/06-benny.wav",
+      "text": "ابقَ مفتوحًا.",
+      "gap": 0.53
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/07-berry.wav",
+      "text": "لا أظن أن الأبواب تفهم الأوامر."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/08-benny.wav",
+      "text": "هذا الباب سيفهم. قضينا معًا وقتًا طويلًا."
+    },
+    {
+      "who": "cherry",
+      "file": "voices-ar/09-cherry.wav",
+      "text": "لم تعد لديك أيدٍ كافية."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/10-benny.wav",
+      "text": "ما زال لديّ ذقنٌ ممتاز."
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/11-berry.wav",
+      "text": "أرجوك، أبقِه في مكانه."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/12-benny.wav",
+      "text": "أردتُ أن تريا شيئًا صنعته وحدي تمامًا."
+    },
+    {
+      "who": "cherry",
+      "file": "voices-ar/13-cherry.wav",
+      "text": "رأيناه. إنه مقعد جميل."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/14-benny.wav",
+      "text": "يبدو أقل روعة وهو عالق عند الباب."
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/15-berry.wav",
+      "text": "المقعد رائع، المشكلة فقط في نقله."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/16-benny.wav",
+      "text": "أشعر أن كل شيء عالق."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/17-benny.wav",
+      "text": "لم تفكّري حتى في أن تطلبي.",
+      "gap": 0.15
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/18-berry.wav",
+      "text": "كانت يداي مشغولتين، وكانت لديها يد حرة."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/19-benny.wav",
+      "text": "بيري، الباب؟ شيري، الطرف الآخر؟"
+    },
+    {
+      "who": "cherry",
+      "file": "voices-ar/20-cherry.wav",
+      "text": "جاهزة متى أردت."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/21-benny.wav",
+      "text": "معًا. ارفعوا!"
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/22-berry.wav",
+      "text": "ما زال مقعدك."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/23-benny.wav",
+      "text": "وأجمل مع من يجلسون عليه."
+    }
+  ]
+}

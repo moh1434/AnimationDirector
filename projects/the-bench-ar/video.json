@@ -1,0 +1,13 @@
+{
+  "title": "My video",
+  "language": "ar",
+  "formats": [
+    "shorts"
+  ],
+  "captions": "auto",
+  "music": "auto",
+  "host": "host",
+  "sfx": true,
+  "watermark": "",
+  "localizedFrom": "the-bench"
+}

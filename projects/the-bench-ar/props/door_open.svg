@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- the front door, swung open: same frame as the library "door" (x 34–166), the garden at dusk outside -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="34" y="0" width="132" height="200" rx="6" fill="#f6b98a"/>
+    <path d="M37 132 Q100 118 163 132 L163 197 L37 197Z" fill="#7cc47f" stroke="none"/>
+    <path d="M37 132 Q100 118 163 132" fill="none" stroke-width="4"/>
+    <circle cx="128" cy="62" r="16" fill="#ffc83d" stroke-width="4"/>
+    <path d="M60 132 Q66 104 76 132 M136 130 Q144 98 152 130" fill="#3ddc97" stroke-width="4"/>
+    <rect x="34" y="0" width="132" height="200" rx="6" fill="none"/>
+    <path d="M34 0 L4 14 L4 186 L34 200Z" fill="#8a5a3b"/>
+    <path d="M14 40 L26 35 L26 80 L14 84Z M14 104 L26 101 L26 160 L14 164Z" fill="none" stroke-width="4"/>
+  </g>
+</svg>
