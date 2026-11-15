@@ -87,6 +87,9 @@ Most staging mistakes come from sizing a thing to fill the frame instead of sizi
 - **"Gigantic" is a comparison.** Make the other actor smaller and keep the whole animal in the frame.
   A size above 0.7 crops it, and then the viewer cannot see how big it is.
 - Keep an actor's size the same between connected shots, and put props at the same scale as the actors.
+- **Things in the wall stand on the wall's base line, not on the actors' floor.** A door, window or cupboard against the
+  wall ends where the wall meets the floor (indoor settings: 82% of the frame height), so set its `y` to that line minus
+  half its height; actors and free-standing props (a bench, a table) stand lower, on the floor in front (y ≈ 0.88).
 
 **Decide the layers before writing `zIndex`.** List the scene from back to front, the same way as CSS z-index:
 

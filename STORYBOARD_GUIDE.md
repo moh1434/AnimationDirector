@@ -286,11 +286,11 @@ Leave diagram faces off to keep roots, liquid levels and markings unobscured.
 push-in and a slight hand-held drift are applied by default; `punch` = quick zoom bump on a surprising
 word; `shake` = impact.
 
-* `on: "berry"` aims at that cast member's face and centres them (a close shot; use `zoom` 1.8–2.0). The character
+* `on: "berry"` aims at that cast member's face and centres them (a close shot; use `zoom` 1.2–1.4, and 1.0–1.2 in Shorts when others stand beside them, so nobody is cut at the sides). The character
   must be in the scene; with both `on` and `focus`, `focus` wins. `zoom` is always 1 to 3.
 * `moves: [{at, zoom, on, focus, duration}]` change the shot inside the scene. `at` takes seconds, `"@word"` or
   `"clip:N"`. `duration: 0` is a cut, the default 0.55 s a push-in. Example: cut to the listener's face on a word:
-  `{"at": "@work", "zoom": 1.9, "on": "berry", "duration": 0}`; back to both: `{"at": "clip:4", "zoom": 1.4, "focus": {"x": 0.5, "y": 0.84}}`.
+  `{"at": "@work", "zoom": 1.3, "on": "berry", "duration": 0}`; back to both: `{"at": "clip:4", "zoom": 1.1, "focus": {"x": 0.5, "y": 0.84}}`.
 * `tilt: [from, to]` rolls the camera slowly (−4 to 4 degrees; a tilted shot is also enlarged to cover the corners).
   `drift: false` switches off the hand-held sway; add `zoom: [1, 1]` for a completely locked frame.
   In a move, `on: ""` stops centring and keeps the current aim.

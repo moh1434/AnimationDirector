@@ -189,7 +189,7 @@ Copy the template, then replace the CAPITAL words. Keep all quotes, commas and b
   `"shrug"` on "but…", `"think"` on a question, `"celebrate"` on good news.
 - **Camera** (optional): `"camera": { "punch": ["@WORD"] }` on the one surprising word of a scene.
   A close shot of one actor: `"camera": { "zoom": [1.8, 1.9], "on": "WHO" }`. A cut to another actor on a word:
-  `"moves": [{ "at": "@WORD", "zoom": 1.9, "on": "WHO", "duration": 0 }]` inside `camera`. Lighting and shading are automatic.
+  `"moves": [{ "at": "@WORD", "zoom": 1.3, "on": "WHO", "duration": 0 }]` inside `camera`. Lighting and shading are automatic.
 - **Transitions** (optional): mostly leave them out (a cut). Use `"transition": "whip"` when a new
   part of the story starts.
 

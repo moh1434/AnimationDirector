@@ -51,7 +51,7 @@ Read `STORYBOARD_GUIDE.md` for the full field reference; this skill is about *ch
 - **Ease**: entrances overshoot a little (`back.out` / squash-and-stretch pops), exits are quick and
   plain. Characters snap between poses (limited animation), then hold; eyes blink, mouths flap.
 - **Camera**: a slow push-in and a slight drift are automatic. Frame close: a wide shot to show where
-  we are, then `zoom` 1.3–1.5 on two people or `on` one face at 1.8–2.0. In dialogue change the shot
+  we are, then `zoom` 1.1–1.2 on two people or `on` one character at 1.2–1.4. In Shorts (9:16) the frame is narrow: with two or more people in a row keep `zoom` at 1.0–1.2 so nobody is cut at the sides (the user's rule); 1.4 at most `on` a character standing alone. Never crop a character to get a close-up. In dialogue change the shot
   every 2–4 s with `camera.moves` (`duration: 0` cuts to the listener's reaction; the default pushes
   in on a line). Use `punch` on the one surprising word, `shake` only for impact, `tilt` rarely.
   Keep faces clear of the caption band.

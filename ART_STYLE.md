@@ -67,7 +67,7 @@ punchline or an aside) · `none` (no lighting layers; `image` backgrounds use th
 How to use it:
 
 - **Fill the frame.** A wide shot shows where we are; then go closer. A person should usually fill
-  a third of the frame height or more. Use `zoom` 1.3–1.5 for two people, 1.8–2.0 `on` one face.
+  a third of the frame height or more. Use `zoom` 1.1–1.2 for two people, 1.2–1.4 `on` one character. In Shorts (9:16) the frame is narrow: with two or more people in a row keep `zoom` at 1.0–1.2 so nobody is cut at the sides (the user's rule); 1.4 at most `on` a character standing alone. Never crop a character to get a close-up.
 - **Cut to the reaction.** When one character says something surprising, cut (`duration: 0`) to the
   other one's face.
 - **Change the shot every 2–4 s** in dialogue, with `moves`, and keep the setting. The location,
