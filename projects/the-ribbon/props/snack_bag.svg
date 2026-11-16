@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- an opened snack bag, ripped open at the top, a few chips showing; stands on the floor -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M60 52 L70 62 L82 50 L94 62 L106 48 L118 62 L130 52 L140 64 L150 196 H50 Z" fill="#3ddc97"/>
+    <path d="M70 78 L128 74" fill="none" stroke="#9af0c8" stroke-width="7"/>
+    <circle cx="100" cy="132" r="26" fill="#fff9df" stroke-width="5"/>
+    <path d="M86 132 H114 M100 118 V146" fill="none" stroke="#e53950" stroke-width="6"/>
+    <g fill="#ffd23f" stroke-width="4"><path d="M72 52 l14 -22 l12 20z"/><path d="M104 46 l14 -26 l14 24z"/><path d="M90 48 l8 -18 l10 16z"/></g>
+  </g>
+</svg>

@@ -1,0 +1,91 @@
+{
+  "voicesFrom": "tts.json (benny take 1, berry take 1, cherry take 1)",
+  "cast": {},
+  "clips": [
+    {
+      "who": "benny",
+      "file": "voices/01-benny.wav",
+      "text": "What's knocking from inside that tree?"
+    },
+    {
+      "who": "berry",
+      "file": "voices/02-berry.wav",
+      "text": "There's a sign. Lost things returned here."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/03-cherry.wav",
+      "text": "Finally. Somewhere for your common sense."
+    },
+    {
+      "who": "benny",
+      "file": "voices/04-benny.wav",
+      "text": "Mine isn't lost. It's exploring."
+    },
+    {
+      "who": "berry",
+      "file": "voices/05-berry.wav",
+      "text": "That's the button from my old coat."
+    },
+    {
+      "who": "benny",
+      "file": "voices/06-benny.wav",
+      "text": "Ask if they've got my other sock."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/07-cherry.wav",
+      "text": "Let's start with whatever knocked."
+    },
+    {
+      "who": "benny",
+      "file": "voices/08-benny.wav",
+      "text": "The duck?"
+    },
+    {
+      "who": "berry",
+      "file": "voices/09-berry.wav",
+      "text": "No. Something behind it."
+    },
+    {
+      "who": "benny",
+      "file": "voices/10-benny.wav",
+      "text": "Sorry, little one. Important investigation."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/11-cherry.wav",
+      "text": "We might be blocking its door."
+    },
+    {
+      "who": "berry",
+      "file": "voices/12-berry.wav",
+      "text": "Oh. You're not a toy."
+    },
+    {
+      "who": "benny",
+      "file": "voices/13-benny.wav",
+      "text": "Please tell me that's a fancy night-light."
+    },
+    {
+      "who": "berry",
+      "file": "voices/14-berry.wav",
+      "text": "It's trying to go up, but it keeps falling back."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/15-cherry.wav",
+      "text": "Look where it's pointing."
+    },
+    {
+      "who": "berry",
+      "file": "voices/16-berry.wav",
+      "text": "I think somebody's missing from up there."
+    },
+    {
+      "who": "benny",
+      "file": "voices/17-benny.wav",
+      "text": "That's going to be an awkward return address."
+    }
+  ]
+}

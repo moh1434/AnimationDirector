@@ -1,0 +1,1269 @@
+{
+  "version": 1,
+  "title": "My video",
+  "language": "en",
+  "fps": 30,
+  "duration": 38.38,
+  "cast": {
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    },
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "cherry": {
+      "preset": "cherry",
+      "name": "Cherry"
+    }
+  },
+  "directedBy": "claude",
+  "scenes": [
+    {
+      "id": "the-knock",
+      "start": 0,
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.37,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.86,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point",
+          "expression": "worried",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.38,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "old_tree",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "tiny_door",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "shake",
+          "zIndex": 2
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.03
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        }
+      },
+      "actions": [
+        {
+          "at": "clip:1",
+          "who": "benny",
+          "pose": "point",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:2",
+          "who": "berry",
+          "pose": "point_down",
+          "expression": "thinking"
+        },
+        {
+          "at": "clip:3",
+          "who": "cherry",
+          "pose": "hips",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:4",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "smug"
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.4,
+          "name": "tick"
+        },
+        {
+          "at": "clip:2",
+          "name": "tick"
+        }
+      ]
+    },
+    {
+      "id": "the-button",
+      "start": "clip:5",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.37,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point_down",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.86,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.38,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "old_tree",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "tiny_door",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2,
+          "out": "clip:5+0.4"
+        },
+        {
+          "name": "tiny_door_open",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": "clip:5+0.4",
+          "anchor": "bottom",
+          "enter": "pop",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "button",
+          "x": 0.5519999999999999,
+          "y": 0.833921875,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "toy_duck",
+          "x": 0.61,
+          "y": 0.832921875,
+          "size": 0.105,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4
+        },
+        {
+          "name": "star_pal",
+          "x": 0.615,
+          "y": 0.832921875,
+          "size": 0.07,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "shake",
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.1
+        ],
+        "focus": {
+          "x": 0.52,
+          "y": 0.8
+        }
+      },
+      "actions": [
+        {
+          "at": "clip:5",
+          "who": "berry",
+          "pose": "point_down",
+          "expression": "excited"
+        },
+        {
+          "at": "clip:6",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:7",
+          "who": "cherry",
+          "pose": "present",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "the-duck",
+      "start": "clip:8",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.37,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point_down",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.86,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point",
+          "expression": "confused",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.38,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "old_tree",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "tiny_door_open",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "button",
+          "x": 0.5519999999999999,
+          "y": 0.833921875,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "toy_duck",
+          "x": 0.61,
+          "y": 0.832921875,
+          "size": 0.105,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "shake",
+          "zIndex": 4,
+          "move": [
+            {
+              "at": "clip:8+0.2",
+              "duration": 1,
+              "x": 0.585,
+              "y": 0.842921875,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "name": "star_pal",
+          "x": 0.585,
+          "y": 0.832921875,
+          "size": 0.07,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "shake",
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.06,
+          1.12
+        ],
+        "focus": {
+          "x": 0.54,
+          "y": 0.8
+        }
+      },
+      "actions": [
+        {
+          "at": "clip:8",
+          "who": "benny",
+          "pose": "point",
+          "expression": "confused"
+        },
+        {
+          "at": "clip:9",
+          "who": "berry",
+          "pose": "point_down",
+          "expression": "thinking"
+        }
+      ],
+      "sfx": [
+        {
+          "at": "clip:9",
+          "name": "tick"
+        },
+        {
+          "at": "clip:9+0.5",
+          "name": "tick"
+        }
+      ]
+    },
+    {
+      "id": "the-snail",
+      "start": "clip:10",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.37,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.86,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "move": [
+            {
+              "at": "clip:10+0.7",
+              "duration": 1.5,
+              "x": 0.76,
+              "pose": "walk",
+              "ease": "sine.inOut"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.38,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "old_tree",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "tiny_door_open",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "button",
+          "x": 0.5519999999999999,
+          "y": 0.833921875,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "toy_duck",
+          "x": 0.585,
+          "y": 0.844921875,
+          "size": 0.105,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4
+        },
+        {
+          "name": "star_pal",
+          "x": 0.585,
+          "y": 0.832921875,
+          "size": 0.07,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "shake",
+          "zIndex": 3
+        },
+        {
+          "name": "snail",
+          "x": 1.02,
+          "y": 0.872,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "flip": true,
+          "zIndex": 4,
+          "move": [
+            {
+              "at": "clip:10",
+              "duration": 3.6,
+              "x": 0.63,
+              "ease": "sine.inOut"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.1
+        ],
+        "focus": {
+          "x": 0.6,
+          "y": 0.82
+        }
+      },
+      "actions": [
+        {
+          "at": "clip:10",
+          "who": "benny",
+          "pose": "bow",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:11",
+          "who": "cherry",
+          "pose": "explain",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:11",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "worried"
+        }
+      ]
+    },
+    {
+      "id": "the-star",
+      "start": "clip:12",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "surprised",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.37,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold_up",
+          "expression": "surprised",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 6,
+          "holding": "toy_duck"
+        },
+        {
+          "who": "benny",
+          "x": 0.76,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "explain",
+          "expression": "confused",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.38,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "old_tree",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "tiny_door_open",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "button",
+          "x": 0.5519999999999999,
+          "y": 0.833921875,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "star_pal",
+          "x": 0.585,
+          "y": 0.838921875,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "shake",
+          "zIndex": 3
+        },
+        {
+          "name": "snail",
+          "x": 0.63,
+          "y": 0.872,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "flip": true,
+          "zIndex": 4
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.06,
+          1.12
+        ],
+        "focus": {
+          "x": 0.52,
+          "y": 0.8
+        }
+      },
+      "actions": [
+        {
+          "at": "clip:12",
+          "who": "berry",
+          "pose": "hold_up",
+          "expression": "surprised",
+          "holding": "toy_duck"
+        },
+        {
+          "at": "clip:13",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "worried"
+        }
+      ]
+    },
+    {
+      "id": "the-fall",
+      "start": "clip:14",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.34,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.76,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "thinking",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.38,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "old_tree",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "tiny_door_open",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "button",
+          "x": 0.5519999999999999,
+          "y": 0.833921875,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "toy_duck",
+          "x": 0.71,
+          "y": 0.89,
+          "size": 0.105,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4
+        },
+        {
+          "name": "snail",
+          "x": 0.63,
+          "y": 0.872,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "flip": true,
+          "zIndex": 4
+        },
+        {
+          "name": "star_pal",
+          "x": 0.585,
+          "y": 0.838921875,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3,
+          "out": "clip:14+1.9",
+          "move": [
+            {
+              "at": "clip:14+0.3",
+              "duration": 0.7,
+              "x": 0.585,
+              "y": 0.728921875,
+              "ease": "power2.out"
+            },
+            {
+              "at": "clip:14+1.0",
+              "duration": 0.55,
+              "x": 0.45,
+              "y": 0.79,
+              "ease": "power2.in"
+            }
+          ]
+        },
+        {
+          "name": "star_pal_up",
+          "x": 0.45,
+          "y": 0.79,
+          "size": 0.11,
+          "at": "clip:14+1.9",
+          "anchor": "bottom",
+          "enter": "pop",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.06,
+          1.12
+        ],
+        "focus": {
+          "x": 0.48,
+          "y": 0.8
+        }
+      },
+      "actions": [
+        {
+          "at": "clip:14",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:15",
+          "who": "cherry",
+          "pose": "point_up",
+          "expression": "thinking",
+          "facing": "right",
+          "zIndex": 6
+        }
+      ]
+    },
+    {
+      "id": "the-gap",
+      "start": "clip:16",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point_up",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 6
+        },
+        {
+          "who": "berry",
+          "x": 0.34,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.2,
+            "y": -1
+          }
+        },
+        {
+          "who": "benny",
+          "x": 0.76,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "shrug",
+          "expression": "smug",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.38,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "old_tree",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "tiny_door_open",
+          "x": 0.58,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "button",
+          "x": 0.5519999999999999,
+          "y": 0.833921875,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "toy_duck",
+          "x": 0.71,
+          "y": 0.89,
+          "size": 0.105,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4
+        },
+        {
+          "name": "snail",
+          "x": 0.63,
+          "y": 0.872,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "flip": true,
+          "zIndex": 4
+        },
+        {
+          "name": "star_pal_up",
+          "x": 0.45,
+          "y": 0.79,
+          "size": 0.11,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "star_ring",
+          "x": 0.58,
+          "y": 0.3,
+          "size": 0.2,
+          "at": "clip:16",
+          "anchor": "center",
+          "enter": "fade",
+          "motion": "none",
+          "zIndex": 1
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.04
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.7
+        }
+      },
+      "actions": [
+        {
+          "at": "clip:16",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "worried",
+          "lookAt": {
+            "x": 0.2,
+            "y": -1
+          }
+        },
+        {
+          "at": "clip:17",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:17",
+          "who": "cherry",
+          "pose": "idle",
+          "expression": "happy"
+        }
+      ]
+    }
+  ],
+  "dialogue": [
+    {
+      "clip": 1,
+      "who": "benny",
+      "start": 0.25,
+      "end": 2.41,
+      "text": "What's knocking from inside that tree?"
+    },
+    {
+      "clip": 2,
+      "who": "berry",
+      "start": 2.66,
+      "end": 5.36,
+      "text": "There's a sign. Lost things returned here."
+    },
+    {
+      "clip": 3,
+      "who": "cherry",
+      "start": 5.61,
+      "end": 8.52,
+      "text": "Finally. Somewhere for your common sense."
+    },
+    {
+      "clip": 4,
+      "who": "benny",
+      "start": 8.77,
+      "end": 11.14,
+      "text": "Mine isn't lost. It's exploring."
+    },
+    {
+      "clip": 5,
+      "who": "berry",
+      "start": 11.39,
+      "end": 13.14,
+      "text": "That's the button from my old coat."
+    },
+    {
+      "clip": 6,
+      "who": "benny",
+      "start": 13.39,
+      "end": 15.110000000000001,
+      "text": "Ask if they've got my other sock."
+    },
+    {
+      "clip": 7,
+      "who": "cherry",
+      "start": 15.360000000000001,
+      "end": 17.040000000000003,
+      "text": "Let's start with whatever knocked."
+    },
+    {
+      "clip": 8,
+      "who": "benny",
+      "start": 17.290000000000003,
+      "end": 18.090000000000003,
+      "text": "The duck?"
+    },
+    {
+      "clip": 9,
+      "who": "berry",
+      "start": 18.340000000000003,
+      "end": 20.160000000000004,
+      "text": "No. Something behind it."
+    },
+    {
+      "clip": 10,
+      "who": "benny",
+      "start": 20.410000000000004,
+      "end": 23.290000000000003,
+      "text": "Sorry, little one. Important investigation."
+    },
+    {
+      "clip": 11,
+      "who": "cherry",
+      "start": 23.540000000000003,
+      "end": 25.17,
+      "text": "We might be blocking its door."
+    },
+    {
+      "clip": 12,
+      "who": "berry",
+      "start": 25.42,
+      "end": 27.26,
+      "text": "Oh. You're not a toy."
+    },
+    {
+      "clip": 13,
+      "who": "benny",
+      "start": 27.51,
+      "end": 29.53,
+      "text": "Please tell me that's a fancy night-light."
+    },
+    {
+      "clip": 14,
+      "who": "berry",
+      "start": 29.78,
+      "end": 32.47,
+      "text": "It's trying to go up, but it keeps falling back."
+    },
+    {
+      "clip": 15,
+      "who": "cherry",
+      "start": 32.72,
+      "end": 33.86,
+      "text": "Look where it's pointing."
+    },
+    {
+      "clip": 16,
+      "who": "berry",
+      "start": 34.11,
+      "end": 35.94,
+      "text": "I think somebody's missing from up there."
+    },
+    {
+      "clip": 17,
+      "who": "benny",
+      "start": 36.19,
+      "end": 38.379999999999995,
+      "text": "That's going to be an awkward return address."
+    }
+  ],
+  "inputsHash": "bff8b20bd7bf",
+  "captionsByFormat": {
+    "youtube": false,
+    "shorts": true,
+    "square": true
+  },
+  "endHold": 1.6,
+  "sfxDensity": "sparse"
+}

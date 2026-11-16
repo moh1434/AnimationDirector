@@ -1,0 +1,10 @@
+{
+  "adobeEnhancement": false,
+  "decisionSource": "User, in the request for videos 03-05: do not enhance using Adobe Podcast",
+  "voicePicks": {
+    "berry": 1,
+    "benny": 1
+  },
+  "voiceTakes": "1 per character (the user asked for a single take)",
+  "format": "shorts"
+}

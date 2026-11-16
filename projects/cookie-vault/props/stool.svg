@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- a plain wooden stool; feet at the bottom of the box -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M52 78 L30 196 H50 L72 78Z" fill="#8a5a3b"/><path d="M148 78 L170 196 H150 L128 78Z" fill="#8a5a3b"/>
+    <path d="M44 146 H156" fill="none" stroke-width="9"/><path d="M44 146 H156" fill="none" stroke="#c98a4b" stroke-width="3"/>
+    <rect x="22" y="46" width="156" height="36" rx="10" fill="#d99a58"/>
+    <path d="M38 58 H110" fill="none" stroke="#f0c48e" stroke-width="6"/>
+  </g>
+</svg>

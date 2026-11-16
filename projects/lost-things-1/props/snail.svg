@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" >
+
+  <path d="M20 196 Q18 176 40 176 H132 Q172 176 176 150 Q178 128 160 112 Q150 104 156 96 Q162 88 172 94" fill="#cfd8b0" stroke="none"/>
+  <path d="M20 196 H176 Q186 196 184 186 Q180 176 168 172 Q176 158 170 142 Q166 128 154 120" fill="none"/>
+  <path d="M20 196 Q16 178 38 178 H138 Q176 178 178 150 Q178 128 160 112 L150 98" fill="#cfd8b0"/>
+  <path d="M150 98 Q146 66 138 52" fill="none" stroke-width="12"/><path d="M150 98 Q146 66 138 52" fill="none" stroke="#cfd8b0" stroke-width="4"/>
+  <path d="M168 104 Q176 76 176 58" fill="none" stroke-width="12"/><path d="M168 104 Q176 76 176 58" fill="none" stroke="#cfd8b0" stroke-width="4"/>
+  <circle cx="138" cy="50" r="8" fill="#fff"/><circle cx="176" cy="55" r="8" fill="#fff"/>
+  <g fill="#1d1b20" stroke="none"><circle cx="140" cy="50" r="3.5"/><circle cx="178" cy="55" r="3.5"/></g>
+  <circle cx="82" cy="126" r="62" fill="#f4e4c1"/>
+  <path d="M82 126 m0 0 Q82 112 94 112 Q110 112 110 128 Q110 150 84 150 Q54 150 54 124 Q54 92 88 90 Q126 90 128 126" fill="none" stroke="#c9a766" stroke-width="6"/>
+  <path d="M50 96 Q64 76 88 74" fill="none" stroke="#fffbea" stroke-width="6"/>
+
+</g>
+</svg>

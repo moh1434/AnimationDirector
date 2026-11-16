@@ -36,6 +36,7 @@ import { enhanceStep, prepareUpload, takeDownload } from "./enhance.mjs";
 import { compile, sfxCues } from "./compile.mjs";
 import { writeBrief, validateProject } from "./storyboard-tools.mjs";
 import { requireWhisperConfig, whisperConfig, modelFor, bundlerName, rendererName, videoFps } from "./whisper-config.mjs";
+import { fitWordsToSegments } from "./word-fit.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -241,6 +242,9 @@ async function maybeWhisper(dir, settings, analysis, segments, lang) {
     const ww = (j.transcription ?? []).map((x) => ({ w: x.text.trim(), s: x.offsets.from / 1000, e: x.offsets.to / 1000 })).filter((x) => x.w);
     const aligned = alignWords(analysis.words, ww);
     if (aligned.matched / Math.max(1, analysis.words.length) > 0.5) {
+      // whisper often places a clip's words early or late as a block: keep each clip's words inside the clip (word-fit.mjs)
+      const fitted = fitWordsToSegments(aligned.words, segments, aligned.fixed);
+      if (fitted) log(`  whisper times moved into their clips for ${fitted} segment${fitted > 1 ? "s" : ""}`);
       analysis.words = aligned.words;
       analysis.word_timing = `whisper (${Math.round((100 * aligned.matched) / analysis.words.length)}% matched)`;
       log(`  ${analysis.word_timing}`);
@@ -265,7 +269,7 @@ function alignWords(script, heard) {
     } else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
     else j++;
   }
-  return { words, matched };
+  return { words, matched, fixed };
 }
 
 /* ---------------- audio ---------------- */
@@ -355,7 +359,8 @@ function srt(words, maxChars = 42) {
   let cur = [];
   for (const w of words) {
     const len = cur.reduce((a, x) => a + x.w.length + 1, 0);
-    if (cur.length && (len + w.w.length > maxChars || w.s - cur[cur.length - 1].e > 0.6)) { groups.push(cur); cur = []; }
+    // a new subtitle at a long pause, a full line, or a new segment (a new speaker's clip in a story)
+    if (cur.length && (len + w.w.length > maxChars || w.s - cur[cur.length - 1].e > 0.6 || (w.seg !== undefined && w.seg !== cur[cur.length - 1].seg))) { groups.push(cur); cur = []; }
     cur.push(w);
   }
   if (cur.length) groups.push(cur);
@@ -364,7 +369,9 @@ function srt(words, maxChars = 42) {
     const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000), s = Math.floor((ms % 60000) / 1000);
     return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")},${String(ms % 1000).padStart(3, "0")}`;
   };
-  return groups.map((g, i) => `${i + 1}\n${ts(g[0].s)} --> ${ts(g[g.length - 1].e + 0.2)}\n${g.map((x) => x.w).join(" ")}\n`).join("\n");
+  // each subtitle lingers 0.2 s, but never into the next one
+  const endOf = (g, i) => Math.min(g[g.length - 1].e + 0.2, groups[i + 1] ? Math.max(groups[i + 1][0].s - 0.02, g[g.length - 1].e) : Infinity);
+  return groups.map((g, i) => `${i + 1}\n${ts(g[0].s)} --> ${ts(endOf(g, i))}\n${g.map((x) => x.w).join(" ")}\n`).join("\n");
 }
 
 /**

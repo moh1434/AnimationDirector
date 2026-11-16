@@ -163,6 +163,7 @@ the language): it checks every take word by word and gives the times needed to c
 | `voices.<who>.library` | a character voice saved in `voices-library/`; brings its own reference per language |
 | `voices.<who>.seeds` | optional seeds, one per take (default 11, 22, 33, …). Same seed + same text = same audio |
 | `voices.<who>.alternatives` | optional list of other setups for the same character (another `engine`, `description` or `reference`), each 1 take unless it sets `takes`. Their takes are numbered after the main takes, which stay valid. An alternative may give `"say": {"<line number>": "..."}` for its own wording (e.g. Audar tags). 8 takes at most in all |
+| `voices.<who>.chunkPerLine` | `true`: a **clone** makes each of its lines as its own generation (the worker puts a 0.35 s pause between them; slower, one 15 s rest per line). Use it when `voice-pick` warns that a cut is in the wrong place because a character's short lines run into each other in one generation ("sounds like … it has a word from line N"). A designed voice ignores it |
 | `voices.<who>.options` / `options` | Audar: `temperature` (default 0.8; 0.6–0.7 steadier, 1.0 most expressive), `top_k`, `top_p`, `repeat_penalty` (keep ≈1.1, higher suppresses laughter). Qwen3-TTS: `temperature`, `top_k`, `top_p` |
 | `lines[].who` | a lower-case id; the same ids go in the storyboard's `cast` |
 | `lines[].text` | the **exact** words of the script; captions and lip-sync use these |

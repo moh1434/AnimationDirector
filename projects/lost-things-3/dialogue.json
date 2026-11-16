@@ -1,0 +1,117 @@
+{
+  "voicesFrom": "tts.json (benny take 1, cherry take 1, berry take 1)",
+  "cast": {},
+  "clips": [
+    {
+      "who": "benny",
+      "file": "voices/01-benny.wav",
+      "text": "How can a snail rescue a star?"
+    },
+    {
+      "who": "cherry",
+      "file": "voices/02-cherry.wav",
+      "text": "We haven't managed. I'm open to suggestions."
+    },
+    {
+      "who": "berry",
+      "file": "voices/03-berry.wav",
+      "text": "Is that the one from the tree?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/04-benny.wav",
+      "text": "The one I stepped over."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/05-cherry.wav",
+      "text": "Get down here. Look along the water."
+    },
+    {
+      "who": "berry",
+      "file": "voices/06-berry.wav",
+      "text": "There was a road here the whole time?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/07-benny.wav",
+      "text": "We were looking over it."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/08-cherry.wav",
+      "text": "It's disappearing where the sunlight touches it."
+    },
+    {
+      "who": "berry",
+      "file": "voices/09-berry.wav",
+      "text": "Then we need to move."
+    },
+    {
+      "who": "benny",
+      "file": "voices/10-benny.wav",
+      "text": "The reeds block this end. Where does it start?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/11-benny.wav",
+      "text": "There! Beside that flat stone.",
+      "gap": 0.2
+    },
+    {
+      "who": "berry",
+      "file": "voices/12-berry.wav",
+      "text": "Your hill finally has a job."
+    },
+    {
+      "who": "benny",
+      "file": "voices/13-benny.wav",
+      "text": "Excellent views. Terrible launching facilities."
+    },
+    {
+      "who": "berry",
+      "file": "voices/14-berry.wav",
+      "text": "The tower works better lying down."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/15-cherry.wav",
+      "text": "Hold it steady. Our guide's coming across."
+    },
+    {
+      "who": "benny",
+      "file": "voices/16-benny.wav",
+      "text": "No rush, little one. Except... quite a lot of rush."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/17-cherry.wav",
+      "text": "There's your way home. Right where we weren't looking."
+    },
+    {
+      "who": "berry",
+      "file": "voices/18-berry.wav",
+      "text": "Go on. We'll watch you get there."
+    },
+    {
+      "who": "benny",
+      "file": "voices/19-benny.wav",
+      "text": "It made it."
+    },
+    {
+      "who": "berry",
+      "file": "voices/20-berry.wav",
+      "text": "All that work. We never asked our guide's name."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/21-cherry.wav",
+      "text": "Same time tomorrow?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/22-benny.wav",
+      "text": "Let's just lose a sock next time."
+    }
+  ]
+}

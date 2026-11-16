@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- the same ribbon piece standing out of a hoodie pocket: its ragged zigzag end up, its straight end at y=152 (the pocket's top edge).
+       Same zigzag as ribbon_piece, shifted up by 57: (70,105) (79,93) (92,71) (97,89) (104,113) (113,93) (121,97) (130,81). -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M70 105 L79 93 L92 71 L97 89 L104 113 L113 93 L121 97 L130 81 V152 H70 Z" fill="#ffe6a0"/>
+    <path d="M86 118 V146" fill="none" stroke="#e0a21a" stroke-width="8"/>
+  </g>
+</svg>

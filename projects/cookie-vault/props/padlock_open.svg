@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- an unlocked padlock lying on its side: shackle swung open -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M62 112 V62 Q62 28 100 28 Q138 28 138 58" fill="none" stroke-width="16"/>
+    <path d="M62 112 V62 Q62 28 100 28 Q138 28 138 58" fill="none" stroke="#cfd8dc" stroke-width="5"/>
+    <rect x="40" y="108" width="120" height="86" rx="14" fill="#ffc83d"/>
+    <path d="M54 124 H110" fill="none" stroke="#fff0b3" stroke-width="7"/>
+    <circle cx="100" cy="148" r="12" fill="#1d1b20" stroke="none"/><path d="M100 148 L100 176" stroke-width="9"/>
+  </g>
+</svg>

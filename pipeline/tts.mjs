@@ -395,6 +395,10 @@ export function takeChunks(voice, lines) {
   const said = lines.map((l) => (l.say ?? l.text).trim());
   const engine = engineOf(voice), E = ENGINES[engine];
   if (engine === "qwen3" && !voice.reference) return [said.join("\n")];
+  // "chunkPerLine": true makes every line of a clone its own generation: the worker puts a 0.35 s pause between
+  // generations, so lines that follow each other in one character's take always have a real pause to cut at (a
+  // clone of a saved reference keeps its voice in every generation; a designed voice does not, so it ignores this)
+  if (voice.chunkPerLine === true) return said;
   const chunks = [];
   for (const t of said) {
     const last = chunks.at(-1);
@@ -587,10 +591,25 @@ function lineGap(db, from, to, quiet, expected) {
 }
 
 /**
+ * The runs of digital silence (samples at 0) in a take, longest first not required: in time order. The clone worker
+ * puts exactly one between two generations of a "chunkPerLine" take, and a voice never produces one by itself.
+ */
+export function digitalGaps(pcm, minSeconds = 0.25, limit = 3) {
+  const gaps = [];
+  let run = -1;
+  for (let i = 0; i <= pcm.length; i++) {
+    const silent = i < pcm.length && Math.abs(pcm[i]) <= limit;
+    if (silent && run < 0) run = i;
+    else if (!silent && run >= 0) { if ((i - run) / RATE >= minSeconds) gaps.push({ start: run / RATE, end: i / RATE }); run = -1; }
+  }
+  return gaps;
+}
+
+/**
  * Where each line of a take starts and ends. A cut goes in the middle of the longest quiet stretch
  * between one line's last word and the next line's first, then each line is trimmed to its speech.
  */
-export function splitTake(pcm, lines, heard) {
+export function splitTake(pcm, lines, heard, exactCuts) {
   const duration = pcm.length / RATE, db = frameDb(pcm), level = speechLevel(db);
   const quiet = level - 30, voiced = level - 35;
   const check = alignLines(lines, heard);
@@ -598,7 +617,10 @@ export function splitTake(pcm, lines, heard) {
   // known times per line, filled in from the neighbours when whisper heard none of its words
   const anchors = check.map((c) => c.first && { s: c.first.s, e: c.last.e, ls: c.last.s, fe: c.first.e });
   const cuts = [];
-  for (let i = 0; i < lines.length - 1; i++) {
+  // a take made one line per generation has digital silence between its lines: those are the cuts, exactly
+  const known = exactCuts?.length === lines.length - 1 ? exactCuts : null;
+  if (known) cuts.push(...known);
+  for (let i = 0; i < lines.length - 1 && !known; i++) {
     const a = anchors[i], b = anchors[i + 1];
     let from, to, fallback, expected;
     if (a && b) { from = Math.min(a.ls, b.s); to = Math.max(b.fe, a.e); fallback = (a.e + b.s) / 2; expected = b.s; }
@@ -799,7 +821,9 @@ export function pickTakes(dir, picks, { lang, replace = false, forceDialogue = f
     if (current[`${who}/${n}`] !== t.key) throw new Error(`${who} take ${n} was made from an older ${plan.file} (the text, description or seed changed). Run voices again and listen before picking.`);
     if (!t.heard) throw new Error(`Cutting a take into lines needs whisper.cpp word times. Turn it on in .env (WHISPER_PATH and a model for "${plan.language}"), then run voices again.`);
     const pcm = readPcm(wav), lines = linesOf(plan, who);
-    const s = splitTake(pcm, lines, t.heard);
+    // one line per generation (chunkPerLine): the digital silence between the generations gives exact cuts
+    const gaps = lines.length > 1 && plan.voices?.[who]?.chunkPerLine === true ? digitalGaps(pcm) : [];
+    const s = splitTake(pcm, lines, t.heard, gaps.length === lines.length - 1 ? gaps.map((g) => (g.start + g.end) / 2) : undefined);
     s.problems.forEach((p) => unsure.push({ lines: p.lines.map((k) => lines[k].index), text: `${who}: ${p.text}` }));
     lines.forEach((l, k) => { cut[l.index] = { pcm, span: s.clips[k], who, take: n }; });
   }

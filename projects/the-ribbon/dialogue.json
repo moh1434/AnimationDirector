@@ -1,0 +1,117 @@
+{
+  "voicesFrom": "tts.json (berry take 1, benny take 1, cherry take 1)",
+  "cast": {},
+  "clips": [
+    {
+      "who": "berry",
+      "file": "voices/01-berry.wav",
+      "text": "Who opened this while I was gone?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/02-benny.wav",
+      "text": "Before anyone says anything, I respect privacy."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/03-cherry.wav",
+      "text": "That's a very specific opening statement."
+    },
+    {
+      "who": "berry",
+      "file": "voices/04-berry.wav",
+      "text": "I left you two alone for one whole minute."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/05-cherry.wav",
+      "text": "I stayed here. Benny left for water, then came back."
+    },
+    {
+      "who": "benny",
+      "file": "voices/06-benny.wav",
+      "text": "Which proves I was busy doing something completely normal."
+    },
+    {
+      "who": "berry",
+      "file": "voices/07-berry.wav",
+      "text": "You both had time. Did anybody else come in?"
+    },
+    {
+      "who": "cherry",
+      "file": "voices/08-cherry.wav",
+      "text": "No. Just us."
+    },
+    {
+      "who": "benny",
+      "file": "voices/09-benny.wav",
+      "text": "Cherry has scissors. Case closed."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/10-cherry.wav",
+      "text": "For my snack bag."
+    },
+    {
+      "who": "benny",
+      "file": "voices/11-benny.wav",
+      "text": "That's exactly what somebody with scissors would say."
+    },
+    {
+      "who": "berry",
+      "file": "voices/12-berry.wav",
+      "text": "This wasn't a clean cut. Somebody pulled it apart."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/13-cherry.wav",
+      "text": "Thank you."
+    },
+    {
+      "who": "benny",
+      "file": "voices/14-benny.wav",
+      "text": "Could've been a very determined breeze."
+    },
+    {
+      "who": "berry",
+      "file": "voices/15-berry.wav",
+      "text": "With the windows shut?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/16-benny.wav",
+      "text": "An indoor breeze. Rare, but ambitious."
+    },
+    {
+      "who": "berry",
+      "file": "voices/17-berry.wav",
+      "text": "And your pocket has the missing piece."
+    },
+    {
+      "who": "benny",
+      "file": "voices/18-benny.wav",
+      "text": "That's... decorative."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/19-cherry.wav",
+      "text": "It fits exactly."
+    },
+    {
+      "who": "benny",
+      "file": "voices/20-benny.wav",
+      "text": "I wanted to know if you'd remembered my birthday."
+    },
+    {
+      "who": "berry",
+      "file": "voices/21-berry.wav",
+      "text": "It's tomorrow. I remembered."
+    },
+    {
+      "who": "berry",
+      "file": "voices/22-berry.wav",
+      "text": "Next time, wrap your evidence too.",
+      "gap": 0.33
+    }
+  ]
+}

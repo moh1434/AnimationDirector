@@ -1,0 +1,108 @@
+{
+  "language": "en",
+  "takes": 1,
+  "voices": {
+    "berry": {
+      "library": "berry",
+      "chunkPerLine": true
+    },
+    "benny": {
+      "library": "benny",
+      "chunkPerLine": true
+    },
+    "cherry": {
+      "library": "cherry",
+      "chunkPerLine": true
+    }
+  },
+  "lines": [
+    {
+      "who": "berry",
+      "text": "Who opened this while I was gone?"
+    },
+    {
+      "who": "benny",
+      "text": "Before anyone says anything, I respect privacy."
+    },
+    {
+      "who": "cherry",
+      "text": "That's a very specific opening statement."
+    },
+    {
+      "who": "berry",
+      "text": "I left you two alone for one whole minute."
+    },
+    {
+      "who": "cherry",
+      "text": "I stayed here. Benny left for water, then came back."
+    },
+    {
+      "who": "benny",
+      "text": "Which proves I was busy doing something completely normal."
+    },
+    {
+      "who": "berry",
+      "text": "You both had time. Did anybody else come in?"
+    },
+    {
+      "who": "cherry",
+      "text": "No. Just us."
+    },
+    {
+      "who": "benny",
+      "text": "Cherry has scissors. Case closed."
+    },
+    {
+      "who": "cherry",
+      "text": "For my snack bag."
+    },
+    {
+      "who": "benny",
+      "text": "That's exactly what somebody with scissors would say."
+    },
+    {
+      "who": "berry",
+      "text": "This wasn't a clean cut. Somebody pulled it apart."
+    },
+    {
+      "who": "cherry",
+      "text": "Thank you."
+    },
+    {
+      "who": "benny",
+      "text": "Could've been a very determined breeze."
+    },
+    {
+      "who": "berry",
+      "text": "With the windows shut?"
+    },
+    {
+      "who": "benny",
+      "text": "An indoor breeze. Rare, but ambitious."
+    },
+    {
+      "who": "berry",
+      "text": "And your pocket has the missing piece."
+    },
+    {
+      "who": "benny",
+      "text": "That's... decorative."
+    },
+    {
+      "who": "cherry",
+      "text": "It fits exactly."
+    },
+    {
+      "who": "benny",
+      "text": "I wanted to know if you'd remembered my birthday."
+    },
+    {
+      "who": "berry",
+      "text": "It's tomorrow. I remembered."
+    },
+    {
+      "who": "berry",
+      "text": "Next time, wrap your evidence too."
+    }
+  ]
+}

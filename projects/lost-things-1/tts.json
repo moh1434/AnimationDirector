@@ -1,0 +1,88 @@
+{
+  "language": "en",
+  "takes": 1,
+  "voices": {
+    "berry": {
+      "library": "berry",
+      "chunkPerLine": true
+    },
+    "benny": {
+      "library": "benny",
+      "chunkPerLine": true
+    },
+    "cherry": {
+      "library": "cherry",
+      "chunkPerLine": true
+    }
+  },
+  "lines": [
+    {
+      "who": "benny",
+      "text": "What's knocking from inside that tree?"
+    },
+    {
+      "who": "berry",
+      "text": "There's a sign. Lost things returned here."
+    },
+    {
+      "who": "cherry",
+      "text": "Finally. Somewhere for your common sense."
+    },
+    {
+      "who": "benny",
+      "text": "Mine isn't lost. It's exploring."
+    },
+    {
+      "who": "berry",
+      "text": "That's the button from my old coat."
+    },
+    {
+      "who": "benny",
+      "text": "Ask if they've got my other sock."
+    },
+    {
+      "who": "cherry",
+      "text": "Let's start with whatever knocked."
+    },
+    {
+      "who": "benny",
+      "text": "The duck?"
+    },
+    {
+      "who": "berry",
+      "text": "No. Something behind it."
+    },
+    {
+      "who": "benny",
+      "text": "Sorry, little one. Important investigation."
+    },
+    {
+      "who": "cherry",
+      "text": "We might be blocking its door."
+    },
+    {
+      "who": "berry",
+      "text": "Oh. You're not a toy."
+    },
+    {
+      "who": "benny",
+      "text": "Please tell me that's a fancy night-light."
+    },
+    {
+      "who": "berry",
+      "text": "It's trying to go up, but it keeps falling back."
+    },
+    {
+      "who": "cherry",
+      "text": "Look where it's pointing."
+    },
+    {
+      "who": "berry",
+      "text": "I think somebody's missing from up there."
+    },
+    {
+      "who": "benny",
+      "text": "That's going to be an awkward return address."
+    }
+  ]
+}

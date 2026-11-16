@@ -1,0 +1,54 @@
+# HOOK OPTIONS
+# 1. These cookies are finally Benny-proof.
+# 2. Nobody gets past this security. Including me.
+# 3. I've locked up my biggest weakness.
+# 4. How hard can not eating cookies be?
+# 5. This box will save me from myself.
+# CHOSEN: 1 - The supposed solution is visible immediately, and the viewer wants to discover its obvious human weakness.
+
+# TITLE: The Benny-Proof Cookie Vault
+# FORMAT: C, bad decision, funny consequence
+# LENGTH: about 45 s, 100 spoken words
+# QUESTION: Can Benny's elaborate cookie security protect the cookies from Benny?
+# ANSWERED AT: "I tested it after every improvement."
+# CAST: berry, benny
+# PLACE: kitchen
+# TONE: Affectionate satire of overengineering and finding excuses; the joke is about Benny's system, not food or body size.
+# STAGING: Show the box and one security prop at a time; cuts replace fine hand movements and lock manipulation.
+
+# SEE: Benny proudly guards a small closed cookie box with a padlock.
+benny: These cookies are finally Benny-proof.
+benny: They're for our big picnic. I'm protecting them until tomorrow.
+berry: Where's the key?
+benny: My pocket. For emergencies.
+berry: Such as?
+benny: Finding out whether the lock works.
+
+# SEE: The box is open and Benny holds a cookie beside the unlocked padlock.
+berry: You've already opened it.
+benny: Security testing. I found a serious weakness.
+berry: The pocket?
+benny: The pocket.
+
+# SEE: The key sits on a high shelf while Benny looks satisfied below it.
+benny: There. Impossible to reach.
+berry: And the stool?
+benny: Unrelated furniture.
+
+# SEE: Benny stands beside the stool with another cookie and the retrieved key.
+berry: How's the security business?
+benny: Constantly evolving. Unfortunately, so is the criminal.
+
+# SEE: Benny hands Berry the key while the box sits closed between them.
+benny: You keep this. Whatever I say, don't give it back.
+berry: Finally. How many cookies did we save?
+benny: Let me check.
+berry: I'll check.
+
+# SEE: Berry holds up the open box, revealing only crumbs.
+berry: Benny.
+benny: I tested it after every improvement.
+berry: You ate the entire security budget.
+
+# FACTS TO CHECK
+# - Original fiction; the script makes no nutritional, psychological, or security-performance claims.

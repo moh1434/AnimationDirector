@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- the same tin held open and EMPTY, seen from the front and a little above: only crumbs on the paper lining
+       (the lid is leaning back behind the rim, so the box stays short enough to hold below a face) -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M34 70 L28 58 H172 L166 70Z" fill="#ffc83d"/>
+    <rect x="18" y="108" width="164" height="88" rx="10" fill="#e53950"/>
+    <path d="M30 120 V180" fill="none" stroke="#ff8fa0" stroke-width="6"/>
+    <path d="M22 108 L40 68 H160 L178 108Z" fill="#f6e3b4"/>
+    <path d="M40 68 L56 86 H144 L160 68" fill="none" stroke-width="4" opacity="0.5"/>
+    <g fill="#9a6338" stroke-width="3">
+      <path d="M50 96 l13 -5 l6 10 l-12 6z"/><path d="M82 80 l12 -3 l5 9 l-12 4z"/><path d="M110 96 l14 -4 l6 10 l-13 6z"/>
+      <path d="M134 80 l10 -4 l5 9 l-10 4z"/><path d="M94 100 l9 -3 l3 7 l-9 3z"/><path d="M62 78 l8 -3 l3 6 l-8 3z"/>
+      <path d="M148 98 l9 -3 l3 7 l-9 3z"/><path d="M120 80 l6 -2 l2 6 l-6 2z"/>
+    </g>
+    <path d="M18 112 H182" fill="none" stroke-width="5"/>
+    <circle cx="146" cy="160" r="19" fill="#e0a45a" stroke-width="5"/>
+    <g fill="#6b3f2a" stroke="none"><ellipse cx="140" cy="154" rx="4" ry="3.5"/><ellipse cx="152" cy="164" rx="4" ry="3.5"/><ellipse cx="141" cy="168" rx="3" ry="3"/></g>
+    <g fill="#9a6338" stroke-width="2.5"><path d="M54 128 l8 -3 l3 7 l-8 3z"/><path d="M96 150 l7 -2 l2 6 l-7 2z"/></g>
+  </g>
+</svg>

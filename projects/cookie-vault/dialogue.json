@@ -1,0 +1,120 @@
+{
+  "voicesFrom": "tts.json (benny take 1, berry take 1)",
+  "cast": {},
+  "clips": [
+    {
+      "who": "benny",
+      "file": "voices/01-benny.wav",
+      "text": "These cookies are finally Benny-proof."
+    },
+    {
+      "who": "benny",
+      "file": "voices/02-benny.wav",
+      "text": "They're for our big picnic. I'm protecting them until tomorrow.",
+      "gap": 0.17
+    },
+    {
+      "who": "berry",
+      "file": "voices/03-berry.wav",
+      "text": "Where's the key?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/04-benny.wav",
+      "text": "My pocket. For emergencies."
+    },
+    {
+      "who": "berry",
+      "file": "voices/05-berry.wav",
+      "text": "Such as?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/06-benny.wav",
+      "text": "Finding out whether the lock works."
+    },
+    {
+      "who": "berry",
+      "file": "voices/07-berry.wav",
+      "text": "You've already opened it."
+    },
+    {
+      "who": "benny",
+      "file": "voices/08-benny.wav",
+      "text": "Security testing. I found a serious weakness."
+    },
+    {
+      "who": "berry",
+      "file": "voices/09-berry.wav",
+      "text": "The pocket?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/10-benny.wav",
+      "text": "The pocket."
+    },
+    {
+      "who": "benny",
+      "file": "voices/11-benny.wav",
+      "text": "There. Impossible to reach.",
+      "gap": 0.15
+    },
+    {
+      "who": "berry",
+      "file": "voices/12-berry.wav",
+      "text": "And the stool?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/13-benny.wav",
+      "text": "Unrelated furniture."
+    },
+    {
+      "who": "berry",
+      "file": "voices/14-berry.wav",
+      "text": "How's the security business?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/15-benny.wav",
+      "text": "Constantly evolving. Unfortunately, so is the criminal."
+    },
+    {
+      "who": "benny",
+      "file": "voices/16-benny.wav",
+      "text": "You keep this. Whatever I say, don't give it back.",
+      "gap": 0.15
+    },
+    {
+      "who": "berry",
+      "file": "voices/17-berry.wav",
+      "text": "Finally. How many cookies did we save?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/18-benny.wav",
+      "text": "Let me check."
+    },
+    {
+      "who": "berry",
+      "file": "voices/19-berry.wav",
+      "text": "I'll check."
+    },
+    {
+      "who": "berry",
+      "file": "voices/20-berry.wav",
+      "text": "Benny.",
+      "gap": 0.15
+    },
+    {
+      "who": "benny",
+      "file": "voices/21-benny.wav",
+      "text": "I tested it after every improvement."
+    },
+    {
+      "who": "berry",
+      "file": "voices/22-berry.wav",
+      "text": "You ate the entire security budget."
+    }
+  ]
+}

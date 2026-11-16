@@ -1,0 +1,1092 @@
+{
+  "version": 1,
+  "title": "My video",
+  "language": "en",
+  "fps": 30,
+  "duration": 52.45,
+  "cast": {
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    },
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "cherry": {
+      "preset": "cherry",
+      "name": "Cherry"
+    }
+  },
+  "directedBy": "claude",
+  "scenes": [
+    {
+      "id": "torn-gift",
+      "start": 0,
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "day",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.46,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.74,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 7,
+          "holding": "scissors"
+        }
+      ],
+      "props": [
+        {
+          "name": "gift_torn",
+          "x": 0.46,
+          "y": 0.86,
+          "size": 0.26,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "ribbon_peek",
+          "x": 0.20600000000000002,
+          "y": 0.7611741071428572,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "rotate": -8
+        },
+        {
+          "name": "snack_bag",
+          "x": 0.66,
+          "y": 0.905,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.06
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.84
+        },
+        "moves": [
+          {
+            "at": "clip:2",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.35,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:3",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.65,
+              "y": 0.84
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:2",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:3",
+          "who": "cherry",
+          "pose": "hips",
+          "expression": "smug",
+          "holding": "scissors"
+        },
+        {
+          "at": "clip:3",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "worried"
+        }
+      ]
+    },
+    {
+      "id": "alibis",
+      "start": "clip:4",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "day",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.46,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.74,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "neutral",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 7,
+          "holding": "scissors"
+        }
+      ],
+      "props": [
+        {
+          "name": "gift_torn",
+          "x": 0.46,
+          "y": 0.86,
+          "size": 0.26,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "ribbon_peek",
+          "x": 0.20600000000000002,
+          "y": 0.7611741071428572,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "rotate": -8
+        },
+        {
+          "name": "snack_bag",
+          "x": 0.66,
+          "y": 0.905,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.1
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.84
+        },
+        "moves": [
+          {
+            "at": "clip:5",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.62,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:6",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.36,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:7",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.5,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:8",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.62,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:9",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.4,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:10",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.62,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:11",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.4,
+              "y": 0.84
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:4",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:5",
+          "who": "cherry",
+          "pose": "explain",
+          "expression": "neutral",
+          "holding": "scissors"
+        },
+        {
+          "at": "clip:6",
+          "who": "benny",
+          "pose": "present",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:7",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "thinking"
+        },
+        {
+          "at": "clip:8",
+          "who": "cherry",
+          "pose": "shrug",
+          "expression": "neutral",
+          "holding": "scissors"
+        },
+        {
+          "at": "clip:9",
+          "who": "benny",
+          "pose": "point",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:10",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "determined",
+          "holding": "scissors"
+        },
+        {
+          "at": "clip:11",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "id": "pulled-apart",
+      "start": "clip:12",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "day",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.53,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.79,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "neutral",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 7,
+          "holding": "scissors"
+        }
+      ],
+      "props": [
+        {
+          "name": "gift_torn",
+          "x": 0.54,
+          "y": 0.86,
+          "size": 0.26,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "ribbon_peek",
+          "x": 0.20600000000000002,
+          "y": 0.7611741071428572,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "rotate": -8
+        },
+        {
+          "name": "snack_bag",
+          "x": 0.66,
+          "y": 0.905,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.06,
+          1.12
+        ],
+        "focus": {
+          "x": 0.56,
+          "y": 0.84
+        },
+        "moves": [
+          {
+            "at": "clip:13",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.6,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:14",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.38,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:15",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.5,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:16",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.38,
+              "y": 0.84
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:13",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "happy",
+          "holding": "scissors"
+        },
+        {
+          "at": "clip:14",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:15",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "thinking"
+        },
+        {
+          "at": "clip:16",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "id": "the-pocket",
+      "start": "clip:17",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "day",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.53,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point",
+          "expression": "determined",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.78,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "surprised",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 7,
+          "holding": "scissors"
+        }
+      ],
+      "props": [
+        {
+          "name": "gift_torn",
+          "x": 0.53,
+          "y": 0.86,
+          "size": 0.26,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "ribbon_peek",
+          "x": 0.20600000000000002,
+          "y": 0.7611741071428572,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "rotate": -8
+        },
+        {
+          "name": "snack_bag",
+          "x": 0.66,
+          "y": 0.905,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.12
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.84
+        },
+        "moves": [
+          {
+            "at": "clip:18",
+            "zoom": 1.14,
+            "focus": {
+              "x": 0.34,
+              "y": 0.84
+            },
+            "duration": 0.6
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:18",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:18",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "surprised",
+          "holding": "scissors"
+        }
+      ]
+    },
+    {
+      "id": "it-fits",
+      "start": "clip:19",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "day",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hips",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.53,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "proud",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.78,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "explain",
+          "expression": "surprised",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 7,
+          "holding": "scissors"
+        }
+      ],
+      "props": [
+        {
+          "name": "gift_torn",
+          "x": 0.53,
+          "y": 0.86,
+          "size": 0.26,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "ribbon_peek",
+          "x": 0.20600000000000002,
+          "y": 0.7611741071428572,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "rotate": -8,
+          "out": "clip:19+0.3"
+        },
+        {
+          "name": "ribbon_piece",
+          "x": 0.20600000000000002,
+          "y": 0.8204241071428572,
+          "size": 0.26,
+          "at": "clip:19+0.3",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "rotate": -8,
+          "out": "clip:19+1.6",
+          "move": [
+            {
+              "at": "clip:19+0.5",
+              "duration": 1,
+              "x": 0.53,
+              "y": 0.86,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "name": "ribbon_piece",
+          "x": 0.53,
+          "y": 0.86,
+          "size": 0.26,
+          "at": "clip:19+1.5",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "snack_bag",
+          "x": 0.66,
+          "y": 0.905,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.1
+        ],
+        "focus": {
+          "x": 0.42,
+          "y": 0.84
+        },
+        "moves": [
+          {
+            "at": "clip:20",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.34,
+              "y": 0.84
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:21",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.5,
+              "y": 0.84
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:19",
+          "who": "cherry",
+          "pose": "explain",
+          "expression": "surprised",
+          "holding": "scissors"
+        },
+        {
+          "at": "clip:20",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:21",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "proud"
+        }
+      ]
+    },
+    {
+      "id": "wrap-your-evidence",
+      "start": "clip:22",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "day",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0,
+            "y": 1
+          }
+        },
+        {
+          "who": "berry",
+          "x": 0.53,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "smug",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.78,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "laughing",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 7,
+          "holding": "scissors"
+        }
+      ],
+      "props": [
+        {
+          "name": "gift_torn",
+          "x": 0.53,
+          "y": 0.86,
+          "size": 0.26,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "ribbon_piece",
+          "x": 0.53,
+          "y": 0.86,
+          "size": 0.26,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "snack_bag",
+          "x": 0.66,
+          "y": 0.905,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.06,
+          1.12
+        ],
+        "focus": {
+          "x": 0.38,
+          "y": 0.84
+        }
+      },
+      "actions": [
+        {
+          "at": "clip:22",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:22",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0,
+            "y": 1
+          }
+        }
+      ]
+    }
+  ],
+  "dialogue": [
+    {
+      "clip": 1,
+      "who": "berry",
+      "start": 0.25,
+      "end": 2.04,
+      "text": "Who opened this while I was gone?"
+    },
+    {
+      "clip": 2,
+      "who": "benny",
+      "start": 2.29,
+      "end": 5.3,
+      "text": "Before anyone says anything, I respect privacy."
+    },
+    {
+      "clip": 3,
+      "who": "cherry",
+      "start": 5.55,
+      "end": 7.949999999999999,
+      "text": "That's a very specific opening statement."
+    },
+    {
+      "clip": 4,
+      "who": "berry",
+      "start": 8.2,
+      "end": 10.35,
+      "text": "I left you two alone for one whole minute."
+    },
+    {
+      "clip": 5,
+      "who": "cherry",
+      "start": 10.6,
+      "end": 14.149999999999999,
+      "text": "I stayed here. Benny left for water, then came back."
+    },
+    {
+      "clip": 6,
+      "who": "benny",
+      "start": 14.399999999999999,
+      "end": 17.32,
+      "text": "Which proves I was busy doing something completely normal."
+    },
+    {
+      "clip": 7,
+      "who": "berry",
+      "start": 17.57,
+      "end": 20.21,
+      "text": "You both had time. Did anybody else come in?"
+    },
+    {
+      "clip": 8,
+      "who": "cherry",
+      "start": 20.46,
+      "end": 21.92,
+      "text": "No. Just us."
+    },
+    {
+      "clip": 9,
+      "who": "benny",
+      "start": 22.17,
+      "end": 24.580000000000002,
+      "text": "Cherry has scissors. Case closed."
+    },
+    {
+      "clip": 10,
+      "who": "cherry",
+      "start": 24.830000000000002,
+      "end": 26.07,
+      "text": "For my snack bag."
+    },
+    {
+      "clip": 11,
+      "who": "benny",
+      "start": 26.32,
+      "end": 28.86,
+      "text": "That's exactly what somebody with scissors would say."
+    },
+    {
+      "clip": 12,
+      "who": "berry",
+      "start": 29.11,
+      "end": 32.01,
+      "text": "This wasn't a clean cut. Somebody pulled it apart."
+    },
+    {
+      "clip": 13,
+      "who": "cherry",
+      "start": 32.26,
+      "end": 32.949999999999996,
+      "text": "Thank you."
+    },
+    {
+      "clip": 14,
+      "who": "benny",
+      "start": 33.199999999999996,
+      "end": 35.31999999999999,
+      "text": "Could've been a very determined breeze."
+    },
+    {
+      "clip": 15,
+      "who": "berry",
+      "start": 35.56999999999999,
+      "end": 36.63999999999999,
+      "text": "With the windows shut?"
+    },
+    {
+      "clip": 16,
+      "who": "benny",
+      "start": 36.88999999999999,
+      "end": 39.89999999999999,
+      "text": "An indoor breeze. Rare, but ambitious."
+    },
+    {
+      "clip": 17,
+      "who": "berry",
+      "start": 40.14999999999999,
+      "end": 42.07999999999999,
+      "text": "And your pocket has the missing piece."
+    },
+    {
+      "clip": 18,
+      "who": "benny",
+      "start": 42.32999999999999,
+      "end": 43.73999999999999,
+      "text": "That's... decorative."
+    },
+    {
+      "clip": 19,
+      "who": "cherry",
+      "start": 43.98999999999999,
+      "end": 45.179999999999986,
+      "text": "It fits exactly."
+    },
+    {
+      "clip": 20,
+      "who": "benny",
+      "start": 45.429999999999986,
+      "end": 47.76999999999998,
+      "text": "I wanted to know if you'd remembered my birthday."
+    },
+    {
+      "clip": 21,
+      "who": "berry",
+      "start": 48.01999999999998,
+      "end": 49.86999999999998,
+      "text": "It's tomorrow. I remembered."
+    },
+    {
+      "clip": 22,
+      "who": "berry",
+      "start": 50.19999999999998,
+      "end": 52.44999999999998,
+      "text": "Next time, wrap your evidence too."
+    }
+  ],
+  "inputsHash": "d49fb2ebed22",
+  "captionsByFormat": {
+    "youtube": false,
+    "shorts": true,
+    "square": true
+  },
+  "endHold": 1.6,
+  "sfxDensity": "sparse"
+}

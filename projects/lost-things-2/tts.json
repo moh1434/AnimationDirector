@@ -1,0 +1,112 @@
+{
+  "language": "en",
+  "takes": 1,
+  "voices": {
+    "berry": {
+      "library": "berry",
+      "chunkPerLine": true
+    },
+    "benny": {
+      "library": "benny",
+      "chunkPerLine": true
+    },
+    "cherry": {
+      "library": "cherry",
+      "chunkPerLine": true
+    }
+  },
+  "lines": [
+    {
+      "who": "berry",
+      "text": "Why does our star keep running away?"
+    },
+    {
+      "who": "benny",
+      "text": "Maybe it read your building inspection."
+    },
+    {
+      "who": "berry",
+      "text": "It's two crates. They passed."
+    },
+    {
+      "who": "cherry",
+      "text": "Did we ask whether it wanted a tower?"
+    },
+    {
+      "who": "berry",
+      "text": "Your home's up there. This gets you closer."
+    },
+    {
+      "who": "benny",
+      "text": "Technically, so would a thick hat."
+    },
+    {
+      "who": "berry",
+      "text": "Have you got a better idea?"
+    },
+    {
+      "who": "benny",
+      "text": "The hill. It's already built."
+    },
+    {
+      "who": "benny",
+      "text": "Highest spot around. No assembly required."
+    },
+    {
+      "who": "berry",
+      "text": "Go on. You're nearly... slightly closer."
+    },
+    {
+      "who": "cherry",
+      "text": "It's pointing the other way again."
+    },
+    {
+      "who": "benny",
+      "text": "I carried it all this way."
+    },
+    {
+      "who": "cherry",
+      "text": "That doesn't make this the right place."
+    },
+    {
+      "who": "cherry",
+      "text": "Before we try another rescue... how did you get down?"
+    },
+    {
+      "who": "berry",
+      "text": "We never asked that."
+    },
+    {
+      "who": "benny",
+      "text": "I thought falling was fairly self-explanatory."
+    },
+    {
+      "who": "cherry",
+      "text": "What were you looking for?"
+    },
+    {
+      "who": "berry",
+      "text": "It came down to meet that star."
+    },
+    {
+      "who": "benny",
+      "text": "Its reflection?"
+    },
+    {
+      "who": "cherry",
+      "text": "You thought someone was down there waiting?"
+    },
+    {
+      "who": "berry",
+      "text": "And now it can't find the way back."
+    },
+    {
+      "who": "benny",
+      "text": "We've been solving the wrong problem. Very enthusiastically."
+    },
+    {
+      "who": "cherry",
+      "text": "Let's follow where it's pointing this time."
+    }
+  ]
+}

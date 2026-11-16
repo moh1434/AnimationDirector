@@ -1,0 +1,108 @@
+{
+  "language": "en",
+  "takes": 1,
+  "voices": {
+    "berry": {
+      "library": "berry",
+      "chunkPerLine": true
+    },
+    "benny": {
+      "library": "benny",
+      "chunkPerLine": true
+    },
+    "cherry": {
+      "library": "cherry",
+      "chunkPerLine": true
+    }
+  },
+  "lines": [
+    {
+      "who": "benny",
+      "text": "How can a snail rescue a star?"
+    },
+    {
+      "who": "cherry",
+      "text": "We haven't managed. I'm open to suggestions."
+    },
+    {
+      "who": "berry",
+      "text": "Is that the one from the tree?"
+    },
+    {
+      "who": "benny",
+      "text": "The one I stepped over."
+    },
+    {
+      "who": "cherry",
+      "text": "Get down here. Look along the water."
+    },
+    {
+      "who": "berry",
+      "text": "There was a road here the whole time?"
+    },
+    {
+      "who": "benny",
+      "text": "We were looking over it."
+    },
+    {
+      "who": "cherry",
+      "text": "It's disappearing where the sunlight touches it."
+    },
+    {
+      "who": "berry",
+      "text": "Then we need to move."
+    },
+    {
+      "who": "benny",
+      "text": "The reeds block this end. Where does it start?"
+    },
+    {
+      "who": "benny",
+      "text": "There! Beside that flat stone."
+    },
+    {
+      "who": "berry",
+      "text": "Your hill finally has a job."
+    },
+    {
+      "who": "benny",
+      "text": "Excellent views. Terrible launching facilities."
+    },
+    {
+      "who": "berry",
+      "text": "The tower works better lying down."
+    },
+    {
+      "who": "cherry",
+      "text": "Hold it steady. Our guide's coming across."
+    },
+    {
+      "who": "benny",
+      "text": "No rush, little one. Except... quite a lot of rush."
+    },
+    {
+      "who": "cherry",
+      "text": "There's your way home. Right where we weren't looking."
+    },
+    {
+      "who": "berry",
+      "text": "Go on. We'll watch you get there."
+    },
+    {
+      "who": "benny",
+      "text": "It made it."
+    },
+    {
+      "who": "berry",
+      "text": "All that work. We never asked our guide's name."
+    },
+    {
+      "who": "cherry",
+      "text": "Same time tomorrow?"
+    },
+    {
+      "who": "benny",
+      "text": "Let's just lose a sock next time."
+    }
+  ]
+}

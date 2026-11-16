@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- a wall shelf seen from the front, with a few kitchen things on it (books at the left, a plant at the right) so it
+       reads as a shelf fixed to the wall; the middle is left free for the key. Top face of the plank: y 72-86. -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <g>
+      <rect x="18" y="22" width="16" height="52" rx="3" fill="#e53950"/><rect x="36" y="32" width="14" height="42" rx="3" fill="#3b8df0"/>
+      <path d="M56 74 L66 38 L80 42 L70 76Z" fill="#3ddc97"/>
+    </g>
+    <g>
+      <path d="M142 74 L148 52 H174 L180 74Z" fill="#e0884a"/>
+      <path d="M161 52 V34 M161 44 Q146 42 144 30 Q158 30 161 44 M161 40 Q176 38 178 26 Q164 26 161 40" fill="none" stroke="#3ddc97"/>
+    </g>
+    <path d="M44 120 V160 H58 V134 L86 120Z" fill="#8a5a3b"/><path d="M156 120 V160 H142 V134 L114 120Z" fill="#8a5a3b"/>
+    <path d="M12 86 L26 72 H174 L188 86Z" fill="#e9b878"/>
+    <rect x="6" y="86" width="188" height="34" rx="7" fill="#c98a4b"/>
+    <path d="M22 98 H120" fill="none" stroke="#e0a763" stroke-width="6"/>
+    <circle cx="44" cy="124" r="3" fill="#1d1b20" stroke="none"/><circle cx="156" cy="124" r="3" fill="#1d1b20" stroke="none"/>
+  </g>
+</svg>

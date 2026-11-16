@@ -1,0 +1,123 @@
+{
+  "voicesFrom": "tts.json (berry take 1, benny take 1, cherry take 1)",
+  "cast": {},
+  "clips": [
+    {
+      "who": "berry",
+      "file": "voices/01-berry.wav",
+      "text": "Why does our star keep running away?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/02-benny.wav",
+      "text": "Maybe it read your building inspection."
+    },
+    {
+      "who": "berry",
+      "file": "voices/03-berry.wav",
+      "text": "It's two crates. They passed."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/04-cherry.wav",
+      "text": "Did we ask whether it wanted a tower?"
+    },
+    {
+      "who": "berry",
+      "file": "voices/05-berry.wav",
+      "text": "Your home's up there. This gets you closer."
+    },
+    {
+      "who": "benny",
+      "file": "voices/06-benny.wav",
+      "text": "Technically, so would a thick hat."
+    },
+    {
+      "who": "berry",
+      "file": "voices/07-berry.wav",
+      "text": "Have you got a better idea?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/08-benny.wav",
+      "text": "The hill. It's already built."
+    },
+    {
+      "who": "benny",
+      "file": "voices/09-benny.wav",
+      "text": "Highest spot around. No assembly required.",
+      "gap": 0.22
+    },
+    {
+      "who": "berry",
+      "file": "voices/10-berry.wav",
+      "text": "Go on. You're nearly... slightly closer."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/11-cherry.wav",
+      "text": "It's pointing the other way again."
+    },
+    {
+      "who": "benny",
+      "file": "voices/12-benny.wav",
+      "text": "I carried it all this way."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/13-cherry.wav",
+      "text": "That doesn't make this the right place."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/14-cherry.wav",
+      "text": "Before we try another rescue... how did you get down?",
+      "gap": 0.6
+    },
+    {
+      "who": "berry",
+      "file": "voices/15-berry.wav",
+      "text": "We never asked that."
+    },
+    {
+      "who": "benny",
+      "file": "voices/16-benny.wav",
+      "text": "I thought falling was fairly self-explanatory."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/17-cherry.wav",
+      "text": "What were you looking for?"
+    },
+    {
+      "who": "berry",
+      "file": "voices/18-berry.wav",
+      "text": "It came down to meet that star."
+    },
+    {
+      "who": "benny",
+      "file": "voices/19-benny.wav",
+      "text": "Its reflection?"
+    },
+    {
+      "who": "cherry",
+      "file": "voices/20-cherry.wav",
+      "text": "You thought someone was down there waiting?"
+    },
+    {
+      "who": "berry",
+      "file": "voices/21-berry.wav",
+      "text": "And now it can't find the way back."
+    },
+    {
+      "who": "benny",
+      "file": "voices/22-benny.wav",
+      "text": "We've been solving the wrong problem. Very enthusiastically."
+    },
+    {
+      "who": "cherry",
+      "file": "voices/23-cherry.wav",
+      "text": "Let's follow where it's pointing this time."
+    }
+  ]
+}

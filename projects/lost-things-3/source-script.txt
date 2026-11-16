@@ -1,0 +1,181 @@
+# SERIES: Lost Things Returned Here
+# STRUCTURE: Three complete short episodes in this one file; each episode has its own hook, local payoff, and estimated length.
+# TOTAL LENGTH: about 2 min 50 s across three videos, 391 spoken words; actual voice recordings determine final timing.
+# AUDIENCE: General audience; a gentle fantasy about being heard, admitting a wrong plan, and noticing someone easily overlooked.
+# VOICES: berry, benny, cherry only; the star and a tiny snail communicate through looks, pointing, and movement.
+# CONTINUITY: One night, the same small star, the same snail with a pale spiral shell, and the same three friends throughout.
+# WORLD: Storybook fantasy; the star is a palm-sized character, and reflected moonlight can become a road home.
+# SIGN: The door bears a simple lost-button symbol; Berry speaks "Lost things returned here," so reading the sign is never required.
+# PRODUCTION: The tiny door is a cupboard in the tree, not a room the friends must shrink to enter.
+
+# EPISODE 1
+# HOOK OPTIONS
+# 1. What's knocking from inside that tree?
+# 2. That tree has somebody's front door.
+# 3. Why is a tree returning my button?
+# 4. Something in there wants to come out.
+# 5. We definitely didn't leave that door there.
+# CHOSEN: 1 - A tiny door visibly knocks from within, promising a specific reveal rather than a general adventure.
+
+# TITLE: The Door at the Roots
+# FORMAT: B, fantasy discovery story, episode 1 of 3
+# LENGTH: about 45 s, 101 spoken words
+# QUESTION: What is knocking inside the old tree's tiny cupboard?
+# ANSWERED AT: "I think somebody's missing from up there."
+# CAST: berry, benny, cherry; silent star and silent snail
+# PLACE: forest beside the old tree, night
+
+# SEE: A tiny cupboard door at the foot of an old tree trembles outward between the three friends.
+benny: What's knocking from inside that tree?
+berry: There's a sign. Lost things returned here.
+cherry: Finally. Somewhere for your common sense.
+benny: Mine isn't lost. It's exploring.
+
+# SEE: Berry opens the cupboard to reveal a missing button on a low shelf.
+berry: That's the button from my old coat.
+benny: Ask if they've got my other sock.
+cherry: Let's start with whatever knocked.
+
+# SEE: A forgotten toy duck rolls forward, but the knocking continues behind it.
+benny: The duck?
+berry: No. Something behind it.
+
+# SEE: A tiny snail approaches the threshold and Benny carefully steps over it.
+benny: Sorry, little one. Important investigation.
+cherry: We might be blocking its door.
+
+# SEE: Berry lifts the duck aside, revealing a small trembling star tapping the back of the cupboard.
+berry: Oh. You're not a toy.
+benny: Please tell me that's a fancy night-light.
+
+# SEE: The little star tries to rise, drops into Berry's hands, and points upward.
+berry: It's trying to go up, but it keeps falling back.
+cherry: Look where it's pointing.
+
+# SEE: Above the cupboard, one dark gap interrupts a small ring of stars in the sky.
+berry: I think somebody's missing from up there.
+benny: That's going to be an awkward return address.
+
+# FACTS TO CHECK
+# - Original fantasy; small living stars, a lost-property tree, and a deliberately empty star-ring are invented story elements.
+# - No astronomy lesson is intended or implied.
+
+# EPISODE 2
+# HOOK OPTIONS
+# 1. Why does our star keep running away?
+# 2. We rescued it. Why won't it cooperate?
+# 3. How do you return a star upstairs?
+# 4. Our rescue plan has a height problem.
+# 5. What if we're helping it completely wrong?
+# CHOSEN: 1 - The star visibly rejects a rescue already underway, raising a question that listening will resolve.
+
+# TITLE: The Wrong Way Up
+# FORMAT: B, learning through a fantasy story, episode 2 of 3
+# LENGTH: about 60 s, 146 spoken words
+# QUESTION: Why does the rescued star reject the friends' attempts to send it upward?
+# ANSWERED AT: "It came down to meet that star."
+# CAST: berry, benny, cherry; silent star and silent snail
+# PLACE: forest clearing with a low crate tower; adjoining hill overlooking a pond, night
+# CONTINUITY: Continue directly after the cupboard discovery; show the sky's empty star-ring in the opening background.
+
+# SEE: The little star hops off Berry's low crate tower and heads toward the distant pond.
+berry: Why does our star keep running away?
+benny: Maybe it read your building inspection.
+berry: It's two crates. They passed.
+cherry: Did we ask whether it wanted a tower?
+
+# SEE: Berry points skyward from the sturdy low tower while the star keeps looking downhill.
+berry: Your home's up there. This gets you closer.
+benny: Technically, so would a thick hat.
+berry: Have you got a better idea?
+benny: The hill. It's already built.
+
+# SEE: On the hill, Benny holds the star up toward the sky while it points back toward the pond.
+benny: Highest spot around. No assembly required.
+berry: Go on. You're nearly... slightly closer.
+cherry: It's pointing the other way again.
+benny: I carried it all this way.
+cherry: That doesn't make this the right place.
+
+# SEE: Cherry sits beside the star, with the pond visible below them.
+cherry: Before we try another rescue... how did you get down?
+berry: We never asked that.
+benny: I thought falling was fairly self-explanatory.
+cherry: What were you looking for?
+
+# SEE: The star waves at its own reflection in the pond, beside a thin silver streak of moonlight.
+berry: It came down to meet that star.
+benny: Its reflection?
+cherry: You thought someone was down there waiting?
+
+# SEE: The star nods, looks toward the paling horizon, and droops.
+berry: And now it can't find the way back.
+benny: We've been solving the wrong problem. Very enthusiastically.
+cherry: Let's follow where it's pointing this time.
+
+# FACTS TO CHECK
+# - The small living star and its journey are fictional; this is not a literal account of stars or meteors.
+# - Real light can reflect in water; the character mistakes its own reflection for another character.
+# - Keep the fantasy reflection bright enough to read as the same star, without introducing a second living star.
+
+# EPISODE 3
+# HOOK OPTIONS
+# 1. How can a snail rescue a star?
+# 2. Our smallest helper has the biggest idea.
+# 3. The way home is under our feet?
+# 4. We walked straight past the answer.
+# 5. Can we get there before the sunlight?
+# CHOSEN: 1 - The tiny helper and stranded star share the first picture, promising a surprising but visible solution.
+
+# TITLE: The Smallest Guide
+# FORMAT: B, fantasy adventure resolution, episode 3 of 3
+# LENGTH: about 65 s, 144 spoken words
+# QUESTION: How can the overlooked snail help the friends return the star before sunrise?
+# ANSWERED AT: "There's your way home. Right where we weren't looking."
+# CAST: berry, benny, cherry; silent star and silent snail
+# PLACE: pond at the foot of the hill; old tree, dawn
+# FANTASY RULE: A road of reflected moonlight reaches the sky; it becomes visible when viewed close to the water and fades in direct sunlight.
+# CONTINUITY: Carry the same two crates from episode 2 to the pond; the hill remains visible behind the reeds.
+
+# SEE: The cupboard's tiny snail points toward the pond while the lost star waits beside the friends.
+benny: How can a snail rescue a star?
+cherry: We haven't managed. I'm open to suggestions.
+berry: Is that the one from the tree?
+benny: The one I stepped over.
+
+# SEE: Cherry crouches to the snail's height, revealing a silver road reflected across the water.
+cherry: Get down here. Look along the water.
+berry: There was a road here the whole time?
+benny: We were looking over it.
+
+# SEE: A small sunbeam touches the far edge of the silver road, making that section fade.
+cherry: It's disappearing where the sunlight touches it.
+berry: Then we need to move.
+benny: The reeds block this end. Where does it start?
+
+# SEE: Benny points from the nearby hill toward a gap in the reeds.
+benny: There! Beside that flat stone.
+berry: Your hill finally has a job.
+benny: Excellent views. Terrible launching facilities.
+
+# SEE: Berry places the two crates side by side over the muddy bank, making a low walkway to the stone.
+berry: The tower works better lying down.
+cherry: Hold it steady. Our guide's coming across.
+benny: No rush, little one. Except... quite a lot of rush.
+
+# SEE: The snail leads the star onto the stone, where the reflected road curls upward into the sky.
+cherry: There's your way home. Right where we weren't looking.
+berry: Go on. We'll watch you get there.
+
+# SEE: The star climbs the silver road and fills the empty place in the sky just before the road fades.
+benny: It made it.
+berry: All that work. We never asked our guide's name.
+
+# SEE: Back at the tree, the snail slips through the tiny door as Cherry holds it open.
+cherry: Same time tomorrow?
+benny: Let's just lose a sock next time.
+
+# FACTS TO CHECK
+# - Original fantasy: the moonlight road, its transformation into a skyward path, and the star's return are magical rules, not physics claims.
+# - The snail is a silent fictional character; its pointing and guiding are cartoon behavior.
+# - Each friend's contribution is visible: Cherry listens and changes viewpoint, Benny finds the opening from the hill, and Berry repurposes the tower into a walkway.

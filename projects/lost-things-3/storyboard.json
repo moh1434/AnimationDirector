@@ -1,0 +1,1965 @@
+{
+  "version": 1,
+  "title": "My video",
+  "language": "en",
+  "fps": 30,
+  "duration": 52.6,
+  "cast": {
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    },
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "cherry": {
+      "preset": "cherry",
+      "name": "Cherry"
+    }
+  },
+  "directedBy": "claude",
+  "scenes": [
+    {
+      "id": "snail-and-star",
+      "start": 0,
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.4,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "shrug",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.82,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "explain",
+          "expression": "confused",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.4,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "star_ring",
+          "x": 0.68,
+          "y": 0.43,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "hill",
+          "x": 0.1,
+          "y": 0.86,
+          "size": 1.05,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.5
+        },
+        {
+          "name": "pond",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.9,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.88,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.818125,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "snail",
+          "x": 0.6,
+          "y": 0.915,
+          "size": 0.115,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "move": [
+            {
+              "at": "clip:1",
+              "until": "clip:4:end",
+              "x": 0.66,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "name": "star_pal_sad",
+          "x": 0.74,
+          "y": 0.915,
+          "size": 0.12,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.06
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "clip:2",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.4,
+              "y": 0.82
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:3",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.7,
+              "y": 0.82
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:4",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:1",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "confused"
+        },
+        {
+          "at": "clip:2",
+          "who": "cherry",
+          "pose": "shrug",
+          "expression": "thinking"
+        },
+        {
+          "at": "clip:3",
+          "who": "berry",
+          "pose": "point",
+          "expression": "thinking"
+        },
+        {
+          "at": "clip:4",
+          "who": "benny",
+          "pose": "point",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "id": "look-along-the-water",
+      "start": "clip:5",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#1b2652",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "surprised",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.4,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "sit",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 6
+        },
+        {
+          "who": "benny",
+          "x": 0.82,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.4,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "star_ring",
+          "x": 0.68,
+          "y": 0.43,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "hill",
+          "x": 0.1,
+          "y": 0.86,
+          "size": 1.05,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.5
+        },
+        {
+          "name": "pond",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.9,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.88,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.818125,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "moon_road",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.75,
+          "at": "clip:5+0.6",
+          "anchor": "bottom",
+          "enter": "fade",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "snail",
+          "x": 0.6,
+          "y": 0.915,
+          "size": 0.115,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "star_pal_sad",
+          "x": 0.74,
+          "y": 0.915,
+          "size": 0.12,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.02,
+          1.05
+        ],
+        "focus": {
+          "x": 0.55,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "clip:6",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.35,
+              "y": 0.82
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:7",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.7,
+              "y": 0.82
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:5",
+          "who": "cherry",
+          "pose": "sit",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:6",
+          "who": "berry",
+          "pose": "point",
+          "expression": "surprised"
+        },
+        {
+          "at": "clip:7",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "confused"
+        }
+      ]
+    },
+    {
+      "id": "fading-road",
+      "start": "clip:8",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#2a3a70",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.4,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.82,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "thinking",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.4,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "star_ring",
+          "x": 0.68,
+          "y": 0.43,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "hill",
+          "x": 0.1,
+          "y": 0.86,
+          "size": 1.05,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.5
+        },
+        {
+          "name": "pond",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.9,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.88,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.818125,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "moon_road",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.75,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2,
+          "out": "clip:8+0.9"
+        },
+        {
+          "name": "moon_road_faded",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.75,
+          "at": "clip:8+0.9",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "sunbeam",
+          "x": 0.78,
+          "y": 0.5,
+          "size": 0.4,
+          "at": "clip:8",
+          "anchor": "center",
+          "enter": "fade",
+          "motion": "none",
+          "zIndex": 4
+        },
+        {
+          "name": "reeds",
+          "x": 0.5,
+          "y": 0.92,
+          "size": 0.3,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "reeds",
+          "x": 0.62,
+          "y": 0.92,
+          "size": 0.3,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "reeds",
+          "x": 0.74,
+          "y": 0.92,
+          "size": 0.3,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "snail",
+          "x": 0.6,
+          "y": 0.915,
+          "size": 0.115,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "star_pal_sad",
+          "x": 0.34,
+          "y": 0.915,
+          "size": 0.12,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.02,
+          1.05
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "clip:9",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.35,
+              "y": 0.82
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:10",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.6,
+              "y": 0.82
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:8",
+          "who": "berry",
+          "pose": "point",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:9",
+          "who": "berry",
+          "pose": "cheer",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:10",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "worried"
+        }
+      ]
+    },
+    {
+      "id": "beside-the-flat-stone",
+      "start": "clip:11",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#2a3a70",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.4,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "surprised",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.82,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point",
+          "expression": "excited",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.4,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "star_ring",
+          "x": 0.68,
+          "y": 0.43,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "hill",
+          "x": 0.1,
+          "y": 0.86,
+          "size": 1.05,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.5
+        },
+        {
+          "name": "pond",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.9,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.88,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.818125,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "moon_road_faded",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.75,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "sunbeam",
+          "x": 0.78,
+          "y": 0.5,
+          "size": 0.4,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4
+        },
+        {
+          "name": "reeds",
+          "x": 0.5,
+          "y": 0.92,
+          "size": 0.3,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "reeds",
+          "x": 0.8,
+          "y": 0.92,
+          "size": 0.3,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "flat_stone",
+          "x": 0.7,
+          "y": 0.9,
+          "size": 0.24,
+          "at": "clip:11+0.4",
+          "anchor": "bottom",
+          "enter": "pop",
+          "motion": "none",
+          "zIndex": 2.5
+        },
+        {
+          "name": "snail",
+          "x": 0.6,
+          "y": 0.915,
+          "size": 0.115,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "star_pal_sad",
+          "x": 0.34,
+          "y": 0.915,
+          "size": 0.12,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.02,
+          1.05
+        ],
+        "focus": {
+          "x": 0.55,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "clip:12",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.4,
+              "y": 0.82
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:13",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.7,
+              "y": 0.82
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:11",
+          "who": "benny",
+          "pose": "point",
+          "expression": "excited"
+        },
+        {
+          "at": "clip:12",
+          "who": "berry",
+          "pose": "cheer",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:13",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "smug"
+        }
+      ]
+    },
+    {
+      "id": "the-walkway",
+      "start": "clip:14",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#33437a",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "present",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.34,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point_down",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 6
+        },
+        {
+          "who": "benny",
+          "x": 0.82,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.4,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "star_ring",
+          "x": 0.68,
+          "y": 0.43,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "hill",
+          "x": 0.1,
+          "y": 0.86,
+          "size": 1.05,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.5
+        },
+        {
+          "name": "pond",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.9,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "moon_road_faded",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.75,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "sunbeam",
+          "x": 0.78,
+          "y": 0.5,
+          "size": 0.4,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4
+        },
+        {
+          "name": "reeds",
+          "x": 0.82,
+          "y": 0.92,
+          "size": 0.3,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "flat_stone",
+          "x": 0.7,
+          "y": 0.9,
+          "size": 0.24,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2.5
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.88,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4,
+          "move": [
+            {
+              "at": "clip:14",
+              "duration": 1,
+              "x": 0.5,
+              "y": 0.915,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "name": "crate",
+          "x": 0.07,
+          "y": 0.818125,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4,
+          "move": [
+            {
+              "at": "clip:14+0.3",
+              "duration": 1,
+              "x": 0.64,
+              "y": 0.915,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "name": "snail",
+          "x": 0.34,
+          "y": 0.915,
+          "size": 0.115,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "move": [
+            {
+              "at": "clip:15+0.5",
+              "duration": 1.6,
+              "x": 0.57,
+              "y": 0.853,
+              "ease": "sine.inOut"
+            },
+            {
+              "at": "clip:16",
+              "duration": 1,
+              "x": 0.7,
+              "y": 0.875,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "name": "star_pal_sad",
+          "x": 0.3,
+          "y": 0.915,
+          "size": 0.12,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "move": [
+            {
+              "at": "clip:16",
+              "duration": 1.8,
+              "x": 0.6,
+              "y": 0.853,
+              "ease": "sine.inOut"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.02,
+          1.05
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "clip:15",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            },
+            "duration": 0.5
+          },
+          {
+            "at": "clip:16",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.65,
+              "y": 0.82
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:14",
+          "who": "berry",
+          "pose": "present",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:15",
+          "who": "cherry",
+          "pose": "point_down",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:16",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "worried"
+        }
+      ]
+    },
+    {
+      "id": "the-way-home",
+      "start": "clip:17",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#33437a",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.4,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "point",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 6
+        },
+        {
+          "who": "benny",
+          "x": 0.82,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "horizon_glow",
+          "x": 0.8,
+          "y": 0.84,
+          "size": 1.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.2
+        },
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.4,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "star_ring",
+          "x": 0.68,
+          "y": 0.43,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "hill",
+          "x": 0.1,
+          "y": 0.86,
+          "size": 1.05,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.5
+        },
+        {
+          "name": "pond",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.9,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "moon_road",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.75,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "flat_stone",
+          "x": 0.7,
+          "y": 0.9,
+          "size": 0.24,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2.5
+        },
+        {
+          "name": "crate",
+          "x": 0.5,
+          "y": 0.915,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "crate",
+          "x": 0.64,
+          "y": 0.915,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "snail",
+          "x": 0.66,
+          "y": 0.875,
+          "size": 0.115,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "star_pal_happy",
+          "x": 0.74,
+          "y": 0.887,
+          "size": 0.12,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.02,
+          1.05
+        ],
+        "focus": {
+          "x": 0.55,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "clip:18",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.7,
+              "y": 0.82
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:17",
+          "who": "cherry",
+          "pose": "point",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:18",
+          "who": "berry",
+          "pose": "wave",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "it-made-it",
+      "start": "clip:19",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#33437a",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "cheer",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.4,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 6
+        },
+        {
+          "who": "benny",
+          "x": 0.82,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "cheer",
+          "expression": "excited",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "horizon_glow",
+          "x": 0.8,
+          "y": 0.84,
+          "size": 1.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.2
+        },
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.4,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "star_ring",
+          "x": 0.68,
+          "y": 0.43,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1,
+          "out": "clip:19+1.6"
+        },
+        {
+          "name": "star_ring_full",
+          "x": 0.68,
+          "y": 0.43,
+          "size": 0.2,
+          "at": "clip:19+1.6",
+          "anchor": "center",
+          "enter": "pop",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "hill",
+          "x": 0.1,
+          "y": 0.86,
+          "size": 1.05,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.5
+        },
+        {
+          "name": "pond",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.9,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "moon_road",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.75,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "flat_stone",
+          "x": 0.7,
+          "y": 0.9,
+          "size": 0.24,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2.5
+        },
+        {
+          "name": "crate",
+          "x": 0.5,
+          "y": 0.915,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "crate",
+          "x": 0.64,
+          "y": 0.915,
+          "size": 0.2,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "snail",
+          "x": 0.66,
+          "y": 0.875,
+          "size": 0.115,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "star_pal_up",
+          "x": 0.74,
+          "y": 0.887,
+          "size": 0.12,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "out": "clip:19+1.6",
+          "move": [
+            {
+              "at": "clip:19",
+              "duration": 1,
+              "x": 0.69,
+              "y": 0.58,
+              "ease": "sine.inOut"
+            },
+            {
+              "at": "clip:19+1.0",
+              "duration": 0.6,
+              "x": 0.729,
+              "y": 0.425,
+              "ease": "sine.inOut"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.06
+        ],
+        "focus": {
+          "x": 0.6,
+          "y": 0.6
+        },
+        "moves": [
+          {
+            "at": "clip:20",
+            "zoom": 1.06,
+            "focus": {
+              "x": 0.5,
+              "y": 0.7
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:19",
+          "who": "benny",
+          "pose": "cheer",
+          "expression": "excited"
+        },
+        {
+          "at": "clip:20",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "proud"
+        }
+      ]
+    },
+    {
+      "id": "same-time-tomorrow",
+      "start": "clip:21",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "forest",
+        "color": "#33437a",
+        "color2": "#1f3f35"
+      },
+      "light": "night",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.2,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.45,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 6
+        },
+        {
+          "who": "benny",
+          "x": 0.82,
+          "y": 0.88,
+          "size": 0.46,
+          "pose": "shrug",
+          "expression": "smug",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "horizon_glow",
+          "x": 0.8,
+          "y": 0.84,
+          "size": 1.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0.2
+        },
+        {
+          "name": "moon",
+          "x": 0.86,
+          "y": 0.4,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 0
+        },
+        {
+          "name": "star_ring_full",
+          "x": 0.32,
+          "y": 0.4,
+          "size": 0.22,
+          "at": 0,
+          "anchor": "center",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "old_tree",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 1
+        },
+        {
+          "name": "tiny_door_open",
+          "x": 0.62,
+          "y": 0.86,
+          "size": 0.85,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 2
+        },
+        {
+          "name": "snail",
+          "x": 0.5,
+          "y": 0.915,
+          "size": 0.115,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "out": "clip:21+2.0",
+          "move": [
+            {
+              "at": "clip:21+0.4",
+              "duration": 1.5,
+              "x": 0.62,
+              "y": 0.9,
+              "ease": "sine.inOut"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.02,
+          1.05
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "clip:22",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.6,
+              "y": 0.82
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "at": "clip:21",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:22",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "smug"
+        }
+      ]
+    }
+  ],
+  "dialogue": [
+    {
+      "clip": 1,
+      "who": "benny",
+      "start": 0.25,
+      "end": 2.34,
+      "text": "How can a snail rescue a star?"
+    },
+    {
+      "clip": 2,
+      "who": "cherry",
+      "start": 2.59,
+      "end": 5.75,
+      "text": "We haven't managed. I'm open to suggestions."
+    },
+    {
+      "clip": 3,
+      "who": "berry",
+      "start": 6,
+      "end": 7.4,
+      "text": "Is that the one from the tree?"
+    },
+    {
+      "clip": 4,
+      "who": "benny",
+      "start": 7.65,
+      "end": 8.98,
+      "text": "The one I stepped over."
+    },
+    {
+      "clip": 5,
+      "who": "cherry",
+      "start": 9.23,
+      "end": 11.690000000000001,
+      "text": "Get down here. Look along the water."
+    },
+    {
+      "clip": 6,
+      "who": "berry",
+      "start": 11.940000000000001,
+      "end": 13.690000000000001,
+      "text": "There was a road here the whole time?"
+    },
+    {
+      "clip": 7,
+      "who": "benny",
+      "start": 13.940000000000001,
+      "end": 15.180000000000001,
+      "text": "We were looking over it."
+    },
+    {
+      "clip": 8,
+      "who": "cherry",
+      "start": 15.430000000000001,
+      "end": 17.85,
+      "text": "It's disappearing where the sunlight touches it."
+    },
+    {
+      "clip": 9,
+      "who": "berry",
+      "start": 18.1,
+      "end": 19.43,
+      "text": "Then we need to move."
+    },
+    {
+      "clip": 10,
+      "who": "benny",
+      "start": 19.68,
+      "end": 22.52,
+      "text": "The reeds block this end. Where does it start?"
+    },
+    {
+      "clip": 11,
+      "who": "benny",
+      "start": 22.72,
+      "end": 25.169999999999998,
+      "text": "There! Beside that flat stone."
+    },
+    {
+      "clip": 12,
+      "who": "berry",
+      "start": 25.419999999999998,
+      "end": 27.229999999999997,
+      "text": "Your hill finally has a job."
+    },
+    {
+      "clip": 13,
+      "who": "benny",
+      "start": 27.479999999999997,
+      "end": 30.639999999999997,
+      "text": "Excellent views. Terrible launching facilities."
+    },
+    {
+      "clip": 14,
+      "who": "berry",
+      "start": 30.889999999999997,
+      "end": 32.76,
+      "text": "The tower works better lying down."
+    },
+    {
+      "clip": 15,
+      "who": "cherry",
+      "start": 33.01,
+      "end": 35.9,
+      "text": "Hold it steady. Our guide's coming across."
+    },
+    {
+      "clip": 16,
+      "who": "benny",
+      "start": 36.15,
+      "end": 39.379999999999995,
+      "text": "No rush, little one. Except... quite a lot of rush."
+    },
+    {
+      "clip": 17,
+      "who": "cherry",
+      "start": 39.629999999999995,
+      "end": 42.55,
+      "text": "There's your way home. Right where we weren't looking."
+    },
+    {
+      "clip": 18,
+      "who": "berry",
+      "start": 42.8,
+      "end": 44.94,
+      "text": "Go on. We'll watch you get there."
+    },
+    {
+      "clip": 19,
+      "who": "benny",
+      "start": 45.19,
+      "end": 45.949999999999996,
+      "text": "It made it."
+    },
+    {
+      "clip": 20,
+      "who": "berry",
+      "start": 46.199999999999996,
+      "end": 49.08,
+      "text": "All that work. We never asked our guide's name."
+    },
+    {
+      "clip": 21,
+      "who": "cherry",
+      "start": 49.33,
+      "end": 50.629999999999995,
+      "text": "Same time tomorrow?"
+    },
+    {
+      "clip": 22,
+      "who": "benny",
+      "start": 50.879999999999995,
+      "end": 52.599999999999994,
+      "text": "Let's just lose a sock next time."
+    }
+  ],
+  "inputsHash": "1fee25bf9178",
+  "captionsByFormat": {
+    "youtube": false,
+    "shorts": true,
+    "square": true
+  },
+  "endHold": 1.6,
+  "sfxDensity": "sparse"
+}

@@ -1,0 +1,103 @@
+{
+  "language": "en",
+  "takes": 1,
+  "voices": {
+    "berry": {
+      "library": "berry"
+    },
+    "benny": {
+      "library": "benny"
+    }
+  },
+  "lines": [
+    {
+      "who": "benny",
+      "text": "These cookies are finally Benny-proof."
+    },
+    {
+      "who": "benny",
+      "text": "They're for our big picnic. I'm protecting them until tomorrow."
+    },
+    {
+      "who": "berry",
+      "text": "Where's the key?"
+    },
+    {
+      "who": "benny",
+      "text": "My pocket. For emergencies."
+    },
+    {
+      "who": "berry",
+      "text": "Such as?"
+    },
+    {
+      "who": "benny",
+      "text": "Finding out whether the lock works."
+    },
+    {
+      "who": "berry",
+      "text": "You've already opened it."
+    },
+    {
+      "who": "benny",
+      "text": "Security testing. I found a serious weakness."
+    },
+    {
+      "who": "berry",
+      "text": "The pocket?"
+    },
+    {
+      "who": "benny",
+      "text": "The pocket."
+    },
+    {
+      "who": "benny",
+      "text": "There. Impossible to reach."
+    },
+    {
+      "who": "berry",
+      "text": "And the stool?"
+    },
+    {
+      "who": "benny",
+      "text": "Unrelated furniture."
+    },
+    {
+      "who": "berry",
+      "text": "How's the security business?"
+    },
+    {
+      "who": "benny",
+      "text": "Constantly evolving. Unfortunately, so is the criminal."
+    },
+    {
+      "who": "benny",
+      "text": "You keep this. Whatever I say, don't give it back."
+    },
+    {
+      "who": "berry",
+      "text": "Finally. How many cookies did we save?"
+    },
+    {
+      "who": "benny",
+      "text": "Let me check."
+    },
+    {
+      "who": "berry",
+      "text": "I'll check."
+    },
+    {
+      "who": "berry",
+      "text": "Benny.",
+      "say": "Benny..."
+    },
+    {
+      "who": "benny",
+      "text": "I tested it after every improvement."
+    },
+    {
+      "who": "berry",
+      "text": "You ate the entire security budget."
+    }
+  ]
+}

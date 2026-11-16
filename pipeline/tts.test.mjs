@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, writeFileSync, readFileSync, existsSync, readdirSync, copyFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, basename } from "node:path";
-import { alignLines, keepsRecordings, makeReference, makeTakes, parseLines, parsePicks, pickTakes, readPcm, readVoicePlan, splitTake, takeChunks, takeCommand, takeRequests, settingsProblems, ttsSettings, DESIGN_TEXT } from "./tts.mjs";
+import { alignLines, keepsRecordings, makeReference, makeTakes, parseLines, parsePicks, pickTakes, readPcm, readVoicePlan, splitTake, digitalGaps, takeChunks, takeCommand, takeRequests, settingsProblems, ttsSettings, DESIGN_TEXT } from "./tts.mjs";
 import { mkdirSync } from "node:fs";
 import { pcmWav } from "./dialogue.mjs";
 
@@ -376,6 +376,9 @@ test("takeChunks never splits a line and keeps a designed take whole", () => {
   const lines = ["One.", "Two two.", "Three three three."].map((text, i) => ({ text, index: i }));
   assert.deepEqual(takeChunks({ description: "x" }, lines), ["One.\nTwo two.\nThree three three."]);
   assert.deepEqual(takeChunks({ reference: "r.wav", referenceText: "r" }, lines), ["One. Two two. Three three three."]);
+  // chunkPerLine: every line its own generation (a real pause between lines to cut at); a designed voice ignores it
+  assert.deepEqual(takeChunks({ reference: "r.wav", referenceText: "r", chunkPerLine: true }, lines), ["One.", "Two two.", "Three three three."]);
+  assert.deepEqual(takeChunks({ description: "x", chunkPerLine: true }, lines), ["One.\nTwo two.\nThree three three."]);
 });
 
 test("voice.json problems are named, and nothing silently replaces it", () => {
@@ -474,4 +477,18 @@ test("each kind of take checks the weights it needs before anything runs", () =>
   assert.deepEqual(settingsProblems(s, ["qwen3:design"]), []);
   assert.match(settingsProblems(s, ["qwen3:clone"]).join("\n"), /has no weights-base\/ folder \(needed to clone with Qwen3-TTS\)/);
   assert.match(settingsProblems({ ...SETTINGS, modeErrors: {} }, ["qwen3"]).join(""), /^$/);
+});
+
+test("a take made one line per generation is cut exactly at the digital silence between its lines", () => {
+  // three lines of tone separated by exact zeros (what the worker inserts); a 0.1 s dip inside line 1 is not a gap
+  const spans = [[0, 1.0], [1.35, 2.2], [2.55, 3.4]];
+  const pcm = tones(spans, 3.4);
+  for (let k = Math.round(0.5 * RATE); k < Math.round(0.6 * RATE); k++) pcm[k] = 0;
+  const gaps = digitalGaps(pcm);
+  assert.equal(gaps.length, 2, JSON.stringify(gaps));
+  assert.ok(Math.abs(gaps[0].start - 1.0) < 0.01 && Math.abs(gaps[1].start - 2.2) < 0.01, JSON.stringify(gaps));
+  const lines = [{ text: "one two" }, { text: "three" }, { text: "four five" }];
+  const r = splitTake(pcm, lines, [], gaps.map((g) => (g.start + g.end) / 2));
+  assert.equal(r.clips.length, 3);
+  assert.ok(r.clips[0].end <= 1.0 + 0.18 && r.clips[1].start >= 1.0 && r.clips[1].end <= 2.2 + 0.18 && r.clips[2].start >= 2.2, JSON.stringify(r.clips));
 });

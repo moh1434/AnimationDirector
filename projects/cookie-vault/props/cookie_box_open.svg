@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- the same tin, lid up behind it, cookies inside -->
+  <g stroke="#1d1b20" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M30 104 L14 22 H186 L170 104Z" fill="#ffc83d"/>
+    <path d="M34 36 H100" fill="none" stroke="#fff0b3" stroke-width="6"/>
+    <rect x="18" y="108" width="164" height="88" rx="10" fill="#e53950"/>
+    <path d="M30 120 V180" fill="none" stroke="#ff8fa0" stroke-width="6"/>
+    <path d="M22 108 L36 90 H164 L178 108Z" fill="#f6e3b4"/>
+    <g fill="#e0a45a">
+      <circle cx="62" cy="96" r="22"/><circle cx="138" cy="96" r="22"/><circle cx="100" cy="88" r="24"/>
+    </g>
+    <g fill="#6b3f2a" stroke="none">
+      <ellipse cx="56" cy="90" rx="4.5" ry="3.5"/><ellipse cx="70" cy="101" rx="4" ry="3"/>
+      <ellipse cx="132" cy="90" rx="4.5" ry="3.5"/><ellipse cx="146" cy="102" rx="4" ry="3"/>
+      <ellipse cx="94" cy="80" rx="4.5" ry="3.5"/><ellipse cx="108" cy="94" rx="4" ry="3"/>
+    </g>
+    <path d="M18 112 H182" fill="none" stroke-width="5"/>
+    <circle cx="146" cy="160" r="19" fill="#e0a45a" stroke-width="5"/>
+    <g fill="#6b3f2a" stroke="none"><ellipse cx="140" cy="154" rx="4" ry="3.5"/><ellipse cx="152" cy="164" rx="4" ry="3.5"/><ellipse cx="141" cy="168" rx="3" ry="3"/></g>
+  </g>
+</svg>
