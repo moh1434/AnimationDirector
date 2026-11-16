@@ -1,0 +1,1036 @@
+{
+  "version": 1,
+  "title": "الورقة التي غشّت",
+  "language": "ar",
+  "fps": 30,
+  "duration": 53.795,
+  "cast": {
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    },
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    }
+  },
+  "directedBy": "Arabic adaptation of the-paper-that-cheated",
+  "scenes": [
+    {
+      "id": "equal-height-challenge",
+      "start": 0,
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "present",
+          "expression": "proud",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "think",
+          "expression": "thinking",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-book",
+          "x": 0.28,
+          "y": 0.365,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "race-paper",
+          "x": 0.72,
+          "y": 0.356,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "drop-floor",
+          "x": 0.5,
+          "y": 0.55,
+          "size": 0.82,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.025
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.6
+        },
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:2",
+          "who": "berry",
+          "pose": "think",
+          "expression": "confused",
+          "emote": "question"
+        },
+        {
+          "at": "clip:3",
+          "who": "benny",
+          "pose": "point_up",
+          "expression": "proud"
+        }
+      ],
+      "texts": [
+        {
+          "text": "الارتفاع نفسه",
+          "style": "label",
+          "x": 0.5,
+          "y": 0.285,
+          "at": 0.15,
+          "out": "clip:3:end"
+        }
+      ]
+    },
+    {
+      "id": "first-race",
+      "start": "clip:4",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "point_up",
+          "expression": "smug",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "idle",
+          "expression": "thinking",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-book",
+          "x": 0.28,
+          "y": 0.365,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "move": [
+            {
+              "at": 0.12,
+              "duration": 0.65,
+              "x": 0.28,
+              "y": 0.531,
+              "ease": "power2.in"
+            }
+          ]
+        },
+        {
+          "name": "race-paper",
+          "x": 0.72,
+          "y": 0.356,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "move": [
+            {
+              "at": 0.12,
+              "duration": 0.36,
+              "x": 0.66,
+              "y": 0.395,
+              "ease": "sine.inOut",
+              "rotate": -9
+            },
+            {
+              "at": 0.48,
+              "duration": 0.4,
+              "x": 0.75,
+              "y": 0.428,
+              "ease": "sine.inOut",
+              "rotate": 10
+            },
+            {
+              "at": 0.88,
+              "duration": 0.43,
+              "x": 0.68,
+              "y": 0.47,
+              "ease": "sine.inOut",
+              "rotate": -8
+            },
+            {
+              "at": 1.31,
+              "duration": 0.48,
+              "x": 0.72,
+              "y": 0.547,
+              "ease": "sine.inOut",
+              "rotate": 0
+            }
+          ]
+        },
+        {
+          "name": "drop-floor",
+          "x": 0.5,
+          "y": 0.55,
+          "size": 0.82,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:4",
+          "who": "benny",
+          "pose": "point_up",
+          "expression": "smug"
+        },
+        {
+          "at": 1.8,
+          "who": "berry",
+          "pose": "present",
+          "expression": "happy"
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.77,
+          "name": "thud"
+        }
+      ]
+    },
+    {
+      "id": "same-objects-new-test",
+      "start": "clip:5",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "cross",
+          "expression": "smug",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "present",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-book",
+          "x": 0.28,
+          "y": 0.531,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "move": [
+            {
+              "at": "clip:5+1.2",
+              "duration": 0.8,
+              "x": 0.5,
+              "y": 0.365,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "name": "race-paper",
+          "x": 0.72,
+          "y": 0.547,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "move": [
+            {
+              "at": "clip:5+0.1",
+              "duration": 0.65,
+              "x": 0.72,
+              "y": 0.33,
+              "ease": "sine.inOut",
+              "arc": 0.025
+            },
+            {
+              "at": "clip:6",
+              "duration": 0.8,
+              "x": 0.5,
+              "y": 0.3453,
+              "ease": "sine.inOut"
+            }
+          ]
+        },
+        {
+          "name": "drop-floor",
+          "x": 0.5,
+          "y": 0.55,
+          "size": 0.82,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:6",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:6",
+          "who": "berry",
+          "pose": "point_up",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "public-transport",
+      "start": "clip:7",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "shrug",
+          "expression": "laughing",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "present",
+          "expression": "determined",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-book",
+          "x": 0.5,
+          "y": 0.365,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "race-paper",
+          "x": 0.5,
+          "y": 0.3453,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "drop-floor",
+          "x": 0.5,
+          "y": 0.55,
+          "size": 0.82,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.025,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.6
+        },
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:8",
+          "who": "berry",
+          "pose": "point_up",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:8+0.8",
+          "who": "benny",
+          "pose": "think",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "no-glue-no-tricks",
+      "start": "clip:9",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "point_up",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "present",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-book",
+          "x": 0.5,
+          "y": 0.365,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "race-paper",
+          "x": 0.5,
+          "y": 0.3453,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "drop-floor",
+          "x": 0.5,
+          "y": 0.55,
+          "size": 0.82,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:10",
+          "who": "berry",
+          "pose": "present",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:10+1.4",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "second-race",
+      "start": "clip:10:end-0.06",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "idle",
+          "expression": "surprised",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-book",
+          "x": 0.5,
+          "y": 0.365,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "move": [
+            {
+              "at": 0.12,
+              "duration": 0.65,
+              "x": 0.5,
+              "y": 0.531,
+              "ease": "power2.in"
+            }
+          ]
+        },
+        {
+          "name": "race-paper",
+          "x": 0.5,
+          "y": 0.3453,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "move": [
+            {
+              "at": 0.12,
+              "duration": 0.65,
+              "x": 0.5,
+              "y": 0.5113,
+              "ease": "power2.in"
+            }
+          ]
+        },
+        {
+          "name": "drop-floor",
+          "x": 0.5,
+          "y": 0.55,
+          "size": 0.82,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:11",
+          "who": "benny",
+          "pose": "celebrate",
+          "expression": "surprised",
+          "emote": "exclaim"
+        },
+        {
+          "at": "clip:11",
+          "who": "berry",
+          "pose": "hips",
+          "expression": "proud"
+        }
+      ],
+      "sfx": [
+        {
+          "at": 0.77,
+          "name": "thud"
+        }
+      ]
+    },
+    {
+      "id": "air-against-loose-paper",
+      "start": "clip:12",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "think",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "explain",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-paper",
+          "x": 0.5,
+          "y": 0.395,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "move": [
+            {
+              "at": 0.25,
+              "duration": 0.6,
+              "x": 0.46,
+              "y": 0.415,
+              "ease": "sine.inOut",
+              "rotate": -6
+            },
+            {
+              "at": 0.9,
+              "duration": 0.6,
+              "x": 0.54,
+              "y": 0.425,
+              "ease": "sine.inOut",
+              "rotate": 6
+            },
+            {
+              "at": 1.6,
+              "duration": 0.55,
+              "x": 0.5,
+              "y": 0.435,
+              "ease": "sine.inOut",
+              "rotate": 0
+            }
+          ]
+        },
+        {
+          "name": "air-resistance",
+          "x": 0.5,
+          "y": 0.495,
+          "size": 0.25,
+          "at": "clip:12",
+          "enter": "grow",
+          "motion": "none",
+          "face": false
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "drift": false
+      },
+      "texts": [
+        {
+          "text": "مقاومة الهواء",
+          "style": "label",
+          "x": 0.5,
+          "y": 0.285,
+          "at": "clip:12"
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:13",
+          "who": "benny",
+          "pose": "shrug",
+          "expression": "confused"
+        }
+      ]
+    },
+    {
+      "id": "book-shields-paper",
+      "start": "clip:14",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "think",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "point_up",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-book",
+          "x": 0.5,
+          "y": 0.416,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "race-paper",
+          "x": 0.5,
+          "y": 0.3963,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "air-resistance",
+          "x": 0.5,
+          "y": 0.5,
+          "size": 0.25,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1
+        ],
+        "drift": false
+      },
+      "texts": [
+        {
+          "text": "محمية",
+          "style": "label",
+          "x": 0.5,
+          "y": 0.285,
+          "at": "clip:14+0.5"
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:14+0.5",
+          "who": "berry",
+          "pose": "point_up",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:14+2",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "surprised"
+        }
+      ]
+    },
+    {
+      "id": "weight-wasnt-everything",
+      "start": "clip:15",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "think",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "race-book",
+          "x": 0.5,
+          "y": 0.416,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "race-paper",
+          "x": 0.5,
+          "y": 0.3963,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.04
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.76
+        },
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:16",
+          "who": "berry",
+          "pose": "point_up",
+          "expression": "happy",
+          "emote": "idea"
+        },
+        {
+          "at": "clip:16",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "homework-lift",
+      "start": "clip:17",
+      "layout": "story",
+      "bg": {
+        "type": "classroom"
+      },
+      "light": "warm",
+      "transition": "cut",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.26,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "present",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none"
+        },
+        {
+          "who": "berry",
+          "x": 0.73,
+          "y": 0.89,
+          "size": 0.52,
+          "pose": "hips",
+          "expression": "laughing",
+          "facing": "left",
+          "enter": "none"
+        }
+      ],
+      "props": [
+        {
+          "name": "backpack",
+          "x": 0.47,
+          "y": 0.8,
+          "size": 0.24,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false,
+          "zIndex": 4
+        },
+        {
+          "name": "race-book",
+          "x": 0.5,
+          "y": 0.416,
+          "size": 0.39,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        },
+        {
+          "name": "race-paper",
+          "x": 0.5,
+          "y": 0.3963,
+          "size": 0.29,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": false
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.07
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.76
+        },
+        "drift": false
+      },
+      "actions": [
+        {
+          "at": "clip:17+1.2",
+          "who": "benny",
+          "pose": "point_down",
+          "expression": "happy",
+          "lookAt": {
+            "x": 0.7,
+            "y": 0.8
+          }
+        },
+        {
+          "at": "clip:17+2.2",
+          "who": "berry",
+          "pose": "shrug",
+          "expression": "laughing"
+        }
+      ]
+    }
+  ],
+  "captionsByFormat": {
+    "youtube": false,
+    "shorts": true,
+    "square": true
+  },
+  "endHold": 0.65,
+  "sfxDensity": "sparse",
+  "adaptedFrom": "the-paper-that-cheated"
+}

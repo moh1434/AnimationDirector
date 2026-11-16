@@ -1,0 +1,103 @@
+{
+  "voicesFrom": "tts.json (benny take 1, berry take 1)",
+  "cast": {
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    },
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    }
+  },
+  "clips": [
+    {
+      "who": "benny",
+      "file": "voices/01-benny.wav",
+      "text": "Heavy things always land first. Watch."
+    },
+    {
+      "who": "berry",
+      "file": "voices/02-berry.wav",
+      "text": "Always?"
+    },
+    {
+      "who": "benny",
+      "file": "voices/03-benny.wav",
+      "text": "The book's heavier. Easy victory."
+    },
+    {
+      "who": "benny",
+      "file": "voices/04-benny.wav",
+      "text": "Look at that. The paper's barely trying.",
+      "gap": 0.2
+    },
+    {
+      "who": "berry",
+      "file": "voices/05-berry.wav",
+      "text": "Same paper. Same book. Another race."
+    },
+    {
+      "who": "benny",
+      "file": "voices/06-benny.wav",
+      "text": "You can encourage it. It still won't win."
+    },
+    {
+      "who": "benny",
+      "file": "voices/07-benny.wav",
+      "text": "That's not a race. That's public transport.",
+      "gap": 0.15
+    },
+    {
+      "who": "berry",
+      "file": "voices/08-berry.wav",
+      "text": "If weight alone decides, the book should leave it behind."
+    },
+    {
+      "who": "benny",
+      "file": "voices/09-benny.wav",
+      "text": "Fine. But no glue."
+    },
+    {
+      "who": "berry",
+      "file": "voices/10-berry.wav",
+      "text": "No glue. No tricks. Just watch."
+    },
+    {
+      "who": "benny",
+      "file": "voices/11-benny.wav",
+      "text": "It kept up! You didn't make it heavier.",
+      "gap": 0.8
+    },
+    {
+      "who": "berry",
+      "file": "voices/12-berry.wav",
+      "text": "Air was slowing the loose sheet down."
+    },
+    {
+      "who": "benny",
+      "file": "voices/13-benny.wav",
+      "text": "So what changed?"
+    },
+    {
+      "who": "berry",
+      "file": "voices/14-berry.wav",
+      "text": "The book shields the paper from most of that resistance."
+    },
+    {
+      "who": "benny",
+      "file": "voices/15-benny.wav",
+      "text": "So being light wasn't the whole explanation?"
+    },
+    {
+      "who": "berry",
+      "file": "voices/16-berry.wav",
+      "text": "Exactly."
+    },
+    {
+      "who": "benny",
+      "file": "voices/17-benny.wav",
+      "text": "Can it give my homework a lift, too?"
+    }
+  ]
+}

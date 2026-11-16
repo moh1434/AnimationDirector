@@ -1,0 +1,103 @@
+{
+  "voicesFrom": "tts-ar.json (benny take 1, berry take 1)",
+  "cast": {
+    "benny": {
+      "name": "Benny",
+      "preset": "benny"
+    },
+    "berry": {
+      "name": "Berry",
+      "preset": "berry"
+    }
+  },
+  "clips": [
+    {
+      "who": "benny",
+      "file": "voices-ar/01-benny.wav",
+      "text": "الأشياء الثقيلة دائمًا تسقط أولًا. راقبي."
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/02-berry.wav",
+      "text": "دائمًا؟"
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/03-benny.wav",
+      "text": "الكتاب أثقل. الفوز سهل."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/04-benny.wav",
+      "text": "انظري إليه. الورقة بالكاد تحاول.",
+      "gap": 0.31
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/05-berry.wav",
+      "text": "الورقة نفسها. الكتاب نفسه. سباق آخر."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/06-benny.wav",
+      "text": "يمكنكِ تشجيعها. لكنها لن تفوز."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/07-benny.wav",
+      "text": "هذا ليس سباقًا! الورقة حجزت مقعدًا في الدرجة الأولى!",
+      "gap": 0.25
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/08-berry.wav",
+      "text": "إذا كان الوزن وحده يحدد النتيجة، فمن المفترض أن يتركها الكتاب خلفه."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/09-benny.wav",
+      "text": "حسنًا. لكن من دون غراء."
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/10-berry.wav",
+      "text": "لا غراء. لا حيل. فقط راقب."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/11-benny.wav",
+      "text": "لقد واكبتْه! لم تجعليها أثقل.",
+      "gap": 0.8
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/12-berry.wav",
+      "text": "الهواء كان يبطئ سقوط الورقة وحدها."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/13-benny.wav",
+      "text": "إذن ما الذي تغيّر؟"
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/14-berry.wav",
+      "text": "الكتاب يحمي الورقة من معظم مقاومة الهواء."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/15-benny.wav",
+      "text": "إذن خفة وزنها لم تكن التفسير الكامل؟"
+    },
+    {
+      "who": "berry",
+      "file": "voices-ar/16-berry.wav",
+      "text": "بالضبط."
+    },
+    {
+      "who": "benny",
+      "file": "voices-ar/17-benny.wav",
+      "text": "هل يمكنه توصيل واجبي المدرسي أيضًا؟"
+    }
+  ]
+}

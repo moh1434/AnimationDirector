@@ -1,0 +1,82 @@
+{
+  "language": "en",
+  "takes": 3,
+  "voices": {
+    "benny": {
+      "library": "benny"
+    },
+    "berry": {
+      "library": "berry"
+    }
+  },
+  "lines": [
+    {
+      "who": "benny",
+      "text": "Heavy things always land first. Watch."
+    },
+    {
+      "who": "berry",
+      "text": "Always?"
+    },
+    {
+      "who": "benny",
+      "text": "The book's heavier. Easy victory."
+    },
+    {
+      "who": "benny",
+      "text": "Look at that. The paper's barely trying."
+    },
+    {
+      "who": "berry",
+      "text": "Same paper. Same book. Another race."
+    },
+    {
+      "who": "benny",
+      "text": "You can encourage it. It still won't win."
+    },
+    {
+      "who": "benny",
+      "text": "That's not a race. That's public transport."
+    },
+    {
+      "who": "berry",
+      "text": "If weight alone decides, the book should leave it behind."
+    },
+    {
+      "who": "benny",
+      "text": "Fine. But no glue."
+    },
+    {
+      "who": "berry",
+      "text": "No glue. No tricks. Just watch."
+    },
+    {
+      "who": "benny",
+      "text": "It kept up! You didn't make it heavier."
+    },
+    {
+      "who": "berry",
+      "text": "Air was slowing the loose sheet down."
+    },
+    {
+      "who": "benny",
+      "text": "So what changed?"
+    },
+    {
+      "who": "berry",
+      "text": "The book shields the paper from most of that resistance."
+    },
+    {
+      "who": "benny",
+      "text": "So being light wasn't the whole explanation?"
+    },
+    {
+      "who": "berry",
+      "text": "Exactly."
+    },
+    {
+      "who": "benny",
+      "text": "Can it give my homework a lift, too?"
+    }
+  ]
+}

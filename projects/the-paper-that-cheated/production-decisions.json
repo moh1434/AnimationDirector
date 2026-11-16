@@ -1,0 +1,10 @@
+{
+  "adobeEnhancement": false,
+  "decisionSource": "User: No—keep the audio local (2026-11-16)",
+  "format": "shorts",
+  "voicePicks": {
+    "benny": 1,
+    "berry": 1
+  },
+  "output": "out/the-paper-that-cheated-shorts.mp4"
+}

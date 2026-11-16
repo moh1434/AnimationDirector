@@ -1,0 +1,38 @@
+[
+  {
+    "line": 7,
+    "span": {
+      "start": 9.92,
+      "end": 12.35
+    },
+    "file": "projects/the-paper-that-cheated/voices/07-benny.wav",
+    "verifiedTranscript": "That's not a race, that's public transport."
+  },
+  {
+    "line": 9,
+    "span": {
+      "start": 12.38,
+      "end": 13.915
+    },
+    "file": "projects/the-paper-that-cheated/voices/09-benny.wav",
+    "verifiedTranscript": "Fine, but no glue."
+  },
+  {
+    "line": 12,
+    "span": {
+      "start": 9.55,
+      "end": 11.42
+    },
+    "file": "projects/the-paper-that-cheated/voices/12-berry.wav",
+    "verifiedTranscript": "Air was slowing the loose sheet down,"
+  },
+  {
+    "line": 14,
+    "span": {
+      "start": 11.76,
+      "end": 14.38
+    },
+    "file": "projects/the-paper-that-cheated/voices/14-berry.wav",
+    "verifiedTranscript": "The book shields the paper from most of that resistance."
+  }
+]

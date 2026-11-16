@@ -1,0 +1,11 @@
+{
+  "adobeEnhancement": false,
+  "decisionSource": "User: No—keep Arabic audio local (2026-11-16)",
+  "language": "ar",
+  "format": "shorts",
+  "voicePicks": {
+    "berry": 1,
+    "benny": 1
+  },
+  "output": "out/the-paper-that-cheated-ar-shorts.mp4"
+}
