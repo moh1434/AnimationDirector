@@ -105,15 +105,15 @@ Cutting only removes the silence between lines: speech is never stretched, sped 
 ## Before you start
 
 Read the guide of each engine you use first (`docs/tts/…`). `.env` must name each model's folder (see
-`.env.example`); each folder holds its `.venv` and weights. `pnpm video doctor` checks them:
+`.env.example`); Audar's folder holds its `.venv` and weights; Qwen3-TTS's holds audio.cpp (`audiocpp_cli.exe` and `models/`). `pnpm video doctor` checks them:
 
 ```env
 TTS_AUDAR_DIR="C:/Users/lenovo/tts-new-models/audar-turbo"
 TTS_QWEN3_DIR="C:/Users/lenovo/tts-new-models/qwen3-tts"
 ```
 
-The models run through `uv` (`uv run --no-sync --project <folder> python -I pipeline/tts_workers/…`);
-set `TTS_UV` if `uv` is not on the PATH. whisper.cpp must be on as well (`WHISPER_PATH` and a model for
+Audar runs through `uv` (`uv run --no-sync --project <folder> python -I pipeline/tts_workers/…`);
+set `TTS_UV` if `uv` is not on the PATH. Qwen3-TTS runs through audio.cpp (a Node worker, no Python). whisper.cpp must be on as well (`WHISPER_PATH` and a model for
 the language): it checks every take word by word and gives the times needed to cut it.
 
 ## Steps

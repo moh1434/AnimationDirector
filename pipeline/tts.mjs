@@ -6,10 +6,10 @@
 // dialogue.json + voices/, or voice.wav + script.txt when a single voice speaks everything. Speech is
 // cut at pauses only, never stretched or re-timed: the voice's own pace is the pace of the video.
 //
-// Engines (each runs in its own Python environment, through a worker in pipeline/tts_workers/):
-//   qwen3  Qwen3-TTS 1.7B, English only: clones a reference recording (+ its exact words) with its Base
-//          weights (weights-base/) — the default for English clones (the user's rule: it clones English
-//          better) — and designs a new voice from a description (VoiceDesign weights, weights/; the whole
+// Engines (a worker in pipeline/tts_workers/ runs each: Audar in its own Python environment, Qwen3-TTS through audio.cpp, no Python):
+//   qwen3  Qwen3-TTS 1.7B (GGUF, audio.cpp, CUDA), English only: clones a reference recording (+ its exact words) with its Base
+//          model (models/Qwen3-TTS-12Hz-1.7B-Base-GGUF) — the default for English clones (the user's rule: it clones English
+//          better) — and designs a new voice from a description (VoiceDesign model, models/Qwen3-TTS-12Hz-1.7B-VoiceDesign-GGUF; the whole
 //          take in one generation, because a designed voice changes between generations).
 //   audar  Audar-TTS-V1-Turbo: clones a reference recording (+ its exact words), English and Arabic. The
 //          cloner for Arabic, and for English when a voice asks for it ("engine": "audar").
@@ -30,7 +30,7 @@ const RATE = DIALOGUE_RATE;
 export const AUDAR_TAGS = ["laughs", "curious", "excited", "sighs", "exhales", "mischievously", "whispers", "sarcastic"];
 export const ENGINES = {
   audar: { name: "Audar-TTS Turbo", env: "TTS_AUDAR_DIR", worker: "audar_worker.py", weights: ["weights"], options: ["seed", "temperature", "top_k", "top_p", "repeat_penalty"], defaults: {}, tags: AUDAR_TAGS, languages: ["en", "ar"], design: false, chunkChars: 240 },
-  qwen3: { name: "Qwen3-TTS", env: "TTS_QWEN3_DIR", worker: "qwen3_worker.py", weights: [], modeWeights: { clone: "weights-base", design: "weights" }, options: ["seed", "temperature", "top_k", "top_p", "repeat_penalty"], defaults: {}, tags: [], languages: ["en"], design: true, chunkChars: 400 },
+  qwen3: { name: "Qwen3-TTS", env: "TTS_QWEN3_DIR", worker: "qwen3_cpp_worker.mjs", cpp: "audiocpp_cli.exe", weights: [], modeWeights: { clone: "models/Qwen3-TTS-12Hz-1.7B-Base-GGUF", design: "models/Qwen3-TTS-12Hz-1.7B-VoiceDesign-GGUF" }, options: ["seed", "temperature", "top_k", "top_p", "repeat_penalty"], defaults: {}, tags: [], languages: ["en"], design: true, chunkChars: 400 },
 };
 /** The English sentence a designed reference speaks when Audar must clone a voice made from a description (about 10 s). */
 export const DESIGN_TEXT = "Hello there, it is good to meet you. I have a story to tell today, so sit back, get comfortable, and listen closely, because every word of it matters.";
@@ -72,14 +72,15 @@ export function ttsSettings({ root = ROOT, env = process.env } = {}) {
   const get = (k) => String(env[k] ?? vars[k] ?? "").trim();
   const errors = [], dirs = {}, engineErrors = {}, modeErrors = {};
   const uv = get("TTS_UV") || "uv";
-  if (spawnSync(uv, ["--version"], { encoding: "utf8", windowsHide: true }).status !== 0) errors.push(`uv is not found (${uv}). Install it, or set TTS_UV in .env to uv.exe.`);
+  if (Object.values(ENGINES).some((e) => !e.cpp) && spawnSync(uv, ["--version"], { encoding: "utf8", windowsHide: true }).status !== 0) errors.push(`uv is not found (${uv}). Install it, or set TTS_UV in .env to uv.exe.`);
   for (const [name, e] of Object.entries(ENGINES)) {
     const d = (dirs[name] = get(e.env)), problems = (engineErrors[name] = []);
     if (!d) { problems.push(`${e.env} is not set in .env (the ${e.name} folder). See .env.example.`); continue; }
     if (!existsSync(d)) { problems.push(`${e.env}: no folder at ${d}`); continue; }
-    if (!existsSync(join(d, ".venv"))) problems.push(`${e.env}: ${d} has no .venv (its Python environment)`);
+    if (e.cpp) { if (!existsSync(join(d, e.cpp))) problems.push(`${e.env}: ${d} has no ${e.cpp} (the audio.cpp program)`); }
+    else if (!existsSync(join(d, ".venv"))) problems.push(`${e.env}: ${d} has no .venv (its Python environment)`);
     for (const w of e.weights) if (!existsSync(join(d, w))) problems.push(`${e.env}: ${d} has no ${w}/ folder`);
-    // weights only one kind of take needs (Qwen3-TTS: weights-base/ to clone, weights/ to design)
+    // weights only one kind of take needs (Qwen3-TTS: its Base GGUF package to clone, VoiceDesign to design)
     for (const [mode, w] of Object.entries(e.modeWeights ?? {})) if (!existsSync(join(d, w))) (modeErrors[name] ??= {})[mode] = `${e.env}: ${d} has no ${w}/ folder (needed to ${mode} with ${e.name})`;
   }
   return { uv, dirs, errors, engineErrors, modeErrors };
@@ -464,6 +465,7 @@ export function takeCommand(settings, dir, req, out, { reference, referenceText,
   else Object.assign(job, { mode: "design", description: v.description });
   if (engine === "audar" && job.mode !== "clone") throw new Error(`${req.who}: Audar only clones; it needs a reference (a designed one is made first)`);
   const jobFile = out.replace(/\.wav$/i, "") + ".job.json";
+  if (E.cpp) return { exe: process.execPath, args: [join(WORKERS, E.worker), jobFile], job, jobFile }; // audio.cpp: a Node worker runs the CLI, no Python
   return { exe: settings.uv ?? "uv", args: ["run", "--no-sync", "--project", job.modelDir, "python", "-I", join(WORKERS, E.worker), jobFile], job, jobFile };
 }
 

@@ -59,9 +59,9 @@ test("an English description is designed by Qwen3-TTS: the whole take in one gen
   assert.deepEqual(reqs[0].chunks, ["Hello Ahmed.\nI am fine... thank you!"], "one chunk: a designed voice changes between generations");
   assert.notEqual(reqs[0].key, reqs[1].key);
   const cmd = takeCommand(SETTINGS, dir, reqs[0], join(dir, "out.wav"));
-  assert.deepEqual(cmd.args.slice(0, 6), ["run", "--no-sync", "--project", "C:/models/qwen3-tts", "python", "-I"]);
-  assert.match(cmd.args[6], /qwen3_worker\.py$/);
-  assert.equal(cmd.args[7], cmd.jobFile);
+  assert.equal(cmd.exe, process.execPath, "Qwen3-TTS runs through audio.cpp: a Node worker, no uv or Python");
+  assert.match(cmd.args[0], /qwen3_cpp_worker\.mjs$/);
+  assert.equal(cmd.args[1], cmd.jobFile);
   assert.deepEqual({ mode: cmd.job.mode, description: cmd.job.description, seed: cmd.job.seed }, { mode: "design", description: "A warm young man with a clear voice", seed: 11 });
 });
 
@@ -96,7 +96,7 @@ test("Audar clones a reference in chunks of whole lines; tags and languages are 
   assert.equal(errorsOf({ ...ali, engine: "qwen3" }), "");
   const q = takeCommand(SETTINGS, dir, { who: "ali", engine: "qwen3", voice: { ...ali, engine: "qwen3" }, chunks: ["Hi."], options: { seed: 5, temperature: 0.9, repeat_penalty: 1.1 } }, join(dir, "o.wav"));
   assert.deepEqual([q.job.mode, q.job.referenceText, q.job.seed, q.job.options], ["clone", "Hello there, my friend.", 5, { temperature: 0.9, repeat_penalty: 1.1 }]);
-  assert.match(q.args.at(-2), /qwen3_worker\.py$/);
+  assert.match(q.args.at(-2), /qwen3_cpp_worker\.mjs$/);
   assert.match(errorsOf({ ...ali, engine: "qwen3" }, { language: "ar", lines: [{ who: "ali", text: "مرحبا" }, { who: "ahmed", text: "أهلا" }] }), /Qwen3-TTS does not speak "ar"/);
 });
 
@@ -106,10 +106,10 @@ test("an Arabic description: Qwen3-TTS designs an English reference first, then 
   assert.equal(plan.voices.sara.engine, "audar");
   assert.equal(plan.voices.sara.designWith, "qwen3");
   const runs = [];
-  const run = async (_exe, args) => { const job = jobOf(args); runs.push(`${basename(args[6])}:${job.mode}`); writeFileSync(job.out, wavOf(tones([[0.1, 0.9], [1.3, 2.0]], 2.4))); if (job.mode === "clone") assert.equal(job.referenceText, DESIGN_TEXT); };
+  const run = async (_exe, args) => { const job = jobOf(args); runs.push(`${basename(args.find((a) => /_worker.(py|mjs)$/.test(a)))}:${job.mode}`); writeFileSync(job.out, wavOf(tones([[0.1, 0.9], [1.3, 2.0]], 2.4))); if (job.mode === "clone") assert.equal(job.referenceText, DESIGN_TEXT); };
   const hear = () => [...sayWords("مرحبا يا أحمد.", 0.1, 0.9), ...sayWords("كيف حالك؟", 1.3, 2.0)];
   const r = await makeTakes(dir, { run, hear, settings: SETTINGS, log: () => {} });
-  assert.deepEqual(runs, ["qwen3_worker.py:design", "audar_worker.py:clone", "qwen3_worker.py:design", "audar_worker.py:clone"]);
+  assert.deepEqual(runs, ["qwen3_cpp_worker.mjs:design", "audar_worker.py:clone", "qwen3_cpp_worker.mjs:design", "audar_worker.py:clone"]);
   assert.ok(r.takes.every((t) => t.designedReference && !t.failed));
   assert.deepEqual(r.takes.map((t) => [t.engine, t.design.engine, t.design.settings.seed]), [["audar", "qwen3", 11], ["audar", "qwen3", 22]]);
   assert.equal(r.takes[0].design.description, "A bright, friendly young woman");
@@ -472,10 +472,10 @@ test("the default cloner follows the recording's language; engine problems name 
 
 test("each kind of take checks the weights it needs before anything runs", () => {
   const d = mkdtempSync(join(tmpdir(), "qwen3-"));
-  mkdirSync(join(d, ".venv")); mkdirSync(join(d, "weights"));
+  writeFileSync(join(d, "audiocpp_cli.exe"), ""); mkdirSync(join(d, "models", "Qwen3-TTS-12Hz-1.7B-VoiceDesign-GGUF"), { recursive: true });
   const s = ttsSettings({ root: d, env: { TTS_QWEN3_DIR: d, TTS_AUDAR_DIR: "" } });
   assert.deepEqual(settingsProblems(s, ["qwen3:design"]), []);
-  assert.match(settingsProblems(s, ["qwen3:clone"]).join("\n"), /has no weights-base\/ folder \(needed to clone with Qwen3-TTS\)/);
+  assert.match(settingsProblems(s, ["qwen3:clone"]).join("\n"), /has no models\/Qwen3-TTS-12Hz-1.7B-Base-GGUF\/ folder \(needed to clone with Qwen3-TTS\)/);
   assert.match(settingsProblems({ ...SETTINGS, modeErrors: {} }, ["qwen3"]).join(""), /^$/);
 });
 
