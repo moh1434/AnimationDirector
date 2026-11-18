@@ -9,7 +9,7 @@ import { ROOT, IS_WIN } from "./env.mjs";
 
 const WHISPER_KEYS = ["WHISPER_PATH", "WHISPER_EN_MODEL", "WHISPER_AR_MODEL"];
 /** Every setting .env may contain (the REMOTION_ ones are optional). */
-export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER", "REMOTION_RENDERER", "TTS_AUDAR_DIR", "TTS_QWEN3_DIR", "TTS_UV", "TTS_COOLDOWN_SECONDS", "VIDEO_FPS"];
+export const ENV_KEYS = [...WHISPER_KEYS, "REMOTION_BUNDLER", "REMOTION_RENDERER", "TTS_AUDAR_DIR", "TTS_QWEN3_DIR", "TTS_UV", "CHUNK_COOLDOWN_SEC", "TTS_COOLDOWN_SECONDS", "VIDEO_FPS"];
 /** Frame rate of every video unless its video.json says "fps": VIDEO_FPS in .env. */
 export const DEFAULT_FPS = 30;
 const FPS_CHOICES = [24, 25, 30, 50, 60];
@@ -65,6 +65,10 @@ export function whisperConfig({ root = ROOT, env = process.env } = {}) {
   if (renderer !== undefined && renderer !== "" && !["gpu", "cpu"].includes(String(renderer).trim().toLowerCase())) errors.push(`.env: REMOTION_RENDERER="${renderer}" must be "gpu" or "cpu".`);
   const bundler = get("REMOTION_BUNDLER");
   if (bundler !== undefined && bundler !== "" && !["rspack", "webpack"].includes(String(bundler).trim().toLowerCase())) errors.push(`.env: REMOTION_BUNDLER="${bundler}" must be "rspack" or "webpack".`);
+  for (const k of REST_KEYS) {
+    const v = get(k);
+    if (v !== undefined && v !== "" && parseRest(v) === undefined) warnings.push(`.env: ${k}="${v}" must be a number of seconds from 0 to ${MAX_COOLDOWN_SECONDS} (for example 15). The default of ${DEFAULT_COOLDOWN_SECONDS} s is used.`);
+  }
   const fps = get("VIDEO_FPS");
   if (fps !== undefined && fps !== "" && !FPS_CHOICES.includes(Number(String(fps).trim()))) errors.push(`.env: VIDEO_FPS="${fps}" must be one of ${FPS_CHOICES.join(", ")}.`);
   for (const k of WHISPER_KEYS) if (get(k) === undefined) errors.push(`.env: ${k} is missing. Add it (see .env.example); use ${k}="" to turn it off.`);
@@ -133,6 +137,29 @@ export function rendererName({ root = ROOT, env = process.env } = {}) {
   let v = env.REMOTION_RENDERER;
   if (!v) { const f = join(root, ".env"); if (existsSync(f)) v = parseEnv(readFileSync(f, "utf8")).vars.REMOTION_RENDERER; }
   return String(v ?? "").trim().toLowerCase() === "cpu" ? "cpu" : "gpu";
+}
+
+/** Seconds to rest between voice generations when nothing is set. */
+export const DEFAULT_COOLDOWN_SECONDS = 15;
+/** A longer rest is almost certainly a typo, and it would make the generation's own time limit overflow. */
+export const MAX_COOLDOWN_SECONDS = 600;
+const REST_KEYS = ["CHUNK_COOLDOWN_SEC", "TTS_COOLDOWN_SECONDS"];
+const parseRest = (v) => { const s = String(v ?? "").trim(); const n = Number(s); return s !== "" && Number.isFinite(n) && n >= 0 && n <= MAX_COOLDOWN_SECONDS ? n : undefined; };
+
+/**
+ * Seconds to rest between two voice generations: CHUNK_COOLDOWN_SEC in .env (TTS_COOLDOWN_SECONDS is its old name).
+ * A real environment variable wins over .env; 15 when it is missing or not a number from 0 to 600.
+ * 0 means no rest at all. MODEL_SAFETY.md explains why the default is 15 on this laptop.
+ */
+export function restSeconds({ root = ROOT, env = process.env } = {}) {
+  const fromFile = () => { const f = join(root, ".env"); return existsSync(f) ? parseEnv(readFileSync(f, "utf8")).vars : {}; };
+  let vars;
+  for (const k of REST_KEYS) {
+    const v = env[k] !== undefined && env[k] !== "" ? env[k] : (vars ??= fromFile())[k];
+    const n = parseRest(v);
+    if (n !== undefined) return n;
+  }
+  return DEFAULT_COOLDOWN_SECONDS;
 }
 
 /** Frame rate for videos whose video.json has no "fps": VIDEO_FPS in .env, 30 when it is missing or not a valid choice. */

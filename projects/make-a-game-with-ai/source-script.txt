@@ -1,0 +1,10 @@
+# The user's script, exactly as given (2026-11-18). Spoken by Berry alone.
+Want to create your own game and make money from it? Here's how AI can help you do it!
+
+First, ask ChatGPT to design a 2D game character. Describe its appearance, personality, and abilities.
+
+Next, give your character to Claude and ask it to build a 2D game using Godot. Yes, let AI write the code!
+
+Now play it! Test the gameplay, fix bugs, add levels, improve the graphics, and keep making it more fun.
+
+Finally, publish it on Google Play, let people download it, and turn your little idea into a real game business. Your journey starts today!

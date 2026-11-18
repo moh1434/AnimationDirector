@@ -1,0 +1,7 @@
+{
+  "adobeEnhancement": false,
+  "decisionSource": "User, 2026-11-18: no need to enhance with Adobe",
+  "voicePicks": { "berry": 2 },
+  "voiceTakes": "2 takes of Berry (Qwen3 clone of the library voice); the user picked take 2",
+  "format": "shorts"
+}

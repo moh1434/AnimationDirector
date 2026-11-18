@@ -1,0 +1,6 @@
+# Cut from berry take 1 by voice-pick (see TTS.md). start | end | words
+0.22 | 4.71 | Want to create your own game and make money from it? Here's how AI can help you do it!
+4.94 | 11.70 | First, ask ChatGPT to design a 2D game character. Describe its appearance, personality, and abilities.
+11.84 | 18.75 | Next, give your character to Claude and ask it to build a 2D game using Godot. Yes, let AI write the code!
+19.15 | 26.01 | Now play it! Test the gameplay, fix bugs, add levels, improve the graphics, and keep making it more fun.
+26.39 | 34.27 | Finally, publish it on Google Play, let people download it, and turn your little idea into a real game business. Your journey starts today!

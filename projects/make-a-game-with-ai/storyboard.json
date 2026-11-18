@@ -1,0 +1,866 @@
+{
+  "version": 1,
+  "title": "Make a game with AI",
+  "language": "en",
+  "fps": 30,
+  "duration": 36.1,
+  "cast": {
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "hero": {
+      "preset": "kid",
+      "name": "Hero"
+    }
+  },
+  "directedBy": "claude",
+  "scenes": [
+    {
+      "id": "hook",
+      "start": 0,
+      "layout": "story",
+      "speaker": "berry",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.42,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "hold",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "gamepad"
+        }
+      ],
+      "props": [
+        {
+          "name": "moneybag",
+          "x": 0.74,
+          "y": 0.62,
+          "size": 0.22,
+          "at": "@money",
+          "face": "happy",
+          "motion": "bounce"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.1,
+          1.26
+        ],
+        "focus": {
+          "x": 0.55,
+          "y": 0.78
+        },
+        "punch": [
+          "@money"
+        ]
+      },
+      "actions": [
+        {
+          "at": "@money",
+          "who": "berry",
+          "pose": "present",
+          "expression": "excited",
+          "emote": "sparkle"
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "start": 3.3,
+      "layout": "story",
+      "speaker": "berry",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.3,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "robot",
+          "x": 0.7,
+          "y": 0.6,
+          "size": 0.26,
+          "at": "@AI",
+          "face": "happy",
+          "label": "AI",
+          "motion": "float"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.05,
+          1.18
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.8
+        }
+      },
+      "actions": [
+        {
+          "at": "@AI",
+          "who": "berry",
+          "pose": "point",
+          "expression": "excited"
+        },
+        {
+          "at": "@help",
+          "who": "berry",
+          "pose": "present",
+          "expression": "proud"
+        }
+      ]
+    },
+    {
+      "id": "step-1",
+      "start": 5.66,
+      "layout": "story",
+      "speaker": "berry",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.24,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "talk",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "hero",
+          "x": 0.52,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "left",
+          "zIndex": 5,
+          "at": 3.15,
+          "enter": "pop"
+        }
+      ],
+      "props": [
+        {
+          "name": "laptop",
+          "x": 0.69,
+          "y": 0.7,
+          "size": 0.24,
+          "zIndex": 4,
+          "face": "happy",
+          "motion": "float",
+          "enter": "none"
+        },
+        {
+          "name": "robot",
+          "x": 0.69,
+          "y": 0.4,
+          "size": 0.18,
+          "at": "@ChatGPT",
+          "face": "happy",
+          "label": "ChatGPT",
+          "motion": "float"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.12
+        ],
+        "focus": {
+          "x": 0.52,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "@Describe",
+            "zoom": 1.14,
+            "focus": {
+              "x": 0.45,
+              "y": 0.82
+            },
+            "duration": 0.6
+          }
+        ]
+      },
+      "texts": [
+        {
+          "text": "Step 1",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.34,
+          "at": 0
+        }
+      ],
+      "actions": [
+        {
+          "at": "@ChatGPT",
+          "who": "berry",
+          "pose": "point",
+          "expression": "excited"
+        },
+        {
+          "at": "@design",
+          "who": "berry",
+          "pose": "explain",
+          "expression": "happy"
+        },
+        {
+          "at": "@character",
+          "who": "hero",
+          "pose": "wave",
+          "expression": "excited",
+          "emote": "sparkle"
+        },
+        {
+          "at": "@appearance",
+          "who": "hero",
+          "pose": "present",
+          "look": {
+            "hat": "helmet",
+            "hatColor": "#5b6b3a",
+            "shirtSymbol": "star"
+          }
+        },
+        {
+          "at": "@personality",
+          "who": "hero",
+          "expression": "smug",
+          "pose": "hips"
+        },
+        {
+          "at": "@abilities",
+          "who": "hero",
+          "expression": "determined",
+          "pose": "fist",
+          "emote": "exclaim"
+        }
+      ]
+    },
+    {
+      "id": "step-2",
+      "start": 13.01,
+      "layout": "story",
+      "speaker": "berry",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.24,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "talk",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "hero",
+          "x": 0.5,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "zIndex": 5,
+          "move": [
+            {
+              "at": "@Claude",
+              "duration": 0.9,
+              "x": 0.54,
+              "facing": "right"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "laptop",
+          "x": 0.69,
+          "y": 0.7,
+          "size": 0.24,
+          "zIndex": 4,
+          "face": "happy",
+          "motion": "float",
+          "enter": "none"
+        },
+        {
+          "name": "code_window",
+          "x": 0.69,
+          "y": 0.45,
+          "size": 0.24,
+          "at": "@build",
+          "face": "happy",
+          "motion": "float",
+          "out": "@Godot"
+        },
+        {
+          "name": "gamepad",
+          "x": 0.69,
+          "y": 0.45,
+          "size": 0.2,
+          "at": "@Godot",
+          "face": "happy",
+          "motion": "bounce"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.12
+        ],
+        "focus": {
+          "x": 0.52,
+          "y": 0.82
+        },
+        "moves": [
+          {
+            "at": "@Yes",
+            "zoom": 1.14,
+            "focus": {
+              "x": 0.5,
+              "y": 0.82
+            },
+            "duration": 0.5
+          }
+        ]
+      },
+      "transition": "slide",
+      "texts": [
+        {
+          "text": "Step 2",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.34,
+          "at": 0
+        },
+        {
+          "text": "Godot",
+          "style": "label",
+          "x": 0.66,
+          "y": 0.575,
+          "at": "@Godot"
+        },
+        {
+          "text": "Claude",
+          "style": "label",
+          "x": 0.66,
+          "y": 0.575,
+          "at": "@Claude",
+          "out": "@build"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@give",
+          "who": "berry",
+          "pose": "present",
+          "expression": "excited"
+        },
+        {
+          "at": "@Claude",
+          "who": "berry",
+          "pose": "point",
+          "expression": "happy"
+        },
+        {
+          "at": "@build",
+          "who": "berry",
+          "pose": "explain",
+          "expression": "determined"
+        },
+        {
+          "at": "@Yes",
+          "who": "berry",
+          "pose": "cheer",
+          "expression": "laughing",
+          "emote": "idea"
+        },
+        {
+          "at": "@Yes",
+          "who": "hero",
+          "pose": "celebrate",
+          "expression": "excited"
+        }
+      ]
+    },
+    {
+      "id": "play",
+      "start": 20.25,
+      "layout": "story",
+      "speaker": "berry",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.26,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "cheer",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "gamepad"
+        },
+        {
+          "who": "hero",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "cheer",
+          "expression": "excited",
+          "facing": "left",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "laptop",
+          "x": 0.69,
+          "y": 0.7,
+          "size": 0.24,
+          "zIndex": 4,
+          "face": "happy",
+          "motion": "float",
+          "enter": "none"
+        },
+        {
+          "name": "level_map",
+          "x": 0.69,
+          "y": 0.45,
+          "size": 0.24,
+          "at": 0.1,
+          "face": "happy",
+          "motion": "bounce"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.1
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "punch": [
+          0.1
+        ]
+      },
+      "texts": [
+        {
+          "text": "Step 3",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.34,
+          "at": 0
+        }
+      ],
+      "transition": "slide",
+      "actions": [
+        {
+          "at": "@it",
+          "who": "berry",
+          "pose": "fist",
+          "expression": "determined"
+        }
+      ]
+    },
+    {
+      "id": "improve",
+      "start": 21.41,
+      "layout": "story",
+      "speaker": "berry",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.26,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "gamepad"
+        },
+        {
+          "who": "hero",
+          "x": 0.55,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "think",
+          "expression": "thinking",
+          "facing": "left",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "laptop",
+          "x": 0.69,
+          "y": 0.7,
+          "size": 0.24,
+          "zIndex": 4,
+          "face": "happy",
+          "motion": "float",
+          "enter": "none"
+        },
+        {
+          "name": "level_map",
+          "x": 0.69,
+          "y": 0.45,
+          "size": 0.24,
+          "at": 0,
+          "enter": "none",
+          "motion": "none"
+        },
+        {
+          "name": "bug",
+          "x": 0.62,
+          "y": 0.34,
+          "size": 0.18,
+          "at": "@fix",
+          "out": "@add",
+          "face": "worried",
+          "motion": "bounce"
+        },
+        {
+          "name": "check",
+          "x": 0.62,
+          "y": 0.34,
+          "size": 0.16,
+          "at": "@add",
+          "out": "@improve",
+          "motion": "bounce"
+        },
+        {
+          "name": "palette",
+          "x": 0.5,
+          "y": 0.44,
+          "size": 0.18,
+          "at": "@improve",
+          "out": "@keep",
+          "face": "happy",
+          "motion": "float"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.1
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        }
+      },
+      "actions": [
+        {
+          "at": "@Test",
+          "who": "hero",
+          "pose": "point",
+          "expression": "determined"
+        },
+        {
+          "at": "@fix",
+          "who": "berry",
+          "pose": "scared",
+          "expression": "worried",
+          "emote": "sweat"
+        },
+        {
+          "at": "@fix",
+          "who": "hero",
+          "pose": "shrug",
+          "expression": "worried"
+        },
+        {
+          "at": "@add",
+          "who": "berry",
+          "pose": "cheer",
+          "expression": "happy"
+        },
+        {
+          "at": "@improve",
+          "who": "berry",
+          "pose": "explain",
+          "expression": "excited"
+        },
+        {
+          "at": "@keep",
+          "who": "berry",
+          "pose": "celebrate",
+          "expression": "laughing",
+          "emote": "sparkle"
+        },
+        {
+          "at": "@keep",
+          "who": "hero",
+          "pose": "celebrate",
+          "expression": "excited"
+        }
+      ]
+    },
+    {
+      "id": "publish",
+      "start": 27.82,
+      "layout": "story",
+      "speaker": "berry",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.22,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "present",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "hero",
+          "x": 0.46,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "phone",
+          "x": 0.77,
+          "y": 0.58,
+          "size": 0.3,
+          "at": "@publish",
+          "face": "happy",
+          "motion": "float"
+        },
+        {
+          "name": "arrow_down",
+          "x": 0.66,
+          "y": 0.4,
+          "size": 0.14,
+          "at": "@download",
+          "out": "@turn",
+          "motion": "bounce"
+        },
+        {
+          "name": "moneybag",
+          "x": 0.5,
+          "y": 0.5,
+          "size": 0.2,
+          "at": "@turn",
+          "face": "happy",
+          "motion": "bounce"
+        },
+        {
+          "name": "coins",
+          "x": 0.84,
+          "y": 0.42,
+          "size": 0.16,
+          "at": "@business",
+          "motion": "bounce"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.1
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "punch": [
+          "@business"
+        ]
+      },
+      "transition": "slide",
+      "texts": [
+        {
+          "text": "Step 4",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.34,
+          "at": 0
+        },
+        {
+          "text": "Google Play",
+          "style": "label",
+          "x": 0.7,
+          "y": 0.43,
+          "at": "@Google",
+          "out": "@let"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@publish",
+          "who": "berry",
+          "pose": "point",
+          "expression": "excited"
+        },
+        {
+          "at": "@download",
+          "who": "hero",
+          "pose": "cheer",
+          "expression": "excited"
+        },
+        {
+          "at": "@turn",
+          "who": "berry",
+          "pose": "explain",
+          "expression": "proud"
+        },
+        {
+          "at": "@business",
+          "who": "berry",
+          "pose": "celebrate",
+          "expression": "laughing",
+          "emote": "sparkle"
+        },
+        {
+          "at": "@business",
+          "who": "hero",
+          "pose": "celebrate",
+          "expression": "love"
+        }
+      ]
+    },
+    {
+      "id": "journey",
+      "start": 34.68,
+      "layout": "story",
+      "speaker": "berry",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.36,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "wave",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "hero",
+          "x": 0.62,
+          "y": 0.88,
+          "size": 0.5,
+          "pose": "wave",
+          "expression": "excited",
+          "facing": "left",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "rocket",
+          "x": 0.7,
+          "y": 0.6,
+          "size": 0.2,
+          "at": "@journey",
+          "motion": "float",
+          "move": [
+            {
+              "at": "@journey",
+              "duration": 1.2,
+              "x": 0.74,
+              "y": -0.2,
+              "ease": "power2.in"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.1
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.82
+        }
+      },
+      "transition": "iris",
+      "actions": [
+        {
+          "at": "@today",
+          "who": "berry",
+          "pose": "cheer",
+          "expression": "laughing",
+          "emote": "love"
+        }
+      ]
+    }
+  ],
+  "inputsHash": "87cb0a9781dc",
+  "captionsByFormat": {
+    "youtube": false,
+    "shorts": true,
+    "square": true
+  },
+  "endHold": 1.5,
+  "sfxDensity": "sparse"
+}

@@ -1,0 +1,14 @@
+{
+  "language": "en",
+  "takes": 3,
+  "voices": {
+    "berry": { "library": "berry" }
+  },
+  "lines": [
+    { "who": "berry", "text": "Want to create your own game and make money from it? Here's how AI can help you do it!" },
+    { "who": "berry", "text": "First, ask ChatGPT to design a 2D game character. Describe its appearance, personality, and abilities." },
+    { "who": "berry", "text": "Next, give your character to Claude and ask it to build a 2D game using Godot. Yes, let AI write the code!" },
+    { "who": "berry", "text": "Now play it! Test the gameplay, fix bugs, add levels, improve the graphics, and keep making it more fun." },
+    { "who": "berry", "text": "Finally, publish it on Google Play, let people download it, and turn your little idea into a real game business. Your journey starts today!" }
+  ]
+}

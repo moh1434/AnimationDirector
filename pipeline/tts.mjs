@@ -22,7 +22,7 @@ import { join, resolve, dirname, basename, relative, sep } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { ROOT, findFfmpeg } from "./env.mjs";
-import { parseEnv, requireWhisperConfig, modelFor } from "./whisper-config.mjs";
+import { parseEnv, requireWhisperConfig, modelFor, restSeconds } from "./whisper-config.mjs";
 import { DIALOGUE_RATE, isSoundLabel, pcmWav } from "./dialogue.mjs";
 
 const RATE = DIALOGUE_RATE;
@@ -38,9 +38,9 @@ export const WORKERS = join(ROOT, "pipeline", "tts_workers");
 /**
  * Seconds to rest between two generations. This laptop crashes when it runs more than one model at a
  * time or runs them back to back, so takes are made strictly one after another with a pause between
- * them (MODEL_SAFETY.md). TTS_COOLDOWN_SECONDS in .env can raise it; it never goes below 15.
+ * them (MODEL_SAFETY.md). CHUNK_COOLDOWN_SEC in .env sets the pause (15 s when it is not set; 0 = none).
  */
-export const COOLDOWN_SECONDS = Math.max(15, Number(process.env.TTS_COOLDOWN_SECONDS) || 15);
+export const COOLDOWN_SECONDS = restSeconds();
 const ALL_OPTIONS = [...new Set(Object.values(ENGINES).flatMap((e) => e.options))];
 const DEFAULT_SEEDS = [11, 22, 33, 44, 55, 66, 77, 88];
 /** Above this a designed take (one generation) may drift or fail to stop: warn and check it. */

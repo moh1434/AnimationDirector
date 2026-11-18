@@ -1,6 +1,6 @@
 # Voices from text (Audar-TTS Turbo, Qwen3-TTS)
 
-**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
+**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait for the rest time (15 s unless `CHUNK_COOLDOWN_SEC` in `.env` says otherwise) after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
 
 Use this when the user sends a **script but no recordings**, or when a story needs a voice for a
 character nobody recorded. The director gives each character a voice (a saved one, a reference to
@@ -120,7 +120,7 @@ the language): it checks every take word by word and gives the times needed to c
 
 1. `pnpm video new my-story --tts` makes the project with a `tts.json` to fill in.
 2. Fill in `tts.json` from the user's script (below). Never change the user's words.
-3. `pnpm video voices my-story` makes the takes, one generation at a time with a 15 s rest between them,
+3. `pnpm video voices my-story` makes the takes, one generation at a time with a rest between them (`CHUNK_COOLDOWN_SEC` in `.env`, 15 s by default),
    and writes `voice-takes/en/review.html`: every character's takes side by side, with what the word
    check found.
 4. **Send the review page to the user and ask them to pick one take per character.** Never pick for
@@ -163,7 +163,7 @@ the language): it checks every take word by word and gives the times needed to c
 | `voices.<who>.library` | a character voice saved in `voices-library/`; brings its own reference per language |
 | `voices.<who>.seeds` | optional seeds, one per take (default 11, 22, 33, …). Same seed + same text = same audio |
 | `voices.<who>.alternatives` | optional list of other setups for the same character (another `engine`, `description` or `reference`), each 1 take unless it sets `takes`. Their takes are numbered after the main takes, which stay valid. An alternative may give `"say": {"<line number>": "..."}` for its own wording (e.g. Audar tags). 8 takes at most in all |
-| `voices.<who>.chunkPerLine` | `true`: a **clone** makes each of its lines as its own generation (the worker puts a 0.35 s pause between them; slower, one 15 s rest per line). Use it when `voice-pick` warns that a cut is in the wrong place because a character's short lines run into each other in one generation ("sounds like … it has a word from line N"). A designed voice ignores it |
+| `voices.<who>.chunkPerLine` | `true`: a **clone** makes each of its lines as its own generation (the worker puts a 0.35 s pause between them; slower, one rest per line: `CHUNK_COOLDOWN_SEC`, and for Qwen3 at most 3 s between the lines of one take). Use it when `voice-pick` warns that a cut is in the wrong place because a character's short lines run into each other in one generation ("sounds like … it has a word from line N"). A designed voice ignores it |
 | `voices.<who>.options` / `options` | Audar: `temperature` (default 0.8; 0.6–0.7 steadier, 1.0 most expressive), `top_k`, `top_p`, `repeat_penalty` (keep ≈1.1, higher suppresses laughter). Qwen3-TTS: `temperature`, `top_k`, `top_p` |
 | `lines[].who` | a lower-case id; the same ids go in the storyboard's `cast` |
 | `lines[].text` | the **exact** words of the script; captions and lip-sync use these |

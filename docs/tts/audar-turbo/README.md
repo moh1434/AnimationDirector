@@ -13,7 +13,7 @@ recording. Model card: `C:\Users\lenovo\tts-new-models\audar-turbo\weights\READM
   (NeuCodec, 24 kHz) runs on the GPU. About 2.3 s of work per second of speech.
 - Worker: `pipeline/tts_workers/audar_worker.py`, run with
   `uv run --no-sync --project <TTS_AUDAR_DIR> python -I …`. It loads the model once per take, makes the
-  take's parts one after another with a 15 s rest between them, and joins them with 0.35 s of silence.
+  take's parts one after another with a rest between them (`CHUNK_COOLDOWN_SEC` in `.env`, 15 s by default), and joins them with 0.35 s of silence.
 - The NeuCodec weights come from the Hugging Face cache (`eugenehp/neucodec`, already downloaded).
 
 ## The reference

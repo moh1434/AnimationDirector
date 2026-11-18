@@ -60,6 +60,30 @@ test("the renderer setting defaults to the GPU and ignores case", () => {
   assert.equal(rendererName({ root, env: { REMOTION_RENDERER: "gpu" } }), "gpu");
 });
 
+test("CHUNK_COOLDOWN_SEC sets the rest between voice generations, 15 s when missing or wrong", async () => {
+  const { restSeconds, DEFAULT_COOLDOWN_SECONDS } = await import("./whisper-config.mjs");
+  const none = "C:/no-such-folder";
+  assert.equal(DEFAULT_COOLDOWN_SECONDS, 15);
+  assert.equal(restSeconds({ root: none, env: {} }), 15);
+  assert.equal(restSeconds({ root: none, env: { CHUNK_COOLDOWN_SEC: "5" } }), 5);
+  assert.equal(restSeconds({ root: none, env: { CHUNK_COOLDOWN_SEC: "0" } }), 0, "0 means no rest");
+  assert.equal(restSeconds({ root: none, env: { CHUNK_COOLDOWN_SEC: "2.5" } }), 2.5);
+  assert.equal(restSeconds({ root: none, env: { CHUNK_COOLDOWN_SEC: "soon" } }), 15);
+  assert.equal(restSeconds({ root: none, env: { CHUNK_COOLDOWN_SEC: "-3" } }), 15);
+  assert.equal(restSeconds({ root: none, env: { CHUNK_COOLDOWN_SEC: "600" } }), 600);
+  assert.equal(restSeconds({ root: none, env: { CHUNK_COOLDOWN_SEC: "601" } }), 15, "more than 10 minutes is a typo");
+  assert.equal(restSeconds({ root: setup(GOOD + "CHUNK_COOLDOWN_SEC=5\n"), env: {} }), 5, "read from the .env file");
+  assert.equal(restSeconds({ root: setup(GOOD + "CHUNK_COOLDOWN_SEC=5\n"), env: { CHUNK_COOLDOWN_SEC: "8" } }), 8, "a real environment variable wins");
+  assert.equal(restSeconds({ root: setup(GOOD + "TTS_COOLDOWN_SECONDS=20\n"), env: {} }), 20, "the old name still works");
+  assert.equal(restSeconds({ root: setup(GOOD + "TTS_COOLDOWN_SECONDS=20\nCHUNK_COOLDOWN_SEC=6\n"), env: {} }), 6, "the new name wins");
+  assert.equal(whisperConfig({ root: setup(GOOD + "CHUNK_COOLDOWN_SEC=5\n"), env: {} }).warnings.length, 0, "not reported as an unknown setting");
+  // a typo is a warning, never an error: it must not stop plan/make or switch off the word check of takes
+  const bad = whisperConfig({ root: setup(GOOD + 'CHUNK_COOLDOWN_SEC="soon"\n'), env: {} });
+  assert.deepEqual(bad.errors, []);
+  assert.match(bad.warnings.join("\n"), /CHUNK_COOLDOWN_SEC="soon" must be a number of seconds from 0 to 600/);
+  assert.match(whisperConfig({ root: setup(GOOD + 'TTS_COOLDOWN_SECONDS="soon"\n'), env: {} }).warnings.join("\n"), /TTS_COOLDOWN_SECONDS="soon"/, "the warning names the key that is wrong");
+  assert.deepEqual(whisperConfig({ root: setup(GOOD + "CHUNK_COOLDOWN_SEC=\nTTS_COOLDOWN_SECONDS=soon\n"), env: {} }).errors, []);
+});
 test("VIDEO_FPS sets the frame rate, 30 when missing or wrong", async () => {
   const { videoFps } = await import("./whisper-config.mjs");
   assert.equal(videoFps({ root: "C:/no-such-folder", env: {} }), 30);

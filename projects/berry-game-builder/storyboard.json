@@ -1,0 +1,784 @@
+{
+  "version": 1,
+  "title": "Build Your First Game With AI",
+  "language": "en",
+  "directedBy": "Codex",
+  "endHold": 0.65,
+  "cast": {
+    "berry": {
+      "preset": "berry"
+    }
+  },
+  "captionsByFormat": {
+    "shorts": true,
+    "youtube": false
+  },
+  "sfxDensity": "sparse",
+  "scenes": [
+    {
+      "id": "hook",
+      "start": 0,
+      "layout": "story",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "speaker": "berry",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.38,
+          "y": 0.87,
+          "size": 0.62,
+          "pose": "hold",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "gamepad"
+        }
+      ],
+      "props": [
+        {
+          "name": "moneybag",
+          "x": 0.72,
+          "y": 0.54,
+          "size": 0.29,
+          "at": "@money",
+          "enter": "pop",
+          "motion": "bounce",
+          "face": "happy"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@money",
+          "who": "berry",
+          "pose": "present",
+          "expression": "excited",
+          "emote": "sparkle"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      },
+      "light": "warm",
+      "transition": "cut"
+    },
+    {
+      "id": "ai-helper",
+      "start": 2.74,
+      "layout": "story",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "speaker": "berry",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.27,
+          "y": 0.87,
+          "size": 0.62,
+          "pose": "present",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "robot",
+          "x": 0.68,
+          "y": 0.53,
+          "size": 0.34,
+          "at": "@AI",
+          "enter": "pop",
+          "motion": "float",
+          "face": "happy",
+          "label": "AI"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@AI",
+          "who": "berry",
+          "pose": "point",
+          "expression": "excited"
+        },
+        {
+          "at": "@help",
+          "who": "berry",
+          "pose": "explain",
+          "expression": "happy"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      }
+    },
+    {
+      "id": "design",
+      "start": "w:19",
+      "layout": "story",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "speaker": "berry",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.27,
+          "y": 0.87,
+          "size": 0.62,
+          "pose": "explain",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "pip-sketch",
+          "x": 0.66,
+          "y": 0.49,
+          "size": 0.48,
+          "at": "@ChatGPT",
+          "enter": "pop",
+          "motion": "none"
+        },
+        {
+          "name": "laptop",
+          "x": 0.69,
+          "y": 0.76,
+          "size": 0.25,
+          "at": 0,
+          "enter": "none",
+          "motion": "none"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@ChatGPT",
+          "who": "berry",
+          "pose": "point",
+          "expression": "excited"
+        },
+        {
+          "at": "@character",
+          "who": "berry",
+          "pose": "present",
+          "expression": "proud"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      },
+      "light": "warm",
+      "transition": "cut",
+      "texts": [
+        {
+          "text": "1 · DESIGN",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.31,
+          "at": 0
+        }
+      ]
+    },
+    {
+      "id": "give-it-personality",
+      "start": "w:28",
+      "layout": "hero",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "speaker": "none",
+      "props": [
+        {
+          "name": "pip-sketch",
+          "x": 0.49,
+          "y": 0.51,
+          "size": 0.72,
+          "at": 0,
+          "enter": "none",
+          "motion": "none"
+        },
+        {
+          "name": "palette",
+          "x": 0.23,
+          "y": 0.78,
+          "size": 0.2,
+          "at": "@appearance",
+          "enter": "pop",
+          "motion": "none"
+        },
+        {
+          "name": "heart",
+          "x": 0.49,
+          "y": 0.78,
+          "size": 0.2,
+          "at": "@personality",
+          "enter": "pop",
+          "motion": "none"
+        },
+        {
+          "name": "lightning",
+          "x": 0.75,
+          "y": 0.78,
+          "size": 0.2,
+          "at": "@abilities",
+          "enter": "pop",
+          "motion": "none"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      },
+      "light": "warm",
+      "transition": "cut",
+      "texts": [
+        {
+          "text": "1 · DESIGN",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.31,
+          "at": 0
+        }
+      ]
+    },
+    {
+      "id": "build",
+      "start": "w:34",
+      "layout": "story",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "speaker": "berry",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.27,
+          "y": 0.87,
+          "size": 0.62,
+          "pose": "present",
+          "expression": "determined",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "pip-sketch",
+          "x": 0.66,
+          "y": 0.49,
+          "size": 0.48,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "out": "@Claude"
+        },
+        {
+          "name": "pip-editor",
+          "x": 0.66,
+          "y": 0.49,
+          "size": 0.48,
+          "at": "@Claude",
+          "enter": "pop",
+          "motion": "none"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@give",
+          "who": "berry",
+          "pose": "present",
+          "expression": "happy"
+        },
+        {
+          "at": "@Claude",
+          "who": "berry",
+          "pose": "point",
+          "expression": "determined"
+        },
+        {
+          "at": "@build",
+          "who": "berry",
+          "pose": "explain",
+          "expression": "proud"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      },
+      "light": "warm",
+      "transition": "cut",
+      "texts": [
+        {
+          "text": "2 · BUILD",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.31,
+          "at": 0
+        },
+        {
+          "text": "Claude",
+          "style": "label",
+          "x": 0.65,
+          "y": 0.66,
+          "at": "@Claude",
+          "out": "@Godot"
+        },
+        {
+          "text": "Godot",
+          "style": "label",
+          "x": 0.65,
+          "y": 0.66,
+          "at": "@Godot"
+        }
+      ]
+    },
+    {
+      "id": "ai-writes-code",
+      "start": 16.33,
+      "layout": "story",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "light": "warm",
+      "speaker": "berry",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.27,
+          "y": 0.87,
+          "size": 0.62,
+          "pose": "cheer",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "pip-editor",
+          "x": 0.66,
+          "y": 0.49,
+          "size": 0.48,
+          "at": 0,
+          "enter": "none",
+          "motion": "none"
+        },
+        {
+          "name": "robot",
+          "x": 0.69,
+          "y": 0.76,
+          "size": 0.24,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "face": "happy"
+        }
+      ],
+      "texts": [
+        {
+          "text": "2 · BUILD",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.31,
+          "at": 0
+        },
+        {
+          "text": "Godot",
+          "style": "label",
+          "x": 0.65,
+          "y": 0.66,
+          "at": 0
+        }
+      ],
+      "actions": [
+        {
+          "at": "@AI",
+          "who": "berry",
+          "pose": "point",
+          "expression": "happy"
+        },
+        {
+          "at": "@code",
+          "who": "berry",
+          "pose": "celebrate",
+          "expression": "excited",
+          "emote": "idea"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      }
+    },
+    {
+      "id": "playtest",
+      "start": "w:56",
+      "layout": "hero",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "speaker": "none",
+      "transition": "cut",
+      "props": [
+        {
+          "name": "pip-level",
+          "x": 0.49,
+          "y": 0.54,
+          "size": 0.79,
+          "at": 0,
+          "enter": "none",
+          "motion": "none",
+          "out": "@gameplay"
+        },
+        {
+          "name": "pip-level-playing",
+          "x": 0.49,
+          "y": 0.54,
+          "size": 0.79,
+          "at": "@gameplay",
+          "enter": "none",
+          "motion": "none"
+        },
+        {
+          "name": "gamepad",
+          "x": 0.29,
+          "y": 0.805,
+          "size": 0.22,
+          "at": "@play",
+          "enter": "pop",
+          "motion": "none"
+        },
+        {
+          "name": "bug",
+          "x": 0.7,
+          "y": 0.805,
+          "size": 0.22,
+          "at": "@fix",
+          "enter": "pop",
+          "motion": "none",
+          "face": "worried"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      },
+      "light": "warm",
+      "texts": [
+        {
+          "text": "3 · PLAY & REFINE",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.31,
+          "at": 0
+        }
+      ]
+    },
+    {
+      "id": "level-up",
+      "start": "w:64",
+      "layout": "hero",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "speaker": "none",
+      "props": [
+        {
+          "name": "pip-level-up",
+          "x": 0.49,
+          "y": 0.54,
+          "size": 0.79,
+          "at": 0,
+          "enter": "none",
+          "motion": "none"
+        },
+        {
+          "name": "check",
+          "x": 0.28,
+          "y": 0.805,
+          "size": 0.2,
+          "at": 0.06,
+          "enter": "pop",
+          "motion": "none"
+        },
+        {
+          "name": "palette",
+          "x": 0.7,
+          "y": 0.805,
+          "size": 0.22,
+          "at": "@graphics",
+          "enter": "pop",
+          "motion": "none"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      },
+      "light": "warm",
+      "transition": "cut",
+      "texts": [
+        {
+          "text": "3 · PLAY & REFINE",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.31,
+          "at": 0
+        }
+      ]
+    },
+    {
+      "id": "publish",
+      "start": "w:75",
+      "layout": "story",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "speaker": "berry",
+      "transition": "cut",
+      "props": [
+        {
+          "name": "pip-store",
+          "x": 0.68,
+          "y": 0.54,
+          "size": 0.47,
+          "at": 0,
+          "enter": "none",
+          "motion": "none"
+        },
+        {
+          "name": "arrow_down",
+          "x": 0.7,
+          "y": 0.78,
+          "size": 0.2,
+          "at": "@download",
+          "enter": "pop",
+          "motion": "none",
+          "out": "@turn"
+        },
+        {
+          "name": "coins",
+          "x": 0.69,
+          "y": 0.78,
+          "size": 0.25,
+          "at": "@business",
+          "enter": "pop",
+          "motion": "bounce"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      },
+      "light": "warm",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.27,
+          "y": 0.87,
+          "size": 0.62,
+          "pose": "present",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "texts": [
+        {
+          "text": "4 · PUBLISH",
+          "style": "date",
+          "x": 0.5,
+          "y": 0.31,
+          "at": 0
+        },
+        {
+          "text": "Google Play",
+          "style": "label",
+          "x": 0.67,
+          "y": 0.385,
+          "at": "@Google",
+          "out": "@download"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@publish",
+          "who": "berry",
+          "pose": "point",
+          "expression": "excited"
+        },
+        {
+          "at": "@download",
+          "who": "berry",
+          "pose": "present",
+          "expression": "happy"
+        },
+        {
+          "at": "@turn",
+          "who": "berry",
+          "pose": "explain",
+          "expression": "proud"
+        },
+        {
+          "at": "@business",
+          "who": "berry",
+          "pose": "celebrate",
+          "expression": "excited",
+          "emote": "sparkle"
+        }
+      ]
+    },
+    {
+      "id": "payoff",
+      "start": "w:95",
+      "layout": "story",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "speaker": "berry",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.34,
+          "y": 0.87,
+          "size": 0.62,
+          "pose": "celebrate",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "gamepad"
+        }
+      ],
+      "props": [
+        {
+          "name": "pip-store",
+          "x": 0.7,
+          "y": 0.51,
+          "size": 0.4,
+          "at": 0,
+          "enter": "none",
+          "motion": "none"
+        },
+        {
+          "name": "star",
+          "x": 0.69,
+          "y": 0.76,
+          "size": 0.21,
+          "at": "@today",
+          "enter": "pop",
+          "motion": "bounce"
+        }
+      ],
+      "actions": [
+        {
+          "at": "@today",
+          "who": "berry",
+          "pose": "wave",
+          "expression": "happy"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.045
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.66
+        },
+        "drift": false
+      },
+      "light": "warm",
+      "transition": "cut"
+    }
+  ]
+}

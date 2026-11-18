@@ -108,6 +108,12 @@ Written for this pipeline and its real commands; read the one that matches the t
 
 ## Layout and visual review
 
+**Give every video a well-drawn background.** Use illustrated scenery that fits the
+story and adds depth while keeping characters, props, and captions clear. Reuse a
+suitable illustrated setting for continuity, and draw one in the house style when
+the library has no good fit. Inspect the background in rendered frames as part of
+the visual review.
+
 For padding, gaps, whitespace, clipping, small subjects, or bottom-heavy frames,
 follow [LAYOUT_REVIEW.md](LAYOUT_REVIEW.md). Review composition as well as technical
 validity; a passing renderer or overlap check does not prove balanced framing.
