@@ -18,7 +18,7 @@ It writes `out/final-pass.md` and a one-frame-per-second sheet `out/<name>-<form
 | check | pass when |
 |---|---|
 | format | 1080×1920 (Shorts) / 1920×1080 (YouTube, only when the user renders it), `VIDEO_FPS` from `.env` (or the project's `video.json` `"fps"`), audio stream present |
-| duration | within max(0.15 s, 2 %) of the voice length |
+| duration | within max(0.15 s, 2 %) of the expected video duration, including any authored end hold |
 | black | no stretch of black ≥0.25 s (blackdetect) |
 | frozen | no identical picture ≥2.5 s (freezedetect) — fine only for a designed hold |
 | loudness | −14 LUFS integrated ±1 (YouTube / Shorts normalise to about this) |
@@ -37,7 +37,8 @@ tiring to follow; if quieter the pauses feel dead.
    text under the Shorts buttons (right side, bottom 20 %).
 3. Watch transitions: no blank frame between shots, no element flashing in the wrong place for a
    frame.
-4. Compare with `out/check-<format>.md`: any warning that was accepted should still look intended.
+4. Play the opening, reveal and payoff in sequence. Check that the subject is clear at phone size, that the viewer can see what changed, and that the last line has a readable result. Use the [portrait review questions](../../../REFERENCE_VIDEO_STUDY.md#review-the-sequence).
+5. Compare with `out/check-<format>.md`: any warning that was accepted should still look intended.
 
 ## 3. Listen
 
@@ -48,7 +49,7 @@ tiring to follow; if quieter the pauses feel dead.
 
 ## 4. Report to the user
 
-Say which files were made (`out/<name>-youtube.mp4`, `out/<name>-shorts.mp4`, `out/<name>.srt`),
+List the actual deliveries (normally `out/<name>-shorts.mp4` and `out/<name>.srt`),
 whether the final pass passed, and any judgement call you made (an accepted warning and why). If a
 check failed, fix it or say clearly what remains. Never claim a visual issue is fixed only because a
 check passes — say what you looked at.

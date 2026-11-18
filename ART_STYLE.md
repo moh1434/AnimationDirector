@@ -4,15 +4,7 @@ The house style since November 2026. It replaces the earlier flat style (flat fi
 stick limbs, cuts only). The drawings are still simple shapes with a thick ink outline; what changed
 is that they now sit in a **lit space, with depth, shot like a film**.
 
-The style was worked out from four kinds of reference Shorts
-(`..\Resoucre_Videos_To_Learn_From\portrait`). They supply ideas, never drawings:
-
-| Reference | What makes it look good | What we took |
-|---|---|---|
-| RickCli | Stick-limb characters no richer than ours, in lit rooms: light shafts, night glow, gradients, soft focus, a new angle every 2 s | scene lighting, depth blur, shot changes inside a scene |
-| HeyHistori | Hand-drawn figures with two-tone cel shading, thick limbs, painted skies, close-ups and over-shoulder framing | cel shade on every form, thick limbs, gradient skies, close shots |
-| HussainAbd | Big expressive faces close to the camera, bold labels, a commentator in the foreground | face close-ups on a reaction, cuts to the listener |
-| uselessTru | Very simple drawings carried by strong poses, spotlight cutaways on black | anticipation and overshoot in poses, the `spot` light |
+For shot choices and timestamped examples from HeyHistori, HussainAbd, RickCli and uselessTru, see [Portrait direction](REFERENCE_VIDEO_STUDY.md). Draw original silhouettes with flat fills and thick ink outlines. Use an illustrated setting to establish depth and keep the area behind the main action quiet.
 
 ## One light for everything
 
@@ -70,7 +62,7 @@ How to use it:
   a third of the frame height or more. Use `zoom` 1.1–1.2 for two people, 1.2–1.4 `on` one character. In Shorts (9:16) the frame is narrow: with two or more people in a row keep `zoom` at 1.0–1.2 so nobody is cut at the sides (the user's rule); 1.4 at most `on` a character standing alone. Never crop a character to get a close-up.
 - **Cut to the reaction.** When one character says something surprising, cut (`duration: 0`) to the
   other one's face.
-- **Change the shot every 2–4 s** in dialogue, with `moves`, and keep the setting. The location,
+- **Reframe on a change of attention.** Use `moves` for a reveal or a listener’s reaction. Hold a shared shot while both people’s actions matter. The location,
   the actors' places and the screen direction stay the same across those shots.
 - `zoom` is 1 to 3: below 1 the picture would not fill the frame, and `validate` refuses it.
 - A close shot must keep the face clear of the caption band; `check` looks at the frame after every

@@ -81,8 +81,8 @@ between captions and heads. Never shrink a wide layout into portrait. Keep word-
 
 1. Write or edit `storyboard.json` (see the `story-video-direction` skill).
 2. `pnpm video check <name>` — samples settled/midpoint frames, pop overshoot, action changes,
-   punch peaks and the last hold before the outgoing transition, in every
-   format, reads the real on-screen box of each element (`data-box` tags, measured in the browser
+   punch peaks and the last hold before the outgoing transition, in the requested
+   format (Shorts by default), reads the real on-screen box of each element (`data-box` tags, measured in the browser
    with the real fonts) and writes `out/check-<format>.md` + stills in `out/check/`.
 3. **Errors must be fixed**: text outside text-safe, text collisions, anything in the caption band.
    **Warnings are judgement calls**: small subject, bottom-heavy, empty band, art near an edge

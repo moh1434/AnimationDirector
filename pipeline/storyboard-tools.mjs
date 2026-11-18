@@ -51,7 +51,7 @@ export function writeBrief(dir, { analysis, segments, settings, storyboard }) {
   lines.push("A scene should start just before a word, never in the middle of one. These are before a new sentence or after a pause:", "");
   lines.push(cuts.join(" · ") || "(use the segment starts)", "");
   lines.push("## Visual story plan (complete before editing the storyboard)", "");
-  lines.push("Read REFERENCE_VIDEO_STUDY.md for the five-reference study. Copy this worksheet to build/direction-notes.md before filling it in; this generated brief is replaced on the next plan/brief run.", "");
+  lines.push("Use REFERENCE_VIDEO_STUDY.md at the project root for portrait shot choices and timestamped examples. Copy this worksheet to build/direction-notes.md before filling it in. The next plan/brief run replaces this brief.", "");
   lines.push("Choose a visual treatment for each passage: character action, mechanism/process, or spatial context. These are planning notes, not new storyboard fields or layout names.", "");
   lines.push("| Segment | Viewer takeaway | Visible cause → change → result | Focal subject / retained setting | Spoken trigger | Asset needed |", "|---|---|---|---|---|---|");
   segments.forEach((s, i) => lines.push(`| ${i + 1} (${fmt(s.start)}–${fmt(s.end)} s) | | | | | |`));

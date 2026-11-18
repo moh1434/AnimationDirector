@@ -23,7 +23,7 @@ come back in later videos is saved with `voice-ref --save`, so it keeps the same
    it lists all of them. It then writes `build/brief.md`, showing every clip's number and speaker.
 4. Direct `storyboard.json` (below). Time things with `clip:N`, so new takes need no retiming.
 5. `pnpm video validate my-story`, then `pnpm video check my-story`, then look at the frames.
-6. `pnpm video make my-story` renders the Shorts video (at `VIDEO_FPS` from `.env`).
+6. For the requested export, follow the saved [enhancement choice](ENHANCE.md) and render with `pnpm video make my-story --format shorts` (add `--skip-enhance` when declined).
 
 After replacing a recording, run `plan` again; the other commands refuse to use stale audio.
 `projects/unluckiest-thief` is a complete directed example, and `examples/story-mode/` keeps a copy of
@@ -120,7 +120,7 @@ voice ends, or a longer `"duration"`). A 30 s voice makes a video of 30 s or mor
 
 So slow or padded audio makes the whole video long and slow.
 
-- **Trim every recording.** Cut the silence at its start and end before adding it. The pipeline never trims or
+- **Listen for padded takes.** Ask for trimmed recordings if excess silence disrupts the exchange. Only trim the named pauses yourself when requested, following [Silence trimming](SILENCE_TRIMMING.md). The pipeline never trims or
   stretches recordings, so any padding stays in the video, and with dozens of clips it adds up quickly.
 - **Use a brisk voice.** Ask the voice tool for a natural, slightly quick delivery. Comedy needs speed.
 - **Keep gaps short.** Use `"gap": 0.1`–`0.25`, and join neighbouring narrator lines into one recording.

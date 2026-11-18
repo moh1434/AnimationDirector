@@ -1,88 +1,34 @@
-# Portrait reference study — 5 November 2026
+# Directing a portrait cartoon
 
-Source: `C:/Users/lenovo/Desktop/Ai Influencer/Resoucre_Videos_To_Learn_From/portrait`.
-Studied all five files using frames at two-second intervals across their duration, including
-the endings, plus FFprobe metadata and FFmpeg loudness measurements. Sheets and metadata are
-under `out/reference-study/`. Timestamps below locate sampled evidence, not exact edit boundaries.
-This is a visual structure study, not a full-speed playback or listening review: exact easing,
-lip sync, word synchronization and sound-effect timing are not established by these samples.
-Historical/scientific claims in the references have not been fact-checked; do not reuse them as sources.
+Use this guide when turning an existing voice track into a storyboard. The four folders in [the portrait collection](<DEV/Source Videos To Train On/portrait>) show different ways to make a line visible. Choose the technique that serves the passage. Use the project's own cast, illustrations, voices and score.
 
-## What each video teaches
+## What to look for in the references
 
-| File | Duration | Sampled evidence | Useful transfer to our pipeline |
-|---|---:|---|---|
-| video1 | 100.96 s | 0–12 s: ocean/map context becomes a negotiation tableau. 22–40 s: territory → island → resources/workers. 66–74 s: river and cargo explain a route. 88–100 s: negotiation returns, then sale and territorial result. | Establish context, reveal the relevant detail, then return to the original situation with its state changed. Use a recurring object/location as the story's anchor. |
-| video2 | 94.37 s | 0–12 s: proposed barrier changes from red wall imagery to green trees. 32–38 s: soil cross-section shows roots, then their removal. 48–54 s: a height guide makes the dust wall legible. 74–94 s: dimensions, trees, wind and outcome return to the opening premise. | For mechanisms, show what changes physically. Put quantities beside the thing measured. Pay off the opening question visually. |
-| video3 | 54.29 s | 2–18 s: one pot remains central while water/heat cues change. 20–34 s: conditions, sun, shade and replenishment are layered onto the same setup. 44–50 s: outside/inside temperature labels summarize the result. | Preserve one diagram over several narration beats. Reuse geometry and change only relevant state. This is the clearest counterexample to changing the layout every few seconds. |
-| video4 | 125.69 s | 8–30 s: Italy map, front line, arrows and photographic inserts. 32–60 s: hill/monastery remains an anchor while close-up soldiers react. 62 s: large question. 64–86 s: archival insert. 88–118 s: ruins, consequences, return to map. | Alternate context, enacted scene and reaction. Keep landmarks stable. Reserve big text for a genuine narrative turn. An evidence insert needs a separate asset/source workflow. |
-| video5 | 124.48 s | 8–16 s: stacked animal comparisons. 18–26 s: horse/cart situation and reaction. 52–58 s: animals and aircraft share a visual relationship. 60–78 s: bird/bat examples build from subject to role. 80–96 s: night scene develops a consequence. 102–124 s: dog/tank demonstration and narrator reaction. | Let characters perform the sentence. Pose, gaze and consequence communicate more than decorative gestures. Use vertical stacking for comparison when it improves reading order. |
+These observations come from eight sampled frames per clip across all 14 MP4s, including the opening and ending. Times locate example frames. Use them to inspect composition and changes in subject. Exact cut lengths, word sync and sound cues require playback.
 
-## Changes to the directing workflow
+| Folder | Where to look | How to apply it |
+|---|---|---|
+| RickCli (4 clips) | *What If Humans Invented Teleportation*, 0.4 s, 27 s and 53 s. The labelled New York booth appears at the opening, in the lower half of a two-city comparison, and again in the closing picture. *The Job Nobody Wants in Japan*, 0.4 s and 59 s, singles out a button and later a labelled door. | Give a place one recognizable feature. Return to it after a cutaway so the audience can see what changed. Frame a sign or object closely when it carries the line. |
+| HeyHistori (5 clips) | *The Lady that Became a Pirate Lord*, 5 s, 29 s and 43 s. A figure looks out toward a boat, then the figures and sails aboard the boats fill the shots. At 53 s an interior stages people across a table. | Establish where people are relative to one another. Go closer when the viewer needs to read a face, an object, or an exchange. Keep an identifiable part of the setting in view. |
+| HussainAbd (2 clips) | *SecondWorldWar*, 0.4–5 s, layers a map shape above an enacted scene. At 62 s a large Arabic question occupies the frame. *SecondWorldWar2*, 112 s and 123 s, moves from a stacked comparison to a commentator below the action. | Use the vertical axis for two things the viewer must relate. A map supplies location, a character supplies scale or reaction, and a short question marks a turn. Give each a distinct area and preserve Arabic reading order. |
+| uselessTru (3 clips) | *The Real Meaning of Gymnasium*, 10 s and 19 s, keeps the counter, blue sky and figures while the pose and prop change. By 38 s a single figure and bowl read against black. | Let a pose, a glance or a held object carry the joke. Keep the space around the gesture clear. An isolated reaction after a detailed setting gives the viewer time to read the consequence. |
 
-1. **Plan meaning before selecting props.** For each passage write the viewer takeaway, visible
-   cause → change → result, focal subject, spoken trigger and missing asset. The generated brief
-   now includes this worksheet. Copy it to `build/direction-notes.md` so regeneration cannot erase notes.
-2. **Select a treatment per passage.** Character action suits decisions and comedy; a persistent
-   diagram suits mechanisms; spatial context suits movement and geography. These are directing
-   choices, not new renderer enums. Mix them only when the narration benefits.
-3. **Build connected sequences.** Keep the subject, setting, colours and screen direction across
-   an explanation. A long sequence can contain several beats without introducing a new background.
-   Existing `actions`, `at`, `out`, `items`, custom SVGs and related scenes provide the basic tools.
-   Shared layout alone does not guarantee continuity: inspect entrances and camera resets at cuts.
-4. **Make the host optional on screen.** A large mechanism can occupy the frame; use `speaker: none`
-   when the narrator is off screen. Keep reactions for turns, uncertainty and payoff. Preserve the
-   original narration and all its timing.
-5. **Give movement a job.** Reveal a cause, show direction, change state, or react to a result.
-   Use `camera.zoom: [1, 1]` for an intentional fixed view; verify it in preview. Do not add movement
-   merely because a shot lasts several seconds. A persistent setup is not a frozen explanation.
-6. **Separate caption and diagram roles.** Captions carry spoken text; labels identify parts,
-   actors, dates or quantities. Avoid showing the same sentence twice. The references' tiny
-   subtitles and occasional crowded labels should not become our sizing standard. Keep the
-   current safe-area checks, Arabic shaping and RTL support.
-7. **Review the explanation as well as the geometry.** Inspect opening, before-change, result,
-   reaction and exit frames, then play the sequence. Ask whether the subject can be identified
-   immediately, the change can be followed, and the result has enough reading time. Use
-   `pnpm video validate <name>` and `pnpm video check <name>` before requested Shorts renders.
+## From a spoken passage to shots
 
-## Fit with the existing implementation
+1. **Choose the opening image from the first line.** Show the object, person or situation that makes that line interesting. If the narration opens on a question, the picture can show the puzzle before revealing its answer.
+2. **Describe the change as an action.** In the visual worksheet from `build/brief.md`, record what the viewer sees before, what changes on which spoken cue, and what becomes clear afterward. Note the focal subject, the setting you keep, and any missing drawing. Save the worksheet in `build/direction-notes.md`.
+3. **Choose a treatment.** For a decision or exchange, stage actors in `layout: "story"` and show the listener when their expression supplies the consequence. For a process, keep the object at the same scale and position and swap its state with `at` and `out`. For a comparison, use `compare` or stage the two subjects vertically. An off-screen narrator can carry any of these. Use `speaker: "none"` for a single off-screen voice and the measured speaker timeline for dialogue.
+4. **Choose what survives the cut.** Keep the same illustrated location, wardrobe, prop ownership, eye-line and direction of travel across connected beats. Reframe with `camera.moves` to reveal a detail or reaction. A steady diagram can use `"camera": {"zoom":[1,1],"drift":false}`. Keep a new drawing on screen long enough to read the result. Use the recording to decide when to cut.
+5. **Compose for the phone.** Make the important action readable at thumbnail size. Place a hand and the object it touches in view together. Fit faces, labels and captions around the reserved caption band and platform controls. Use a label for a name, place or quantity when the drawing needs it. Captions carry the spoken line.
+6. **Pay off the opening.** Show the changed object, location, relationship or expression on the line that resolves it. A return to the opening composition works when the viewer can spot the difference.
 
-`pipeline/director.mjs` remains a keyword-based draft: it alternates camera zoom, uses hash-based
-choices for some faces/layouts, inserts periodic gestures, and forces host shots at opening/end.
-These choices cannot infer the causal structure demonstrated here. The immediate improvement is
-therefore in the human/agent directing pass and generated brief, rather than another arbitrary
-style preset. Existing authored storyboards and render behavior were not changed by this study.
+**Worked beat.** Suppose a supplied line is “The water rose.” Start on the low level so the viewer has a baseline. On “rose,” replace `water_low` with `water_full` at the same coordinates and size in a fixed view. Keep both drawings still with `motion: "none"` and use `enter: "none"` for a direct swap. Hold on the higher level through the end of the phrase. Use a number only if the narration gives one. For other lines, choose the visible change the actual words describe.
 
-Already supported: hero/compare/transform/steps, character actions, timed props, image scenes,
-custom project SVGs, captions, camera controls and layout checks. Use those before adding APIs.
+## Review the sequence
 
-Potential later renderer work, in order of value:
+- View the first image at phone size. Can you identify the subject and the situation before reading a label?
+- Compare the frames before and after the cue. Can you point to what changed? At a cut, do the viewer's eye and the characters' gaze still lead to the right place?
+- Play through with sound. Does the reveal land on the intended phrase? Can you read the result before the next beat? Check the busiest portrait frame with captions on.
+- Use the actual local catalog, approved assets and narration. The references supply staging examples. For a factual map, likeness or figure, use verified source material.
 
-- Persistent mechanism states (fill/drain, cross-sections, heat/wind arrows) with deterministic
-  transitions; useful for video3-like explanations. Not implemented by this change.
-- Subject-aware close-ups and continuity across scene boundaries. Current camera controls need
-  explicit directing and inspection; do not assume automatic target tracking.
-- Verified map regions/routes and a sourced archival-video scene. The current image layout is
-  not a full geographic or archival-footage system. Use relevant map/media skills for a concrete
-  project, source assets, and retain our flat illustration style instead of copying reference art.
-
-## Measurements and limits
-
-All five references are 720×1280 at 30 fps. Our output uses `VIDEO_FPS` from `.env` (30 by default).
-Measurements below are FFmpeg loudnorm **input** values, measured over each complete audio stream.
-
-| File | Integrated LUFS | True peak dBTP | LRA LU |
-|---|---:|---:|---:|
-| video1 | -14.56 | +0.19 | 2.20 |
-| video2 | -20.67 | -3.64 | 2.40 |
-| video3 | -16.94 | -0.66 | 3.70 |
-| video4 | -15.88 | +0.10 | 7.80 |
-| video5 | -15.29 | -0.06 | 2.90 |
-
-The variation does not justify copying a reference mix. Keep our existing -14 LUFS / -1 dBTP
-targets and narration priority. These measurements do not isolate music, voice or effects;
-no claims about their relative loudness or exact cue timing follow from them.
-
-The references supply storytelling inspiration, not reusable illustrations, maps, characters,
-historical facts or soundtracks. Their lighting, shading, depth and camera work informed the project's lit cartoon style
-(ART_STYLE.md); their textures and photographic backgrounds were not adopted.
+[Art style and camera](ART_STYLE.md) · [Storyboard fields and layouts](STORYBOARD_GUIDE.md) · [Story actors and timing](STORY_MODE.md) · [Earlier five-video study from a separate collection](docs/studies/2026-11-05-five-videos.md)

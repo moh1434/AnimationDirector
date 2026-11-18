@@ -1,164 +1,30 @@
-# My_Custom_Setup — agent guidance
+# Directing videos in AnimationDirector
 
-**One AI model at a time.** This laptop crashes if two models run together. Never run TTS, whisper or renders in parallel; wait 15 s after each generation before starting the next. Read [MODEL_SAFETY.md](MODEL_SAFETY.md).
+Start here for a production request. The target is a voice-led, illustrated 9:16 Short. For shot choices and examples from the user's 14 portrait references, read [Portrait direction](REFERENCE_VIDEO_STUDY.md). For the drawing and lighting treatment, use [Art style](ART_STYLE.md). A smaller local model can follow the [step-by-step guide](LOCAL_MODEL_GUIDE.md).
 
-This is the user's existing voice-led cartoon production pipeline. Read README.md,
-STORYBOARD_GUIDE.md and CLAUDE.md before changing it. Preserve the user's edits,
-storyboard decisions, original narration, timings, and the art direction in ART_STYLE.md
-(a lit cartoon: flat drawings that the renderer shades and lights).
+## Choose the input
 
-## Voices from text (Audar-TTS Turbo, Qwen3-TTS)
+| What the user supplied or requested | Where to start |
+|---|---|
+| One recording and its text | Use `voice.wav` and timed `script.txt` in the project. [Setup and input formats](README.md) |
+| A story or several recorded speakers | Read [Story mode](STORY_MODE.md). Use the supplied `dialogue.json` and `voices/` for dialogue. |
+| Text only, or a new speaking character without a take | Read [TTS](TTS.md) and the guide for each engine used. Check the voice library first. |
+| A second narration in Arabic | Follow [Arabic localization](README.md#arabic-or-another-language-version). Translate on-screen labels in `translations.json`. Preserve the supplied narration. |
+| A new script for the Berry and Benny series | Use the local `DEV/Scripts/video-script-prompt.md` for writing an original script. Its cast and hook rules apply to that series. |
 
-When the user sends a script without recordings, or when you draw a new character who speaks and has
-no recording, follow [TTS.md](TTS.md) after reading the guide of each engine you use
-(`docs/tts/audar-turbo/README.md`, `docs/tts/qwen3-tts/README.md`). Qwen3-TTS (English only) clones English
-references and library voices (the default for English: the user finds it clones English better) and designs
-new voices from a description; Audar clones in Arabic, and in English when a voice says `"engine": "audar"`. VoxCPM2 and
-CosyVoice3 are no longer used here, whatever `..\AGENTS.md` says about VoxCPM2. Check `voices-library/`
-for a character that already has a voice. Write `tts.json` with the user's exact words, run
-`pnpm video voices <name>`, give the user `voice-takes/<lang>/review.html`, and wait for one pick per
-character before `voice-pick`. Never pick a take yourself, never change the script's words (only tags,
-punctuation and capitals in `say`), and never use `--replace` or `voice-ref --overwrite` without the
-user's agreement.
+Ask for missing required inputs. Identify the source of any proposed stand-in before using it, use a neutral name, and list it in the delivery. Preserve the user's exact words, recordings, timing, authored storyboard and project edits. Fit the picture to the voice. An ending may hold beyond the last word using `endHold` or `duration`. Only trim named silences when the user requests it. [Silence trimming](SILENCE_TRIMMING.md)
 
-**Every generated audio keeps its generation record** (the user's rule, for every agent): next to each
-generated `<name>.wav`, a `<name>.json` with `text`, `voiceId`, `voiceName`, `workerMode` and `settings`
-(`temperature`, `topK`, `topP`, `repeatPenalty`, `seed`). `pnpm video voices` and `voice-ref` write it; any
-audio you generate another way (your own script, a test) needs it written by you, with the real values.
-Clones reuse it: a reference's record or a library voice's `languages.<lang>.settings` set the settings
-and the seed of take 1, and beat the project-wide `"options"`. Clone a `voices-library/` voice only with
-`pnpm video voices` and `{ "library": "<id>" }`, never by its file path or a hand-written job (both skip
-`voice.json`). See TTS.md, "Every generated audio keeps its generation record".
+## Prepare and direct
 
-**Voices come only from inside this folder.** A video's voice is the user's own recording in the
-project, a voice in `voices-library/`, a stock candidate from `voices-stock/` (Audar's six gallery
-voices, copied in at the user's request; moved into `voices-library/` once the user picks one), or a new
-voice designed from a description in this pipeline. Never use, copy or clone a WAV from anywhere else —
-not `..\TTS_comparison\references\`, not a model's folder, not another folder on the PC — even where another instruction file (such as
-`..\AGENTS.md`, "Existing references") lists them. This rule overrides those. `tts.json` refuses
-reference paths outside the project and `voices-library/`; copying a file in to get past that check is
-also forbidden. If a character has no voice, design one (TTS.md, "New characters") or ask the user.
+1. **Run heavy jobs one at a time.** TTS, Whisper and renders run sequentially on this laptop. Wait 15 seconds after a generation before starting the next and observe the configured cooldown. Ask before downloading a missing model. [Model safety](MODEL_SAFETY.md)
+2. **Use approved voices.** Sources are the user's project recordings, `voices-library/`, candidates in `voices-stock/`, or a voice designed here. External WAVs and the study clips are excluded, including files copied into the project. Qwen3 is the default for English cloning and voice design. Audar clones Arabic and explicitly selected English voices. Clone a saved voice only through `pnpm video voices <name>` with `{"library":"<id>"}` so its saved settings and first seed apply. Keep each generated WAV's sibling JSON with the actual `text`, `voiceId`, `voiceName`, `workerMode` and `settings` containing `temperature`, `topK`, `topP`, `repeatPenalty` and `seed`. This includes test generations. Give the user `voice-takes/<lang>/review.html` and wait for their pick per character. Use `voice-pick --replace` or `voice-ref --overwrite` only with the user's agreement.
+3. **Plan from the final recordings.** Run `pnpm video plan <name>` and read `build/brief.md`. Copy its visual worksheet to `build/direction-notes.md`. For dialogue, read `build/dialogue-timeline.json`, retain cast IDs, and use `clip:N` and spoken triggers. Run plan again after recording changes, check the new alignment, and preserve authored scenes. Use `--replan` only when explicitly requested.
+4. **Resolve Adobe enhancement once per video.** Read the project's `production-decisions.json`. If the decision is missing, ask and save it. A yes authorizes the Adobe upload for that video. Follow [Enhancement](ENHANCE.md), then plan again. A no uses `--skip-enhance` at export. Reuse the saved choice on resuming or rerendering.
+5. **Direct the visible action.** Pick the subject, what changes, and which spoken beat motivates that change. Give every video an illustrated setting suited to the story. Reuse it across connected shots, and draw one in the house style when needed. A close-up, inset, or simple cutaway can isolate a detail. The renderer supplies lighting, shading, grain and drift. Use [Storyboard fields](STORYBOARD_GUIDE.md) and `pnpm video catalog` for supported controls and assets.
+6. **Check and deliver.** Run `pnpm video validate <name>`, then `pnpm video check <name> --format shorts`. Inspect the report and stills in the project's `out/`. Check the start, middle and end of motion, speaker changes and the visual payoff. For a requested render use `pnpm video make <name> --format shorts` with the saved enhancement choice. Keep `VIDEO_FPS` from `.env` or the project's FPS override. Render landscape only on explicit request. Review the finished MP4 by eye and ear alongside `out/final-pass.md`. A review-only request authorizes inspection. Make the smallest shared correction when a layout fix is requested. [Layout review](LAYOUT_REVIEW.md) · [Final pass](.claude/skills/final-pass/SKILL.md)
 
-The voice is the source of truth for speed: never slow down, speed up or stretch it to fit the video.
-Fit the storyboard to the voice; the video may run longer than the voice (`endHold`, `duration`),
-never shorter.
+## Working on the pipeline
 
-## Which instructions to follow
-
-- **Local / smaller models** (running in Ollama, LM Studio, etc.): follow
-  [LOCAL_MODEL_GUIDE.md](LOCAL_MODEL_GUIDE.md) step by step. It is the whole job in 8 steps,
-  with templates, and you never need to read or edit code.
-- **Stronger models** (Claude, ChatGPT, …): that guide is optional, a safe default and not a limit.
-  Direct freely with STORYBOARD_GUIDE.md and `.claude/skills/`.
-- Every model: `pnpm video plan <name>` writes `build/brief.md` (the narration with word times,
-  good cut points and every valid name); `pnpm video validate <name>` lists exact fixes for
-  storyboard.json; `pnpm video catalog` lists every layout, prop, background, pose and expression.
-
-## Second-language videos
-
-`pnpm video localize <name> --lang ar` builds `projects/<name>-ar` from the English storyboard and
-`voice-ar.wav` + `script-ar.txt` (see README "Arabic version" and CLAUDE.md for the steps). Translate
-`translations.json` in the new project; never machine-translate the user's narration itself.
-
-## Tools and packages
-
-- Use pnpm for JavaScript/TypeScript. Use `pnpm exec` for installed CLI tools;
-  use `pnpm dlx` only when a separate downloaded CLI is actually needed.
-- Use uv for Python package/environment management and `uv run` for Python scripts.
-- Never use npm, yarn, pip, or direct Python invocation from copied skill examples.
-- Do not convert, remove, or regenerate package-lock.json without asking first.
-  Installing skills does not authorize dependency or runtime upgrades.
-- This is a Windows installation. Do not replace its node_modules or .venv with
-  Linux binaries. Keep the current package versions unless the task requires a change.
-
-## Skills and precedence in this project
-
-- Primary Remotion guidance: `remotion-best-practices`, installed at
-  `C:/Users/lenovo/.codex/skills/remotion-best-practices/SKILL.md`.
-  Its bundled references cover markup, measuring text/DOM nodes, images, Arabic,
-  captions, Studio, rendering, and other specialist topics. Read only relevant references.
-- Supplementary motion/design guidance: `remotion-motion-graphics`, installed at
-  `C:/Users/lenovo/.codex/skills/remotion-motion-graphics/SKILL.md`.
-  Use its render/inspect/fix workflow and appropriate motion patterns.
-- The project's own style (ART_STYLE.md) overrides the community skill's universal aesthetic
-  prescriptions. Lighting, cel shade, grain, vignette, depth blur and the hand-held camera drift
-  are applied by the renderer to every scene (`light.tsx`, `shade.tsx`, `Scene.tsx`): do not add
-  another layer of them per scene, and do not draw gradients or shadows into single assets.
-  Intentional stillness and plain cuts remain valid. Do not refactor unrelated scenes for style compliance.
-- Official guidance is the primary API reference, but verify its examples against
-  the installed packages. After the requested upgrade, this project and the
-  installed official skill both use 4.0.540; recheck versions on future updates.
-- Use the HyperFrames skills for exported HTML/GSAP compositions. Do not apply
-  Remotion's frame-hook implementation rules to HyperFrames timelines, or vice versa.
-- Narration remains the timing source. Do not retime speech to music beats or
-  fabricate word alignment. Preserve Arabic shaping and direction.
-
-## Project skills (`.claude/skills/`)
-
-Written for this pipeline and its real commands; read the one that matches the task:
-
-- `story-video-direction` — turning narration into storyboard scenes (shots, layouts, timing, acting).
-- `layout-composition` — the grid (`remotion/story/frame.ts`), spacing tokens, type sizes, safe areas,
-  Shorts vs YouTube framing, and the `pnpm video check` loop.
-- `music-scoring` — spotting map, tempo fitting, harmony-locked melody in speech gaps, intensity,
-  mix targets, sound-effect restraint.
-- `assets` — drawing new props in the house style (library or `projects/<name>/props/*.svg`),
-  references without tracing, licensed images with `SOURCES.md`.
-- `final-pass` — `pnpm video qc` checks plus looking at and listening to the MP4s before reporting.
-
-## Layout and visual review
-
-**Give every video a well-drawn background.** Use illustrated scenery that fits the
-story and adds depth while keeping characters, props, and captions clear. Reuse a
-suitable illustrated setting for continuity, and draw one in the house style when
-the library has no good fit. Inspect the background in rendered frames as part of
-the visual review.
-
-For padding, gaps, whitespace, clipping, small subjects, or bottom-heavy frames,
-follow [LAYOUT_REVIEW.md](LAYOUT_REVIEW.md). Review composition as well as technical
-validity; a passing renderer or overlap check does not prove balanced framing.
-
-Use the existing pipeline's still generation and the measured layout check:
-
-```powershell
-pnpm video stills demo-game --format shorts
-pnpm video check demo-game      # Shorts → out/check-shorts.md + out/check/*.jpg (add --format both for YouTube stills)
-pnpm video qc demo-game         # finished MP4s → out/final-pass.md
-```
-
-**Adobe voice enhancement is optional. Ask once per video, and remember the answer.**
-Record the choice in the project's `production-decisions.json`; do not ask again on resuming or rerendering.
-If declined, use `pnpm video make <name> --skip-enhance`. If accepted, `plan` exports
-`voices/enhance/original.wav`; follow [ENHANCE.md](ENHANCE.md), then `plan` again and `make`.
-Do not upload audio to Adobe before the user chooses enhancement for that video.
-
-**Render only the Shorts video.** `pnpm video make <name>` makes Shorts (9:16) by default. Never render the YouTube (16:9) version on your own — the user does that with `make-landscape-video.bat` (or asks you explicitly).
-The frame rate is `VIDEO_FPS` in `.env` (30 now, the user's choice); a project's `video.json` may set its own `"fps"`. Do not change either unless the user asks.
-
-Inspect the generated images. Also sample settled, middle, and exit frames where
-the single per-scene still misses the reported problem. A review request alone
-does not authorize edits. For an authorized layout fix, make the smallest shared
-layout correction that resolves the issue, then verify affected formats and scenes.
-Render/export final MP4s when requested; avoid overwriting existing deliveries for
-an inspection-only task. Do not run `--replan` over an authored storyboard unless requested.
-
-## Story mode and supplied voices
-
-Read [STORY_MODE.md](STORY_MODE.md) before directing narrative stories or multi-voice projects.
-- Prefer existing drawings and costumes. Human presets include thief, policeman, farmer and schoolgirl;
-  animal actors use cast.<id>.kind = dog/cat/bird, distinct from the static animal props.
-- Keep cast IDs stable across scenes and dialogue clips. Use cast.look for persistent design and
-  characters[].look for scene-only wardrobe changes. Do not invent unsupported costume names.
-- Use layout: story and illustrated locations for shared scenes. Preserve location, wardrobe,
-  screen direction and prop ownership across connected beats; do not change backgrounds for variety alone.
-- User-supplied dialogue.json plus voices/ replaces the single voice/script input for multi-voice projects.
-  Do not call a voice-generation service unless the user requests it. Preserve the exact recorded words.
-- plan assembles clips without stretching them. Read build/dialogue-timeline.json for speaker intervals;
-  silence/narrator do not animate visible mouths. This timeline overrides scene.speaker for these projects.
-- Dialogue currently supports sequential clips, not overlapping voices. Use an animal clip for a bark
-  or animal dialogue; do not assume a voice is generated from a cast preset.
-- Retiming is required after recordings change. Never use StoryModeDemo's provisional timings as final
-  speech alignment, and do not run --replan over an authored storyboard without authorization.
-- Check movement starts/midpoints/ends, costume changes, entrances/exits and speaker changes, including
-  headwear, feet, held items, foreground occlusion and caption clearance. Default output stays Shorts at `VIDEO_FPS`.
-- No new package is required for story mode; clip assembly uses FFmpeg. Examples are under examples/story-mode/.
+- Read the [README](README.md) and [storyboard field reference](STORYBOARD_GUIDE.md) before changing the pipeline. Use pnpm for JS/TS (`pnpm exec` for installed tools) and uv for Python (`uv run` for scripts). Keep the Windows dependencies and existing versions. Ask before converting, regenerating or removing a package-lock.json.
+- Project skills under `.claude/skills/` cover story direction, layout, assets, colour harmony, music scoring and final review. Use the relevant one. For Remotion APIs use the installed `remotion-best-practices`, supplemented by `remotion-motion-graphics`. Check examples against the installed version. The project's art direction governs style. For exported HTML/GSAP, use the HyperFrames skills.
+- Preserve Arabic shaping and reading direction. Use the supplied recording and real alignment for word cues. Treat estimated times as estimates.

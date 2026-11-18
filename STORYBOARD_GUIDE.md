@@ -1,8 +1,8 @@
 # Storyboard guide
 
 `projects/<name>/storyboard.json` decides what is on screen. `plan` writes a first draft
-automatically (a keyword-based director). You — or Claude — can rewrite any part of it, then run
-`make-video.bat <name>` (or `stills.bat <name>` for a quick look). The storyboard is kept between
+automatically (a keyword-based director). Edit the draft to fit the narration and inspect it with
+`pnpm video stills <name> --format shorts`. The storyboard is kept between
 runs unless you pass `--replan`.
 
 The same storyboard renders **YouTube 16:9** and **Shorts/Reels/TikTok 9:16**: positions come from
@@ -10,29 +10,7 @@ the layout, which is laid out separately for each shape. Only give `x`/`y` when 
 
 ---
 
-## How the reference videos are built (and what to copy)
-
-The newer five-video portrait study is in [REFERENCE_VIDEO_STUDY.md](REFERENCE_VIDEO_STUDY.md).
-Its main refinement is continuity: show a cause, a visible change and a result. Keep a setting
-or layout across related beats when that helps understanding; 3–7 s is a drafting heuristic,
-not a requirement to reset the picture. A host is useful for personality and reactions, but
-a mechanism or geographic explanation can carry the picture without a visible narrator.
-The notes below describe the original house-style references, not every newer reference.
-The look itself (lighting, shading, camera, transitions) is in [ART_STYLE.md](ART_STYLE.md).
-
-* **One idea per shot, 3–7 s.** A shot changes when the narration moves on. Long lines are split.
-* **A narrator character on screen most of the time**, talking (lip-synced) and gesturing at things.
-* **Saturated grounds** (lit by the renderer: see ART_STYLE.md) that change colour from shot to shot (mint, yellow, lilac, sky, peach…).
-  Space topics use a starry ground; history uses warm/paper tones; title cards use black.
-* **Big simple objects with faces** (a smug sun, a worried Earth, a scared rock). Objects appear
-  exactly when they are *said*.
-* **Very little text**: a word-tag under an object, a big one-word card ("Yes!"), a name card, a number.
-* **Pose-to-pose animation**: poses hold, then move to the next pose with anticipation and overshoot;
-  eyes blink; mouths follow the words; things pop in with squash & stretch; the camera frames close,
-  cuts to reactions and pushes in on surprises.
-* Comedy beats: a confused face + "?", a shrug on "but…", a celebration on good news.
-
----
+For shot selection, continuity, and portrait examples use [Portrait direction](REFERENCE_VIDEO_STUDY.md). For rendering and lighting conventions use [Art style](ART_STYLE.md). This guide documents the JSON fields. Use `pnpm video catalog` for the current names.
 
 ## File shape
 
@@ -85,7 +63,7 @@ Word references keep things in sync with the voice, so prefer them.
 | layout | what it is | uses |
 |---|---|---|
 | `host_talk` | narrator on one side, 1–4 props on the other | `characters`, `props`, `title` (shown big if there are no props) |
-| `hero` | one big object in the middle, small narrator in a corner | `props[0]` (give it a `face`), `characters` |
+| `hero` | one big object in the middle, small narrator in a corner | `props[0]` (optional `face`), `characters` |
 | `duo` | two characters facing each other, speech bubble | `characters` (2), `bubble` |
 | `thought` | character thinking, big thought bubble with an object or text | `characters`, `bubble: {kind:"thought", prop:"earth"}` or `text` |
 | `title` | big kinetic text card | `title`, `subtitle`, `bg: {"type":"burst"}` or `"black"` |
@@ -99,7 +77,7 @@ Word references keep things in sync with the voice, so prefer them.
 | `crowd` | several characters in a row | `characters` (same `who` repeated gets varied clothes) |
 | `free` | nothing automatic: place everything with `x`,`y` | any |
 
-`"mirror": true` flips the layout (narrator on the right) — use it now and then for variety.
+`"mirror": true` flips the layout (narrator on the right) — use it when staging requires the opposite orientation. Keep screen direction consistent across a sequence.
 
 ## Story actors and dialogue
 
@@ -234,7 +212,7 @@ font), `big` (huge single word), `label` (tag), `date` (yellow tag), `note` (pla
 `bg`: a colour name (mint aqua yellow lemon cream peach orange pink rose red lilac purple indigo sky
 blue teal lime green paper white slate night black), a hex colour, or a type:
 `{"type": "space"|"night"|"sky"|"desert"|"sea"|"city"|"room"|"stage"|"classroom"|"lab"|"underground"|"burst"|"grid"|"gradient"|"paper"|"dark"|"image", "color": ..., "color2": ..., "image": "photo.jpg"}`.
-Change the ground colour every shot or two.
+Keep the location and palette across connected shots. Change them when place, time or the explanation changes.
 
 ## Story asset pack
 
@@ -294,8 +272,7 @@ word; `shake` = impact.
 * `tilt: [from, to]` rolls the camera slowly (−4 to 4 degrees; a tilted shot is also enlarged to cover the corners).
   `drift: false` switches off the hand-held sway; add `zoom: [1, 1]` for a completely locked frame.
   In a move, `on: ""` stops centring and keeps the current aim.
-* Frame close: a person should usually fill a third of the frame height or more. In dialogue, change the shot
-  every 2–4 s with `moves` and keep the setting.
+* Frame close: a person should usually fill a third of the frame height or more. Use `moves` when the viewer needs a closer look at an action or reaction. Keep the setting recognizable.
 
 `light` (per scene): `day warm cool dusk night spot none`. Left out, it follows the background (day outdoors, warm
 indoors, night at night). `spot` darkens the set around a pool of light in the middle while the actors stay bright, for a punchline or an aside.
@@ -318,31 +295,6 @@ ending lands after the last word (see `build/spotting.json`). Set `"music"` in v
 
 ---
 
-## Directing checklist (for Claude or a human)
+## Checking the storyboard
 
-1. Read the whole narration first; decide the cast (the narrator + any recurring characters).
-2. One scene per idea, 3–7 s; split long segments at sentence ends (use word times from
-   `build/analysis.json` → `words`). Scene `start` must match a word start; `end` = next `start`.
-3. Complete the visual story worksheet in `build/brief.md` (save your notes separately).
-   Choose the layout that *explains* the sentence best. Preserve setting and screen direction
-   across related beats; vary layouts and grounds when the meaning or location changes.
-4. Make objects appear on the word that names them (`"at": "@word"`), give some of them faces
-   and an expression that comments on the line.
-5. Add 1–3 `actions` per scene so the narrator reacts (point when an object appears, shrug on "but",
-   think on a question, celebrate on good news).
-6. Use a `title` card for punchlines and short dramatic lines; a `number` scene for key figures.
-7. Never invent facts, maps or real people's likenesses; use `image` with the user's own pictures.
-8. Keep on-screen text readable: a sentence needs words ÷ 3 + 1 s on screen (less if the voice says
-   it at the same time); labels 1–3 words; titles ≤ ~6 words; ≤ 6 things in a scene.
-9. Run `pnpm video validate <name>` and fix every error (it names the scene, the field and a fix).
-   Then run `pnpm video check <name>` (Shorts; `--format both` adds YouTube stills) and fix every error;
-   look at `out/check/` stills.
-   See `.claude/skills/layout-composition/SKILL.md` for spacing, sizes and safe areas.
-10. `make-video.bat` in the project folder, then read `out/final-pass.md` and the frame sheets.
-
-
-## Story mode: characters, animals and dialogue
-
-See [STORY_MODE.md](STORY_MODE.md) for multi-voice supplied recordings, animal actors,
-custom wardrobe, illustrated locations and eased character movement. Studio includes
-`StoryModeDemo`; the example script and recording manifest are in `examples/story-mode/`.
+Run `pnpm video validate <name>` and fix field and timing errors. Run `pnpm video check <name> --format shorts`, then inspect `out/check-shorts.md` and `out/check/`. Allow time to read each label or title. As a starting estimate, a written sentence needs its word count divided by three, plus a second. Check the opening, action, result and exit in sequence with the voice. See [production workflow](AGENTS.md) for export and final review.

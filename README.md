@@ -1,19 +1,8 @@
 # AnimationDirector — cartoon stories and explainers
 
-Make illustrated stories with recurring characters, animal actors, scene-specific costumes,
-indoor/outdoor settings, and supplied voices. Or keep using the original single-narrator explainer workflow.
+AnimationDirector turns a narration or a set of dialogue recordings into an illustrated cartoon. The agent's default delivery is a vertical Short. The same storyboard supports a separately requested landscape export.
 
-- [Story mode and multi-voice setup](STORY_MODE.md)
-- [Storyboard field reference](STORYBOARD_GUIDE.md)
-- [Guide for local agents](LOCAL_MODEL_GUIDE.md)
-- [Voices from text](TTS.md): only a script, or a new character with no recording? Qwen3-TTS (clones and designs English voices) or Audar-TTS (clones Arabic) makes a few takes per character on this PC,
-  you listen and pick one each, and they become the video's recordings.
-
-Give it **your narration (.wav)**, **the story text with time segments**, and it makes a cartoon
-explainer video in the style of the reference videos (round-headed characters with lip-sync,
-objects with faces, cel shading and scene lighting, close camera work, pop-in animation, music and
-sound effects; the look is described in [ART_STYLE.md](ART_STYLE.md)) — as
-**YouTube 16:9** and **Shorts / Reels / TikTok 9:16** at the same time.
+**For AI models, start with [AGENTS.md](AGENTS.md).** Use [Portrait direction](REFERENCE_VIDEO_STUDY.md) to choose the shots and [Storyboard fields](STORYBOARD_GUIDE.md) to write them. Smaller models can follow the [step-by-step guide](LOCAL_MODEL_GUIDE.md). The setup and commands below are for the person operating the pipeline.
 
 ## Requirements
 
@@ -36,8 +25,7 @@ sound effects; the look is described in [ART_STYLE.md](ART_STYLE.md)) — as
 3. Run `pnpm video plan my-story`. It assembles clips and measures their durations, then runs
    the existing voice analysis. Read `build/brief.md` and `build/dialogue-timeline.json`.
 4. Direct `storyboard.json` with matching cast IDs and `layout: "story"`, timed with `clip:N` so new takes need no retiming.
-5. Run `pnpm video validate my-story`, `pnpm video check my-story`, inspect the frames, then
-   `pnpm video make my-story` (Shorts by default, at `VIDEO_FPS` from `.env`).
+5. Run `pnpm video validate my-story` and `pnpm video check my-story --format shorts`, then inspect the frames. For a requested export, use `pnpm video make my-story --format shorts` with the saved [enhancement choice](ENHANCE.md).
 
 No TTS model is needed when you supply the recordings. With only a script, [TTS.md](TTS.md) makes
 the voices locally with Audar-TTS or Qwen3-TTS and you pick one take per character. FFmpeg is required for
@@ -56,12 +44,7 @@ The original `voice.wav` + `script.txt` path below continues to work.
    4.2  | 9.0  | Scientists think the core is about 6000 degrees. But how do we know that?
    ```
    (seconds or `m:ss.s`; an `.srt` file also works. Arabic and English are both supported.)
-4. Double-click **make-video.bat inside the project folder** to make both videos. When it finishes,
-   the `out` folder opens: `earth-age-youtube.mp4`, `earth-age-shorts.mp4`, and `earth-age.srt`.
-   To make just one format (about half the time), use **make-short-video.bat** (9:16 Shorts) or
-   **make-landscape-video.bat** (16:9 YouTube) in the same folder.
-   Videos render at **`VIDEO_FPS`** from `.env` (30 by default; a project's `video.json` may set `"fps"`). From the command line, `pnpm video make <name>` makes only the Shorts
-   video (the `formats` setting); AI agents never render the YouTube version unless you ask.
+4. For a vertical video, use **make-short-video.bat** in the project folder. The result goes to `out/earth-age-shorts.mp4` with its SRT. The equivalent CLI command is `pnpm video make earth-age --format shorts`. Follow the saved [voice enhancement choice](ENHANCE.md) and add `--skip-enhance` when declined. The project's **make-landscape-video.bat** selects YouTube and **make-video.bat** selects both formats. Frame rate follows `VIDEO_FPS` from `.env` (30 by default) or the project's FPS override.
    Each project folder also has **stills.bat** (one picture per scene) and **preview-video.bat** (Remotion Studio).
    The root `make-video.bat` still works too: it asks for the project name.
 
@@ -72,16 +55,9 @@ Other buttons: **stills.bat** (one picture per scene, seconds instead of minutes
 **preview-video.bat** (Remotion Studio: scrub through the video) ·
 **hyperframes-export.bat** (an editable HyperFrames version; add `--render` to render it there).
 
-## Getting a *great* video: let Claude direct it
+## Directing and project settings
 
-`make` first writes `projects\<name>\storyboard.json` with an automatic, keyword-based director.
-It is a decent draft, but it does not understand the story. For the best result ask Claude:
-
-> "Direct the storyboard for projects/earth-age, then render it."
-
-Claude reads `STORYBOARD_GUIDE.md`, rewrites the scenes (layouts, characters, expressions, objects
-with faces timed to the words, jokes, title cards) and runs the pipeline. You can also edit
-storyboard.json yourself — it is kept between runs unless you use `--replan`.
+`plan` creates a keyword-based first draft of `storyboard.json` and keeps an existing storyboard. Direct the shots from the recording, the brief and the [portrait examples](REFERENCE_VIDEO_STUDY.md). For example, ask a model “Direct the storyboard for projects/earth-age using the portrait guide, then render the Short.”
 
 `video.json` in each project holds settings:
 
@@ -211,12 +187,12 @@ Faces blend between expression drawings, and captions/props use restrained empha
 narration and word triggers remain the timing source. The pipeline renders at `VIDEO_FPS` (`.env`, 30 by default).
 
 * **`pnpm video check <name>`** — samples settled poses, midpoints, entrance overshoot, gestures,
-  punch zooms and the last hold before each transition in each format, measures
+  punch zooms and the last hold before each transition in the selected formats, measures
   where each element really is, and reports layout problems: text outside the safe area or under the
   Shorts buttons, collisions, anything in the caption band, text too small, subjects too small,
   empty halves, and characters crossing the bottom margin. Character/text collision checks use
   component geometry, so empty space beside an emote is not counted as solid artwork.
-  Report: `out/check-youtube.md`, `out/check-shorts.md`, stills in `out/check/`.
+  Shorts report: `out/check-shorts.md`, with stills in `out/check/`.
 * **`pnpm video qc <name>`** (also runs at the end of `make`) — checks the finished MP4s: size, fps,
   duration, black or frozen picture, loudness (−14 LUFS) and peak, and makes a one-frame-per-second
   sheet. Report: `out/final-pass.md`.
@@ -234,10 +210,3 @@ the storyboard like any library prop: `{ "prop": "game-engine" }`. Draw them in 
 `pnpm studio` (Remotion Studio, includes the Library catalogue) · `pnpm hf:preview` ·
 `uv run audio/make_jingle.py`. Remotion is free for individuals and small teams; larger companies
 need a [company license](https://www.remotion.dev/license).
-
-
-## Story mode: characters, animals and dialogue
-
-See [STORY_MODE.md](STORY_MODE.md) for multi-voice supplied recordings, animal actors,
-custom wardrobe, illustrated locations and eased character movement. Studio includes
-`StoryModeDemo`; the example script and recording manifest are in `examples/story-mode/`.
