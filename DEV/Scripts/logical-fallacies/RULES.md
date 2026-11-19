@@ -232,10 +232,14 @@ id: spoken words
 ```
 
 - Every line starting with `#` is a note. It is never voiced, captioned or translated.
+- A comment between `/*` and `*/` (or `/**` and `*/`) is a note too, anywhere: at the end of a spoken
+  line, in the middle of one, or across several lines. The pipeline removes it before the voices and
+  captions. Never use square brackets for notes: `[laughs]` is a voice tag and a line in brackets is
+  a sound effect.
 - Every other line is `id: spoken words`, with a lower-case id. Never `narrator`.
 - One `# SEE:` note before each beat.
-- Straight after each catch, mark it: `#NOTE_[Fallacy 1: <name>]`. With several fallacies,
-  number them in order.
+- Mark each catch with a comment at the end of its line: `/** Fallacy 1: <name> */`. With several
+  fallacies, number them in order.
 - After the script, add `# FACTS TO CHECK` if the episode states any real-world fact.
 - Last comes `# LOG UPDATE`: the lines to add to `SERIES_LOG.md` if the episode is approved (what each
   character now knows or believes, new side characters, what was planted or paid off, new running
@@ -321,8 +325,7 @@ wendy: Benny... what were the king's exact words?
 benny: His exact words were... Benny, keep an eye on the treasure.
 # SEE: Silence. Berry stares. Benny straightens the crown.
 berry: Keep an eye on it.
-benny: I'm keeping two eyes on it.
-#NOTE_[Fallacy 1: Past honesty treated as proof]
+benny: I'm keeping two eyes on it. /** Fallacy 1: Past honesty treated as proof */
 wendy: Honest people can still tell a story wrong. Next time, we ask the king.
 
 # SEE: The king is standing behind them, arms crossed.

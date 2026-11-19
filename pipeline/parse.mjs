@@ -31,12 +31,14 @@ function parseSrt(txt) {
 }
 
 function parseLines(txt) {
+  // block comments (slash-star ... star-slash) are notes: never spoken or captioned
+  txt = txt.replace(/\/\*[\s\S]*?\*\//g, (c) => " " + c.replace(/[^\n]/g, ""));
   const segs = [];
   const story = [];
   const re = new RegExp(String.raw`^\s*\[?\s*(${TIME})\s*(?:-->|–|—|-|to)\s*(${TIME})\s*\]?\s*[:|\-–]?\s*(.*)$`);
   const reStart = new RegExp(String.raw`^\s*\[\s*(${TIME})\s*\]\s*(.*)$`);
   for (const raw of txt.replace(/\r/g, "").split("\n")) {
-    const line = raw.trim();
+    const line = raw.replace(/\s{2,}/g, " ").trim();
     if (!line || line.startsWith("#")) {
       story.push("");
       continue;

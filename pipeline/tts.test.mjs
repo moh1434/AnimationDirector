@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, writeFileSync, readFileSync, existsSync, readdirSync, copyFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, basename } from "node:path";
-import { alignLines, keepsRecordings, makeReference, makeTakes, parseLines, parsePicks, pickTakes, readPcm, readVoicePlan, splitTake, digitalGaps, takeChunks, takeCommand, takeRequests, settingsProblems, ttsSettings, DESIGN_TEXT } from "./tts.mjs";
+import { alignLines, keepsRecordings, makeReference, makeTakes, parseLines, stripComments, parsePicks, pickTakes, readPcm, readVoicePlan, splitTake, digitalGaps, takeChunks, takeCommand, takeRequests, settingsProblems, ttsSettings, DESIGN_TEXT } from "./tts.mjs";
 import { mkdirSync } from "node:fs";
 import { pcmWav } from "./dialogue.mjs";
 
@@ -229,6 +229,9 @@ test("one voice for the whole script keeps the take whole as voice.wav + script.
 
 test("scripts written as 'Who: words' and picks written as who=take", () => {
   assert.deepEqual(parseLines("# cast\nAli: Hello!\nOld Man: Hi: there.\n"), [{ who: "ali", text: "Hello!" }, { who: "old_man", text: "Hi: there." }]);
+  // block comments are notes: inline, at the end of a line, on their own line, or across lines
+  assert.deepEqual(parseLines("Ali: Hello /* a note */ there! /** Fallacy 1: False cause */\n/* a\nlong note */\nSam: Hi."), [{ who: "ali", text: "Hello there!" }, { who: "sam", text: "Hi." }]);
+  assert.equal(stripComments("a /* x\ny */ b"), "a  \n b");
   assert.deepEqual(parsePicks(["ali=2", "ahmed=1,dog=3"]), { ali: 2, ahmed: 1, dog: 3 });
   assert.throws(() => parsePicks(["ali"]), /who=take/);
 });

@@ -11,7 +11,7 @@ Mayor: What does that have to do with anything?
 Sam: It's obvious! Fire trucks bring fires!
 
 
-Mayor: Just because two things happen one after another doesn't mean one caused the other. #NOTE_[Fallacy 1: False Cause]
+Mayor: Just because two things happen one after another doesn't mean one caused the other. /** Fallacy 1: False Cause */
 
 ---
 
@@ -21,7 +21,7 @@ Mayor: We have statistics showing that villages with fire trucks suffer less dam
 
 Sam: You don't know what you're talking about! You're a terrible mayor! You can't even fix the main road!
 
-Mayor: This is not acceptable. Instead of answering my argument, You attacked me and brought up something unrelated. #NOTE_[Fallacy 2: Ad Hominem (Personal Attack)]
+Mayor: This is not acceptable. Instead of answering my argument, You attacked me and brought up something unrelated. /** Fallacy 2: Ad Hominem (Personal Attack) */
 
 ---
 
@@ -29,4 +29,4 @@ Then an old man stood up and said:
 
 Old Man: I've lived here for 70 years, and we've never bought a fire truck. We've been just fine! So we don't need one now!
 
-Mayor: Just because something has always been done a certain way doesn't mean it's the best or right way. #NOTE_[Fallacy 4: Appeal to Tradition]
+Mayor: Just because something has always been done a certain way doesn't mean it's the best or right way. /** Fallacy 4: Appeal to Tradition */

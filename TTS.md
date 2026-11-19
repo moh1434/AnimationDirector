@@ -173,7 +173,8 @@ the language): it checks every take word by word and gives the times needed to c
 | `lines[].say` | optional: the same words with Audar tags or different punctuation, for the model |
 | `lines[].file` | optional: the user's own recording of this line (or a sound) instead of a take |
 
-`"script": "story.txt"` can replace `lines`: one `Who: words` line each (no `say` then).
+`"script": "story.txt"` can replace `lines`: one `Who: words` line each (no `say` then). Lines starting
+with `#` and comments between `/*` and `*/` (inline or across lines) are notes and are never voiced.
 
 ### Splitting the script into lines
 

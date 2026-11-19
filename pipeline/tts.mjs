@@ -188,9 +188,15 @@ export function libraryVoice(id, library = LIBRARY, language = "en") {
 
 /* ---------------- the voice plan (tts.json) ---------------- */
 
-/** "Who: words" lines; # starts a comment. */
+/**
+ * Remove notes from a script: block comments (slash-star ... star-slash), inline or across lines.
+ * Each comment becomes a space and keeps its line breaks, so the lines around it stay as they are.
+ */
+export const stripComments = (text) => String(text).replace(/\/\*[\s\S]*?\*\//g, (c) => " " + c.replace(/[^\n]/g, ""));
+
+/** "Who: words" lines; a line starting with # is a note, and block comments are removed. */
 export function parseLines(text) {
-  return text.replace(/^﻿/, "").split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith("#")).map((l, i) => {
+  return stripComments(text.replace(/^﻿/, "")).split(/\r?\n/).map((l) => l.replace(/\s{2,}/g, " ").trim()).filter((l) => l && !l.startsWith("#")).map((l, i) => {
     const m = l.match(/^([^:：]{1,40})[:：]\s*(.+)$/);
     if (!m) throw new Error(`Script line ${i + 1} needs "Who: words": ${l}`);
     return { who: m[1].trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "_").replace(/^_|_$/g, ""), text: m[2].trim() };
