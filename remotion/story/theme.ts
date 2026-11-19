@@ -61,14 +61,14 @@ export type Look = {
   build?: "kid" | "teen" | "adult"; // proportions and height: kid about 2 heads tall and shorter, teen about 3, adult about 3.5 and a little taller (default adult)
   eyes?: "big" | "halfshut" | "iris" | "flick"; // eye style (Face.tsx EyeStyle); default big
   irisColor?: string; // iris colour for eyes "iris" (default warm brown)
-  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff|highponytail|schoolbob|sidebob|shaggy|quiff
+  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff|highponytail|schoolbob|sidebob|shaggy|quiff|bobponytail
   hairColor?: string;
   hairTips?: string; // colour of the dip-dyed ends (starbuns)
   hat?: string; // none|cap|grad|crown|turban|helmet|hardhat|tophat|headscarf|beret|wizard|chef|fez|keffiyeh|safari|bow
   hatColor?: string;
   facial?: string; // none|beard|mustache|goatee|longbeard
   shirt?: string;
-  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|ziphoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor|chefcoat|hoodieskirt
+  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|ziphoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor|chefcoat|hoodieskirt|cardiganskirt
   pants?: string;
   accessory?: string; // none|glasses|sunglasses|scarf|tie|bowtie|medal|monocle|neckerchief
   extras?: string[]; // backpack|flower_necklace|notebook (drawn in addition to the accessory)
@@ -96,14 +96,14 @@ export const PRESETS: Record<string, Look> = {
   policeman: {skin:"#ffffff", hair:"none", hat:"police_cap", hatColor:"#315486", outfit:"police_uniform", shirt:"#315486", pants:"#243955", accent:"#ffc83d"},
   // Berry, the channel's leader. Berry-pink "star buns" hair with light pink ends, a springy curl and a star clip, freckles,
   // a sunny pinafore over a white tee, coral shoes. Original design.
-  berry: { skin: "#ffffff", hair: "starbuns", hairColor: "#b04a78", hairTips: "#ffc0d0", outfit: "pinafore", shirt: "#ffc83d", accent: "#ff6b5e", shoes: "#ff6b5e", blush: true, freckles: true, lashes: true, height: 0.94, build: "teen", head: "bean", eyes: "flick" },
+  berry: { skin: "#ffffff", hair: "starbuns", hairColor: "#b04a78", hairTips: "#ffc0d0", outfit: "pinafore", shirt: "#ffc83d", accent: "#ff6b5e", shoes: "#ff6b5e", blush: true, freckles: true, lashes: true, build: "kid", head: "bean", eyes: "flick" },
   // From the user's character sheet: plum curls with a big side puff and a coral bow, freckles,
   // yellow tee under teal short dungarees with a heart pocket, coral sneakers.
   curly_girl: { skin: "#ffe8cf", hands: "#ffe8cf", hair: "curlypuff", hairColor: "#7a2a55", hatColor: "#ff6b5e", outfit: "dungarees", shirt: "#ffc83d", pants: "#7cc4ad", accent: "#ff6b5e", shoes: "#ff6b5e", freckles: true, lashes: true, build: "teen", height: 0.93 },
   // Benny: Berry's and Cherry's friend. White round face, brown quiff with cropped sides, a yellow hoodie with white-tipped
   // drawstrings, dark grey cargo trousers with rolled cuffs, yellow sneakers.
   // ("host" and "narrator" are his old names and still select him: PRESET_ALIASES.)
-  benny: { skin: "#ffffff", hair: "quiff", hairColor: "#7a4a2c", outfit: "hoodie", shirt: "#f6c220", pants: "#4a4c55", cargo: true, shoes: "#f6c220", sneakers: true, height: 0.98, build: "teen", head: "square", eyes: "iris", irisColor: "#6b4a2e" },
+  benny: { skin: "#ffffff", hair: "quiff", hairColor: "#7a4a2c", outfit: "hoodie", shirt: "#f6c220", pants: "#4a4c55", cargo: true, shoes: "#f6c220", sneakers: true, build: "adult", head: "square", eyes: "iris", irisColor: "#6b4a2e" },
   scientist: { skin: "#ffffff", hair: "messy", hairColor: "#cfd4da", outfit: "coat", shirt: "#ffffff", accessory: "glasses", accent: "#4f7bff" },
   student: { skin: "#ffffff", hair: "side", hairColor: "#3a2a20", outfit: "hoodie", shirt: "#4f7bff", build: "teen" },
   girl: { skin: "#ffffff", hair: "long", hairColor: "#5a3825", outfit: "dress", shirt: "#ff6b8b", blush: true, build: "teen", height: 0.95 },
@@ -128,11 +128,18 @@ export const PRESETS: Record<string, Look> = {
   ponytail_girl: { skin: "#ffffff", hair: "highponytail", hairColor: "#f2607f", hatColor: "#ffd93b", outfit: "frilldress", shirt: "#9b6bd6", extras: ["flower_necklace"], blush: true, lashes: true, build: "teen", height: 0.92 },
   // Cherry — from the user's sheet: dark brown high ponytail with a cherry clip, roomy red hoodie with white
   // drawstrings, short black pleated skirt with a light stripe, black tights, red high-top sneakers.
-  cherry: { skin: "#ffe3d3", hands: "#ffe3d3", hair: "highponytail", hairColor: "#4a2a26", hatColor: "#e0263c", hairClip: "cherry", outfit: "hoodieskirt", shirt: "#d8283c", pants: "#2b2430", tights: "#2b2430", shoes: "#d8283c", hightops: true, blush: true, lashes: true, height: 0.93, build: "teen", head: "oval", eyes: "halfshut" },
+  cherry: { skin: "#ffe3d3", hands: "#ffe3d3", hair: "highponytail", hairColor: "#4a2a26", hatColor: "#e0263c", hairClip: "cherry", outfit: "hoodieskirt", shirt: "#d8283c", pants: "#2b2430", tights: "#2b2430", shoes: "#d8283c", hightops: true, blush: true, lashes: true, height: 0.95, build: "teen", head: "oval", eyes: "halfshut" },
   // Second_Male_Character — spiky orange hair, blue shirt, red scarf
   buddy: { skin: "#ffffff", hair: "spiky", hairColor: "#ff8a3d", outfit: "shirt", shirt: "#4f7bff", accessory: "scarf", accent: "#e53950", build: "teen", height: 0.95 },
   // Third_Male_Character — curly brown hair, round glasses, green argyle sweater vest over a white shirt
   bookworm: { skin: "#ffffff", hair: "curlytop", hairColor: "#9a5a32", outfit: "sweatervest", shirt: "#4caf50", accent: "#8fd36b", accessory: "glasses", build: "teen" },
+  // Wendy: the wise one, about 18, an indie game developer (from the user's design). Dark purple bob with a high side ponytail and a big
+  // yellow bow, purple cardigan with flap pockets over a white collared shirt, dark purple A-line skirt, purple shoes.
+  wendy: {
+    skin: "#ffffff", hair: "bobponytail", hairColor: "#57426f", hatColor: "#f7d354",
+    outfit: "cardiganskirt", shirt: "#b26fd6", accent: "#ffffff", pants: "#5b4472", shoes: "#b26fd6", sneakers: true,
+    blush: true, lashes: true, build: "adult", head: "round", eyes: "big", height: 0.95,
+  },
   // Somi: side-swept plum bob, mint clip, sage zip hoodie and a pocket notebook.
   somi: {
     skin: "#ffffff", hair: "sidebob", hairColor: "#49263e", hatColor: "#a4d7b7",

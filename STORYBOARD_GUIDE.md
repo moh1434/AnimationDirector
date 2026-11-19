@@ -132,9 +132,9 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
     the wrap hats `headscarf`, `keffiyeh` and `pharaoh`. `keffiyeh`: `hatColor` is the cloth, `accent` its patterned edge.
     `pharaoh`: `accent` is the cloth and the gold band, `hatColor` the stripes)
   * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh safari bow
-  * build: `kid` (about 2 heads tall, 0.84 × a teen's height) · `teen` (about 3 heads, a neck, longer arms and legs; Berry, Benny, Cherry and
-    the other young presets) · `adult` (about 3.3 heads, 1.06 × a teen; the default when a look has no build). `size` is a teen's height,
-    so a kid and an adult at the same `size` stand shorter and taller than a teen. `height` still fine-tunes one character.
+  * build: `kid` (about 2 heads tall, 0.84 × a teen's height; Berry) · `teen` (about 3 heads, a neck, longer arms and legs; Cherry and the
+    other young presets) · `adult` (about 3.3 heads, 1.06 × a teen; Wendy, Benny, and the default when a look has no build). `size` is a
+    teen's height, so a kid and an adult at the same `size` stand shorter and taller than a teen. `height` still fine-tunes one character.
   * head: round egg wide bean oval square (`bean` is fuller at the back of the jaw, `oval` is longer than `egg`, `square` has soft corners)
   * eyes: `big` (the large white eye, default) · `halfshut` (a heavy upper lid, a dry and knowing look) · `iris` (a smaller eye with a coloured iris; set `"irisColor"`) ·
     `flick` (a thick lash line that flicks out at the corner; it replaces `lashes`). Expressions work with every style.

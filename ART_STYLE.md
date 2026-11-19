@@ -45,7 +45,8 @@ punchline or an aside) · `none` (no lighting layers; `image` backgrounds use th
 - **Builds** (`look.build`) set the proportions and the height: `kid` is about 2 heads tall (head scale
   1.32, no neck) and 0.84 × a teen's height; `teen` about 3 heads (head 0.92, a short neck, wider
   shoulders, longer arms and legs); `adult` about 3.3 heads (head 0.87, broader torso) and 1.06 × a
-  teen. A look with no build is an adult. Berry, Benny, Cherry and the other young presets are teens.
+  teen. A look with no build is an adult. The main cast spans the builds: Berry is a kid, Cherry a teen,
+  Wendy and Benny adults; the other young presets are teens.
   The numbers live in `BUILDS` in `Character.tsx`; `heightOf` gives the drawn height and the camera's
   `on` aims at each build's face (`faceAim`).
 - **Head shapes** (`look.head`): round, egg, wide, bean, oval, square. Hair is drawn for a round head,

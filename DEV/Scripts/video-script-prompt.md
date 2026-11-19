@@ -9,14 +9,40 @@ so it decides whether they stay.
 
 ## 1. The show
 
-- **Berry** (id `berry`) is the main character and is in every video. A girl of about ten with
-  berry-pink hair in two buns: curious, confident, quick, a little too sure of herself. She explains
-  things by doing them, not by lecturing.
-- **Benny** (id `benny`) is her best friend and the second main character, and a friend of Cherry too.
-  A boy with a round white face, shaggy brown hair, a yellow hoodie, grey cargo trousers and yellow
-  sneakers: warm, funny, a head full of strange questions. He says what the viewer is thinking.
-- **Cherry** (id `cherry`) is a friend of Berry and Benny. A girl with a dark brown ponytail, a cherry
-  hair clip, a red hoodie and a black skirt. Use her when a story needs a third friend.
+The four main characters live on the same street. Benny's juice stand is where they meet, and
+Wendy's garage, next door, is where she makes her video games. Each has their own age, so their
+problems and the way they argue differ.
+
+| Character | Age | In one line |
+|---|---|---|
+| **Berry** (`berry`) | kid, about 10 | Curious, confident, quick, a little too sure of herself |
+| **Cherry** (`cherry`) | teen, about 15 | Sharp, dry and sceptical; she counts things |
+| **Wendy** (`wendy`) | about 18 | The wise one: a calm indie game developer who spots most bad reasoning, often by testing the idea |
+| **Benny** (`benny`) | young adult, about 20 | Warm, funny, full of big ideas, and the quickest to a bad conclusion; runs the juice stand |
+
+- **Berry** is the main character and is in every video. A girl of about ten with berry-pink hair in
+  two buns and a star clip, a yellow pinafore. She decides fast and explains things by doing them, not
+  by lecturing. She is often the one who jumps to a conclusion, and also the one who asks the blunt
+  "Why?" that grown-ups avoid. Speaks in short, excited, bossy lines.
+- **Cherry** is about fifteen: a dark brown high ponytail with a cherry clip, a red hoodie and a black
+  skirt. She helps at Benny's stand on weekends and keeps the money and the receipts. Practical and
+  hard to fool, but once she has been fooled she tends to trust nobody, which is its own mistake. Dry,
+  short sentences and deadpan questions.
+- **Wendy** is about eighteen and makes indie video games in her garage: a dark purple bob with a high
+  side ponytail and a big yellow bow, a purple cardigan over a white collared shirt, a dark purple
+  skirt. Wise beyond her years because she playtests everything. She is the one who usually spots where
+  an argument goes wrong, and she fixes it the way she fixes a bug: she asks a question, checks what
+  actually happened, or suggests a small test and lets everyone watch the result. She never lectures
+  or names the mistake; one well-placed question or test is enough. Rarely, she trusts her own tests or
+  plans too much and is the one who gets it wrong. Calm, few words, a dry sense of humour.
+  Her props: a laptop and a game controller.
+- **Benny** is about twenty: shaggy brown hair, a yellow hoodie, grey cargo trousers and yellow
+  sneakers. He grows mint and lemons and sells juice from his stand. Warm, funny, generous, and full of
+  big plans, he makes more reasoning mistakes than anyone: he trusts a friendly face or a good story,
+  takes one lucky day as a rule, decides first and finds reasons after, and won't give up on a plan
+  he has already paid for. His mistakes always sound reasonable when he says them, and he says them
+  with total confidence, which is where the comedy comes from. He is never stupid or mean, takes being
+  caught well, and doesn't make the same mistake twice in the same way. Friendly, rambling, jokey.
 - Other people when the story needs them: a chef, a scientist, a
   policeman, a thief, a king, a wizard, a farmer, a grandpa, a schoolgirl, a robot; a dog, a cat or
   a bird. Give each a short lower-case id (`chef`, `dog`).

@@ -10,21 +10,23 @@ drafts are not part of the story until they are approved. When an episode is app
 |---|---|---|---|---|
 | (none yet) | | | | |
 
-The drafts in `../drafts/fallacies/` are ideas only, not part of the story yet.
+The drafts in `drafts/` are ideas only, not part of the story yet.
 
 ## Characters: what they know, believe and are known for
 
-### Berry (`berry`)
-- (nothing yet)
+Starting facts (from `../video-script-prompt.md` section 1); add what happens in approved episodes below them.
 
-### Benny (`benny`)
-- (nothing yet)
+### Berry (`berry`)
+- Kid, about 10. Lives on the street; often at Benny's juice stand.
 
 ### Cherry (`cherry`)
-- (nothing yet; no fixed role in this series yet)
+- Teen, about 15. Helps at Benny's stand on weekends and keeps the money and receipts.
 
-### Wise character
-- (none yet; only the user adds one)
+### Wendy (`wendy`): the wise character
+- About 18. Makes indie video games in her garage next door; playtests everything.
+
+### Benny (`benny`)
+- Young adult, about 20. Grows mint and lemons and runs the juice stand.
 
 ### Side characters
 | id | Who they are | First episode |
@@ -48,4 +50,4 @@ The drafts in `../drafts/fallacies/` are ideas only, not part of the story yet.
 
 ## The world
 Places, who rules where, how the world works (magic, talking animals, ...).
-- (nothing yet)
+- The four live on the same street: Benny's juice stand is the meeting place, Wendy's garage studio is next door.

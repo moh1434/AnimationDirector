@@ -162,6 +162,27 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
           <path d={`M-24 ${top + 1} L-6 ${top + 80} M24 ${top + 1} L6 ${top + 80}`} stroke={INK} strokeWidth={5} />
         </g>
       );
+    case "cardiganskirt": { // an open cardigan to the hips (shirt colour) with flap pockets, a white collared shirt (accent), an A-line skirt to the knee (pants)
+      const sk = look.pants ?? "#5b4472";
+      const waist = top + 112, hem = bottom + 64, cHem = bottom + 10;
+      const panel = (side: number) =>
+        `M${side * 54} ${top + 18} Q${side * 54} ${top} ${side * 32} ${top} L${side * 14} ${top} L${side * 22} ${top + 70} L${side * 18} ${cHem} L${side * 58} ${cHem} Q${side * 70} ${cHem} ${side * 70} ${cHem - 12} L${side * 66} ${bottom - 12}Z`;
+      return (
+        <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+          <path d={`M-56 ${waist} L-84 ${hem - 10} Q-86 ${hem} -72 ${hem} L72 ${hem} Q86 ${hem} 84 ${hem - 10} L56 ${waist}Z`} fill={sk} strokeWidth={sw} />
+          <path d={body(waist + 6, 54, 60)} fill={acc} strokeWidth={sw} />
+          {[-1, 1].map((side) => (
+            <g key={side}>
+              <path d={panel(side)} fill={c} strokeWidth={sw} />
+              <path d={`M${side * 30} ${cHem - 50} H${side * 60} V${cHem - 26} Q${side * 60} ${cHem - 16} ${side * 50} ${cHem - 16} H${side * 40} Q${side * 30} ${cHem - 16} ${side * 30} ${cHem - 26}Z`} fill={c} strokeWidth={4.5} />
+              <path d={`M${side * 28} ${cHem - 52} H${side * 62} V${cHem - 40} Q${side * 45} ${cHem - 34} ${side * 28} ${cHem - 40}Z`} fill={c} strokeWidth={4.5} />
+            </g>
+          ))}
+          {/* the shirt's pointed collar over the neckline */}
+          <path d={`M0 ${top + 4} L-30 ${top - 2} L-20 ${top + 26}Z M0 ${top + 4} L30 ${top - 2} L20 ${top + 26}Z`} fill={acc} strokeWidth={4.5} />
+        </g>
+      );
+    }
     case "vest":
       return (
         <g>
@@ -420,6 +441,20 @@ const HairBack: React.FC<{ look: Look; t?: number }> = ({ look, t = 0 }) => {
   const sw = 7;
   const clipId = "hb" + useId().replace(/[^a-zA-Z0-9_-]/g, "");
   switch (look.hair) {
+    case "bobponytail": { // a bob to the shoulders, ends flicking out on one side, and a high ponytail on the other side that sways
+      const tail = "M46 -104 Q100 -190 158 -132 Q198 -84 172 -24 Q152 20 176 58 Q196 92 160 110 Q138 118 128 98 Q150 92 148 72 Q124 34 136 -6 Q150 -50 116 -76 Q92 -92 60 -84Z";
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-110 -6 Q-126 52 -118 100 Q-112 124 -86 120 Q-70 116 -64 104 L64 104 Q80 124 108 128 Q132 128 126 108 Q116 96 118 70 Q124 30 110 -6 Q100 -112 0 -114 Q-100 -112 -110 -6Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M-100 60 Q-108 88 -100 108 M96 64 Q102 92 116 110" fill="none" stroke={INK} strokeWidth={4} opacity={0.3} />
+          <g transform={`rotate(${Math.sin(t * 2.1) * 3} 52 -98)`}>
+            <path d={tail} fill={hc} stroke={INK} strokeWidth={sw} />
+            <path d="M134 -116 Q170 -76 152 -26 M150 34 Q160 62 152 88" fill="none" stroke={INK} strokeWidth={4} opacity={0.3} />
+            <path d="M100 -150 Q132 -146 154 -118" fill="none" stroke={tint(hc, 0.4)} strokeWidth={8} />
+          </g>
+        </g>
+      );
+    }
     case "curlypuff": { // a cloud of curls around the head, with one curl flicking out at the lower left
       const flick = "M-100 78 Q-132 82 -130 102 Q-126 118 -110 110";
       return (
@@ -533,6 +568,20 @@ const HairFront: React.FC<{ look: Look; t?: number; bounce?: number }> = ({ look
   const sw = 7;
   const cap = (fringe = -40) => `M-100 -8 Q-104 -108 0 -110 Q104 -108 100 -8 Q70 ${fringe - 10} 20 ${fringe} Q-50 ${fringe - 6} -100 -8Z`;
   switch (look.hair) {
+    case "bobponytail": { // a fringe swept from a side part across the forehead to a pointed lock, a lock by each cheek, a big bow on the ponytail
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-106 30 Q-112 -112 0 -114 Q110 -112 106 10 Q104 42 96 64 Q86 32 86 -8 Q84 -40 70 -56 Q56 -70 40 -64 Q12 -54 -18 -48 L-34 -22 Q-40 -46 -60 -42 Q-80 -32 -88 -8 Q-90 30 -96 62 Q-104 48 -106 30Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M44 -104 Q20 -74 -26 -38" fill="none" stroke={INK} strokeWidth={4} opacity={0.3} />
+          <path d="M-74 -78 Q-50 -98 -16 -102 M34 -102 Q54 -98 70 -86" fill="none" stroke={tint(hc, 0.4)} strokeWidth={8} />
+          <g stroke={INK} strokeWidth={6} fill={look.hatColor ?? "#f7d354"} transform="translate(56 -110) rotate(28) scale(.8)">
+            <path d="M0 0 L-58 -34 Q-74 0 -58 34Z" />
+            <path d="M0 0 L58 -34 Q74 0 58 34Z" />
+            <rect x={-14} y={-16} width={28} height={32} rx={9} />
+          </g>
+        </g>
+      );
+    }
     case "curlypuff": { // curly fringe, a big curly puff high on one side that wobbles, and a bow at its base
       const j = Math.sin(t * 2.2) * 2.5 + bounce * Math.sin(t * 9) * 2;
       return (
@@ -1098,8 +1147,8 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const waveWig = (p.motion?.[motionIndex+2] ?? (poseName === "wave" ? 1 : 0)) * Math.sin(t * 7) * 14;
   const ra = armPoints(1, R, sx, sy, B.up, B.fore, wig + waveWig);
   const la = armPoints(-1, L, -sx, sy, B.up, B.fore, (p.motion?.[motionIndex+1] ?? (poseName === "explain" ? 1 : 0)) * wig * 0.7);
-  const sleeve = ["robe", "coat", "chefcoat", "suit", "hoodie", "ziphoodie", "hoodieskirt", "armor", "tunic"].includes(look.outfit ?? "");
-  const longSleeve = look.outfit === "ziphoodie" || look.outfit === "hoodieskirt";
+  const sleeve = ["robe", "coat", "chefcoat", "suit", "hoodie", "ziphoodie", "hoodieskirt", "armor", "tunic", "cardiganskirt"].includes(look.outfit ?? "");
+  const longSleeve = look.outfit === "ziphoodie" || look.outfit === "hoodieskirt" || look.outfit === "cardiganskirt";
   const sleeveColor = look.outfit === "coat" ? "#fbfbfb" : look.outfit === "chefcoat" ? "#ffffff" : look.shirt ?? "#ffd23f";
   // short sleeve at the shoulder (its colour), for outfits with a tee underneath
   const puffSleeve = look.outfit === "pinafore" ? "#ffffff" : look.outfit === "dungarees" ? look.shirt ?? "#ffd23f" : null;
@@ -1116,7 +1165,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
     );
   };
   const skin = look.skin ?? "#fff";
-  const bareLegs = ["dress", "frilldress", "pinafore", "tunic", "belted", "dungarees", "robe", "sailor", "hoodieskirt"].includes(look.outfit ?? "");
+  const bareLegs = ["dress", "frilldress", "pinafore", "tunic", "belted", "dungarees", "robe", "sailor", "hoodieskirt", "cardiganskirt"].includes(look.outfit ?? "");
   const legColour = bareLegs ? look.tights ?? skin : look.pants && look.pants !== INK ? look.pants : "#3b3f5c";
   const shoeColour = look.shoes ?? "#2c2a36";
   const ankle = look.hightops ? 38 : 24; // high-tops reach over the ankle, sneakers stop below it

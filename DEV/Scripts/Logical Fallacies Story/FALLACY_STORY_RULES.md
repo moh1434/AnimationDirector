@@ -119,16 +119,32 @@ Rules for the catch:
 
 ## 6. Characters
 
-- **Berry, Benny and Cherry** are as described in `video-script-prompt.md` section 1. Any of them can
-  be the one who reasons badly, and any can notice. Rotate. Berry's confidence makes her quick to
-  jump to conclusions; Benny's strange questions can accidentally break a bad argument. Cherry has
-  no fixed role in this series yet; follow `SERIES_LOG.md` if one has been set.
+- **Berry (kid, about 10), Cherry (teen, about 15), Wendy (about 18) and Benny (about 20)** are as
+  described in `video-script-prompt.md` section 1. **Benny makes most of the bad steps, and Wendy
+  catches most of them**: as a guide, Benny reasons badly in about two episodes out of three and Wendy
+  makes about two catches out of three. The rest keeps the series from becoming predictable: Berry or
+  Cherry falls for it, Berry, Cherry or even Benny catches it, and once in a while Wendy is the one who
+  is wrong. Their ages give each a natural kind of mistake and a natural kind of catch:
+
+  | | Tends to fall for | Tends to catch it by |
+  |---|---|---|
+  | Berry | jumping to conclusions, after-this-so-because-of-this, one example for everyone | a blunt "Why?", trying it right away |
+  | Cherry | trusting nobody after being fooled, "everyone at school says so" | counting, checking the receipts and the record |
+  | Wendy | trusting her own tests and plans too much (rarely) | most catches: a question, checking what actually happened, or a small test everyone watches |
+  | Benny | most mistakes: trusting a friendly face or a good story, one lucky day as a rule, deciding first, sunk cost, pity | now and then, a strange question that breaks the argument by accident |
+
+  The ages also choose the stakes: pocket money and school for Berry, fairness and reputation for
+  Cherry, a release or a playtest for Wendy, the juice stand's money and partners for Benny.
 - **Side characters**: reuse the ones in `SERIES_LOG.md` or create new ones (a king, a mayor, a
   merchant, a stubborn villager). Give each a short lower-case id and one clear want.
-- **A wise character** appears only when the user provides one: use the name, id and description
-  you are given, and don't invent a recurring mentor. They speak rarely, ask questions rather than
-  give answers, and let the friends find the flaw themselves. Wise is not the same as never wrong:
-  one episode can catch them out.
+- **Benny is the one who usually reasons badly.** Keep him likeable: his bad step must sound
+  reasonable, he says it with full confidence, and he takes being caught with good humour. He learns:
+  he doesn't fall for the same fallacy in the same way twice (check `SERIES_LOG.md`), so give him a new
+  mistake each time.
+- **Wendy is the wise character and the usual catcher.** She catches the flaw the way she fixes a bug:
+  one question, a look at what actually happened, or a small test the others watch. She never lectures
+  and never names the fallacy. She speaks less than the others, so her one line lands. Wise is not the
+  same as never wrong: now and then an episode catches her out. Don't invent another recurring mentor.
 - **Placeholders** in the user's drafts ("Character A") are cast from the trio or the side characters.
 - **Speakers:** three or fewer when possible. A town-sized story (a trial, a meeting) may use four or
   five. Silent characters cost nothing.

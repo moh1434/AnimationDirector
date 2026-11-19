@@ -1,6 +1,6 @@
 # Character design upgrade: less childish, more varied
 
-Goal: Berry, Benny and Cherry read as teens, every character has a face of their own, and the acting
+Goal: the main cast reads as their ages (Berry a kid, Cherry a teen, Wendy and Benny adults), every character has a face of their own, and the acting
 feels less like a children's cartoon. Keep the house style: flat fills, thick ink outline, the renderer's
 lighting (see `ART_STYLE.md`).
 
