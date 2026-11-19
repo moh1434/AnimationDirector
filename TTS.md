@@ -120,6 +120,9 @@ the language): it checks every take word by word and gives the times needed to c
 
 1. `pnpm video new my-story --tts` makes the project with a `tts.json` to fill in.
 2. Fill in `tts.json` from the user's script (below). Never change the user's words.
+   A script saved in a series' `episodes/` folder (for example `DEV/Scripts/logical-fallacies/episodes/`)
+   is used only when its first line is `# STATUS: approved`. Read the file as it is now, since the user
+   may have edited it, and use its spoken lines exactly; lines starting with `#` are never voiced.
 3. `pnpm video voices my-story` makes the takes, one generation at a time with a rest between them (`CHUNK_COOLDOWN_SEC` in `.env`, 15 s by default),
    and writes `voice-takes/en/review.html`: every character's takes side by side, with what the word
    check found.

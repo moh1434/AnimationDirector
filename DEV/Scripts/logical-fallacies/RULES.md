@@ -13,6 +13,10 @@ are voiced, then an animator draws the picture to fit the voices.
 2. **`SERIES_LOG.md`** (this folder): what has already happened in the series, what each
    character has learned, and which setups are still waiting for a payoff. Never contradict it.
 
+This folder: `RULES.md` (this file) · `SERIES_LOG.md` · `episodes/` (finished scripts: drafts waiting
+for the user's review, and approved ones ready for the voices; see "Save it for review" in section 9) ·
+`drafts/` (the user's rough ideas and rejected episodes; not part of the story).
+
 What changes from `video-script-prompt.md`: the episode shape (section 3 here replaces its formats
 A to D), lengths up to 3 minutes (section 8), and the output header (section 9).
 What stays: **no narrator**, ever. Everything is told through what the characters say and do.
@@ -212,6 +216,7 @@ to pick one. Write the script after they choose; if the user can't be asked, pic
 why in one line. Then the script in exactly this form:
 
 ```text
+# STATUS: draft
 # TITLE: (a story title, never the fallacy's name)
 # ARC: standalone | setup for <what is planted> | payoff of <what was planted>
 # LENGTH: about N s, N spoken words
@@ -236,6 +241,23 @@ id: spoken words
   character now knows or believes, new side characters, what was planted or paid off, new running
   jokes). Don't edit `SERIES_LOG.md` yourself unless you're asked to.
 
+### Save it for review
+
+The script is never sent to the voices straight away. The user reviews it first.
+
+1. When the script passes the checklist (section 10), save it as `episodes/NN-short-title.txt` in this
+   folder: `NN` is the next free number (`01`, `02`, ...), the title in lower-case words joined by
+   hyphens, for example `episodes/01-the-king-said-so.txt`. The first line is `# STATUS: draft`.
+2. Tell the user the file's path and stop. Don't make voices, a project or a storyboard yet.
+3. The user reads it and edits the file directly, or asks for changes. For a change, read the file
+   again first (the user may have edited it), change only what was asked, and keep `# STATUS: draft`.
+   Never undo the user's own edits.
+4. The episode is approved when the user changes the first line to `# STATUS: approved` or says so;
+   then set that line yourself if it isn't already. Only an approved file goes to the voices (see
+   `TTS.md`), and its spoken lines are used exactly as saved. Copy its `# LOG UPDATE` lines into
+   `SERIES_LOG.md` at the same time.
+5. A rejected episode moves to `drafts/`; it is not part of the story.
+
 ## 10. Check before you answer
 
 Fix the script until every answer is yes:
@@ -253,6 +275,7 @@ Fix the script until every answer is yes:
 - Is it funny: at least one real laugh per beat in the middle?
 - Is every line needed, and is the word count inside the range?
 - Is every beat drawable (`video-script-prompt.md` section 6), and is everything consistent with `SERIES_LOG.md`?
+- Is it saved in `episodes/` with `# STATUS: draft` as its first line, and has the user been told where?
 
 ## Example
 
@@ -266,6 +289,7 @@ don't reuse its lines.
 # 3. Benny never lies. That's the problem.
 # CHOSEN (by the user): 1, a confident claim the viewer instantly wants checked, and the crown is on screen.
 
+# STATUS: draft
 # TITLE: The King Said So
 # ARC: payoff of Benny's honest reputation
 # LENGTH: about 57 s, 133 spoken words

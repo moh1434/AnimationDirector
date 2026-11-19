@@ -1,8 +1,9 @@
 # Series log: Logical Fallacies Story
 
-Read this before writing an episode. Only things that happened in an **approved** episode go here;
-drafts are not part of the story until they are approved. When an episode is approved, copy its
-`# LOG UPDATE` lines into the right sections below.
+Read this before writing an episode. Only things that happened in an **approved** episode go here
+(an `episodes/` file whose first line is `# STATUS: approved`); drafts are not part of the story until
+they are approved. When an episode is approved, copy its `# LOG UPDATE` lines into the right sections
+below and add it to the table.
 
 ## Episodes
 
