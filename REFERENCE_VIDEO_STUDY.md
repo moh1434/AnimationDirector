@@ -1,6 +1,6 @@
 # Directing a portrait cartoon
 
-Use this guide when turning an existing voice track into a storyboard. The four folders in [the portrait collection](<DEV/Source Videos To Train On/portrait>) show different ways to make a line visible. Choose the technique that serves the passage. Use the project's own cast, illustrations, voices and score.
+Use this guide when turning an existing voice track into a storyboard. The four folders in [the portrait collection](<DEV/private/Source Videos To Train On/portrait>) show different ways to make a line visible. Choose the technique that serves the passage. Use the project's own cast, illustrations, voices and score.
 
 ## What to look for in the references
 

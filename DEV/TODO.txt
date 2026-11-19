@@ -1,0 +1,4 @@
+1- Make english voice using Qwen3 for Benny C:\Users\lenovo\Desktop\Ai Influencer\AnimationDirector_MyCustomSetup\voices-library\benny
+The current Voice is not good.
+2-Decide the actual content of this channel. 
+Later- Try Arabic voice with some manual Fatha, Thama, Kasra.
