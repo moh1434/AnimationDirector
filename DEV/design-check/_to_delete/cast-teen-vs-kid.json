@@ -1,0 +1,9 @@
+{
+  "name": "berry",
+  "looks": [
+    {"label": "Berry kid", "look": {"build": "kid", "head": "round", "eyes": "big"}},
+    {"label": "Berry teen", "look": {}},
+    {"label": "Cherry kid", "look": {"preset": "x", "build": "kid", "head": "round", "eyes": "big", "skin": "#ffe3d3", "hands": "#ffe3d3", "hair": "highponytail", "hairColor": "#4a2a26", "hatColor": "#e0263c", "hairClip": "cherry", "outfit": "hoodieskirt", "shirt": "#d8283c", "pants": "#2b2430", "tights": "#2b2430", "shoes": "#d8283c", "hightops": true, "blush": true, "lashes": true, "height": 0.88, "hairTips": null, "freckles": false, "accent": null}},
+    {"label": "Cherry teen", "look": {"build": "teen", "head": "oval", "eyes": "halfshut", "skin": "#ffe3d3", "hands": "#ffe3d3", "hair": "highponytail", "hairColor": "#4a2a26", "hatColor": "#e0263c", "hairClip": "cherry", "outfit": "hoodieskirt", "shirt": "#d8283c", "pants": "#2b2430", "tights": "#2b2430", "shoes": "#d8283c", "hightops": true, "blush": true, "lashes": true, "height": 0.88, "hairTips": null, "freckles": false, "accent": null}}
+  ]
+}
