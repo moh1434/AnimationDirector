@@ -173,15 +173,26 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
         </g>
       );
     case "hoodie":
+    case "ziphoodie":
       return (
-        // a hood folded round the neck over a white tee (V-neck), drawstrings with white tips, a front pocket, a ribbed hem
+        // Folded hood over a white tee, with either drawstrings or a front zipper.
         <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
           <path d={body(bottom)} fill={c} strokeWidth={sw} />
           <path d={`M-62 ${bottom - 24} Q0 ${bottom - 18} 62 ${bottom - 24}`} fill="none" strokeWidth={4.5} opacity={0.45} />
-          <path d={`M-36 ${bottom - 72} H36 L44 ${bottom - 30} H-44Z`} fill={c} strokeWidth={4.5} />
+          {o === "ziphoodie" ? (
+            <path d={`M-16 ${bottom - 72} H-32 L-45 ${bottom - 37} Q-43 ${bottom - 30} -35 ${bottom - 30} H-16 M16 ${bottom - 72} H32 L45 ${bottom - 37} Q43 ${bottom - 30} 35 ${bottom - 30} H16`} fill="none" strokeWidth={4.5} />
+          ) : (
+            <path d={`M-36 ${bottom - 72} H36 L44 ${bottom - 30} H-44Z`} fill={c} strokeWidth={4.5} />
+          )}
           <path d={`M-18 ${top + 4} L0 ${top + 34} L18 ${top + 4}Z`} fill="#ffffff" strokeWidth={4.5} />
           <path d={`M-54 ${top + 8} Q-64 ${top - 22} 0 ${top - 18} Q64 ${top - 22} 54 ${top + 8} Q40 ${top + 30} 20 ${top + 4} L0 ${top + 40} L-20 ${top + 4} Q-40 ${top + 30} -54 ${top + 8}Z`} fill={c} strokeWidth={6} />
-          {[-1, 1].map((s) => {
+          {o === "ziphoodie" ? (
+            <g>
+              <path d={`M0 ${top + 40} V${bottom - 22}`} fill="none" strokeWidth={11} />
+              <path d={`M0 ${top + 40} V${bottom - 22}`} fill="none" stroke={look.accent ?? "#f6e7c8"} strokeWidth={4} />
+              <rect x={-8} y={top + 36} width={16} height={24} rx={4} fill={look.accent ?? "#f6e7c8"} strokeWidth={4} />
+            </g>
+          ) : [-1, 1].map((s) => {
             const d = `M${s * 13} ${top + 22} Q${s * 17} ${top + 46} ${s * 14} ${top + 66}`;
             return (
               <g key={s}>
@@ -462,6 +473,7 @@ const HairBack: React.FC<{ look: Look; t?: number }> = ({ look, t = 0 }) => {
         </g>
       );
     }
+    case "sidebob":
     case "schoolbob": // a neat straight bob to the jaw, ends turned in
       return <path d="M-108 -10 Q-124 48 -114 90 Q-98 112 -74 100 L-58 90 L58 90 L74 100 Q98 112 114 90 Q124 48 108 -10 Q100 -112 0 -114 Q-100 -112 -108 -10Z" fill={hc} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />;
     case "shaggy": { // a messy mop of big curved locks, all swept the same way, with a crown lock that sways
@@ -566,6 +578,14 @@ const HairFront: React.FC<{ look: Look; t?: number; bounce?: number }> = ({ look
         </g>
       );
     }
+    case "sidebob":
+      return (
+        <g strokeLinejoin="round" strokeLinecap="round">
+          <path d="M-110 82 Q-122 4 -108 -42 Q-92 -115 0 -114 Q88 -114 105 -54 Q121 -12 112 82 Q91 99 73 96 Q90 57 86 13 L83 -54 Q29 -58 -59 -72 Q-90 -45 -94 -8 Q-99 43 -74 96 Q-95 98 -110 82Z" fill={hc} stroke={INK} strokeWidth={sw} />
+          <path d="M-43 -91 Q-5 -100 39 -87" fill="none" stroke={tint(hc, 0.25)} strokeWidth={7} />
+          <rect x={59} y={-74} width={32} height={14} rx={7} transform="rotate(-28 75 -67)" fill={look.hatColor ?? "#a4d7b7"} stroke={INK} strokeWidth={5} />
+        </g>
+      );
     case "schoolbob": { // a straight fringe cut just above the eyes, a long lock in front of each ear, a small clip
       return (
         <g strokeLinejoin="round" strokeLinecap="round">
@@ -1041,7 +1061,8 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const waveWig = (p.motion?.[motionIndex+2] ?? (poseName === "wave" ? 1 : 0)) * Math.sin(t * 7) * 14;
   const ra = armPoints(1, R, sx, sy, 86, 82, wig + waveWig);
   const la = armPoints(-1, L, -sx, sy, 86, 82, (p.motion?.[motionIndex+1] ?? (poseName === "explain" ? 1 : 0)) * wig * 0.7);
-  const sleeve = ["robe", "coat", "chefcoat", "suit", "hoodie", "hoodieskirt", "armor", "tunic"].includes(look.outfit ?? "");
+  const sleeve = ["robe", "coat", "chefcoat", "suit", "hoodie", "ziphoodie", "hoodieskirt", "armor", "tunic"].includes(look.outfit ?? "");
+  const longSleeve = look.outfit === "ziphoodie" || look.outfit === "hoodieskirt";
   const sleeveColor = look.outfit === "coat" ? "#fbfbfb" : look.outfit === "chefcoat" ? "#ffffff" : look.shirt ?? "#ffd23f";
   // short sleeve at the shoulder (its colour), for outfits with a tee underneath
   const puffSleeve = look.outfit === "pinafore" ? "#ffffff" : look.outfit === "dungarees" ? look.shirt ?? "#ffd23f" : null;
@@ -1122,7 +1143,13 @@ export const Character: React.FC<CharacterProps> = (p) => {
     return (
       <g>
         {tube(d, look.hands ?? skin, 13)}
-        {sleeve ? tube(d, sleeveColor, 22, "s", look.outfit === "hoodieskirt" ? 0.88 : 0.72) : shortSleeve ? tube(d, shortSleeve, 24, "s", puffSleeve ? 0.2 : 0.26) : null}
+        {sleeve ? tube(d, sleeveColor, 22, "s", longSleeve ? 0.88 : 0.72) : shortSleeve ? tube(d, shortSleeve, 24, "s", puffSleeve ? 0.2 : 0.26) : null}
+        {side === 1 && !p.holding && look.extras?.includes("notebook") && (
+          <g transform={`translate(${a.hx} ${a.hy}) rotate(${a.a2 - 24})`} stroke={INK} strokeLinecap="round">
+            <rect x={-31} y={-48} width={37} height={56} rx={6} fill={look.shoes ?? "#735183"} strokeWidth={6} />
+            <path d="M-21 -33 H-5 M-21 -24 H-5" fill="none" strokeWidth={3} />
+          </g>
+        )}
         <Hand x={a.hx} y={a.hy} a={a.a2} side={side} kind={hand} fill={look.hands ?? skin} />
       </g>
     );

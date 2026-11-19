@@ -58,17 +58,17 @@ export type Look = {
   hands?: string; // hand colour (default white); set it with a non-white skin
   shirtSymbol?: "star" | "heart";
   head?: "round" | "egg" | "wide";
-  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff|highponytail|schoolbob|shaggy|quiff
+  hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff|highponytail|schoolbob|sidebob|shaggy|quiff
   hairColor?: string;
   hairTips?: string; // colour of the dip-dyed ends (starbuns)
   hat?: string; // none|cap|grad|crown|turban|helmet|hardhat|tophat|headscarf|beret|wizard|chef|fez|keffiyeh|safari|bow
   hatColor?: string;
   facial?: string; // none|beard|mustache|goatee|longbeard
   shirt?: string;
-  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor|chefcoat|hoodieskirt
+  outfit?: string; // shirt|vest|coat|suit|robe|dress|hoodie|ziphoodie|armor|tunic|belted|frilldress|sweatervest|pinafore|dungarees|sailor|chefcoat|hoodieskirt
   pants?: string;
   accessory?: string; // none|glasses|sunglasses|scarf|tie|bowtie|medal|monocle|neckerchief
-  extras?: string[]; // backpack|flower_necklace (drawn in addition to the accessory)
+  extras?: string[]; // backpack|flower_necklace|notebook (drawn in addition to the accessory)
   accent?: string;
   blush?: boolean;
   freckles?: boolean;
@@ -130,6 +130,12 @@ export const PRESETS: Record<string, Look> = {
   buddy: { skin: "#ffffff", hair: "spiky", hairColor: "#ff8a3d", outfit: "shirt", shirt: "#4f7bff", accessory: "scarf", accent: "#e53950", height: 0.85 },
   // Third_Male_Character — curly brown hair, round glasses, green argyle sweater vest over a white shirt
   bookworm: { skin: "#ffffff", hair: "curlytop", hairColor: "#9a5a32", outfit: "sweatervest", shirt: "#4caf50", accent: "#8fd36b", accessory: "glasses" },
+  // Somi: side-swept plum bob, mint clip, sage zip hoodie and a pocket notebook.
+  somi: {
+    skin: "#ffffff", hair: "sidebob", hairColor: "#49263e", hatColor: "#a4d7b7",
+    outfit: "ziphoodie", shirt: "#a0ae8b", accent: "#f6e7c8", pants: "#3b374c",
+    cargo: true, shoes: "#735183", sneakers: true, extras: ["notebook"],
+  },
 };
 
 /** Other names that select a preset (the folder names of the user's character sheets). */

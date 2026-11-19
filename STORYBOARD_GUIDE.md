@@ -121,22 +121,23 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
   yellow tee, teal short dungarees with a heart pocket), and the user's own designs: `adventurer` (explorer girl with a safari
   hat and backpack), `ponytail_girl` (one high pink ponytail with a bow, frilled dress), `buddy` (spiky orange
   hair, blue shirt, red scarf), `bookworm` (curly hair, round glasses, sweater vest), `cherry` (dark brown high ponytail with a cherry
-  clip, red hoodie, black pleated skirt and tights, red high-top sneakers). Their sheet
+  clip, red hoodie, black pleated skirt and tights, red high-top sneakers), and `somi` (plum bob with a mint clip,
+  sage zip hoodie, purple sneakers and a pocket notebook). Their sheet
   folder names also work (`first_female`, `second_female`, `second_male`, `third_male`; `main_male` =
   `host`). A cast entry can override the look:
   `"look": {"skin":"#fff","hair":"curly","hairColor":"#3a2a20","hat":"turban","facial":"beard","outfit":"robe","shirt":"#3fa58c","accessory":"glasses","accent":"#ffc83d","blush":true,"height":0.8}`
-  * hair: none tuft spiky curly curlytop long bob bun side messy bald wavy ponytail flowing sideponytail starbuns curlypuff highponytail schoolbob shaggy quiff
+  * hair: none tuft spiky curly curlytop long bob bun side messy bald wavy ponytail flowing sideponytail starbuns curlypuff highponytail schoolbob sidebob shaggy quiff
     (`starbuns` also takes `"hairTips"`, the colour of the ends, and `"hatColor"` for its star clip; `curlypuff` and `highponytail` take `"hatColor"` for their bow, so leave `hat` out with them;
-    `schoolbob` takes `"hatColor"` (or `accent`) for its clip; `long` hangs behind the shoulders. Hair is hidden under
+    `schoolbob` and `sidebob` take `"hatColor"` for the clip; `schoolbob` also accepts `accent` as a fallback. `long` hangs behind the shoulders. Hair is hidden under
     the wrap hats `headscarf`, `keffiyeh` and `pharaoh`. `keffiyeh`: `hatColor` is the cloth, `accent` its patterned edge.
     `pharaoh`: `accent` is the cloth and the gold band, `hatColor` the stripes)
   * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh safari bow
-  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie armor tunic belted frilldress sweatervest pinafore dungarees sailor chefcoat hoodieskirt
+  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie ziphoodie armor tunic belted frilldress sweatervest pinafore dungarees sailor chefcoat hoodieskirt
     (`dungarees`: `shirt` is the tee, `pants` the dungarees, `accent` the heart; `chefcoat` is a white chef's jacket: `accent` colours the neckerchief, `pants` the trousers;
     `sailor` is a school uniform:
     `shirt` colours the collar and pleated skirt, `accent` the ribbon, the blouse is white; add `"socks"` for knee socks;
-    `hoodieskirt` is a roomy hoodie (`shirt`) with white drawstrings over a short pleated skirt (`pants`))
-  * accessory: glasses sunglasses monocle scarf tie bowtie medal neckerchief · extras: `["backpack", "flower_necklace"]`
+    `hoodieskirt` is a roomy hoodie (`shirt`) with white drawstrings over a short pleated skirt (`pants`); `ziphoodie` uses `accent` for the zipper)
+  * accessory: glasses sunglasses monocle scarf tie bowtie medal neckerchief · extras: `["backpack", "flower_necklace", "notebook"]`. The notebook follows the hand and gives way to a scene's `holding` prop.
   * small details: `"freckles": true`, `"lashes": true`, `"shoes": "#ff6b6b"` (shoe colour), `"socks": "#4055a0"` (knee socks, with bare-leg outfits), `"hands": "#ffe8cf"` (hand colour, to match a non-white `skin`),
     `"tights": "#2b2430"` (full tights, with bare-leg outfits), `"hightops": true` (high-top sneakers in the `shoes` colour), `"sneakers": true` (low canvas sneakers),
     `"cargo": true` (thigh pockets and rolled cuffs, with trousers),
