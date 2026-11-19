@@ -1018,12 +1018,48 @@ export const Emote: React.FC<{ kind: string; t: number }> = ({ kind, t }) => {
   }
 };
 
+/* ---------------- builds and head shapes ---------------- */
+/**
+ * Body proportions and height. An older build has a smaller head, a neck, broader shoulders, longer arms
+ * and longer legs, and stands taller: scale is the height next to a teen (kids are shorter, adults a little
+ * taller). The drawing coordinates are always CHAR_HEIGHT tall; scale is applied on top, like look.height.
+ * A look with no build is an adult.
+ * head: head scale (radius 100 × head) · headY: head centre · top: shoulders · legTop: hips ·
+ * sx: shoulder half-width · up/fore: arm lengths · wide: torso width · neck: a visible neck.
+ */
+export const BUILDS = {
+  kid: { scale: 0.84, head: 1.32, headY: -436, top: -322, legTop: -150, sx: 56, up: 86, fore: 82, wide: 1, neck: false },
+  teen: { scale: 1, head: 0.92, headY: -468, top: -360, legTop: -200, sx: 61, up: 94, fore: 88, wide: 1.1, neck: true },
+  adult: { scale: 1.06, head: 0.87, headY: -473, top: -372, legTop: -216, sx: 66, up: 98, fore: 92, wide: 1.24, neck: true },
+} as const;
+export type Build = keyof typeof BUILDS;
+/** How tall the character stands, relative to its staged size: look.height × the build's scale. */
+export const heightOf = (look?: Look) => (look?.height ?? 1) * (BUILDS[look?.build ?? "adult"] ?? BUILDS.adult).scale;
+/** Where the face is, as a fraction of the staged size above the feet (the camera's `on` aims here). */
+export const faceAim = (look?: Look) => (({ kid: 0.72, teen: 0.78, adult: 0.8 })[look?.build ?? "adult"] ?? 0.8) * heightOf(look);
+
+/** The outline of the head for a head shape, centred at (0,0) with half-width rx and half-height ry. */
+const headPath = (shape: string | undefined, rx: number, ry: number) => {
+  if (shape === "square") {
+    // soft square: rounder at the top (so the hair still covers it), tighter at the jaw
+    const rt = Math.min(rx, ry) * 0.86, rb = Math.min(rx, ry) * 0.66;
+    return `M${-rx + rt} ${-ry} H${rx - rt} A${rt} ${rt} 0 0 1 ${rx} ${-ry + rt} V${ry - rb} A${rb} ${rb} 0 0 1 ${rx - rb} ${ry} H${-rx + rb} A${rb} ${rb} 0 0 1 ${-rx} ${ry - rb} V${-ry + rt} A${rt} ${rt} 0 0 1 ${-rx + rt} ${-ry}Z`;
+  }
+  if (shape === "bean") {
+    // a bean: a narrower forehead and front, fuller at the back of the jaw (the face looks towards +x)
+    return `M0 ${-ry} C${rx * 0.5} ${-ry} ${rx * 0.86} ${-ry * 0.7} ${rx * 0.88} ${-ry * 0.12} C${rx * 0.9} ${ry * 0.5} ${rx * 0.58} ${ry} ${-rx * 0.04} ${ry} C${-rx * 0.78} ${ry} ${-rx * 1.1} ${ry * 0.56} ${-rx * 1.04} ${-ry * 0.02} C${-rx * 0.98} ${-ry * 0.68} ${-rx * 0.54} ${-ry} 0 ${-ry}Z`;
+  }
+  // oval: the extra length goes into the forehead (under the hair), so the chin stays close under the mouth
+  const cy = shape === "oval" ? -ry * 0.07 : 0;
+  return `M${-rx} ${cy} A${rx} ${ry} 0 1 0 ${rx} ${cy} A${rx} ${ry} 0 1 0 ${-rx} ${cy}Z`;
+};
+
 /* ---------------- the character ---------------- */
 export const Character: React.FC<CharacterProps> = (p) => {
   const look = p.look;
   const t = p.t;
   const facing = p.motion ? (p.motion[7] < 0 ? -1 : 1) : p.facing === "left" ? -1 : 1;
-  const hs = look.height ?? 1;
+  const hs = heightOf(look);
   const poseName = p.walking ? (p.pose === "run" ? "run" : "walk") : p.pose ?? (p.talking ? "talk" : "idle");
   const to = POSES[poseName] ?? POSES.idle;
   const from = POSES[p.fromPose ?? poseName] ?? to;
@@ -1049,18 +1085,19 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const exprTilt = p.motion ? Object.values(EXPR).reduce((sum, spec, i) => sum + (spec.tilt ?? 0) * p.motion![10+i], 0) : EXPR[p.expression ?? "neutral"]?.tilt ?? 0;
   const headTilt = exprTilt + (Math.sin(t * 1.3 + seed) * 0.7 + m * Math.sin(t * 3 + seed) * 1.5);
 
-  const legTop = -150;
-  const top = -322;
-  const headY = -436;
-  const HEAD = 1.32;
-  const sx = 56, sy = top + 22;
+  const B = BUILDS[look.build ?? "adult"] ?? BUILDS.adult;
+  const legTop = B.legTop;
+  const top = B.top;
+  const headY = B.headY;
+  const HEAD = B.head;
+  const sx = B.sx, sy = top + 22;
 
   // talking gesture wiggle on the forearm
   const motionIndex = 10 + Object.keys(EXPR).length;
   const wig = (p.motion?.[motionIndex] ?? (poseName === "talk" || poseName === "explain" ? 1 : 0)) * m * (Math.sin(t * 3.2 + seed) * 6 + 8);
   const waveWig = (p.motion?.[motionIndex+2] ?? (poseName === "wave" ? 1 : 0)) * Math.sin(t * 7) * 14;
-  const ra = armPoints(1, R, sx, sy, 86, 82, wig + waveWig);
-  const la = armPoints(-1, L, -sx, sy, 86, 82, (p.motion?.[motionIndex+1] ?? (poseName === "explain" ? 1 : 0)) * wig * 0.7);
+  const ra = armPoints(1, R, sx, sy, B.up, B.fore, wig + waveWig);
+  const la = armPoints(-1, L, -sx, sy, B.up, B.fore, (p.motion?.[motionIndex+1] ?? (poseName === "explain" ? 1 : 0)) * wig * 0.7);
   const sleeve = ["robe", "coat", "chefcoat", "suit", "hoodie", "ziphoodie", "hoodieskirt", "armor", "tunic"].includes(look.outfit ?? "");
   const longSleeve = look.outfit === "ziphoodie" || look.outfit === "hoodieskirt";
   const sleeveColor = look.outfit === "coat" ? "#fbfbfb" : look.outfit === "chefcoat" ? "#ffffff" : look.shirt ?? "#ffd23f";
@@ -1165,8 +1202,11 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const blink = closed > 0.75;
   const hasWrap = ["headscarf", "keffiyeh", "pharaoh"].includes(look.hat ?? ""); // hair is hidden under these
   const fullWrap = look.hat === "headscarf"; // the cloth frames the whole face, which is drawn a little smaller
-  const headRx = look.head === "egg" ? 92 : look.head === "wide" ? 108 : 100;
-  const headRy = look.head === "egg" ? 108 : look.head === "wide" ? 94 : 100;
+  const headRx = ({ egg: 92, wide: 108, bean: 98, oval: 87, square: 95 } as Record<string, number>)[look.head ?? ""] ?? 100;
+  const headRy = ({ egg: 108, wide: 94, bean: 104, oval: 110, square: 102 } as Record<string, number>)[look.head ?? ""] ?? 100;
+  // older builds have smaller heads; keep the head's outline about as thick as the body's
+  const headStroke = 7 * Math.max(1, 1.1 / HEAD);
+  const emoteScale = 1.32 / HEAD; // emotes keep their size on a smaller head
   const hold = p.holding;
   const hatLook = look.hair === "highponytail" && look.hat === "bow" ? { ...look, hat: undefined } : look;
   const uid = sid(useId());
@@ -1182,7 +1222,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
         <CelFilter id={celBody} depth={13} opacity={0.2} />
         <CelFilter id={celHair} depth={12} opacity={0.26} />
         <ShadowFilter id={castId} opacity={0.2} />
-        <clipPath id={`cf${uid}`}><ellipse cx={0} cy={0} rx={(fullWrap ? headRx * 0.8 : headRx) - 3} ry={(fullWrap ? headRy * 0.86 : headRy) - 3} /></clipPath>
+        <clipPath id={`cf${uid}`}><path d={headPath(look.head, (fullWrap ? headRx * 0.8 : headRx) - 3, (fullWrap ? headRy * 0.86 : headRy) - 3)} /></clipPath>
       </defs>
       {/* soft ground shadow, leaning away from the light */}
       <GroundShadow id={`gs${uid}`} x={14} y={2} rx={118 * (1 + jumpY / 80)} ry={20 * (1 + jumpY / 80)} />
@@ -1227,9 +1267,11 @@ export const Character: React.FC<CharacterProps> = (p) => {
             </g>
           </g>
         )}
+        {/* the neck, from under the collar to under the chin (older builds) */}
+        {B.neck && tube(`M0 ${top + 14} L0 ${headY + breath - m * 5 + HEAD * 70}`, skin, 26, "neck")}
         <g transform={`translate(0 ${breath * 0.3})`} filter={`url(#${celBody})`}>
           <ExtrasBack look={look} top={top} />
-          <Torso look={look} top={top} bottom={legTop} />
+          <g transform={`scale(${B.wide} 1)`}><Torso look={look} top={top} bottom={legTop} /></g>
           {/* the head's shadow on the chest */}
           <ellipse cx={5} cy={top + 13} rx={44} ry={15} fill={SHADE} opacity={0.2} />
           {look.shirtSymbol && <g transform={`translate(0 ${top+68}) scale(.35)`} fill={look.accent??"#ffc83d"} stroke={INK} strokeWidth={6}>{look.shirtSymbol === "heart" ? <path d="M0 45 C-90 -10 -35 -70 0 -30 C35 -70 90 -10 0 45Z"/> : <path d="M0 -55 L17 -17 L59 -17 L25 9 L38 50 L0 25 L-38 50 L-25 9 L-59 -17 L-17 -17Z"/>}</g>}
@@ -1245,7 +1287,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
           )}
           {hasWrap && <g filter={`url(#${celHair})`}><Wrap look={look} /></g>}
           <g filter={`url(#${celHead})`}>
-            <ellipse cx={0} cy={0} rx={fullWrap ? headRx * 0.8 : headRx} ry={fullWrap ? headRy * 0.86 : headRy} fill={look.skin ?? "#fff"} stroke={INK} strokeWidth={7} />
+            <path d={headPath(look.head, fullWrap ? headRx * 0.8 : headRx, fullWrap ? headRy * 0.86 : headRy)} fill={look.skin ?? "#fff"} stroke={INK} strokeWidth={headStroke} strokeLinejoin="round" />
           </g>
           {/* the fringe and the hat throw a shadow onto the face */}
           {!fullWrap && (
@@ -1270,7 +1312,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
           {look.facial !== "mustache" && <Facial look={look} />}
           {look.accessory === "mask" && <g fill="#323640" stroke={INK} strokeWidth={5}><path d="M-92 -42 Q0 -63 92 -42 V13 Q0 -7 -92 13Z"/><ellipse cx={-36} cy={-23} rx={24} ry={21} fill={look.skin??"#fff"}/><ellipse cx={36} cy={-23} rx={24} ry={21} fill={look.skin??"#fff"}/></g>}
           <g transform={`translate(${pupilLook.x * 5} ${pupilLook.y * 3}) scale(${fullWrap ? 0.86 : 1})`}>
-            <Face weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} mouth={m} blink={blink} eyeOpen={1 - closed} mouthShape={p.mouthShape} look={pupilLook} skin={look.skin ?? "#fff"} lashes={look.lashes} />
+            <Face weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} mouth={m} blink={blink} eyeOpen={1 - closed} mouthShape={p.mouthShape} look={pupilLook} skin={look.skin ?? "#fff"} lashes={look.lashes} eyeStyle={look.eyes} irisColor={look.irisColor} />
           </g>
           {look.facial === "mustache" && <Facial look={{ ...look }} />}
           <Glasses kind={look.accessory} />
@@ -1280,8 +1322,8 @@ export const Character: React.FC<CharacterProps> = (p) => {
           {((!hasWrap && ["starbuns", "curlypuff", "flowing", "highponytail", "schoolbob", "shaggy"].includes(look.hair ?? "")) || (hasWrap && !fullWrap)) && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
           <g filter={`url(#${celHair})`}><Hat look={hatLook} facing={1} /></g>
           {p.emote && (
-            <g transform="translate(155 -70)">
-              <g transform={`scale(${facing} 1)`}>
+            <g transform={`translate(${100 + 55 * emoteScale} -70)`}>
+              <g transform={`scale(${facing * emoteScale} ${emoteScale})`}>
                 <Emote kind={p.emote} t={p.emoteT ?? t} />
               </g>
             </g>

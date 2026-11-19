@@ -41,7 +41,21 @@ punchline or an aside) · `none` (no lighting layers; `image` backgrounds use th
 - Short sleeves come from the outfit; bare legs with dresses, dungarees and tunics; trousers
   otherwise (`look.pants`).
 - The face shifts slightly with the gaze, so the head reads as a ball.
-- Geometry is unchanged: feet at y = 0, about 560 units tall, the same poses and presets.
+- Feet at y = 0, about 560 units tall, the same poses for everyone.
+- **Builds** (`look.build`) set the proportions and the height: `kid` is about 2 heads tall (head scale
+  1.32, no neck) and 0.84 × a teen's height; `teen` about 3 heads (head 0.92, a short neck, wider
+  shoulders, longer arms and legs); `adult` about 3.3 heads (head 0.87, broader torso) and 1.06 × a
+  teen. A look with no build is an adult. Berry, Benny, Cherry and the other young presets are teens.
+  The numbers live in `BUILDS` in `Character.tsx`; `heightOf` gives the drawn height and the camera's
+  `on` aims at each build's face (`faceAim`).
+- **Head shapes** (`look.head`): round, egg, wide, bean, oval, square. Hair is drawn for a round head,
+  so a new shape must stay inside the hair's outline at the top (the soft square is rounder at the top
+  than at the jaw for this reason).
+- **Eye styles** (`look.eyes`, `Face.tsx`): `big`, `halfshut`, `iris`, `flick`. The expression still
+  picks the lid shape (narrow, sad, half, wide); the style decides how the eye is drawn. Give each main
+  character a different style so their faces are told apart at a glance.
+- Lines inside the face are thinner than the outline: on smaller heads the face lines scale down with the
+  head while the head's outline keeps about the body's thickness.
 
 ## Camera
 

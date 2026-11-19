@@ -1,0 +1,51 @@
+# HOOK OPTIONS
+# 1. Heavy things always land first. Watch.
+# 2. Why is this paper losing every race?
+# 3. Can a book teach paper to fall?
+# 4. This paper needs to take gravity seriously.
+# 5. I think gravity has a favorite.
+# CHOSEN: 1 - Benny makes a testable claim with the two racing objects already in view; the demonstration overturns it.
+
+# TITLE: The Paper That Cheated
+# FORMAT: A, curious friend
+# LENGTH: about 45 s, 104 spoken words
+# QUESTION: Does the paper lose because it is lighter than the book?
+# ANSWERED AT: "The book shields the paper from most of that resistance."
+# CAST: berry, benny
+# PLACE: classroom
+# TONE: Playful argument; Benny is curious, not foolish, and Berry lets the result do the persuading.
+# DEMONSTRATION: Use a closed, broad book and a loose sheet smaller than its cover; release them without pushing.
+
+# SEE: Benny holds a flat sheet and a horizontal book side by side at the same height.
+benny: Heavy things always land first. Watch.
+berry: Always?
+benny: The book's heavier. Easy victory.
+
+# SEE: Both are released together; the book lands while the paper flutters down.
+benny: Look at that. The paper's barely trying.
+berry: Same paper. Same book. Another race.
+benny: You can encourage it. It still won't win.
+
+# SEE: Berry places the loose sheet flat on top of the book.
+benny: That's not a race. That's public transport.
+berry: If weight alone decides, the book should leave it behind.
+benny: Fine. But no glue.
+berry: No glue. No tricks. Just watch.
+
+# SEE: Berry releases the level book with the paper on top, and they fall together.
+benny: It kept up! You didn't make it heavier.
+berry: Air was slowing the loose sheet down.
+benny: So what changed?
+berry: The book shields the paper from most of that resistance.
+benny: So being light wasn't the whole explanation?
+berry: Exactly.
+
+# SEE: Benny looks from the fallen book to his schoolbag.
+benny: Can it give my homework a lift, too?
+
+# FACTS TO CHECK
+# - Verified: A flat loose sheet falls more slowly than a book in the side-by-side demonstration because air resistance affects their motion differently.
+# - Verified: A sheet resting flat on a broader falling book can remain with it because the book largely shields it from oncoming air.
+# - The paper's mass does not change between trials; weight alone does not explain the different results.
+# - Source: Simon Fraser University Physics, "1C20.11 Book and Paper Drop": https://www.sfu.ca/physics/demos/demos-experiments/book-paper-burnaby.html
+# - Do not animate the book pulling or gluing the sheet downward, or claim that this is a precise measurement of gravitational acceleration.

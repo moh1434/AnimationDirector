@@ -70,7 +70,9 @@ Use `"start": "clip:12"` for a scene: it owns that clip's words, so `"@word"` ke
 
 Most staging mistakes come from sizing a thing to fill the frame instead of sizing it against the world.
 
-**Keep one scale per story.** `size` is a fraction of the frame width, and a person is about that tall.
+**Keep one scale per story.** `size` is a fraction of the frame width, and a teen is about that tall.
+A kid stands at 0.84 of that and an adult at 1.06 (`look.build`), so give everyone in a scene the same
+`size` and let their builds set who is taller.
 
 | Thing | `size` | Why |
 |---|---|---|

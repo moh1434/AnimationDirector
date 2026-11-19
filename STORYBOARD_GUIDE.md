@@ -132,6 +132,17 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
     the wrap hats `headscarf`, `keffiyeh` and `pharaoh`. `keffiyeh`: `hatColor` is the cloth, `accent` its patterned edge.
     `pharaoh`: `accent` is the cloth and the gold band, `hatColor` the stripes)
   * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh safari bow
+  * build: `kid` (about 2 heads tall, 0.84 × a teen's height) · `teen` (about 3 heads, a neck, longer arms and legs; Berry, Benny, Cherry and
+    the other young presets) · `adult` (about 3.3 heads, 1.06 × a teen; the default when a look has no build). `size` is a teen's height,
+    so a kid and an adult at the same `size` stand shorter and taller than a teen. `height` still fine-tunes one character.
+  * head: round egg wide bean oval square (`bean` is fuller at the back of the jaw, `oval` is longer than `egg`, `square` has soft corners)
+  * eyes: `big` (the large white eye, default) · `halfshut` (a heavy upper lid, a dry and knowing look) · `iris` (a smaller eye with a coloured iris; set `"irisColor"`) ·
+    `flick` (a thick lash line that flicks out at the corner; it replaces `lashes`). Expressions work with every style.
+  * **One design per character.** `build`, `head` and `eyes` are part of who a character is: presets already have theirs, so
+    don't override them. When you create a new character, set all three in its `cast.look`: pick the build from its age
+    (`kid` or `teen` for young people, `adult` for grown-ups), and a head and eye style that tell it apart from the others
+    on screen. Keep them the same for the whole video (never change them in `characters[].look` or `actions[].look`),
+    and keep them for a character who comes back in later videos.
   * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie ziphoodie armor tunic belted frilldress sweatervest pinafore dungarees sailor chefcoat hoodieskirt
     (`dungarees`: `shirt` is the tee, `pants` the dungarees, `accent` the heart; `chefcoat` is a white chef's jacket: `accent` colours the neckerchief, `pants` the trousers;
     `sailor` is a school uniform:

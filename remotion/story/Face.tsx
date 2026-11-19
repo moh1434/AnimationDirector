@@ -55,7 +55,18 @@ export type FaceProps = {
   mouthShape?: MouthShape;
   lashes?: boolean; // two little eyelashes at the outer corner of each eye
   part?: "brows"; // draw only the eyebrows (to show them again over a fringe)
+  eyeStyle?: EyeStyle; // how this character's open eyes are drawn (Look.eyes)
+  irisColor?: string; // iris colour for the "iris" eye style
 };
+
+/**
+ * The open eye of a character. Expressions still choose the lid shape (narrow, sad, half, wide);
+ * the style decides how the eye itself is drawn.
+ * big: the classic large white eye with a big pupil (default) · halfshut: a heavy upper lid always
+ * covers the top of the eye, for a dry, knowing look · iris: a smaller eye with a coloured iris ·
+ * flick: a thick upper lash line that flicks out at the outer corner (replaces `lashes`).
+ */
+export type EyeStyle = "big" | "halfshut" | "iris" | "flick";
 
 /** Lip shape of the sound being spoken: wide = -1 (rounded "oo") .. 1 (spread "ee"); close = 0 .. 1 (lips shut, "m/b/p"). */
 export type MouthShape = { wide: number; close: number };
@@ -64,16 +75,29 @@ const sid = (s: string) => s.replace(/[^a-zA-Z0-9_-]/g, "");
 
 const Eye: React.FC<{
   cx: number; cy: number; side: -1 | 1; spec: Spec; blink?: boolean; look: { x: number; y: number };
-  skin: string; sw: number; id: string; lashes?: boolean; open?: number;
-}> = ({ cx, cy, side, spec, blink, look, skin, sw, id, lashes, open = 1 }) => {
+  skin: string; sw: number; id: string; lashes?: boolean; open?: number; style?: EyeStyle; iris?: string;
+}> = ({ cx, cy, side, spec, blink, look, skin, sw, id, lashes: lashesIn, open = 1, style = "big", iris = "#7a5236" }) => {
   const kind = blink ? "closed" : spec.eyes;
-  const rx = kind === "wide" ? 23 : 20;
-  const ry = (kind === "wide" ? 29 : 25) * Math.max(0.3, Math.min(1, open));
+  const lashes = lashesIn && style !== "flick"; // the flick line replaces the little lash ticks
+  const small = style === "iris" || style === "flick";
+  const rx = (kind === "wide" ? 23 : 20) * (small ? 0.88 : style === "halfshut" ? 0.95 : 1);
+  const ry = (kind === "wide" ? 29 : 25) * (small ? 0.84 : style === "halfshut" ? 0.9 : 1) * Math.max(0.3, Math.min(1, open));
   const lash = (d: string) => lashes ? <path d={d} stroke={INK} strokeWidth={sw * 0.8} fill="none" strokeLinecap="round" /> : null;
+  // the thick upper lash line of the "flick" style: along the top of the eye (or along a lowered lid),
+  // flicking up past the outer corner
+  const flick = (lidLine: { yo: number; yi: number } | null) => {
+    if (style !== "flick") return null;
+    const ox = cx + side * rx, ix = cx - side * rx;
+    if (lidLine) return <path d={`M${ox} ${lidLine.yo} l${side * 8} -6`} stroke={INK} strokeWidth={sw * 1.3} fill="none" strokeLinecap="round" />;
+    // a tapered lash line: thin at the inner corner, thick at the outer corner, ending in a short flick
+    const d = `M${ix} ${cy - ry * 0.12} Q${cx - side * rx * 0.1} ${cy - ry * 1.42} ${ox + side * 2} ${cy - ry * 0.32} L${ox + side * 9} ${cy - ry * 0.6} L${ox + side * 1} ${cy + ry * 0.02} Q${cx} ${cy - ry * 1.02} ${ix} ${cy - ry * 0.12}Z`;
+    return <path d={d} fill={INK} stroke={INK} strokeWidth={sw * 0.35} strokeLinejoin="round" />;
+  };
   if (kind === "closed") {
     return (
       <g>
-        <path d={`M${cx - 17} ${cy + 3} Q${cx} ${cy + 11} ${cx + 17} ${cy + 3}`} stroke={INK} strokeWidth={sw} fill="none" strokeLinecap="round" />
+        <path d={`M${cx - 17} ${cy + 3} Q${cx} ${cy + 11} ${cx + 17} ${cy + 3}`} stroke={INK} strokeWidth={style === "flick" || style === "halfshut" ? sw * 1.35 : sw} fill="none" strokeLinecap="round" />
+        {style === "flick" && <path d={`M${cx + side * 16} ${cy + 4} l${side * 9} -5`} stroke={INK} strokeWidth={sw * 1.2} strokeLinecap="round" />}
         {lash(`M${cx + side * 15} ${cy + 5} l${side * 11} 5 M${cx + side * 9} ${cy + 8} l${side * 7} 9`)}
       </g>
     );
@@ -81,7 +105,8 @@ const Eye: React.FC<{
   if (kind === "happy") {
     return (
       <g>
-        <path d={`M${cx - 17} ${cy + 6} Q${cx} ${cy - 16} ${cx + 17} ${cy + 6}`} stroke={INK} strokeWidth={sw} fill="none" strokeLinecap="round" />
+        <path d={`M${cx - 17} ${cy + 6} Q${cx} ${cy - 16} ${cx + 17} ${cy + 6}`} stroke={INK} strokeWidth={style === "flick" ? sw * 1.35 : sw} fill="none" strokeLinecap="round" />
+        {style === "flick" && <path d={`M${cx + side * 15} ${cy + 2} l${side * 9} -6`} stroke={INK} strokeWidth={sw * 1.2} strokeLinecap="round" />}
         {lash(`M${cx + side * 14} ${cy - 1} l${side * 12} -5 M${cx + side * 8} ${cy - 7} l${side * 9} -10`)}
       </g>
     );
@@ -99,23 +124,24 @@ const Eye: React.FC<{
   if (kind === "dizzy") {
     return <path d={`M${cx} ${cy} m-3 0 a3 3 0 1 1 6 0 a7 7 0 1 1 -14 0 a11 11 0 1 1 22 0 a15 15 0 1 1 -30 0`} stroke={INK} strokeWidth={sw * 0.6} fill="none" />;
   }
-  const pr = 11 * (spec.pupil ?? 1);
-  const px = cx + look.x * (rx - pr - 3);
-  const py = cy + look.y * (ry - pr - 4) + 2;
-  // eyelids: polygons covering part of the sclera, clipped to it
-  let lid: string | null = null;
-  if (kind === "narrow") {
-    // slanted lid, low at the inner corner (angry)
-    const inner = side === -1 ? cx + rx : cx - rx;
-    const outer = side === -1 ? cx - rx : cx + rx;
-    lid = `M${outer - side * 4} ${cy - ry - 4} L${outer - side * 4} ${cy - ry * 0.35} L${inner + side * 4} ${cy - ry * 0.05} L${inner + side * 4} ${cy - ry - 4}Z`;
-  } else if (kind === "sad") {
-    const inner = side === -1 ? cx + rx : cx - rx;
-    const outer = side === -1 ? cx - rx : cx + rx;
-    lid = `M${outer + side * 4} ${cy - ry - 4} L${outer + side * 4} ${cy + ry * 0.05} L${inner - side * 4} ${cy - ry * 0.55} L${inner - side * 4} ${cy - ry - 4}Z`;
-  } else if (kind === "half") {
-    lid = `M${cx - rx - 4} ${cy - ry - 4} L${cx - rx - 4} ${cy - ry * 0.15} L${cx + rx + 4} ${cy - ry * 0.15} L${cx + rx + 4} ${cy - ry - 4}Z`;
-  }
+  // iris style: a coloured iris that keeps its size, with the pupil inside it shrinking for shock
+  const ir = style === "iris" ? 11.5 : 0;
+  const pr = style === "iris" ? 5.2 * (spec.pupil ?? 1) : (style === "big" ? 11 : 10) * (spec.pupil ?? 1);
+  const reach = Math.max(ir, pr);
+  const px = cx + look.x * (rx - reach - 3);
+  const py = cy + look.y * (ry - reach - 4) + 2;
+  // eyelids: the lid covers the eye above a line from its outer corner (yo) to its inner corner (yi)
+  let lidLine: { yo: number; yi: number } | null = null;
+  if (kind === "narrow") lidLine = { yo: cy - ry * 0.35, yi: cy - ry * 0.05 }; // slanted, low at the inner corner (angry)
+  else if (kind === "sad") lidLine = { yo: cy + ry * 0.05, yi: cy - ry * 0.55 };
+  else if (kind === "half") lidLine = { yo: cy - ry * 0.15, yi: cy - ry * 0.15 };
+  else if (style === "halfshut") lidLine = kind === "wide" ? { yo: cy - ry * 0.68, yi: cy - ry * 0.68 } : { yo: cy - ry * 0.36, yi: cy - ry * 0.3 };
+  const inner = side === -1 ? cx + rx : cx - rx;
+  const outer = side === -1 ? cx - rx : cx + rx;
+  const lid = lidLine
+    ? `M${outer + side * 4} ${cy - ry - 4} L${outer + side * 4} ${lidLine.yo} L${inner - side * 4} ${lidLine.yi} L${inner - side * 4} ${cy - ry - 4}Z`
+    : null;
+  const heavyLid = style === "halfshut" || style === "flick";
   return (
     <g>
       <defs>
@@ -125,12 +151,21 @@ const Eye: React.FC<{
       </defs>
       <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="#fff" />
       <g clipPath={`url(#${id})`}>
+        {style === "iris" && <circle cx={px} cy={py} r={ir} fill={iris} stroke={INK} strokeWidth={sw * 0.35} />}
         <circle cx={px} cy={py} r={pr} fill={INK} />
-        <circle cx={px + pr * 0.35} cy={py - pr * 0.4} r={pr * 0.32} fill="#fff" />
-        <circle cx={px - pr * 0.4} cy={py + pr * 0.42} r={pr * 0.14} fill="#fff" opacity={0.85} />
+        {style === "iris" ? (
+          <circle cx={px + ir * 0.38} cy={py - ir * 0.4} r={ir * 0.26} fill="#fff" />
+        ) : (
+          <>
+            <circle cx={px + pr * 0.35} cy={py - pr * 0.4} r={pr * 0.32} fill="#fff" />
+            {style === "big" && <circle cx={px - pr * 0.4} cy={py + pr * 0.42} r={pr * 0.14} fill="#fff" opacity={0.85} />}
+          </>
+        )}
         {lid && <path d={lid} fill={skin} stroke={INK} strokeWidth={sw * 0.7} />}
+        {lid && heavyLid && <path d={`M${outer + side * 4} ${lidLine!.yo} L${inner - side * 4} ${lidLine!.yi}`} stroke={INK} strokeWidth={sw * 1.4} strokeLinecap="round" />}
       </g>
-      <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="none" stroke={INK} strokeWidth={sw} />
+      <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="none" stroke={INK} strokeWidth={heavyLid ? sw * 0.8 : sw} />
+      {flick(lidLine)}
       {lash(`M${cx + side * rx * 0.62} ${cy - ry * 0.78} l${side * 10} -11 M${cx + side * rx * 0.92} ${cy - ry * 0.4} l${side * 13} -6`)}
     </g>
   );
@@ -205,7 +240,7 @@ const Mouth: React.FC<{ spec: Spec; m: number; y: number; sw: number; shape?: Mo
 /** A cartoon face centered at (0,0) for a head of radius ≈100 (use `scale` for others). */
 const FaceLayer: React.FC<FaceProps> = ({
   expression = "neutral", mouth = 0, blink, look = { x: 0, y: 0 }, skin = "#fff", scale = 1,
-  stroke = 5.5, eyeSpacing = 34, eyeY = -10, mouthY = 40, lashes, part, eyeOpen = 1, mouthShape,
+  stroke = 5.5, eyeSpacing = 34, eyeY = -10, mouthY = 40, lashes, part, eyeOpen = 1, mouthShape, eyeStyle, irisColor,
 }) => {
   const spec = EXPR[expression] ?? EXPR.neutral;
   const uid = sid(useId());
@@ -227,8 +262,8 @@ const FaceLayer: React.FC<FaceProps> = ({
           <line x1={eyeSpacing - 15} y1={browY} x2={eyeSpacing + 15} y2={browY} transform={`rotate(${spec.brow[1]} ${eyeSpacing} ${browY})`} />
         </g>
       )}
-      <Eye cx={-eyeSpacing} cy={eyeY} side={-1} spec={spec} blink={blink} look={look} skin={skin} sw={sw} id={`el${uid}`} lashes={lashes} open={eyeOpen} />
-      <Eye cx={eyeSpacing} cy={eyeY} side={1} spec={spec} blink={blink} look={look} skin={skin} sw={sw} id={`er${uid}`} lashes={lashes} open={eyeOpen} />
+      <Eye cx={-eyeSpacing} cy={eyeY} side={-1} spec={spec} blink={blink} look={look} skin={skin} sw={sw} id={`el${uid}`} lashes={lashes} open={eyeOpen} style={eyeStyle} iris={irisColor} />
+      <Eye cx={eyeSpacing} cy={eyeY} side={1} spec={spec} blink={blink} look={look} skin={skin} sw={sw} id={`er${uid}`} lashes={lashes} open={eyeOpen} style={eyeStyle} iris={irisColor} />
       <Mouth spec={spec} m={mouth} y={mouthY} sw={sw} shape={mouthShape} />
       {spec.tears && (
         <g fill="#7cc8ff" stroke={INK} strokeWidth={sw * 0.5}>

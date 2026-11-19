@@ -4,7 +4,7 @@ import type { Scene, Storyboard, CharRef, PropRef, TextRef, Item, Action, Move }
 import { Background, BgSpec } from "./Backgrounds";
 import { dialogueSpeaker, isAnimal, stairStep } from "./story-mode.mjs";
 import { Animal } from "./Animal";
-import { Character, Pose, POSES } from "./Character";
+import { Character, Pose, POSES, faceAim } from "./Character";
 import { PropArt } from "./Props";
 import type { Expression } from "./Face";
 import { EXPR, isBlinking } from "./Face";
@@ -145,7 +145,9 @@ export const SceneView: React.FC<{ scene: Scene; sb: Storyboard; mouth: number[]
     const c = who ? L.chars.find((x) => x.who === who) : undefined;
     if (!c) return undefined;
     const at = travel({ x: c.px, y: c.py }, c.move, t, W, H); // where the actor is now, not where they started
-    return { x: at.x / W, y: (at.y - c.ps * 0.72) / H };
+    const cast = sb.cast[c.who] ?? { preset: c.who };
+    const aimAt = isAnimal(cast) ? 0.72 : faceAim(lookFor(cast.preset ?? (c.who === "host" ? "host" : c.who), cast.look));
+    return { x: at.x / W, y: (at.y - c.ps * aimAt) / H };
   };
   let aim = cam.focus ?? faceOf(cam.on) ?? { x: 0.5 + (rcx(L.stage) / W - 0.5) * 0.6, y: 0.5 + (rcy(L.stage) / H - 0.5) * 0.6 };
   let centre = cam.on && !cam.focus ? 1 : 0; // 0 = the aim stays where it is on screen, 1 = it travels to the middle
