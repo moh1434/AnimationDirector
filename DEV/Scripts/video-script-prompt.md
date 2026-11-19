@@ -13,12 +13,13 @@ The four main characters live on the same street. Benny's juice stand is where t
 Wendy's garage, next door, is where she makes her video games. Each has their own age, so their
 problems and the way they argue differ.
 
-| Character | Age | In one line |
-|---|---|---|
-| **Berry** (`berry`) | kid, about 10 | Curious, confident, quick, a little too sure of herself |
-| **Cherry** (`cherry`) | teen, about 15 | Sharp, dry and sceptical; she counts things |
-| **Wendy** (`wendy`) | about 18 | The wise one: a calm indie game developer who spots most bad reasoning, often by testing the idea |
-| **Benny** (`benny`) | young adult, about 20 | Warm, funny, full of big ideas, and the quickest to a bad conclusion; runs the juice stand |
+
+| Character             | Age                   | In one line                                                                                       |
+| --------------------- | --------------------- | ------------------------------------------------------------------------------------------------- |
+| **Berry** (`berry`)   | kid, about 10         | Curious, confident, quick, a little too sure of herself                                           |
+| **Cherry** (`cherry`) | teen, about 15        | Sharp, dry and sceptical; she counts things                                                       |
+| **Wendy** (`wendy`)   | about 18              | The wise one: a calm indie game developer who spots most bad reasoning, often by testing the idea |
+| **Benny** (`benny`)   | young adult, about 20 | Warm, funny, full of big ideas, and the quickest to a bad conclusion; runs the juice stand        |
 
 - **Berry** is the main character and is in every video. A girl of about ten with berry-pink hair in
   two buns and a star clip, a yellow pinafore. She decides fast and explains things by doing them, not
@@ -121,22 +122,24 @@ Pick the one that fits the idea. Each lists its beats in order.
 
 Each voice has its own speed, measured from its recordings:
 
+
 | Character | English (words/sec) | Arabic (words/sec) |
-|---|---:|---:|
-| Benny | 2.42 | 1.75 |
-| Berry | 2.92 | 1.85 |
-| Cherry | 2.89 | 1.95 |
+| --------- | ------------------: | -----------------: |
+| Benny     |                2.42 |               1.75 |
+| Berry     |                2.92 |               1.85 |
+| Cherry    |                2.89 |               1.95 |
 
 **Quick estimate.** With the usual short gaps between lines, a script mixing the three friends runs at
 about **2.5 words a second in English** and **1.7 in Arabic**. Count your words:
 
-| Target | English words | Arabic words | Lines |
+
+| Target | English words | Arabic words | Lines  |
 | ------ | ------------- | ------------ | ------ |
-| 30 s   | 70–80         | 46–55        | 8–12  |
-| 45 s   | 105–120       | 70–82        | 12–16 |
-| 60 s   | 140–160       | 95–110       | 16–22 |
-| 90 s   | 210–240       | 140–165      | 24–32 |
-| 2 min  | 280–320       | 190–220      | 32–42 |
+| 30 s   | 70–80        | 46–55       | 8–12  |
+| 45 s   | 105–120      | 70–82       | 12–16 |
+| 60 s   | 140–160      | 95–110      | 16–22 |
+| 90 s   | 210–240      | 140–165     | 24–32 |
+| 2 min  | 280–320      | 190–220     | 32–42 |
 
 **Exact estimate**, when a script is near the edge of a range or one speaker has most of the lines:
 
@@ -242,7 +245,7 @@ This example shows the form only. Do not reuse its topic or its lines.
 Fix the script until every answer is yes:
 
 - Could a viewer state the question after the first line alone?
-- Is the first line 8 words or fewer, with no greeting and no set-up?
+- Is the first line 12 words or fewer, with no greeting and no set-up?
 - Does the ending answer that same question, and is the answer shown, not only said?
 - Is every line needed? (Delete each line in turn. If nothing breaks, it goes.)
 - Is the word count inside the range for the target length?

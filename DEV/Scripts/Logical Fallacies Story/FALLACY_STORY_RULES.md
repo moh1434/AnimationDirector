@@ -60,12 +60,12 @@ choose, and record the choice in a `#` note at the top.
 
 | Beat               | What happens                                                                                                                                                                                         |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.**Hook**         | The want or the problem, already in motion. First line 9 words or fewer, and it can be seen in the first picture. Write three hooks and make the user pick one (`video-script-prompt.md` section 3). |
+| 1.**Hook**         | Within the first 4 seconds (one or two lines), the viewer has a question they want answered: what someone wants, a problem already going wrong, or a strange claim said with confidence. Keep the first line short enough to say in one breath (aim for about 12 words or fewer), and let the first picture show what the words don't. Write three hooks and let the user pick one.
 | 2.**The bad step** | Said with confidence by someone the audience likes.                                                                                                                                                  |
 | 3.**Acting on it** | They commit. It seems to work, or it grows. Most of the crux live here: follow the bad rule all the way to its absurd conclusion.                                                                    |
 | 4.**The catch**    | Someone notices, in a way that fits the scene (section 4).                                                                                                                                           |
-| 5.**The landing**  | What really happened, or what they do instead. The want is won, lost or twisted.                                                                                                                     |
-| 6.**The button**   | One last line: a fact, conclusion, joke, ideally a callback. Then stop.                                                                                                                             |
+| 5.**The landing**  | What really happened, or what they do instead. The want is won, lost or twisted. One character says**the takeaway** (below).                                                                         |
+| 6.**The button**   | One last line: a joke, ideally a callback to something earlier. It comes after the takeaway, so the episode ends on a laugh, not a lesson. Then stop.                                                |
 
 **Several fallacies in one episode** are allowed when the idea needs them. Each one gets its own
 bad step, action and catch (beats 2 to 4), and each must be a different fallacy, or the same one
@@ -73,8 +73,17 @@ growing bigger, never the same idea twice. Escalate, like three tries to convinc
 person. Each one needs room to land, so as a rough guide: about one per 20–30 seconds, and up to
 3 in an episode unless the user asks for more.
 
-**No Explicit Moral Statements.** Never use phrases like "I learned that..." or "The lesson is...".
-If the viewer needs the point said aloud, the catch was not clear enough: fix the catch. For example, if a character uses the False Cause Fallacy, another character could respond: "Just because two things happen one after another doesn't mean one caused the other." The character should explain the flawed reasoning naturally, without mentioning the name of the logical fallacy.
+**The takeaway.** Once per fallacy, after its catch, one character says the general rule in everyday
+words: a sentence the viewer can reuse the next time they hear the same reasoning. After a false cause,
+for example: "Just because two things happen one after another doesn't mean one caused the other."
+
+- One sentence, about 15 words or fewer, spoken in character as part of the scene (a reply, a
+  realisation), never a speech to the camera.
+- Best from the one who was wrong, as they realise it, or from Wendy. Vary who says it.
+- Never the fallacy's name, and never "I learned that...", "The lesson is..." or "The moral is...".
+- It confirms what the viewer has already seen in the catch; it doesn't explain it. If the episode
+  only makes sense once the takeaway is said, the catch is not clear enough: fix the catch.
+- With several fallacies, each gets its own takeaway, right after its own catch.
 
 ## 4. The catch
 
@@ -94,10 +103,9 @@ the character and the scene:
 
 Rules for the catch:
 
-- **Specific, not general.** At most one short line may state the principle, in the character's own
-  everyday words and tied to this situation: "We didn't believe the king. We believed Benny's
-  version of the king." Never a textbook sentence such as "Just because two things happen one
-  after another doesn't mean one caused the other."
+- **The catch is specific; the takeaway is general.** The catch works on this situation: a question,
+  a check, a test. The general rule comes once, afterwards, as the takeaway (section 3). Neither one
+  explains the flaw at length.
 - **Play fair.** Anything the catch depends on should be seen or heard before the catch, so a viewer
   who rewinds can find it.
 - **A bad argument does not make its conclusion false.** Catching the flaw is not proof of the
@@ -126,12 +134,13 @@ Rules for the catch:
   Cherry falls for it, Berry, Cherry or even Benny catches it, and once in a while Wendy is the one who
   is wrong. Their ages give each a natural kind of mistake and a natural kind of catch:
 
-  | | Tends to fall for | Tends to catch it by |
-  |---|---|---|
-  | Berry | jumping to conclusions, after-this-so-because-of-this, one example for everyone | a blunt "Why?", trying it right away |
-  | Cherry | trusting nobody after being fooled, "everyone at school says so" | counting, checking the receipts and the record |
-  | Wendy | trusting her own tests and plans too much (rarely) | most catches: a question, checking what actually happened, or a small test everyone watches |
-  | Benny | most mistakes: trusting a friendly face or a good story, one lucky day as a rule, deciding first, sunk cost, pity | now and then, a strange question that breaks the argument by accident |
+
+  |        | Tends to fall for                                                                                                 | Tends to catch it by                                                                        |
+  | ------ | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+  | Berry  | jumping to conclusions, after-this-so-because-of-this, one example for everyone                                   | a blunt "Why?", trying it right away                                                        |
+  | Cherry | trusting nobody after being fooled, "everyone at school says so"                                                  | counting, checking the receipts and the record                                              |
+  | Wendy  | trusting her own tests and plans too much (rarely)                                                                | most catches: a question, checking what actually happened, or a small test everyone watches |
+  | Benny  | most mistakes: trusting a friendly face or a good story, one lucky day as a rule, deciding first, sunk cost, pity | now and then, a strange question that breaks the argument by accident                       |
 
   The ages also choose the stakes: pocket money and school for Berry, fairness and reputation for
   Cherry, a release or a playtest for Wendy, the juice stand's money and partners for Benny.
@@ -198,8 +207,9 @@ Several episodes in one file follow the layout of `../05-lost-things-returned-he
 
 ## 9. Output
 
-First the five hook options, numbered, with one line on why the winner was chosen. Then the
-script in exactly this form:
+First the three hook options, numbered, each with one line on the question it opens, and ask the user
+to pick one. Write the script after they choose; if the user can't be asked, pick the best one and say
+why in one line. Then the script in exactly this form:
 
 ```text
 # TITLE: (a story title, never the fallacy's name)
@@ -207,6 +217,7 @@ script in exactly this form:
 # LENGTH: about N s, N spoken words
 # WANT: what the characters want, or the problem
 # FALLACY 1: <name> | <the bad step, in one line>
+# TAKEAWAY 1: <who says it> | <the takeaway line>
 # REAL LIFE: where the viewer has met this reasoning
 # CAST: ids
 # PLACE: place, time of day
@@ -229,13 +240,15 @@ id: spoken words
 
 Fix the script until every answer is yes:
 
-- Does the first line show the want or the problem, in 8 words or fewer?
+- Within the first two lines, does the viewer have a question (a want, a problem or a strange claim),
+  and is the first line short enough to say in one breath?
 - Would a viewer half-believe the bad step when they first hear it?
-- Can the viewer see where the reasoning went wrong from what is shown and said, without anyone
-  naming the fallacy or explaining it in general terms?
+- Can the viewer see where the reasoning went wrong from the catch alone, before the takeaway is said?
 - Does each catch fit the character and the scene: a question, a check, a test, a self-catch?
 - Is the fallacy's name kept out of every spoken line, the title and every object on screen?
-- Is there no closing moral, and no narrator?
+- Is there one takeaway per fallacy: one everyday sentence, said in character after its catch, with no
+  fallacy name and no "I learned"?
+- Does the episode end on the button (a joke), not on the takeaway? Is there no narrator?
 - Does the person who was wrong stay likeable?
 - Is it funny: at least one real laugh per beat in the middle?
 - Is every line needed, and is the word count inside the range?
@@ -251,45 +264,42 @@ don't reuse its lines.
 # 1. The king said I get the crown.
 # 2. Why is Benny wearing the king's crown?
 # 3. Benny never lies. That's the problem.
-# 4. Finders keepers, says the king. Apparently.
-# 5. Benny gets the best treasure. The king said so.
-# CHOSEN: 1, a confident claim the viewer instantly wants checked, and the crown is on screen.
+# CHOSEN (by the user): 1, a confident claim the viewer instantly wants checked, and the crown is on screen.
 
 # TITLE: The King Said So
 # ARC: payoff of Benny's honest reputation
-# LENGTH: about 57 s, 138 spoken words
+# LENGTH: about 57 s, 133 spoken words
 # WANT: the friends found treasure and must decide who gets the best pieces
 # FALLACY 1: Past honesty treated as proof (a kind of appeal to authority) | "If Benny says the king said it, the king said it."
+# TAKEAWAY 1: wendy | "Honest people can still tell a story wrong."
 # REAL LIFE: believing a reliable friend's summary of what the boss said, instead of the boss's own words
-# CAST: benny, berry, cherry, king
+# CAST: benny, berry, wendy, king
 # PLACE: ruins, day
 
-# SEE: Benny sits on a pile of treasure in the ruins, wearing a crown. Berry and Cherry run in.
+# SEE: Benny sits on a pile of treasure in the ruins, wearing a crown. Berry and Wendy walk in.
 benny: The king said I get the crown.
 berry: He did?
 benny: And the gem. He said it's my reward.
 
-# SEE: Berry and Cherry look at each other, then shrug.
-cherry: Well, Benny never lies.
+# SEE: Berry looks at Wendy. Wendy shrugs.
+berry: Well, Benny never lies.
 berry: He found a coin in the fountain and gave it back. Twice.
-cherry: He told me he ate my sandwich before I even noticed.
+wendy: He told me he ate my sandwich before I even noticed.
 benny: It was a very good sandwich.
 berry: So if Benny says the king said it, the king said it.
 
 # SEE: Benny pulls a golden cup, a shield and a lamp onto his pile.
 benny: Oh, and the cup. And the shield. And the lamp.
 berry: Of course.
-cherry: Naturally.
 
-# SEE: Cherry stops with the lamp in her hands and frowns.
-cherry: Benny... what were the king's exact words?
+# SEE: Wendy picks up the lamp, turns it over, and looks at Benny.
+wendy: Benny... what were the king's exact words?
 benny: His exact words were... Benny, keep an eye on the treasure.
-# SEE: Silence. Berry and Cherry stare. Benny straightens the crown.
+# SEE: Silence. Berry stares. Benny straightens the crown.
 berry: Keep an eye on it.
 benny: I'm keeping two eyes on it.
 #NOTE_[Fallacy 1: Past honesty treated as proof]
-berry: We didn't believe the king. We believed Benny's version of the king.
-cherry: Next time, we ask the king.
+wendy: Honest people can still tell a story wrong. Next time, we ask the king.
 
 # SEE: The king is standing behind them, arms crossed.
 king: Ask the king what?
@@ -298,8 +308,8 @@ benny: Your Majesty. I was keeping an eye on it.
 king: With your head?
 
 # LOG UPDATE
-# - Benny: honest reputation (the fountain coin, twice; confessed to eating Cherry's sandwich). Stretched the king's words once, got caught.
-# - Berry and Cherry: learned to check the source's own words, not a summary.
+# - Benny: honest reputation (the fountain coin, twice; confessed to eating Wendy's sandwich). Stretched the king's words once, got caught.
+# - Berry: learned to check the source's own words, not a friend's summary.
 # - king (id king): rules the land; asked Benny to watch the treasure from the ruins.
 # - Running joke: "I'm keeping an eye on it."
 ```
