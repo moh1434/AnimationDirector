@@ -1,0 +1,36 @@
+{
+  "id": "cherry",
+  "preset": "cherry",
+  "description": "A sweet, bubbly, youthful feminine voice with a cheerful, playful and slightly cheeky personality: bright and smiling, quick and bouncy, able to turn teasing or pouty and then laugh.",
+  "from": "user's own reference",
+  "languages": {
+    "en": {
+      "file": "reference_en.wav",
+      "text": "Leila had only one choice: cross the bridge before sunset. The winds were growing stronger, and the ground was trembling beneath her feet. But she refused to turn back.",
+      "description": "A thoughtful young adult woman with a warm, clear mid-range voice. Give her a light, conversational tone and quiet confidence. She sounds like a friend who listens closely, spots what everyone else missed, and asks the one question that makes it click.",
+      "voiceName": "Cherry",
+      "workerMode": "design",
+      "engine": "qwen3",
+      "settings": {
+        "temperature": 0.9,
+        "topK": 50,
+        "topP": 1,
+        "seed": 87
+      }
+    },
+    "ar": {
+      "file": "reference_ar.wav",
+      "text": "لم يكن أمام ليلى سوى خيار واحد: عبور الجسر قبل غروب الشمس. الرياح تزداد قوة، والأرض تهتز تحت قدميها، لكنها لم تتراجع",
+      "voiceName": "Cherry",
+      "workerMode": "clone",
+      "engine": "Audar",
+      "settings": {
+        "temperature": 0.7,
+        "topK": 35,
+        "topP": 0.85,
+        "repeatPenalty": 1.1,
+        "seed": 35
+      }
+    }
+  }
+}
