@@ -1,0 +1,312 @@
+{
+  "text": "Did we ask whether it wanted a tower?\nIt's pointing the other way again.\nThat doesn't make this the right place.\nBefore we try another rescue... how did you get down?\nWhat were you looking for?\nYou thought someone was down there waiting?\nLet's follow where it's pointing this time.",
+  "voiceId": "library:cherry_en",
+  "voiceName": "cherry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.9,
+    "topK": 50,
+    "topP": 1,
+    "repeatPenalty": null,
+    "seed": 1234
+  },
+  "description": "A sweet, bubbly, youthful feminine voice with a cheerful, playful and slightly cheeky personality: bright and smiling, quick and bouncy, able to turn teasing or pouty and then laugh.",
+  "design": null,
+  "who": "cherry",
+  "take": 1,
+  "mode": "clone",
+  "seed": 1234,
+  "key": "56e183e246532abc",
+  "lines": [
+    {
+      "index": 3,
+      "text": "Did we ask whether it wanted a tower?"
+    },
+    {
+      "index": 10,
+      "text": "It's pointing the other way again."
+    },
+    {
+      "index": 12,
+      "text": "That doesn't make this the right place."
+    },
+    {
+      "index": 13,
+      "text": "Before we try another rescue... how did you get down?"
+    },
+    {
+      "index": 16,
+      "text": "What were you looking for?"
+    },
+    {
+      "index": 19,
+      "text": "You thought someone was down there waiting?"
+    },
+    {
+      "index": 22,
+      "text": "Let's follow where it's pointing this time."
+    }
+  ],
+  "seconds": 174,
+  "audio": "034a4c691d939ee93e275f2a6cd88ca0a3868cfd030a204107c97265b751110b",
+  "duration": 18.1,
+  "heard": [
+    {
+      "w": "Did",
+      "s": 0.03,
+      "e": 0.15
+    },
+    {
+      "w": "we",
+      "s": 0.15,
+      "e": 0.25
+    },
+    {
+      "w": "ask",
+      "s": 0.25,
+      "e": 0.4
+    },
+    {
+      "w": "whether",
+      "s": 0.4,
+      "e": 0.76
+    },
+    {
+      "w": "it",
+      "s": 0.76,
+      "e": 0.86
+    },
+    {
+      "w": "wanted",
+      "s": 0.86,
+      "e": 1.17
+    },
+    {
+      "w": "a",
+      "s": 1.17,
+      "e": 1.22
+    },
+    {
+      "w": "tower?",
+      "s": 1.22,
+      "e": 1.68
+    },
+    {
+      "w": "It's",
+      "s": 2.24,
+      "e": 2.26
+    },
+    {
+      "w": "pointing",
+      "s": 2.26,
+      "e": 2.47
+    },
+    {
+      "w": "the",
+      "s": 2.47,
+      "e": 2.67
+    },
+    {
+      "w": "other",
+      "s": 2.67,
+      "e": 3
+    },
+    {
+      "w": "way",
+      "s": 3,
+      "e": 3.2
+    },
+    {
+      "w": "again.",
+      "s": 3.2,
+      "e": 3.76
+    },
+    {
+      "w": "That",
+      "s": 4.42,
+      "e": 4.42
+    },
+    {
+      "w": "doesn't",
+      "s": 4.42,
+      "e": 4.56
+    },
+    {
+      "w": "make",
+      "s": 4.56,
+      "e": 4.84
+    },
+    {
+      "w": "this",
+      "s": 4.84,
+      "e": 5.13
+    },
+    {
+      "w": "the",
+      "s": 5.13,
+      "e": 5.34
+    },
+    {
+      "w": "right",
+      "s": 5.34,
+      "e": 5.69
+    },
+    {
+      "w": "place.",
+      "s": 5.69,
+      "e": 6.3
+    },
+    {
+      "w": "Before",
+      "s": 7.18,
+      "e": 7.18
+    },
+    {
+      "w": "we",
+      "s": 7.18,
+      "e": 7.21
+    },
+    {
+      "w": "try",
+      "s": 7.21,
+      "e": 7.28
+    },
+    {
+      "w": "another",
+      "s": 7.28,
+      "e": 7.92
+    },
+    {
+      "w": "rescue,",
+      "s": 7.92,
+      "e": 8.66
+    },
+    {
+      "w": "how",
+      "s": 8.66,
+      "e": 8.87
+    },
+    {
+      "w": "did",
+      "s": 8.87,
+      "e": 9.29
+    },
+    {
+      "w": "you",
+      "s": 9.29,
+      "e": 9.47
+    },
+    {
+      "w": "get",
+      "s": 9.47,
+      "e": 9.5
+    },
+    {
+      "w": "down?",
+      "s": 9.5,
+      "e": 10
+    },
+    {
+      "w": "What",
+      "s": 10.74,
+      "e": 10.74
+    },
+    {
+      "w": "were",
+      "s": 10.74,
+      "e": 10.77
+    },
+    {
+      "w": "you",
+      "s": 10.77,
+      "e": 11.03
+    },
+    {
+      "w": "looking",
+      "s": 11.03,
+      "e": 11.65
+    },
+    {
+      "w": "for?",
+      "s": 11.65,
+      "e": 12.22
+    },
+    {
+      "w": "You",
+      "s": 13.04,
+      "e": 13.04
+    },
+    {
+      "w": "thought",
+      "s": 13.04,
+      "e": 13.07
+    },
+    {
+      "w": "someone",
+      "s": 13.07,
+      "e": 13.35
+    },
+    {
+      "w": "was",
+      "s": 13.35,
+      "e": 13.5
+    },
+    {
+      "w": "down",
+      "s": 13.5,
+      "e": 13.75
+    },
+    {
+      "w": "there",
+      "s": 13.75,
+      "e": 14.08
+    },
+    {
+      "w": "waiting?",
+      "s": 14.08,
+      "e": 14.74
+    },
+    {
+      "w": "Let's",
+      "s": 15.74,
+      "e": 15.74
+    },
+    {
+      "w": "follow",
+      "s": 15.74,
+      "e": 15.77
+    },
+    {
+      "w": "where",
+      "s": 15.77,
+      "e": 16.05
+    },
+    {
+      "w": "it's",
+      "s": 16.05,
+      "e": 16.43
+    },
+    {
+      "w": "pointing",
+      "s": 16.43,
+      "e": 17.02
+    },
+    {
+      "w": "this",
+      "s": 17.02,
+      "e": 17.35
+    },
+    {
+      "w": "time.",
+      "s": 17.35,
+      "e": 17.96
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 7 line(s) heard",
+    "problems": []
+  }
+}

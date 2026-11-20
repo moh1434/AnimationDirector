@@ -1,0 +1,16 @@
+{
+  "text": "الورقة نفسها. الكتاب نفسه. سباق آخر.",
+  "voiceId": "library:berry_ar",
+  "voiceName": "berry_ar",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 6572
+  },
+  "sourceTake": "voice-takes/ar/berry/take-1.wav"
+}

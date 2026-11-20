@@ -1,0 +1,258 @@
+{
+  "text": "We haven't managed. I'm open to suggestions.\nGet down here. Look along the water.\nIt's disappearing where the sunlight touches it.\nHold it steady. Our guide's coming across.\nThere's your way home. Right where we weren't looking.\nSame time tomorrow?",
+  "voiceId": "library:cherry_en",
+  "voiceName": "cherry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.9,
+    "topK": 50,
+    "topP": 1,
+    "repeatPenalty": null,
+    "seed": 1234
+  },
+  "description": "A sweet, bubbly, youthful feminine voice with a cheerful, playful and slightly cheeky personality: bright and smiling, quick and bouncy, able to turn teasing or pouty and then laugh.",
+  "design": null,
+  "who": "cherry",
+  "take": 1,
+  "mode": "clone",
+  "seed": 1234,
+  "key": "cdede3cf3601128d",
+  "lines": [
+    {
+      "index": 1,
+      "text": "We haven't managed. I'm open to suggestions."
+    },
+    {
+      "index": 4,
+      "text": "Get down here. Look along the water."
+    },
+    {
+      "index": 7,
+      "text": "It's disappearing where the sunlight touches it."
+    },
+    {
+      "index": 14,
+      "text": "Hold it steady. Our guide's coming across."
+    },
+    {
+      "index": 16,
+      "text": "There's your way home. Right where we weren't looking."
+    },
+    {
+      "index": 20,
+      "text": "Same time tomorrow?"
+    }
+  ],
+  "seconds": 160.1,
+  "audio": "186cf63ecfb7db60a47d12cee2a6b550f4017cd700704b9972517cbc521d71ee",
+  "duration": 17.19,
+  "heard": [
+    {
+      "w": "We",
+      "s": 0.11,
+      "e": 0.15
+    },
+    {
+      "w": "haven't",
+      "s": 0.15,
+      "e": 0.49
+    },
+    {
+      "w": "managed.",
+      "s": 0.49,
+      "e": 1.04
+    },
+    {
+      "w": "I'm",
+      "s": 1.04,
+      "e": 1.59
+    },
+    {
+      "w": "open",
+      "s": 1.59,
+      "e": 1.72
+    },
+    {
+      "w": "to",
+      "s": 1.72,
+      "e": 1.74
+    },
+    {
+      "w": "suggestions.",
+      "s": 1.74,
+      "e": 2.88
+    },
+    {
+      "w": "Get",
+      "s": 2.88,
+      "e": 3.58
+    },
+    {
+      "w": "down",
+      "s": 3.58,
+      "e": 3.59
+    },
+    {
+      "w": "here.",
+      "s": 3.59,
+      "e": 4.28
+    },
+    {
+      "w": "Look",
+      "s": 4.28,
+      "e": 4.78
+    },
+    {
+      "w": "along",
+      "s": 4.78,
+      "e": 4.92
+    },
+    {
+      "w": "the",
+      "s": 4.92,
+      "e": 5.11
+    },
+    {
+      "w": "water.",
+      "s": 5.11,
+      "e": 5.68
+    },
+    {
+      "w": "It's",
+      "s": 5.68,
+      "e": 6.5
+    },
+    {
+      "w": "disappearing",
+      "s": 6.5,
+      "e": 7.3
+    },
+    {
+      "w": "where",
+      "s": 7.3,
+      "e": 7.64
+    },
+    {
+      "w": "the",
+      "s": 7.64,
+      "e": 8.22
+    },
+    {
+      "w": "sunlight",
+      "s": 8.22,
+      "e": 8.36
+    },
+    {
+      "w": "touches",
+      "s": 8.36,
+      "e": 8.81
+    },
+    {
+      "w": "it.",
+      "s": 8.81,
+      "e": 9.14
+    },
+    {
+      "w": "Hold",
+      "s": 9.14,
+      "e": 9.4
+    },
+    {
+      "w": "it",
+      "s": 9.4,
+      "e": 9.5
+    },
+    {
+      "w": "steady.",
+      "s": 9.5,
+      "e": 10.12
+    },
+    {
+      "w": "Our",
+      "s": 10.12,
+      "e": 10.32
+    },
+    {
+      "w": "guide's",
+      "s": 10.32,
+      "e": 10.78
+    },
+    {
+      "w": "coming",
+      "s": 10.78,
+      "e": 11.28
+    },
+    {
+      "w": "across.",
+      "s": 11.28,
+      "e": 11.84
+    },
+    {
+      "w": "There's",
+      "s": 12.44,
+      "e": 12.59
+    },
+    {
+      "w": "your",
+      "s": 12.59,
+      "e": 12.64
+    },
+    {
+      "w": "way",
+      "s": 12.64,
+      "e": 12.86
+    },
+    {
+      "w": "home,",
+      "s": 12.86,
+      "e": 13.29
+    },
+    {
+      "w": "right",
+      "s": 13.29,
+      "e": 14.03
+    },
+    {
+      "w": "where",
+      "s": 14.03,
+      "e": 14.16
+    },
+    {
+      "w": "we",
+      "s": 14.16,
+      "e": 14.17
+    },
+    {
+      "w": "weren't",
+      "s": 14.17,
+      "e": 14.71
+    },
+    {
+      "w": "looking.",
+      "s": 14.71,
+      "e": 15.42
+    },
+    {
+      "w": "Same",
+      "s": 15.42,
+      "e": 16
+    },
+    {
+      "w": "time",
+      "s": 16,
+      "e": 16.03
+    },
+    {
+      "w": "tomorrow?",
+      "s": 16.03,
+      "e": 16.9
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 6 line(s) heard",
+    "problems": []
+  }
+}

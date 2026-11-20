@@ -1,0 +1,10 @@
+{
+  "picks": {
+    "berry": 1
+  },
+  "at": "2026-11-11T12:03:01.179Z",
+  "files": {
+    "voices/01-berry.wav": "52822e60caaeb259824d13d74b86db5f4b63a2f23767e1c8ace3dbba0e1017da",
+    "dialogue.json": "3002a9b0caeeeab132c96cc5898d35c48e1c1ea2b77efe04eae3c4050f5cc32f"
+  }
+}

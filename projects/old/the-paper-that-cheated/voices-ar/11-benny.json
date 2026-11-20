@@ -1,0 +1,16 @@
+{
+  "text": "لقد واكبتْه! لم تجعليها أثقل.",
+  "voiceId": "library:benny_ar",
+  "voiceName": "benny_ar",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 77003
+  },
+  "sourceTake": "voice-takes/ar/benny/take-1.wav"
+}

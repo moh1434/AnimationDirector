@@ -1,0 +1,206 @@
+{
+  "text": "That's a very specific opening statement.\nI stayed here. Benny left for water, then came back.\nNo. Just us.\nFor my snack bag.\nThank you.\nIt fits exactly.",
+  "voiceId": "library:cherry_en",
+  "voiceName": "cherry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.9,
+    "topK": 50,
+    "topP": 1,
+    "repeatPenalty": null,
+    "seed": 1234
+  },
+  "description": "A sweet, bubbly, youthful feminine voice with a cheerful, playful and slightly cheeky personality: bright and smiling, quick and bouncy, able to turn teasing or pouty and then laugh.",
+  "design": null,
+  "who": "cherry",
+  "take": 1,
+  "mode": "clone",
+  "seed": 1234,
+  "key": "a4a3dd0ea1e4f7c2",
+  "lines": [
+    {
+      "index": 2,
+      "text": "That's a very specific opening statement."
+    },
+    {
+      "index": 4,
+      "text": "I stayed here. Benny left for water, then came back."
+    },
+    {
+      "index": 7,
+      "text": "No. Just us."
+    },
+    {
+      "index": 9,
+      "text": "For my snack bag."
+    },
+    {
+      "index": 12,
+      "text": "Thank you."
+    },
+    {
+      "index": 18,
+      "text": "It fits exactly."
+    }
+  ],
+  "seconds": 156.8,
+  "audio": "a044b30c07f7a3d008db9097d307937799c3957d5eb8e72f7e6f5297e3b4074b",
+  "duration": 12.95,
+  "heard": [
+    {
+      "w": "That's",
+      "s": 0.24,
+      "e": 0.35
+    },
+    {
+      "w": "a",
+      "s": 0.35,
+      "e": 0.48
+    },
+    {
+      "w": "very",
+      "s": 0.48,
+      "e": 0.65
+    },
+    {
+      "w": "specific",
+      "s": 0.65,
+      "e": 1.12
+    },
+    {
+      "w": "opening",
+      "s": 1.12,
+      "e": 1.53
+    },
+    {
+      "w": "statement.",
+      "s": 1.53,
+      "e": 2.28
+    },
+    {
+      "w": "I",
+      "s": 2.28,
+      "e": 2.39
+    },
+    {
+      "w": "stayed",
+      "s": 2.39,
+      "e": 3.2
+    },
+    {
+      "w": "here.",
+      "s": 3.2,
+      "e": 3.9
+    },
+    {
+      "w": "Then",
+      "s": 3.9,
+      "e": 4.37
+    },
+    {
+      "w": "he",
+      "s": 4.37,
+      "e": 4.44
+    },
+    {
+      "w": "left",
+      "s": 4.44,
+      "e": 4.67
+    },
+    {
+      "w": "for",
+      "s": 4.67,
+      "e": 5.03
+    },
+    {
+      "w": "water,",
+      "s": 5.03,
+      "e": 5.44
+    },
+    {
+      "w": "then",
+      "s": 5.76,
+      "e": 6.05
+    },
+    {
+      "w": "came",
+      "s": 6.05,
+      "e": 6.24
+    },
+    {
+      "w": "back.",
+      "s": 6.24,
+      "e": 6.95
+    },
+    {
+      "w": "No,",
+      "s": 6.95,
+      "e": 7.34
+    },
+    {
+      "w": "just",
+      "s": 7.34,
+      "e": 7.77
+    },
+    {
+      "w": "us.",
+      "s": 7.77,
+      "e": 8.19
+    },
+    {
+      "w": "For",
+      "s": 8.19,
+      "e": 8.66
+    },
+    {
+      "w": "my",
+      "s": 8.66,
+      "e": 8.96
+    },
+    {
+      "w": "snack",
+      "s": 8.96,
+      "e": 9.24
+    },
+    {
+      "w": "bag.",
+      "s": 9.24,
+      "e": 10.19
+    },
+    {
+      "w": "Thank",
+      "s": 10.19,
+      "e": 10.34
+    },
+    {
+      "w": "you.",
+      "s": 10.34,
+      "e": 10.94
+    },
+    {
+      "w": "It",
+      "s": 10.94,
+      "e": 11.14
+    },
+    {
+      "w": "fits",
+      "s": 11.14,
+      "e": 11.54
+    },
+    {
+      "w": "exactly.",
+      "s": 11.54,
+      "e": 12.62
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "2 line(s) to listen to",
+    "problems": [
+      "line 2 missing: benny",
+      "line 2: 2 extra word(s) heard"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "text": "No glue. No tricks. Just watch.",
+  "voiceId": "library:berry_en",
+  "voiceName": "berry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 6572
+  },
+  "sourceTake": "voice-takes/en/berry/take-1.wav",
+  "sourceSpan": {
+    "start": 6.69,
+    "end": 9.085
+  },
+  "edit": "Extracted at a speech boundary; original take unchanged; no time stretching."
+}

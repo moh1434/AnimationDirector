@@ -1,0 +1,412 @@
+{
+  "text": "These cookies are finally Benny-proof. They're for our big picnic. I'm protecting them until tomorrow. My pocket. For emergencies. Finding out whether the lock works. Security testing. I found a serious weakness. The pocket. There. Impossible to reach. Unrelated furniture. Constantly evolving. Unfortunately, so is the criminal. You keep this. Whatever I say, don't give it back. Let me check.\nI tested it after every improvement.",
+  "voiceId": "library:benny_en",
+  "voiceName": "benny_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 1234
+  },
+  "description": "A warm, youthful masculine voice with a charismatic, adventurous, and confident personality. Use expressive, natural delivery with clear articulation and a relaxed, engaging rhythm. Give the character a sense of courage and determination, with a friendly warmth and a subtle hint of humor. The voice should feel approachable yet strong, balancing youthful enthusiasm with a touch of maturity. Inspired by the broad vocal qualities of a charming adventure-game protagonist, not an exact imitation of any specific character or voice actor.",
+  "design": null,
+  "who": "benny",
+  "take": 1,
+  "mode": "clone",
+  "seed": 1234,
+  "key": "6d6ca8c85bf32c87",
+  "lines": [
+    {
+      "index": 0,
+      "text": "These cookies are finally Benny-proof."
+    },
+    {
+      "index": 1,
+      "text": "They're for our big picnic. I'm protecting them until tomorrow."
+    },
+    {
+      "index": 3,
+      "text": "My pocket. For emergencies."
+    },
+    {
+      "index": 5,
+      "text": "Finding out whether the lock works."
+    },
+    {
+      "index": 7,
+      "text": "Security testing. I found a serious weakness."
+    },
+    {
+      "index": 9,
+      "text": "The pocket."
+    },
+    {
+      "index": 10,
+      "text": "There. Impossible to reach."
+    },
+    {
+      "index": 12,
+      "text": "Unrelated furniture."
+    },
+    {
+      "index": 14,
+      "text": "Constantly evolving. Unfortunately, so is the criminal."
+    },
+    {
+      "index": 15,
+      "text": "You keep this. Whatever I say, don't give it back."
+    },
+    {
+      "index": 17,
+      "text": "Let me check."
+    },
+    {
+      "index": 20,
+      "text": "I tested it after every improvement."
+    }
+  ],
+  "seconds": 154.4,
+  "audio": "fb9bb5b6accdb84a1c90d9e4bcd7b736fc29bbd6799ddcb3bf4e32b517ff89e6",
+  "duration": 25.230041666666665,
+  "heard": [
+    {
+      "w": "These",
+      "s": 0.03,
+      "e": 0.26
+    },
+    {
+      "w": "cookies",
+      "s": 0.26,
+      "e": 0.62
+    },
+    {
+      "w": "are",
+      "s": 0.62,
+      "e": 0.85
+    },
+    {
+      "w": "finally",
+      "s": 0.85,
+      "e": 1.13
+    },
+    {
+      "w": "Benny-proof.",
+      "s": 1.13,
+      "e": 2.12
+    },
+    {
+      "w": "They're",
+      "s": 2.12,
+      "e": 2.33
+    },
+    {
+      "w": "for",
+      "s": 2.33,
+      "e": 2.55
+    },
+    {
+      "w": "our",
+      "s": 2.55,
+      "e": 2.67
+    },
+    {
+      "w": "big",
+      "s": 2.67,
+      "e": 2.84
+    },
+    {
+      "w": "picnic.",
+      "s": 2.84,
+      "e": 3.44
+    },
+    {
+      "w": "I'm",
+      "s": 3.44,
+      "e": 3.93
+    },
+    {
+      "w": "protecting",
+      "s": 3.93,
+      "e": 4.44
+    },
+    {
+      "w": "them",
+      "s": 4.44,
+      "e": 4.66
+    },
+    {
+      "w": "until",
+      "s": 4.66,
+      "e": 4.88
+    },
+    {
+      "w": "tomorrow,",
+      "s": 4.88,
+      "e": 5.39
+    },
+    {
+      "w": "my",
+      "s": 5.39,
+      "e": 5.5
+    },
+    {
+      "w": "pocket.",
+      "s": 5.5,
+      "e": 5.96
+    },
+    {
+      "w": "For",
+      "s": 5.96,
+      "e": 6.19
+    },
+    {
+      "w": "emergencies.",
+      "s": 6.19,
+      "e": 7.21
+    },
+    {
+      "w": "Finding",
+      "s": 7.21,
+      "e": 7.56
+    },
+    {
+      "w": "out",
+      "s": 7.56,
+      "e": 7.74
+    },
+    {
+      "w": "whether",
+      "s": 7.74,
+      "e": 8.22
+    },
+    {
+      "w": "the",
+      "s": 8.22,
+      "e": 8.45
+    },
+    {
+      "w": "lock",
+      "s": 8.45,
+      "e": 8.81
+    },
+    {
+      "w": "works.",
+      "s": 8.81,
+      "e": 9.16
+    },
+    {
+      "w": "Security",
+      "s": 9.16,
+      "e": 9.68
+    },
+    {
+      "w": "testing.",
+      "s": 9.68,
+      "e": 10.3
+    },
+    {
+      "w": "I",
+      "s": 10.3,
+      "e": 10.36
+    },
+    {
+      "w": "found",
+      "s": 10.36,
+      "e": 10.69
+    },
+    {
+      "w": "a",
+      "s": 10.69,
+      "e": 10.76
+    },
+    {
+      "w": "serious",
+      "s": 10.76,
+      "e": 11.22
+    },
+    {
+      "w": "weakness.",
+      "s": 11.22,
+      "e": 11.95
+    },
+    {
+      "w": "The",
+      "s": 11.95,
+      "e": 12.15
+    },
+    {
+      "w": "pocket.",
+      "s": 12.15,
+      "e": 12.75
+    },
+    {
+      "w": "There.",
+      "s": 12.75,
+      "e": 13.28
+    },
+    {
+      "w": "Impossible",
+      "s": 13.28,
+      "e": 14.08
+    },
+    {
+      "w": "to",
+      "s": 14.08,
+      "e": 14.23
+    },
+    {
+      "w": "reach.",
+      "s": 14.23,
+      "e": 14.72
+    },
+    {
+      "w": "Unrelated",
+      "s": 14.72,
+      "e": 15.28
+    },
+    {
+      "w": "furniture.",
+      "s": 15.28,
+      "e": 15.94
+    },
+    {
+      "w": "Constantly",
+      "s": 16.32,
+      "e": 16.58
+    },
+    {
+      "w": "evolving.",
+      "s": 16.58,
+      "e": 17.29
+    },
+    {
+      "w": "Unfortunately",
+      "s": 17.29,
+      "e": 18.12
+    },
+    {
+      "w": "so",
+      "s": 18.12,
+      "e": 18.14
+    },
+    {
+      "w": "is",
+      "s": 18.14,
+      "e": 18.58
+    },
+    {
+      "w": "the",
+      "s": 18.58,
+      "e": 18.66
+    },
+    {
+      "w": "criminal.",
+      "s": 18.66,
+      "e": 19.29
+    },
+    {
+      "w": "You",
+      "s": 19.29,
+      "e": 19.47
+    },
+    {
+      "w": "keep",
+      "s": 19.47,
+      "e": 19.74
+    },
+    {
+      "w": "this.",
+      "s": 19.74,
+      "e": 20.25
+    },
+    {
+      "w": "Whatever",
+      "s": 20.25,
+      "e": 20.89
+    },
+    {
+      "w": "I",
+      "s": 20.89,
+      "e": 20.97
+    },
+    {
+      "w": "say",
+      "s": 20.97,
+      "e": 21.3
+    },
+    {
+      "w": "don't",
+      "s": 21.3,
+      "e": 21.5
+    },
+    {
+      "w": "give",
+      "s": 21.5,
+      "e": 21.76
+    },
+    {
+      "w": "it",
+      "s": 21.76,
+      "e": 21.84
+    },
+    {
+      "w": "back.",
+      "s": 21.84,
+      "e": 22.35
+    },
+    {
+      "w": "Let",
+      "s": 22.35,
+      "e": 22.41
+    },
+    {
+      "w": "me",
+      "s": 22.41,
+      "e": 22.52
+    },
+    {
+      "w": "check.",
+      "s": 22.52,
+      "e": 22.98
+    },
+    {
+      "w": "I",
+      "s": 22.98,
+      "e": 23.03
+    },
+    {
+      "w": "tested",
+      "s": 23.03,
+      "e": 23.49
+    },
+    {
+      "w": "it",
+      "s": 23.49,
+      "e": 23.78
+    },
+    {
+      "w": "after",
+      "s": 23.78,
+      "e": 23.83
+    },
+    {
+      "w": "every",
+      "s": 23.83,
+      "e": 24.07
+    },
+    {
+      "w": "improvement.",
+      "s": 24.07,
+      "e": 24.96
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 12 line(s) heard",
+    "problems": []
+  }
+}

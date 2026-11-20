@@ -44,8 +44,7 @@ Thumbs.db
 desktop.ini
 
 /DEV/private/
-
-
+/docs/studies/reference-study/
 # ---------- Large media (uncomment if you don't want assets in git) ----------
 # assets/**/*.mp4
 # assets/**/*.mov

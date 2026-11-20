@@ -1,0 +1,73 @@
+{
+  "who": "berry",
+  "take": 1,
+  "engine": "audar",
+  "mode": "clone",
+  "seed": 11,
+  "key": "877a84b5ad959c61",
+  "text": "Hi! I'm Berry, the new leader of this channel!",
+  "lines": [
+    {
+      "index": 0,
+      "text": "Hi! I'm Berry, the new leader of this channel!"
+    }
+  ],
+  "seconds": 55.5,
+  "audio": "6bd887e62908e75fca8db1a9c084094115ffeca79b97f7bec314e0024bfd23be",
+  "duration": 2.98,
+  "heard": [
+    {
+      "w": "Hi,",
+      "s": 0.09,
+      "e": 0.3
+    },
+    {
+      "w": "I'm",
+      "s": 0.3,
+      "e": 0.84
+    },
+    {
+      "w": "Barry,",
+      "s": 0.84,
+      "e": 1.08
+    },
+    {
+      "w": "the",
+      "s": 1.08,
+      "e": 1.26
+    },
+    {
+      "w": "new",
+      "s": 1.26,
+      "e": 1.48
+    },
+    {
+      "w": "leader",
+      "s": 1.48,
+      "e": 1.93
+    },
+    {
+      "w": "of",
+      "s": 1.93,
+      "e": 2.08
+    },
+    {
+      "w": "this",
+      "s": 2.08,
+      "e": 2.38
+    },
+    {
+      "w": "channel.",
+      "s": 2.38,
+      "e": 2.98
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "2 line(s) to listen to",
+    "problems": [
+      "line 1 missing: berry",
+      "line 1: 1 extra word(s) heard"
+    ]
+  }
+}

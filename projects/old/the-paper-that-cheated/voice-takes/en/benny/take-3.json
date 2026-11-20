@@ -1,0 +1,389 @@
+{
+  "text": "Heavy things always land first. Watch. The book's heavier. Easy victory. Look at that. The paper's barely trying. You can encourage it. It still won't win. That's not a race. That's public transport. Fine. But no glue. It kept up! You didn't make it heavier. So what changed? So being light wasn't the whole explanation? Can it give my homework a lift, too?",
+  "voiceId": "library:benny_en",
+  "voiceName": "benny_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 1256
+  },
+  "description": "A warm, youthful masculine voice with a charismatic, adventurous, and confident personality. Use expressive, natural delivery with clear articulation and a relaxed, engaging rhythm. Give the character a sense of courage and determination, with a friendly warmth and a subtle hint of humor. The voice should feel approachable yet strong, balancing youthful enthusiasm with a touch of maturity. Inspired by the broad vocal qualities of a charming adventure-game protagonist, not an exact imitation of any specific character or voice actor.",
+  "design": null,
+  "who": "benny",
+  "take": 3,
+  "mode": "clone",
+  "seed": 1256,
+  "key": "54d7ad68661486c8",
+  "lines": [
+    {
+      "index": 0,
+      "text": "Heavy things always land first. Watch."
+    },
+    {
+      "index": 2,
+      "text": "The book's heavier. Easy victory."
+    },
+    {
+      "index": 3,
+      "text": "Look at that. The paper's barely trying."
+    },
+    {
+      "index": 5,
+      "text": "You can encourage it. It still won't win."
+    },
+    {
+      "index": 6,
+      "text": "That's not a race. That's public transport."
+    },
+    {
+      "index": 8,
+      "text": "Fine. But no glue."
+    },
+    {
+      "index": 10,
+      "text": "It kept up! You didn't make it heavier."
+    },
+    {
+      "index": 12,
+      "text": "So what changed?"
+    },
+    {
+      "index": 14,
+      "text": "So being light wasn't the whole explanation?"
+    },
+    {
+      "index": 16,
+      "text": "Can it give my homework a lift, too?"
+    }
+  ],
+  "seconds": 89.8,
+  "audio": "55da89c6833c5dfb33af626375780db391a44b208b4b874da0fd4dcc3093d980",
+  "duration": 20.64,
+  "heard": [
+    {
+      "w": "heavy",
+      "s": 0.06,
+      "e": 0.38
+    },
+    {
+      "w": "things",
+      "s": 0.38,
+      "e": 0.84
+    },
+    {
+      "w": "always",
+      "s": 0.84,
+      "e": 1.3
+    },
+    {
+      "w": "land",
+      "s": 1.3,
+      "e": 1.59
+    },
+    {
+      "w": "first.",
+      "s": 1.59,
+      "e": 2.09
+    },
+    {
+      "w": "Watch.",
+      "s": 2.09,
+      "e": 2.36
+    },
+    {
+      "w": "The",
+      "s": 2.36,
+      "e": 2.76
+    },
+    {
+      "w": "book's",
+      "s": 2.76,
+      "e": 2.94
+    },
+    {
+      "w": "heavier,",
+      "s": 2.94,
+      "e": 3.78
+    },
+    {
+      "w": "easy",
+      "s": 3.78,
+      "e": 3.79
+    },
+    {
+      "w": "victory.",
+      "s": 3.79,
+      "e": 4.46
+    },
+    {
+      "w": "Look",
+      "s": 4.46,
+      "e": 4.85
+    },
+    {
+      "w": "at",
+      "s": 4.85,
+      "e": 4.91
+    },
+    {
+      "w": "that.",
+      "s": 4.91,
+      "e": 5.46
+    },
+    {
+      "w": "The",
+      "s": 5.76,
+      "e": 5.82
+    },
+    {
+      "w": "paper's",
+      "s": 5.82,
+      "e": 6.14
+    },
+    {
+      "w": "barely",
+      "s": 6.14,
+      "e": 6.42
+    },
+    {
+      "w": "trying.",
+      "s": 6.42,
+      "e": 7.02
+    },
+    {
+      "w": "You",
+      "s": 7.02,
+      "e": 7.14
+    },
+    {
+      "w": "can",
+      "s": 7.14,
+      "e": 7.36
+    },
+    {
+      "w": "encourage",
+      "s": 7.36,
+      "e": 7.87
+    },
+    {
+      "w": "it,",
+      "s": 7.87,
+      "e": 8.11
+    },
+    {
+      "w": "it",
+      "s": 8.11,
+      "e": 8.52
+    },
+    {
+      "w": "still",
+      "s": 8.52,
+      "e": 8.53
+    },
+    {
+      "w": "won't",
+      "s": 8.53,
+      "e": 8.83
+    },
+    {
+      "w": "win.",
+      "s": 8.83,
+      "e": 9.25
+    },
+    {
+      "w": "That's",
+      "s": 9.25,
+      "e": 9.69
+    },
+    {
+      "w": "not",
+      "s": 9.69,
+      "e": 9.89
+    },
+    {
+      "w": "a",
+      "s": 9.89,
+      "e": 9.97
+    },
+    {
+      "w": "race,",
+      "s": 9.97,
+      "e": 10.42
+    },
+    {
+      "w": "that's",
+      "s": 10.66,
+      "e": 10.79
+    },
+    {
+      "w": "public",
+      "s": 10.79,
+      "e": 11.17
+    },
+    {
+      "w": "transport,",
+      "s": 11.17,
+      "e": 11.92
+    },
+    {
+      "w": "fine,",
+      "s": 11.92,
+      "e": 12.25
+    },
+    {
+      "w": "but",
+      "s": 12.25,
+      "e": 12.55
+    },
+    {
+      "w": "no",
+      "s": 12.55,
+      "e": 12.65
+    },
+    {
+      "w": "glue,",
+      "s": 12.65,
+      "e": 12.99
+    },
+    {
+      "w": "it",
+      "s": 12.99,
+      "e": 13.04
+    },
+    {
+      "w": "kept",
+      "s": 13.04,
+      "e": 13.41
+    },
+    {
+      "w": "up.",
+      "s": 13.41,
+      "e": 13.6
+    },
+    {
+      "w": "You",
+      "s": 13.6,
+      "e": 13.79
+    },
+    {
+      "w": "didn't",
+      "s": 13.79,
+      "e": 14.16
+    },
+    {
+      "w": "make",
+      "s": 14.16,
+      "e": 14.45
+    },
+    {
+      "w": "it",
+      "s": 14.45,
+      "e": 14.53
+    },
+    {
+      "w": "heavier,",
+      "s": 14.53,
+      "e": 15.28
+    },
+    {
+      "w": "so",
+      "s": 15.6,
+      "e": 15.62
+    },
+    {
+      "w": "what",
+      "s": 15.62,
+      "e": 15.66
+    },
+    {
+      "w": "changed?",
+      "s": 15.66,
+      "e": 16.21
+    },
+    {
+      "w": "So",
+      "s": 16.21,
+      "e": 16.3
+    },
+    {
+      "w": "being",
+      "s": 16.3,
+      "e": 16.58
+    },
+    {
+      "w": "light",
+      "s": 16.58,
+      "e": 16.86
+    },
+    {
+      "w": "wasn't",
+      "s": 16.86,
+      "e": 17.2
+    },
+    {
+      "w": "the",
+      "s": 17.2,
+      "e": 17.59
+    },
+    {
+      "w": "whole",
+      "s": 17.59,
+      "e": 17.65
+    },
+    {
+      "w": "explanation.",
+      "s": 17.65,
+      "e": 18.5
+    },
+    {
+      "w": "Can",
+      "s": 18.5,
+      "e": 18.72
+    },
+    {
+      "w": "it",
+      "s": 18.72,
+      "e": 18.85
+    },
+    {
+      "w": "give",
+      "s": 18.85,
+      "e": 19.27
+    },
+    {
+      "w": "my",
+      "s": 19.27,
+      "e": 19.39
+    },
+    {
+      "w": "homework",
+      "s": 19.39,
+      "e": 19.91
+    },
+    {
+      "w": "a",
+      "s": 19.91,
+      "e": 19.92
+    },
+    {
+      "w": "lift",
+      "s": 19.92,
+      "e": 20.12
+    },
+    {
+      "w": "too?",
+      "s": 20.12,
+      "e": 20.48
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 10 line(s) heard",
+    "problems": []
+  }
+}

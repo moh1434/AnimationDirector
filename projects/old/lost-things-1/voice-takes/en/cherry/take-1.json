@@ -1,0 +1,155 @@
+{
+  "text": "Finally. Somewhere for your common sense.\nLet's start with whatever knocked.\nWe might be blocking its door.\nLook where it's pointing.",
+  "voiceId": "library:cherry_en",
+  "voiceName": "cherry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.9,
+    "topK": 50,
+    "topP": 1,
+    "repeatPenalty": null,
+    "seed": 1234
+  },
+  "description": "A sweet, bubbly, youthful feminine voice with a cheerful, playful and slightly cheeky personality: bright and smiling, quick and bouncy, able to turn teasing or pouty and then laugh.",
+  "design": null,
+  "who": "cherry",
+  "take": 1,
+  "mode": "clone",
+  "seed": 1234,
+  "key": "67c845912ff9e14f",
+  "lines": [
+    {
+      "index": 2,
+      "text": "Finally. Somewhere for your common sense."
+    },
+    {
+      "index": 6,
+      "text": "Let's start with whatever knocked."
+    },
+    {
+      "index": 10,
+      "text": "We might be blocking its door."
+    },
+    {
+      "index": 14,
+      "text": "Look where it's pointing."
+    }
+  ],
+  "seconds": 100.1,
+  "audio": "f246409a06f8b933f56e8fa737f445febf683c88d0b68d2566bdf52a7ad9143a",
+  "duration": 8.89,
+  "heard": [
+    {
+      "w": "finally",
+      "s": 0.18,
+      "e": 0.57
+    },
+    {
+      "w": "somewhere",
+      "s": 0.57,
+      "e": 1.32
+    },
+    {
+      "w": "for",
+      "s": 1.32,
+      "e": 1.55
+    },
+    {
+      "w": "your",
+      "s": 1.55,
+      "e": 1.87
+    },
+    {
+      "w": "common",
+      "s": 1.87,
+      "e": 2.36
+    },
+    {
+      "w": "sense",
+      "s": 2.36,
+      "e": 2.74
+    },
+    {
+      "w": "let's",
+      "s": 2.74,
+      "e": 3.58
+    },
+    {
+      "w": "start",
+      "s": 3.58,
+      "e": 3.59
+    },
+    {
+      "w": "with",
+      "s": 3.59,
+      "e": 3.91
+    },
+    {
+      "w": "whatever",
+      "s": 3.91,
+      "e": 4.56
+    },
+    {
+      "w": "knocked",
+      "s": 4.56,
+      "e": 4.96
+    },
+    {
+      "w": "we",
+      "s": 5.6,
+      "e": 5.6
+    },
+    {
+      "w": "might",
+      "s": 5.6,
+      "e": 5.73
+    },
+    {
+      "w": "be",
+      "s": 5.73,
+      "e": 5.78
+    },
+    {
+      "w": "blocking",
+      "s": 5.78,
+      "e": 6.47
+    },
+    {
+      "w": "its",
+      "s": 6.47,
+      "e": 6.92
+    },
+    {
+      "w": "door",
+      "s": 6.92,
+      "e": 7.04
+    },
+    {
+      "w": "look",
+      "s": 7.04,
+      "e": 7.4
+    },
+    {
+      "w": "where",
+      "s": 7.4,
+      "e": 7.85
+    },
+    {
+      "w": "it's",
+      "s": 7.85,
+      "e": 8.21
+    },
+    {
+      "w": "pointing",
+      "s": 8.21,
+      "e": 8.96
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 4 line(s) heard",
+    "problems": []
+  }
+}

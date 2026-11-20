@@ -1,0 +1,129 @@
+{
+  "text": "إلى أين سننقله؟ لم تعد لديك أيدٍ كافية. رأيناه. إنه مقعد جميل. جاهزة متى أردت.",
+  "voiceId": "library:cherry_ar",
+  "voiceName": "cherry_ar",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.8,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 57
+  },
+  "description": "A sweet, bubbly, youthful feminine voice with a cheerful, playful and slightly cheeky personality: bright and smiling, quick and bouncy, able to turn teasing or pouty and then laugh.",
+  "design": null,
+  "who": "cherry",
+  "take": 1,
+  "mode": "clone",
+  "seed": 57,
+  "key": "03a605193019956a",
+  "lines": [
+    {
+      "index": 3,
+      "text": "إلى أين سننقله؟"
+    },
+    {
+      "index": 8,
+      "text": "لم تعد لديك أيدٍ كافية."
+    },
+    {
+      "index": 12,
+      "text": "رأيناه. إنه مقعد جميل."
+    },
+    {
+      "index": 19,
+      "text": "جاهزة متى أردت."
+    }
+  ],
+  "seconds": 65.1,
+  "audio": "be1cac2b38850265a6b45380a5e159fcf90f46936827c7527589f66edbe62196",
+  "duration": 10.42,
+  "heard": [
+    {
+      "w": "إلى",
+      "s": 0.04,
+      "e": 0.41
+    },
+    {
+      "w": "أين",
+      "s": 0.41,
+      "e": 0.91
+    },
+    {
+      "w": "سننقله؟",
+      "s": 0.91,
+      "e": 2.16
+    },
+    {
+      "w": "لم",
+      "s": 2.16,
+      "e": 2.39
+    },
+    {
+      "w": "تعد",
+      "s": 2.39,
+      "e": 2.73
+    },
+    {
+      "w": "لديك",
+      "s": 2.73,
+      "e": 3.18
+    },
+    {
+      "w": "أيدي",
+      "s": 3.18,
+      "e": 3.64
+    },
+    {
+      "w": "كافية",
+      "s": 3.64,
+      "e": 4.3
+    },
+    {
+      "w": "رأيناه",
+      "s": 4.3,
+      "e": 5.58
+    },
+    {
+      "w": "إنه",
+      "s": 5.58,
+      "e": 6.06
+    },
+    {
+      "w": "مقعد",
+      "s": 6.06,
+      "e": 6.7
+    },
+    {
+      "w": "جميل",
+      "s": 6.7,
+      "e": 7.36
+    },
+    {
+      "w": "جاهزة",
+      "s": 7.36,
+      "e": 8.26
+    },
+    {
+      "w": "متى",
+      "s": 8.26,
+      "e": 8.72
+    },
+    {
+      "w": "أردتي؟",
+      "s": 8.72,
+      "e": 10.18
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "3 line(s) to listen to",
+    "problems": [
+      "line 2 missing: ايد",
+      "line 2: 1 extra word(s) heard",
+      "line 4 missing: اردت"
+    ]
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "text": "Where's the key? Such as? You've already opened it. The pocket? And the stool? How's the security business? Finally. How many cookies did we save? I'll check. Benny. You ate the entire security budget.",
+  "voiceId": "library:berry_en",
+  "voiceName": "berry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 6572
+  },
+  "description": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor.",
+  "design": null,
+  "who": "berry",
+  "take": 1,
+  "mode": "clone",
+  "seed": 6572,
+  "key": "d95a93baa4620a9c",
+  "lines": [
+    {
+      "index": 2,
+      "text": "Where's the key?"
+    },
+    {
+      "index": 4,
+      "text": "Such as?"
+    },
+    {
+      "index": 6,
+      "text": "You've already opened it."
+    },
+    {
+      "index": 8,
+      "text": "The pocket?"
+    },
+    {
+      "index": 11,
+      "text": "And the stool?"
+    },
+    {
+      "index": 13,
+      "text": "How's the security business?"
+    },
+    {
+      "index": 16,
+      "text": "Finally. How many cookies did we save?"
+    },
+    {
+      "index": 18,
+      "text": "I'll check."
+    },
+    {
+      "index": 19,
+      "text": "Benny."
+    },
+    {
+      "index": 21,
+      "text": "You ate the entire security budget."
+    }
+  ],
+  "seconds": 79.5,
+  "audio": "d69465911c5e259ef6f38b37d60b021bbc05f4916fce76ccaf2c22eedec528ae",
+  "duration": 13.2,
+  "heard": [
+    {
+      "w": "Where's",
+      "s": 0.27,
+      "e": 0.5
+    },
+    {
+      "w": "the",
+      "s": 0.5,
+      "e": 0.78
+    },
+    {
+      "w": "key,",
+      "s": 0.78,
+      "e": 1.28
+    },
+    {
+      "w": "such",
+      "s": 1.28,
+      "e": 1.37
+    },
+    {
+      "w": "as?",
+      "s": 1.37,
+      "e": 1.75
+    },
+    {
+      "w": "You've",
+      "s": 1.75,
+      "e": 2.29
+    },
+    {
+      "w": "already",
+      "s": 2.29,
+      "e": 2.59
+    },
+    {
+      "w": "opened",
+      "s": 2.59,
+      "e": 2.98
+    },
+    {
+      "w": "it,",
+      "s": 2.98,
+      "e": 3.44
+    },
+    {
+      "w": "the",
+      "s": 3.44,
+      "e": 3.54
+    },
+    {
+      "w": "pocket,",
+      "s": 3.54,
+      "e": 3.94
+    },
+    {
+      "w": "and",
+      "s": 3.94,
+      "e": 4.28
+    },
+    {
+      "w": "the",
+      "s": 4.28,
+      "e": 4.32
+    },
+    {
+      "w": "stool.",
+      "s": 4.32,
+      "e": 4.86
+    },
+    {
+      "w": "How's",
+      "s": 4.86,
+      "e": 5.51
+    },
+    {
+      "w": "the",
+      "s": 5.51,
+      "e": 5.52
+    },
+    {
+      "w": "security",
+      "s": 5.52,
+      "e": 6.22
+    },
+    {
+      "w": "business,",
+      "s": 6.22,
+      "e": 7
+    },
+    {
+      "w": "finally?",
+      "s": 7,
+      "e": 7.7
+    },
+    {
+      "w": "How",
+      "s": 7.7,
+      "e": 7.9
+    },
+    {
+      "w": "many",
+      "s": 7.9,
+      "e": 8.51
+    },
+    {
+      "w": "cookies",
+      "s": 8.51,
+      "e": 8.7
+    },
+    {
+      "w": "did",
+      "s": 8.7,
+      "e": 8.92
+    },
+    {
+      "w": "we",
+      "s": 8.92,
+      "e": 9.06
+    },
+    {
+      "w": "save?",
+      "s": 9.06,
+      "e": 9.64
+    },
+    {
+      "w": "I'll",
+      "s": 9.64,
+      "e": 9.88
+    },
+    {
+      "w": "check.",
+      "s": 9.88,
+      "e": 10.51
+    },
+    {
+      "w": "Benny,",
+      "s": 10.51,
+      "e": 10.96
+    },
+    {
+      "w": "you",
+      "s": 10.96,
+      "e": 11.14
+    },
+    {
+      "w": "ate",
+      "s": 11.14,
+      "e": 11.62
+    },
+    {
+      "w": "the",
+      "s": 11.62,
+      "e": 11.73
+    },
+    {
+      "w": "entire",
+      "s": 11.73,
+      "e": 12.1
+    },
+    {
+      "w": "security",
+      "s": 12.1,
+      "e": 12.76
+    },
+    {
+      "w": "budget.",
+      "s": 12.76,
+      "e": 13.14
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 10 line(s) heard",
+    "problems": []
+  }
+}

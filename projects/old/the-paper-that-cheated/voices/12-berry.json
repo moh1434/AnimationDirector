@@ -1,0 +1,21 @@
+{
+  "text": "Air was slowing the loose sheet down.",
+  "voiceId": "library:berry_en",
+  "voiceName": "berry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 6572
+  },
+  "sourceTake": "voice-takes/en/berry/take-1.wav",
+  "sourceSpan": {
+    "start": 9.55,
+    "end": 11.42
+  },
+  "edit": "Extracted at a speech boundary; original take unchanged; no time stretching."
+}

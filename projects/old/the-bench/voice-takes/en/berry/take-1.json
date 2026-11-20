@@ -1,0 +1,211 @@
+{
+  "text": "Want a hand? I don't think doors learn commands. Please keep that attached. Only the moving part is stuck. I had full hands. She had a free one. Still your bench.",
+  "voiceId": "library:berry_en",
+  "voiceName": "berry_en",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 6572
+  },
+  "who": "berry",
+  "take": 1,
+  "mode": "clone",
+  "seed": 6572,
+  "key": "554f8a21a5764b3c",
+  "lines": [
+    {
+      "index": 1,
+      "text": "Want a hand?"
+    },
+    {
+      "index": 6,
+      "text": "I don't think doors learn commands."
+    },
+    {
+      "index": 10,
+      "text": "Please keep that attached."
+    },
+    {
+      "index": 14,
+      "text": "Only the moving part is stuck."
+    },
+    {
+      "index": 17,
+      "text": "I had full hands. She had a free one."
+    },
+    {
+      "index": 21,
+      "text": "Still your bench."
+    }
+  ],
+  "seconds": 50.6,
+  "audio": "792d5c5edb1bb1f42ccf832ade637c859727844a1e10f3d5aed41b458e8f9e24",
+  "duration": 9.94,
+  "heard": [
+    {
+      "w": "Want",
+      "s": 0.08,
+      "e": 0.2
+    },
+    {
+      "w": "a",
+      "s": 0.2,
+      "e": 0.25
+    },
+    {
+      "w": "hand?",
+      "s": 0.25,
+      "e": 0.62
+    },
+    {
+      "w": "I",
+      "s": 0.62,
+      "e": 0.83
+    },
+    {
+      "w": "don't",
+      "s": 0.83,
+      "e": 0.99
+    },
+    {
+      "w": "think",
+      "s": 0.99,
+      "e": 1.21
+    },
+    {
+      "w": "doors",
+      "s": 1.21,
+      "e": 1.48
+    },
+    {
+      "w": "learn",
+      "s": 1.48,
+      "e": 1.74
+    },
+    {
+      "w": "commands.",
+      "s": 1.74,
+      "e": 2.39
+    },
+    {
+      "w": "Please",
+      "s": 2.39,
+      "e": 3.03
+    },
+    {
+      "w": "keep",
+      "s": 3.03,
+      "e": 3.04
+    },
+    {
+      "w": "that",
+      "s": 3.04,
+      "e": 3.3
+    },
+    {
+      "w": "attached.",
+      "s": 3.3,
+      "e": 4
+    },
+    {
+      "w": "Only",
+      "s": 4.54,
+      "e": 4.54
+    },
+    {
+      "w": "the",
+      "s": 4.54,
+      "e": 4.62
+    },
+    {
+      "w": "moving",
+      "s": 4.62,
+      "e": 4.91
+    },
+    {
+      "w": "part",
+      "s": 4.91,
+      "e": 5.18
+    },
+    {
+      "w": "is",
+      "s": 5.18,
+      "e": 5.53
+    },
+    {
+      "w": "stuck.",
+      "s": 5.53,
+      "e": 5.9
+    },
+    {
+      "w": "I",
+      "s": 5.9,
+      "e": 6.01
+    },
+    {
+      "w": "had",
+      "s": 6.01,
+      "e": 6.21
+    },
+    {
+      "w": "full",
+      "s": 6.21,
+      "e": 6.56
+    },
+    {
+      "w": "hands.",
+      "s": 6.56,
+      "e": 7.42
+    },
+    {
+      "w": "She",
+      "s": 7.42,
+      "e": 7.58
+    },
+    {
+      "w": "had",
+      "s": 7.58,
+      "e": 7.62
+    },
+    {
+      "w": "a",
+      "s": 7.62,
+      "e": 7.68
+    },
+    {
+      "w": "free",
+      "s": 7.68,
+      "e": 7.99
+    },
+    {
+      "w": "one.",
+      "s": 7.99,
+      "e": 8.36
+    },
+    {
+      "w": "Still",
+      "s": 8.36,
+      "e": 9.04
+    },
+    {
+      "w": "your",
+      "s": 9.04,
+      "e": 9.1
+    },
+    {
+      "w": "bench.",
+      "s": 9.1,
+      "e": 9.66
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 6 line(s) heard",
+    "problems": []
+  }
+}

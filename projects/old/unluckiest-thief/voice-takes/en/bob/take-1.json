@@ -1,0 +1,116 @@
+{
+  "who": "bob",
+  "take": 1,
+  "engine": "voxcpm2",
+  "seed": 11,
+  "key": "5dcdeceeef5282b1",
+  "text": "Easy money!\nPlease don't bark...\nI DID IT! I'M FREE!\nCan this night get any worse?",
+  "lines": [
+    {
+      "index": 4,
+      "text": "\"Easy money!\""
+    },
+    {
+      "index": 21,
+      "text": "\"Please don't bark...\""
+    },
+    {
+      "index": 27,
+      "text": "\"I DID IT! I'M FREE!\""
+    },
+    {
+      "index": 38,
+      "text": "\"Can this night get any worse?\""
+    }
+  ],
+  "seconds": 3.7,
+  "audio": "93fba3d84e101fb5bfe357f7804bffadde0971ab69126b2fd5b3fc368b4da12b",
+  "duration": 5.28,
+  "heard": [
+    {
+      "w": "Easy",
+      "s": 0.49,
+      "e": 0.53
+    },
+    {
+      "w": "money.",
+      "s": 0.53,
+      "e": 1.55
+    },
+    {
+      "w": "Please",
+      "s": 1.55,
+      "e": 1.66
+    },
+    {
+      "w": "don't",
+      "s": 1.66,
+      "e": 1.91
+    },
+    {
+      "w": "bark.",
+      "s": 1.91,
+      "e": 2.35
+    },
+    {
+      "w": "I",
+      "s": 2.35,
+      "e": 2.5
+    },
+    {
+      "w": "did",
+      "s": 2.5,
+      "e": 2.6
+    },
+    {
+      "w": "it.",
+      "s": 2.6,
+      "e": 3.04
+    },
+    {
+      "w": "I'm",
+      "s": 3.04,
+      "e": 3.14
+    },
+    {
+      "w": "free.",
+      "s": 3.14,
+      "e": 3.5
+    },
+    {
+      "w": "Can",
+      "s": 3.5,
+      "e": 3.71
+    },
+    {
+      "w": "this",
+      "s": 3.71,
+      "e": 3.94
+    },
+    {
+      "w": "night",
+      "s": 3.94,
+      "e": 4.29
+    },
+    {
+      "w": "get",
+      "s": 4.29,
+      "e": 4.48
+    },
+    {
+      "w": "any",
+      "s": 4.48,
+      "e": 4.64
+    },
+    {
+      "w": "worse?",
+      "s": 4.64,
+      "e": 5.18
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 4 line(s) heard",
+    "problems": []
+  }
+}

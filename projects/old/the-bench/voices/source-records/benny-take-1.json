@@ -1,0 +1,504 @@
+{
+  "text": "Why can't I move this stupid bench? No. I built it myself. I'll move it myself. Outside. Best spot in the garden. Before sunset. Stay. This one will. We've spent enough time together. I've still got a perfectly good chin. I wanted you to see something I'd done all by myself. It looks less impressive stuck in a doorway. Feels like the whole thing. You didn't even think about asking.\nBerry, the door? Cherry, the other end? Together. Lift. Better with people on it.",
+  "voiceId": "library:benny_en",
+  "voiceName": "benny_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 1234
+  },
+  "who": "benny",
+  "take": 1,
+  "mode": "clone",
+  "seed": 1234,
+  "key": "14cac1b7556ebdbd",
+  "lines": [
+    {
+      "index": 0,
+      "text": "Why can't I move this stupid bench?"
+    },
+    {
+      "index": 2,
+      "text": "No. I built it myself. I'll move it myself."
+    },
+    {
+      "index": 4,
+      "text": "Outside. Best spot in the garden. Before sunset."
+    },
+    {
+      "index": 5,
+      "text": "Stay."
+    },
+    {
+      "index": 7,
+      "text": "This one will. We've spent enough time together."
+    },
+    {
+      "index": 9,
+      "text": "I've still got a perfectly good chin."
+    },
+    {
+      "index": 11,
+      "text": "I wanted you to see something I'd done all by myself."
+    },
+    {
+      "index": 13,
+      "text": "It looks less impressive stuck in a doorway."
+    },
+    {
+      "index": 15,
+      "text": "Feels like the whole thing."
+    },
+    {
+      "index": 16,
+      "text": "You didn't even think about asking."
+    },
+    {
+      "index": 18,
+      "text": "Berry, the door? Cherry, the other end?"
+    },
+    {
+      "index": 20,
+      "text": "Together. Lift."
+    },
+    {
+      "index": 22,
+      "text": "Better with people on it."
+    }
+  ],
+  "seconds": 599.6,
+  "audio": "69b60cb03afbeb4020ff62a4576a48ebb1fde71f220eece32091c2e582e056a0",
+  "duration": 29.630083333333335,
+  "heard": [
+    {
+      "w": "Why",
+      "s": 0.05,
+      "e": 0.18
+    },
+    {
+      "w": "can't",
+      "s": 0.18,
+      "e": 0.48
+    },
+    {
+      "w": "I",
+      "s": 0.48,
+      "e": 0.54
+    },
+    {
+      "w": "move",
+      "s": 0.54,
+      "e": 0.78
+    },
+    {
+      "w": "this",
+      "s": 0.78,
+      "e": 1.02
+    },
+    {
+      "w": "stupid",
+      "s": 1.02,
+      "e": 1.39
+    },
+    {
+      "w": "bench?",
+      "s": 1.39,
+      "e": 1.92
+    },
+    {
+      "w": "No.",
+      "s": 2.44,
+      "e": 2.76
+    },
+    {
+      "w": "I",
+      "s": 3.08,
+      "e": 3.13
+    },
+    {
+      "w": "built",
+      "s": 3.13,
+      "e": 3.22
+    },
+    {
+      "w": "it",
+      "s": 3.22,
+      "e": 3.44
+    },
+    {
+      "w": "myself.",
+      "s": 3.44,
+      "e": 4.1
+    },
+    {
+      "w": "I'll",
+      "s": 4.48,
+      "e": 4.53
+    },
+    {
+      "w": "move",
+      "s": 4.53,
+      "e": 4.62
+    },
+    {
+      "w": "it",
+      "s": 4.62,
+      "e": 4.84
+    },
+    {
+      "w": "myself.",
+      "s": 4.84,
+      "e": 5.38
+    },
+    {
+      "w": "Outside.",
+      "s": 5.9,
+      "e": 6.24
+    },
+    {
+      "w": "Best",
+      "s": 6.92,
+      "e": 6.92
+    },
+    {
+      "w": "spot",
+      "s": 6.92,
+      "e": 6.97
+    },
+    {
+      "w": "in",
+      "s": 6.97,
+      "e": 6.99
+    },
+    {
+      "w": "the",
+      "s": 6.99,
+      "e": 7.28
+    },
+    {
+      "w": "garden.",
+      "s": 7.28,
+      "e": 7.94
+    },
+    {
+      "w": "Before",
+      "s": 8.22,
+      "e": 8.3
+    },
+    {
+      "w": "sunset.",
+      "s": 8.3,
+      "e": 8.84
+    },
+    {
+      "w": "Stay.",
+      "s": 9.52,
+      "e": 9.84
+    },
+    {
+      "w": "This",
+      "s": 10.16,
+      "e": 10.22
+    },
+    {
+      "w": "one",
+      "s": 10.22,
+      "e": 10.29
+    },
+    {
+      "w": "will.",
+      "s": 10.29,
+      "e": 10.76
+    },
+    {
+      "w": "We've",
+      "s": 11.16,
+      "e": 11.22
+    },
+    {
+      "w": "spent",
+      "s": 11.22,
+      "e": 11.29
+    },
+    {
+      "w": "enough",
+      "s": 11.29,
+      "e": 11.61
+    },
+    {
+      "w": "time",
+      "s": 11.61,
+      "e": 11.82
+    },
+    {
+      "w": "together.",
+      "s": 11.82,
+      "e": 12.44
+    },
+    {
+      "w": "I've",
+      "s": 12.74,
+      "e": 12.78
+    },
+    {
+      "w": "still",
+      "s": 12.78,
+      "e": 12.98
+    },
+    {
+      "w": "got",
+      "s": 12.98,
+      "e": 13.16
+    },
+    {
+      "w": "a",
+      "s": 13.16,
+      "e": 13.22
+    },
+    {
+      "w": "perfectly",
+      "s": 13.22,
+      "e": 13.76
+    },
+    {
+      "w": "good",
+      "s": 13.76,
+      "e": 14
+    },
+    {
+      "w": "chin.",
+      "s": 14,
+      "e": 14.44
+    },
+    {
+      "w": "I",
+      "s": 14.44,
+      "e": 14.49
+    },
+    {
+      "w": "wanted",
+      "s": 14.49,
+      "e": 14.84
+    },
+    {
+      "w": "you",
+      "s": 14.84,
+      "e": 15.01
+    },
+    {
+      "w": "to",
+      "s": 15.01,
+      "e": 15.12
+    },
+    {
+      "w": "see",
+      "s": 15.12,
+      "e": 15.29
+    },
+    {
+      "w": "something",
+      "s": 15.29,
+      "e": 15.82
+    },
+    {
+      "w": "I'd",
+      "s": 15.82,
+      "e": 15.98
+    },
+    {
+      "w": "done",
+      "s": 15.98,
+      "e": 16.21
+    },
+    {
+      "w": "all",
+      "s": 16.21,
+      "e": 16.38
+    },
+    {
+      "w": "by",
+      "s": 16.38,
+      "e": 16.84
+    },
+    {
+      "w": "myself.",
+      "s": 16.84,
+      "e": 17.1
+    },
+    {
+      "w": "It",
+      "s": 17.58,
+      "e": 17.58
+    },
+    {
+      "w": "looks",
+      "s": 17.58,
+      "e": 17.63
+    },
+    {
+      "w": "less",
+      "s": 17.63,
+      "e": 17.73
+    },
+    {
+      "w": "impressive",
+      "s": 17.73,
+      "e": 18.32
+    },
+    {
+      "w": "stuck",
+      "s": 18.32,
+      "e": 18.6
+    },
+    {
+      "w": "in",
+      "s": 18.6,
+      "e": 18.72
+    },
+    {
+      "w": "a",
+      "s": 18.72,
+      "e": 18.77
+    },
+    {
+      "w": "doorway.",
+      "s": 18.77,
+      "e": 19.42
+    },
+    {
+      "w": "Feels",
+      "s": 20.1,
+      "e": 20.1
+    },
+    {
+      "w": "like",
+      "s": 20.1,
+      "e": 20.15
+    },
+    {
+      "w": "the",
+      "s": 20.15,
+      "e": 20.26
+    },
+    {
+      "w": "whole",
+      "s": 20.26,
+      "e": 20.62
+    },
+    {
+      "w": "thing.",
+      "s": 20.62,
+      "e": 21.18
+    },
+    {
+      "w": "You",
+      "s": 21.56,
+      "e": 21.56
+    },
+    {
+      "w": "didn't",
+      "s": 21.56,
+      "e": 21.63
+    },
+    {
+      "w": "even",
+      "s": 21.63,
+      "e": 21.92
+    },
+    {
+      "w": "think",
+      "s": 21.92,
+      "e": 22.08
+    },
+    {
+      "w": "about",
+      "s": 22.08,
+      "e": 22.33
+    },
+    {
+      "w": "asking.",
+      "s": 22.33,
+      "e": 22.84
+    },
+    {
+      "w": "Berry?",
+      "s": 23.36,
+      "e": 23.62
+    },
+    {
+      "w": "The",
+      "s": 24.04,
+      "e": 24.09
+    },
+    {
+      "w": "door?",
+      "s": 24.09,
+      "e": 24.46
+    },
+    {
+      "w": "Cherry?",
+      "s": 24.94,
+      "e": 25.24
+    },
+    {
+      "w": "The",
+      "s": 25.7,
+      "e": 25.75
+    },
+    {
+      "w": "other",
+      "s": 25.75,
+      "e": 25.86
+    },
+    {
+      "w": "end?",
+      "s": 25.86,
+      "e": 26.34
+    },
+    {
+      "w": "Together.",
+      "s": 26.8,
+      "e": 27.12
+    },
+    {
+      "w": "Lift.",
+      "s": 27.64,
+      "e": 27.9
+    },
+    {
+      "w": "Better",
+      "s": 28.5,
+      "e": 28.56
+    },
+    {
+      "w": "with",
+      "s": 28.56,
+      "e": 28.61
+    },
+    {
+      "w": "people",
+      "s": 28.61,
+      "e": 29.04
+    },
+    {
+      "w": "on",
+      "s": 29.04,
+      "e": 29.18
+    },
+    {
+      "w": "it.",
+      "s": 29.18,
+      "e": 29.56
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 13 line(s) heard",
+    "problems": []
+  }
+}

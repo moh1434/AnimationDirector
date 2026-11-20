@@ -1,0 +1,33 @@
+{
+  "picks": {
+    "berry": 1,
+    "benny": 1,
+    "cherry": 1
+  },
+  "at": "2026-11-16T11:59:12.146Z",
+  "files": {
+    "voices/01-benny.wav": "fea70068dafe8845f8b4ad469e76ec1f6c7b5d6648b0c40f990f9a4c07684a38",
+    "voices/02-cherry.wav": "bfbe648b3014b287ff6be0c665a475f15ba50e1bd53cbe8627edb61a2ce3917a",
+    "voices/03-berry.wav": "c85f442c260a4c7f9e3c1454e4257ccefbdf366e72dac6a55cb9d9e9ef8986e8",
+    "voices/04-benny.wav": "5df1d4e5eceb2a5a6c742a8ccf729d6d03cb00f66da430a32f5d0ceb4c96269e",
+    "voices/05-cherry.wav": "b1975d3be4a32a50caa70fd0a5df28730d798d2679dde8810f8dbdfabdfab823",
+    "voices/06-berry.wav": "11d6662503e513c29657d59f4c4079691bcdaaeb2bb65f204763b4058def60c0",
+    "voices/07-benny.wav": "bd2020bb9ed67730e42a5191ba4f6a7921754057e0d0a2002ec73ac874072366",
+    "voices/08-cherry.wav": "9fce30eaa599bc6466c1a3027039f8f7d6c5b20dd385be21108c1d3bb0a0cfc3",
+    "voices/09-berry.wav": "a4287942f7b114817edfb151a6ace4e328b8257c276a293c9b30513306286b9b",
+    "voices/10-benny.wav": "d28e4e6aca5069b7dbbb600593072a70e64e6ebf67ad85099973784cfd05f9b9",
+    "voices/11-benny.wav": "aeebd741d258d638c8dcf2b5f78f0b24bf8f0d307506c74090f12d04bc7fc0de",
+    "voices/12-berry.wav": "c68a4be327a1793372b84ea88d66f961a854768b01be3c1ab084bb63d4a56516",
+    "voices/13-benny.wav": "d01e139bd61d665899f116ae9f2f999233acdd4a3a8cd5832c2a35d752a747be",
+    "voices/14-berry.wav": "15768ca39625e4ca7e1bfcca2c0bc8b3701fe5cc62a96ce59d5db24c719f647d",
+    "voices/15-cherry.wav": "2c38c4b82d3eea19f9be98514b3f45d7147c4ac6606e430c7df11c0ee98ffd10",
+    "voices/16-benny.wav": "a54201aba53f200913a5330575b9b3632ed11e017d5202e262477ca929100348",
+    "voices/17-cherry.wav": "cef66fa887885c9eb3cce1d016d2376c17e898d365f81d5b26f31e7ae43414cb",
+    "voices/18-berry.wav": "5e134f71fe00ea89ebe7d68dff37baf650c67dad432780d20ce3c74d7c4f70a1",
+    "voices/19-benny.wav": "95cadb32f63478c1b166975ce5f19a9ebe62d8b10563094418b4fe1377007b50",
+    "voices/20-berry.wav": "b4748807b2634cd1beffdf5fe93eaf3e55de6ed308efb770f79b5eede49367aa",
+    "voices/21-cherry.wav": "a698296edc8cf1cd9e3f7b722195815960cd74a2fbdf252780b4f0f2d752701f",
+    "voices/22-benny.wav": "4af76a6032235d00645e5be7ac18e511801858b8ba269b9dbd0b2ddcd3268bf7",
+    "dialogue.json": "0732fbe306d642fef83059cf60d8ff8d47b89dc5f1c1ef78e953e4de2795897d"
+  }
+}

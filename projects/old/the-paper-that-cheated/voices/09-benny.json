@@ -1,0 +1,21 @@
+{
+  "text": "Fine. But no glue.",
+  "voiceId": "library:benny_en",
+  "voiceName": "benny_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 1234
+  },
+  "sourceTake": "voice-takes/en/benny/take-1.wav",
+  "sourceSpan": {
+    "start": 12.38,
+    "end": 13.915
+  },
+  "edit": "Extracted at a speech boundary; original take unchanged; no time stretching."
+}

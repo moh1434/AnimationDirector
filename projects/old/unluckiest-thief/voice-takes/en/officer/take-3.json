@@ -1,0 +1,78 @@
+{
+  "who": "officer",
+  "take": 3,
+  "engine": "voxcpm2",
+  "seed": 33,
+  "key": "50c2a2d0884e61bc",
+  "text": "YOU! HANDS UP!\nYou're under arrest for stealing... my dog!",
+  "lines": [
+    {
+      "index": 31,
+      "text": "\"YOU! HANDS UP!\""
+    },
+    {
+      "index": 34,
+      "text": "\"You're under arrest for stealing... my dog!\""
+    }
+  ],
+  "seconds": 3.6,
+  "audio": "9aa7487964dff6a5daeaafcda06c30ba6d50653c6ce163e5b5224300e65b0a8d",
+  "duration": 4.32,
+  "heard": [
+    {
+      "w": "You!",
+      "s": 0.34,
+      "e": 0.68
+    },
+    {
+      "w": "Hands",
+      "s": 0.68,
+      "e": 1.2
+    },
+    {
+      "w": "up!",
+      "s": 1.2,
+      "e": 1.72
+    },
+    {
+      "w": "You're",
+      "s": 1.72,
+      "e": 2.26
+    },
+    {
+      "w": "under",
+      "s": 2.26,
+      "e": 2.44
+    },
+    {
+      "w": "arrest",
+      "s": 2.44,
+      "e": 2.84
+    },
+    {
+      "w": "for",
+      "s": 2.84,
+      "e": 3.1
+    },
+    {
+      "w": "stealing",
+      "s": 3.1,
+      "e": 3.58
+    },
+    {
+      "w": "my",
+      "s": 3.58,
+      "e": 3.71
+    },
+    {
+      "w": "dog!",
+      "s": 3.71,
+      "e": 4.16
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 2 line(s) heard",
+    "problems": []
+  }
+}

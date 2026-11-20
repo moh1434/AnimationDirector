@@ -1,0 +1,148 @@
+{
+  "text": "Where are we moving it? You've run out of arms. We saw. It's a lovely bench. Ready when you are.",
+  "voiceId": "library:cherry_en",
+  "voiceName": "cherry_en",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "en",
+  "settings": {
+    "temperature": 0.7,
+    "topK": 35,
+    "topP": 0.8,
+    "repeatPenalty": 1.05,
+    "seed": 68
+  },
+  "who": "cherry",
+  "take": 2,
+  "mode": "clone",
+  "seed": 68,
+  "key": "b55caff145843d79",
+  "lines": [
+    {
+      "index": 3,
+      "text": "Where are we moving it?"
+    },
+    {
+      "index": 8,
+      "text": "You've run out of arms."
+    },
+    {
+      "index": 12,
+      "text": "We saw. It's a lovely bench."
+    },
+    {
+      "index": 19,
+      "text": "Ready when you are."
+    }
+  ],
+  "seconds": 51.1,
+  "audio": "a9477e042407f5d21e7ef0abba97634a0aba29639ead2d7e61cbdfbe394eb319",
+  "duration": 6.36,
+  "heard": [
+    {
+      "w": "Where",
+      "s": 0.21,
+      "e": 0.27
+    },
+    {
+      "w": "are",
+      "s": 0.27,
+      "e": 0.43
+    },
+    {
+      "w": "we",
+      "s": 0.43,
+      "e": 0.53
+    },
+    {
+      "w": "moving",
+      "s": 0.53,
+      "e": 0.85
+    },
+    {
+      "w": "it?",
+      "s": 0.85,
+      "e": 1.32
+    },
+    {
+      "w": "You've",
+      "s": 1.32,
+      "e": 1.5
+    },
+    {
+      "w": "run",
+      "s": 1.5,
+      "e": 1.68
+    },
+    {
+      "w": "out",
+      "s": 1.68,
+      "e": 1.87
+    },
+    {
+      "w": "of",
+      "s": 1.87,
+      "e": 1.99
+    },
+    {
+      "w": "arms,",
+      "s": 1.99,
+      "e": 2.32
+    },
+    {
+      "w": "we",
+      "s": 2.32,
+      "e": 2.65
+    },
+    {
+      "w": "saw.",
+      "s": 2.65,
+      "e": 3.08
+    },
+    {
+      "w": "It's",
+      "s": 3.08,
+      "e": 3.43
+    },
+    {
+      "w": "a",
+      "s": 3.43,
+      "e": 3.46
+    },
+    {
+      "w": "lovely",
+      "s": 3.46,
+      "e": 3.93
+    },
+    {
+      "w": "bench,",
+      "s": 3.93,
+      "e": 4.38
+    },
+    {
+      "w": "ready",
+      "s": 4.38,
+      "e": 4.71
+    },
+    {
+      "w": "when",
+      "s": 4.71,
+      "e": 4.94
+    },
+    {
+      "w": "you",
+      "s": 4.94,
+      "e": 5.09
+    },
+    {
+      "w": "are.",
+      "s": 5.09,
+      "e": 5.46
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 4 line(s) heard",
+    "problems": []
+  }
+}

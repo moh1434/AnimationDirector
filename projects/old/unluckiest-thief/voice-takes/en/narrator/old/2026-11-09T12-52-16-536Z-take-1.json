@@ -1,0 +1,1241 @@
+{
+  "who": "narrator",
+  "take": 1,
+  "engine": "voxcpm2",
+  "seed": 11,
+  "key": "7059f72933b6eaae",
+  "text": "Meet Bob.\nBob is a professional thief... well, at least he thinks he is.\nTonight, he's planning the biggest robbery of his life.\nHe studies the house, puts on his black mask, grabs his tools, and whispers:\nBob sneaks through an open window.\nEverything is going perfectly...\nUntil his pants get caught on a nail!\nHe struggles, kicks, and finally falls straight into a flower pot.\nBut somehow, he manages to get inside.\nBob spots a giant diamond sitting on a table.\nJackpot!\nHe reaches for it...\nBEEP! BEEP! BEEP!\nThe security alarm goes off!\nPanicking, Bob runs into the nearest cupboard and hides.\nHe slowly opens the cupboard door...\nAnd comes face-to-face with a gigantic sleeping dog!\nBob freezes.\nThe dog's eyes slowly open.\nBob closes his eyes and whispers:\nThe dog suddenly jumps on him!\nBut instead of attacking, it starts licking his face.\nIt thinks Bob is its new best friend!\nBob escapes through the front door, covered in dog slobber.\nHe runs down the street, celebrating his survival.\nBut suddenly...\nA police car pulls up.\nThe officer steps out and shouts:\nBob freezes.\nThe officer looks at him and says:\nBob looks down.\nThe giant dog is happily following him, carrying his stolen bag!\nBob slowly turns toward the camera.",
+  "lines": [
+    {
+      "index": 0,
+      "text": "Meet Bob."
+    },
+    {
+      "index": 1,
+      "text": "Bob is a professional thief... well, at least he thinks he is."
+    },
+    {
+      "index": 2,
+      "text": "Tonight, he's planning the biggest robbery of his life."
+    },
+    {
+      "index": 3,
+      "text": "He studies the house, puts on his black mask, grabs his tools, and whispers:"
+    },
+    {
+      "index": 5,
+      "text": "Bob sneaks through an open window."
+    },
+    {
+      "index": 6,
+      "text": "Everything is going perfectly..."
+    },
+    {
+      "index": 7,
+      "text": "Until his pants get caught on a nail!"
+    },
+    {
+      "index": 8,
+      "text": "He struggles, kicks, and finally falls straight into a flower pot."
+    },
+    {
+      "index": 9,
+      "text": "But somehow, he manages to get inside."
+    },
+    {
+      "index": 10,
+      "text": "Bob spots a giant diamond sitting on a table."
+    },
+    {
+      "index": 11,
+      "text": "Jackpot!"
+    },
+    {
+      "index": 12,
+      "text": "He reaches for it..."
+    },
+    {
+      "index": 13,
+      "text": "BEEP! BEEP! BEEP!"
+    },
+    {
+      "index": 14,
+      "text": "The security alarm goes off!"
+    },
+    {
+      "index": 15,
+      "text": "Panicking, Bob runs into the nearest cupboard and hides."
+    },
+    {
+      "index": 16,
+      "text": "He slowly opens the cupboard door..."
+    },
+    {
+      "index": 17,
+      "text": "And comes face-to-face with a gigantic sleeping dog!"
+    },
+    {
+      "index": 18,
+      "text": "Bob freezes."
+    },
+    {
+      "index": 19,
+      "text": "The dog's eyes slowly open."
+    },
+    {
+      "index": 20,
+      "text": "Bob closes his eyes and whispers:"
+    },
+    {
+      "index": 22,
+      "text": "The dog suddenly jumps on him!"
+    },
+    {
+      "index": 23,
+      "text": "But instead of attacking, it starts licking his face."
+    },
+    {
+      "index": 24,
+      "text": "It thinks Bob is its new best friend!"
+    },
+    {
+      "index": 25,
+      "text": "Bob escapes through the front door, covered in dog slobber."
+    },
+    {
+      "index": 26,
+      "text": "He runs down the street, celebrating his survival."
+    },
+    {
+      "index": 28,
+      "text": "But suddenly..."
+    },
+    {
+      "index": 29,
+      "text": "A police car pulls up."
+    },
+    {
+      "index": 30,
+      "text": "The officer steps out and shouts:"
+    },
+    {
+      "index": 32,
+      "text": "Bob freezes."
+    },
+    {
+      "index": 33,
+      "text": "The officer looks at him and says:"
+    },
+    {
+      "index": 35,
+      "text": "Bob looks down."
+    },
+    {
+      "index": 36,
+      "text": "The giant dog is happily following him, carrying his stolen bag!"
+    },
+    {
+      "index": 37,
+      "text": "Bob slowly turns toward the camera."
+    }
+  ],
+  "seconds": 646.3,
+  "audio": "8a85a08a02cee3f582a0f042ff8b57b81e4fa5d1f31f6fb63f5c107de5b224e1",
+  "duration": 79.68,
+  "heard": [
+    {
+      "w": "M-meet",
+      "s": 0.12,
+      "e": 0.79
+    },
+    {
+      "w": "Bob.",
+      "s": 0.79,
+      "e": 2
+    },
+    {
+      "w": "Bob",
+      "s": 2,
+      "e": 2.17
+    },
+    {
+      "w": "is",
+      "s": 2.17,
+      "e": 2.33
+    },
+    {
+      "w": "a",
+      "s": 2.33,
+      "e": 2.33
+    },
+    {
+      "w": "professional",
+      "s": 2.33,
+      "e": 3.02
+    },
+    {
+      "w": "thief,",
+      "s": 3.02,
+      "e": 3.66
+    },
+    {
+      "w": "well",
+      "s": 3.66,
+      "e": 3.75
+    },
+    {
+      "w": "at",
+      "s": 3.75,
+      "e": 3.92
+    },
+    {
+      "w": "least",
+      "s": 3.92,
+      "e": 4.21
+    },
+    {
+      "w": "he",
+      "s": 4.21,
+      "e": 4.3
+    },
+    {
+      "w": "thinks",
+      "s": 4.3,
+      "e": 4.68
+    },
+    {
+      "w": "he",
+      "s": 4.68,
+      "e": 4.79
+    },
+    {
+      "w": "is.",
+      "s": 4.79,
+      "e": 5.12
+    },
+    {
+      "w": "Tonight,",
+      "s": 5.12,
+      "e": 5.95
+    },
+    {
+      "w": "he's",
+      "s": 5.95,
+      "e": 6.96
+    },
+    {
+      "w": "planning",
+      "s": 6.96,
+      "e": 7.18
+    },
+    {
+      "w": "the",
+      "s": 7.18,
+      "e": 7.4
+    },
+    {
+      "w": "biggest",
+      "s": 7.4,
+      "e": 7.9
+    },
+    {
+      "w": "robbery",
+      "s": 7.9,
+      "e": 8.38
+    },
+    {
+      "w": "of",
+      "s": 8.38,
+      "e": 8.47
+    },
+    {
+      "w": "his",
+      "s": 8.47,
+      "e": 9.01
+    },
+    {
+      "w": "life.",
+      "s": 9.01,
+      "e": 9.22
+    },
+    {
+      "w": "He",
+      "s": 9.22,
+      "e": 9.36
+    },
+    {
+      "w": "studies",
+      "s": 9.36,
+      "e": 9.87
+    },
+    {
+      "w": "the",
+      "s": 9.87,
+      "e": 10.06
+    },
+    {
+      "w": "house,",
+      "s": 10.06,
+      "e": 10.49
+    },
+    {
+      "w": "puts",
+      "s": 10.49,
+      "e": 10.97
+    },
+    {
+      "w": "on",
+      "s": 10.97,
+      "e": 11.06
+    },
+    {
+      "w": "his",
+      "s": 11.06,
+      "e": 11.18
+    },
+    {
+      "w": "black",
+      "s": 11.18,
+      "e": 11.53
+    },
+    {
+      "w": "mask,",
+      "s": 11.53,
+      "e": 11.95
+    },
+    {
+      "w": "grabs",
+      "s": 11.95,
+      "e": 12.3
+    },
+    {
+      "w": "his",
+      "s": 12.3,
+      "e": 12.5
+    },
+    {
+      "w": "tools",
+      "s": 12.5,
+      "e": 13.08
+    },
+    {
+      "w": "and",
+      "s": 13.08,
+      "e": 13.2
+    },
+    {
+      "w": "whispers.",
+      "s": 13.2,
+      "e": 14.04
+    },
+    {
+      "w": "Bob",
+      "s": 14.04,
+      "e": 14.26
+    },
+    {
+      "w": "sneaks",
+      "s": 14.26,
+      "e": 14.93
+    },
+    {
+      "w": "through",
+      "s": 14.93,
+      "e": 15.26
+    },
+    {
+      "w": "an",
+      "s": 15.26,
+      "e": 15.41
+    },
+    {
+      "w": "open",
+      "s": 15.41,
+      "e": 15.71
+    },
+    {
+      "w": "window.",
+      "s": 15.71,
+      "e": 16.86
+    },
+    {
+      "w": "Everything",
+      "s": 16.86,
+      "e": 17.19
+    },
+    {
+      "w": "is",
+      "s": 17.19,
+      "e": 17.31
+    },
+    {
+      "w": "going",
+      "s": 17.31,
+      "e": 17.68
+    },
+    {
+      "w": "perfectly,",
+      "s": 17.68,
+      "e": 18.86
+    },
+    {
+      "w": "until",
+      "s": 18.86,
+      "e": 18.91
+    },
+    {
+      "w": "his",
+      "s": 18.91,
+      "e": 19.14
+    },
+    {
+      "w": "pants",
+      "s": 19.14,
+      "e": 19.58
+    },
+    {
+      "w": "get",
+      "s": 19.58,
+      "e": 19.79
+    },
+    {
+      "w": "caught",
+      "s": 19.79,
+      "e": 20.15
+    },
+    {
+      "w": "on",
+      "s": 20.15,
+      "e": 20.33
+    },
+    {
+      "w": "a",
+      "s": 20.33,
+      "e": 20.37
+    },
+    {
+      "w": "nail.",
+      "s": 20.37,
+      "e": 20.89
+    },
+    {
+      "w": "He",
+      "s": 20.89,
+      "e": 21.31
+    },
+    {
+      "w": "struggles,",
+      "s": 21.31,
+      "e": 21.58
+    },
+    {
+      "w": "kicks",
+      "s": 21.58,
+      "e": 21.91
+    },
+    {
+      "w": "and",
+      "s": 21.91,
+      "e": 22.09
+    },
+    {
+      "w": "finally",
+      "s": 22.09,
+      "e": 22.54
+    },
+    {
+      "w": "falls",
+      "s": 22.54,
+      "e": 23.24
+    },
+    {
+      "w": "straight",
+      "s": 23.24,
+      "e": 23.37
+    },
+    {
+      "w": "into",
+      "s": 23.37,
+      "e": 23.62
+    },
+    {
+      "w": "a",
+      "s": 23.62,
+      "e": 23.68
+    },
+    {
+      "w": "flower",
+      "s": 23.68,
+      "e": 24.07
+    },
+    {
+      "w": "pot.",
+      "s": 24.07,
+      "e": 24.54
+    },
+    {
+      "w": "But",
+      "s": 24.54,
+      "e": 25.22
+    },
+    {
+      "w": "somehow,",
+      "s": 25.43,
+      "e": 26.01
+    },
+    {
+      "w": "he",
+      "s": 26.01,
+      "e": 26.13
+    },
+    {
+      "w": "manages",
+      "s": 26.13,
+      "e": 26.88
+    },
+    {
+      "w": "to",
+      "s": 26.88,
+      "e": 26.95
+    },
+    {
+      "w": "get",
+      "s": 26.95,
+      "e": 27.13
+    },
+    {
+      "w": "inside.",
+      "s": 27.13,
+      "e": 27.88
+    },
+    {
+      "w": "Bob",
+      "s": 27.88,
+      "e": 28.16
+    },
+    {
+      "w": "spots",
+      "s": 28.16,
+      "e": 28.63
+    },
+    {
+      "w": "a",
+      "s": 28.63,
+      "e": 28.88
+    },
+    {
+      "w": "giant",
+      "s": 28.88,
+      "e": 29.07
+    },
+    {
+      "w": "diamond",
+      "s": 29.07,
+      "e": 29.71
+    },
+    {
+      "w": "sitting",
+      "s": 29.71,
+      "e": 30.24
+    },
+    {
+      "w": "on",
+      "s": 30.24,
+      "e": 30.47
+    },
+    {
+      "w": "a",
+      "s": 30.47,
+      "e": 30.88
+    },
+    {
+      "w": "table.",
+      "s": 30.88,
+      "e": 31.23
+    },
+    {
+      "w": "Jackpot.",
+      "s": 31.23,
+      "e": 32.32
+    },
+    {
+      "w": "He",
+      "s": 32.76,
+      "e": 32.97
+    },
+    {
+      "w": "reaches",
+      "s": 32.97,
+      "e": 33.26
+    },
+    {
+      "w": "for",
+      "s": 33.26,
+      "e": 33.29
+    },
+    {
+      "w": "it.",
+      "s": 33.29,
+      "e": 33.69
+    },
+    {
+      "w": "Beep!",
+      "s": 33.69,
+      "e": 34.41
+    },
+    {
+      "w": "Beep!",
+      "s": 34.41,
+      "e": 34.82
+    },
+    {
+      "w": "Beep!",
+      "s": 34.82,
+      "e": 35.37
+    },
+    {
+      "w": "The",
+      "s": 35.37,
+      "e": 35.7
+    },
+    {
+      "w": "security",
+      "s": 35.7,
+      "e": 36.42
+    },
+    {
+      "w": "alarm",
+      "s": 36.42,
+      "e": 36.67
+    },
+    {
+      "w": "goes",
+      "s": 36.67,
+      "e": 37.05
+    },
+    {
+      "w": "off.",
+      "s": 37.05,
+      "e": 37.47
+    },
+    {
+      "w": "Panicking,",
+      "s": 37.47,
+      "e": 38.44
+    },
+    {
+      "w": "Bob",
+      "s": 38.44,
+      "e": 38.6
+    },
+    {
+      "w": "runs",
+      "s": 38.6,
+      "e": 39.24
+    },
+    {
+      "w": "into",
+      "s": 39.24,
+      "e": 39.47
+    },
+    {
+      "w": "the",
+      "s": 39.47,
+      "e": 39.62
+    },
+    {
+      "w": "nearest",
+      "s": 39.62,
+      "e": 40.12
+    },
+    {
+      "w": "cupboard",
+      "s": 40.12,
+      "e": 40.64
+    },
+    {
+      "w": "and",
+      "s": 40.64,
+      "e": 41.19
+    },
+    {
+      "w": "hides.",
+      "s": 41.19,
+      "e": 41.39
+    },
+    {
+      "w": "He",
+      "s": 41.39,
+      "e": 41.52
+    },
+    {
+      "w": "slowly",
+      "s": 41.52,
+      "e": 41.95
+    },
+    {
+      "w": "opens",
+      "s": 41.95,
+      "e": 42.28
+    },
+    {
+      "w": "the",
+      "s": 42.28,
+      "e": 42.56
+    },
+    {
+      "w": "cupboard",
+      "s": 42.56,
+      "e": 43.28
+    },
+    {
+      "w": "door",
+      "s": 43.28,
+      "e": 43.29
+    },
+    {
+      "w": "and",
+      "s": 43.29,
+      "e": 43.49
+    },
+    {
+      "w": "comes",
+      "s": 43.49,
+      "e": 43.91
+    },
+    {
+      "w": "face",
+      "s": 43.91,
+      "e": 44.11
+    },
+    {
+      "w": "to",
+      "s": 44.11,
+      "e": 44.23
+    },
+    {
+      "w": "face",
+      "s": 44.23,
+      "e": 44.5
+    },
+    {
+      "w": "with",
+      "s": 44.5,
+      "e": 45.02
+    },
+    {
+      "w": "a",
+      "s": 45.02,
+      "e": 45.02
+    },
+    {
+      "w": "gigantic",
+      "s": 45.02,
+      "e": 45.62
+    },
+    {
+      "w": "sleeping",
+      "s": 45.62,
+      "e": 46.44
+    },
+    {
+      "w": "dog.",
+      "s": 46.44,
+      "e": 46.75
+    },
+    {
+      "w": "Bob",
+      "s": 46.75,
+      "e": 46.88
+    },
+    {
+      "w": "freezes.",
+      "s": 46.88,
+      "e": 47.62
+    },
+    {
+      "w": "The",
+      "s": 47.62,
+      "e": 47.96
+    },
+    {
+      "w": "dog's",
+      "s": 47.96,
+      "e": 48.11
+    },
+    {
+      "w": "eyes",
+      "s": 48.11,
+      "e": 48.68
+    },
+    {
+      "w": "slowly",
+      "s": 48.68,
+      "e": 49.01
+    },
+    {
+      "w": "open.",
+      "s": 49.01,
+      "e": 49.51
+    },
+    {
+      "w": "Bob",
+      "s": 49.51,
+      "e": 49.69
+    },
+    {
+      "w": "closes",
+      "s": 49.69,
+      "e": 50.14
+    },
+    {
+      "w": "his",
+      "s": 50.14,
+      "e": 50.67
+    },
+    {
+      "w": "eyes",
+      "s": 50.67,
+      "e": 50.7
+    },
+    {
+      "w": "and",
+      "s": 50.7,
+      "e": 50.89
+    },
+    {
+      "w": "whispers.",
+      "s": 50.89,
+      "e": 51.88
+    },
+    {
+      "w": "The",
+      "s": 52.06,
+      "e": 52.09
+    },
+    {
+      "w": "dog",
+      "s": 52.09,
+      "e": 52.38
+    },
+    {
+      "w": "suddenly",
+      "s": 52.38,
+      "e": 52.73
+    },
+    {
+      "w": "jumps",
+      "s": 52.73,
+      "e": 52.95
+    },
+    {
+      "w": "on",
+      "s": 52.95,
+      "e": 53.34
+    },
+    {
+      "w": "him.",
+      "s": 53.34,
+      "e": 53.61
+    },
+    {
+      "w": "But",
+      "s": 53.61,
+      "e": 53.7
+    },
+    {
+      "w": "instead",
+      "s": 53.7,
+      "e": 54.12
+    },
+    {
+      "w": "of",
+      "s": 54.12,
+      "e": 54.25
+    },
+    {
+      "w": "attacking,",
+      "s": 54.25,
+      "e": 54.93
+    },
+    {
+      "w": "it",
+      "s": 54.93,
+      "e": 54.97
+    },
+    {
+      "w": "starts",
+      "s": 54.97,
+      "e": 55.48
+    },
+    {
+      "w": "licking",
+      "s": 55.48,
+      "e": 55.87
+    },
+    {
+      "w": "his",
+      "s": 55.87,
+      "e": 56.03
+    },
+    {
+      "w": "face.",
+      "s": 56.03,
+      "e": 56.55
+    },
+    {
+      "w": "It",
+      "s": 56.55,
+      "e": 56.99
+    },
+    {
+      "w": "thinks",
+      "s": 56.99,
+      "e": 57.22
+    },
+    {
+      "w": "Bob",
+      "s": 57.22,
+      "e": 57.43
+    },
+    {
+      "w": "is",
+      "s": 57.43,
+      "e": 57.72
+    },
+    {
+      "w": "its",
+      "s": 57.72,
+      "e": 57.78
+    },
+    {
+      "w": "new",
+      "s": 57.78,
+      "e": 58.01
+    },
+    {
+      "w": "best",
+      "s": 58.01,
+      "e": 58.26
+    },
+    {
+      "w": "friend.",
+      "s": 58.26,
+      "e": 58.95
+    },
+    {
+      "w": "Bob",
+      "s": 58.95,
+      "e": 59.11
+    },
+    {
+      "w": "escapes",
+      "s": 59.11,
+      "e": 59.6
+    },
+    {
+      "w": "through",
+      "s": 59.6,
+      "e": 60.16
+    },
+    {
+      "w": "the",
+      "s": 60.16,
+      "e": 60.3
+    },
+    {
+      "w": "front",
+      "s": 60.3,
+      "e": 60.88
+    },
+    {
+      "w": "door,",
+      "s": 60.88,
+      "e": 61.06
+    },
+    {
+      "w": "covered",
+      "s": 61.06,
+      "e": 61.56
+    },
+    {
+      "w": "in",
+      "s": 61.56,
+      "e": 61.71
+    },
+    {
+      "w": "dog",
+      "s": 61.71,
+      "e": 61.91
+    },
+    {
+      "w": "slobber.",
+      "s": 61.91,
+      "e": 62.78
+    },
+    {
+      "w": "He",
+      "s": 62.78,
+      "e": 62.9
+    },
+    {
+      "w": "runs",
+      "s": 62.9,
+      "e": 63.06
+    },
+    {
+      "w": "down",
+      "s": 63.06,
+      "e": 63.31
+    },
+    {
+      "w": "the",
+      "s": 63.31,
+      "e": 63.56
+    },
+    {
+      "w": "street,",
+      "s": 63.56,
+      "e": 64
+    },
+    {
+      "w": "celebrating",
+      "s": 64,
+      "e": 64.79
+    },
+    {
+      "w": "his",
+      "s": 64.79,
+      "e": 64.9
+    },
+    {
+      "w": "survival.",
+      "s": 64.9,
+      "e": 65.6
+    },
+    {
+      "w": "But",
+      "s": 65.6,
+      "e": 65.79
+    },
+    {
+      "w": "suddenly,",
+      "s": 65.79,
+      "e": 66.48
+    },
+    {
+      "w": "a",
+      "s": 66.48,
+      "e": 66.72
+    },
+    {
+      "w": "police",
+      "s": 66.72,
+      "e": 66.86
+    },
+    {
+      "w": "car",
+      "s": 66.86,
+      "e": 67.05
+    },
+    {
+      "w": "pulls",
+      "s": 67.05,
+      "e": 67.37
+    },
+    {
+      "w": "up.",
+      "s": 67.37,
+      "e": 67.69
+    },
+    {
+      "w": "The",
+      "s": 67.69,
+      "e": 67.88
+    },
+    {
+      "w": "officer",
+      "s": 67.88,
+      "e": 68.44
+    },
+    {
+      "w": "steps",
+      "s": 68.44,
+      "e": 68.93
+    },
+    {
+      "w": "out",
+      "s": 68.93,
+      "e": 68.94
+    },
+    {
+      "w": "and",
+      "s": 68.94,
+      "e": 69.23
+    },
+    {
+      "w": "shouts.",
+      "s": 69.23,
+      "e": 69.84
+    },
+    {
+      "w": "Bob",
+      "s": 69.84,
+      "e": 70.09
+    },
+    {
+      "w": "freezes.",
+      "s": 70.09,
+      "e": 70.45
+    },
+    {
+      "w": "The",
+      "s": 70.45,
+      "e": 70.63
+    },
+    {
+      "w": "officer",
+      "s": 70.63,
+      "e": 71.1
+    },
+    {
+      "w": "looks",
+      "s": 71.1,
+      "e": 71.38
+    },
+    {
+      "w": "at",
+      "s": 71.38,
+      "e": 71.5
+    },
+    {
+      "w": "him",
+      "s": 71.5,
+      "e": 71.54
+    },
+    {
+      "w": "and",
+      "s": 71.54,
+      "e": 72.1
+    },
+    {
+      "w": "says,",
+      "s": 72.1,
+      "e": 72.36
+    },
+    {
+      "w": "Bob",
+      "s": 72.36,
+      "e": 72.73
+    },
+    {
+      "w": "looks",
+      "s": 72.73,
+      "e": 73.05
+    },
+    {
+      "w": "down.",
+      "s": 73.05,
+      "e": 73.92
+    },
+    {
+      "w": "The",
+      "s": 73.92,
+      "e": 74.1
+    },
+    {
+      "w": "giant",
+      "s": 74.1,
+      "e": 74.2
+    },
+    {
+      "w": "dog",
+      "s": 74.2,
+      "e": 74.41
+    },
+    {
+      "w": "is",
+      "s": 74.41,
+      "e": 74.7
+    },
+    {
+      "w": "happily",
+      "s": 74.7,
+      "e": 74.99
+    },
+    {
+      "w": "following",
+      "s": 74.99,
+      "e": 75.3
+    },
+    {
+      "w": "him,",
+      "s": 75.3,
+      "e": 75.93
+    },
+    {
+      "w": "carrying",
+      "s": 75.93,
+      "e": 76.34
+    },
+    {
+      "w": "his",
+      "s": 76.34,
+      "e": 76.53
+    },
+    {
+      "w": "stolen",
+      "s": 76.53,
+      "e": 76.91
+    },
+    {
+      "w": "bag.",
+      "s": 76.91,
+      "e": 77.29
+    },
+    {
+      "w": "Bob",
+      "s": 77.29,
+      "e": 77.86
+    },
+    {
+      "w": "slowly",
+      "s": 77.86,
+      "e": 77.86
+    },
+    {
+      "w": "turns",
+      "s": 77.86,
+      "e": 78.19
+    },
+    {
+      "w": "toward",
+      "s": 78.19,
+      "e": 78.55
+    },
+    {
+      "w": "the",
+      "s": 78.55,
+      "e": 78.74
+    },
+    {
+      "w": "camera.",
+      "s": 78.74,
+      "e": 79.58
+    },
+    {
+      "w": "Bob",
+      "s": 79.58,
+      "e": 79.58
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "3 line(s) to listen to",
+    "problems": [
+      "line 1 missing: meet",
+      "line 17 missing: facetoface",
+      "line 17: 3 extra word(s) heard"
+    ]
+  }
+}

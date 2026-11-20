@@ -1,0 +1,270 @@
+{
+  "text": "Always? Same paper. Same book. Another race. If weight alone decides, the book should leave it behind. No glue. No tricks. Just watch. Air was slowing the loose sheet down. The book shields the paper from most of that resistance. Exactly.",
+  "voiceId": "library:berry_en",
+  "voiceName": "berry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 6594
+  },
+  "description": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor.",
+  "design": null,
+  "who": "berry",
+  "take": 3,
+  "mode": "clone",
+  "seed": 6594,
+  "key": "7bd62aa6ea0079c9",
+  "lines": [
+    {
+      "index": 1,
+      "text": "Always?"
+    },
+    {
+      "index": 4,
+      "text": "Same paper. Same book. Another race."
+    },
+    {
+      "index": 7,
+      "text": "If weight alone decides, the book should leave it behind."
+    },
+    {
+      "index": 9,
+      "text": "No glue. No tricks. Just watch."
+    },
+    {
+      "index": 11,
+      "text": "Air was slowing the loose sheet down."
+    },
+    {
+      "index": 13,
+      "text": "The book shields the paper from most of that resistance."
+    },
+    {
+      "index": 15,
+      "text": "Exactly."
+    }
+  ],
+  "seconds": 73.5,
+  "audio": "81c2c2803e0c5c33aec8c0df91d98d21832a24cc838eb0116206f05c3eb7d957",
+  "duration": 15.28,
+  "heard": [
+    {
+      "w": "Always?",
+      "s": 0.15,
+      "e": 1.13
+    },
+    {
+      "w": "Same",
+      "s": 1.13,
+      "e": 1.36
+    },
+    {
+      "w": "paper,",
+      "s": 1.36,
+      "e": 2.04
+    },
+    {
+      "w": "same",
+      "s": 2.04,
+      "e": 2.16
+    },
+    {
+      "w": "book.",
+      "s": 2.16,
+      "e": 2.82
+    },
+    {
+      "w": "Another",
+      "s": 2.82,
+      "e": 3.28
+    },
+    {
+      "w": "race.",
+      "s": 3.28,
+      "e": 3.96
+    },
+    {
+      "w": "If",
+      "s": 3.96,
+      "e": 4.03
+    },
+    {
+      "w": "Wade",
+      "s": 4.03,
+      "e": 4.21
+    },
+    {
+      "w": "alone",
+      "s": 4.21,
+      "e": 4.53
+    },
+    {
+      "w": "decides,",
+      "s": 4.53,
+      "e": 5.12
+    },
+    {
+      "w": "the",
+      "s": 5.12,
+      "e": 5.32
+    },
+    {
+      "w": "book",
+      "s": 5.32,
+      "e": 5.59
+    },
+    {
+      "w": "should",
+      "s": 5.59,
+      "e": 5.68
+    },
+    {
+      "w": "leave",
+      "s": 5.68,
+      "e": 5.92
+    },
+    {
+      "w": "it",
+      "s": 5.92,
+      "e": 6.09
+    },
+    {
+      "w": "behind.",
+      "s": 6.09,
+      "e": 7.03
+    },
+    {
+      "w": "No",
+      "s": 7.03,
+      "e": 7.05
+    },
+    {
+      "w": "glue,",
+      "s": 7.05,
+      "e": 7.56
+    },
+    {
+      "w": "no",
+      "s": 7.56,
+      "e": 7.96
+    },
+    {
+      "w": "tricks,",
+      "s": 7.96,
+      "e": 8.74
+    },
+    {
+      "w": "just",
+      "s": 8.74,
+      "e": 8.77
+    },
+    {
+      "w": "watch.",
+      "s": 8.77,
+      "e": 9.71
+    },
+    {
+      "w": "Air",
+      "s": 9.71,
+      "e": 9.9
+    },
+    {
+      "w": "was",
+      "s": 9.9,
+      "e": 9.95
+    },
+    {
+      "w": "slowing",
+      "s": 9.95,
+      "e": 10.35
+    },
+    {
+      "w": "the",
+      "s": 10.35,
+      "e": 10.54
+    },
+    {
+      "w": "loose",
+      "s": 10.54,
+      "e": 10.86
+    },
+    {
+      "w": "sheet",
+      "s": 10.86,
+      "e": 11.24
+    },
+    {
+      "w": "down.",
+      "s": 11.24,
+      "e": 11.68
+    },
+    {
+      "w": "The",
+      "s": 11.68,
+      "e": 11.85
+    },
+    {
+      "w": "book",
+      "s": 11.85,
+      "e": 12.08
+    },
+    {
+      "w": "shields",
+      "s": 12.08,
+      "e": 12.66
+    },
+    {
+      "w": "the",
+      "s": 12.66,
+      "e": 12.81
+    },
+    {
+      "w": "paper",
+      "s": 12.81,
+      "e": 12.95
+    },
+    {
+      "w": "from",
+      "s": 12.95,
+      "e": 13.23
+    },
+    {
+      "w": "most",
+      "s": 13.23,
+      "e": 13.52
+    },
+    {
+      "w": "of",
+      "s": 13.52,
+      "e": 13.72
+    },
+    {
+      "w": "that",
+      "s": 13.72,
+      "e": 13.75
+    },
+    {
+      "w": "resistance.",
+      "s": 13.75,
+      "e": 14.56
+    },
+    {
+      "w": "Exactly.",
+      "s": 14.56,
+      "e": 15.36
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "2 line(s) to listen to",
+    "problems": [
+      "line 3 missing: weight",
+      "line 3: 1 extra word(s) heard"
+    ]
+  }
+}

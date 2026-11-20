@@ -1,0 +1,21 @@
+{
+  "text": "It kept up! You didn't make it heavier.",
+  "voiceId": "library:benny_en",
+  "voiceName": "benny_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 1234
+  },
+  "sourceTake": "voice-takes/en/benny/take-1.wav",
+  "sourceSpan": {
+    "start": 13.915000000000001,
+    "end": 15.735
+  },
+  "edit": "Extracted at a speech boundary; original take unchanged; no time stretching."
+}

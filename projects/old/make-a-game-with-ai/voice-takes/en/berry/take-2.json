@@ -1,0 +1,557 @@
+{
+  "text": "Want to create your own game and make money from it?\nHere's how AI can help you do it!\nFirst, ask ChatGPT to design a 2D game character. Describe its appearance, personality, and abilities.\nNext, give your character to Claude and ask it to build a 2D game using Godot. Yes, let AI write the code!\nNow play it! Test the gameplay, fix bugs, add levels, improve the graphics, and keep making it more fun.\nFinally, publish it on Google Play, let people download it, and turn your little idea into a real game business.\nYour journey starts today!",
+  "voiceId": "library:berry_en",
+  "voiceName": "berry_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 6583
+  },
+  "description": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor.",
+  "design": null,
+  "who": "berry",
+  "take": 2,
+  "mode": "clone",
+  "seed": 6583,
+  "key": "5f221359649349bf",
+  "lines": [
+    {
+      "index": 0,
+      "text": "Want to create your own game and make money from it?"
+    },
+    {
+      "index": 1,
+      "text": "Here's how AI can help you do it!"
+    },
+    {
+      "index": 2,
+      "text": "First, ask ChatGPT to design a 2D game character. Describe its appearance, personality, and abilities."
+    },
+    {
+      "index": 3,
+      "text": "Next, give your character to Claude and ask it to build a 2D game using Godot. Yes, let AI write the code!"
+    },
+    {
+      "index": 4,
+      "text": "Now play it! Test the gameplay, fix bugs, add levels, improve the graphics, and keep making it more fun."
+    },
+    {
+      "index": 5,
+      "text": "Finally, publish it on Google Play, let people download it, and turn your little idea into a real game business."
+    },
+    {
+      "index": 6,
+      "text": "Your journey starts today!"
+    }
+  ],
+  "seconds": 80.2,
+  "audio": "3a133510e067421bec5796c8207682b6ec4abb338fc9b80b92022d0805b3d9e0",
+  "duration": 36.1,
+  "heard": [
+    {
+      "w": "Want",
+      "s": 0.31,
+      "e": 0.35
+    },
+    {
+      "w": "to",
+      "s": 0.35,
+      "e": 0.46
+    },
+    {
+      "w": "create",
+      "s": 0.46,
+      "e": 0.93
+    },
+    {
+      "w": "your",
+      "s": 0.93,
+      "e": 1.24
+    },
+    {
+      "w": "own",
+      "s": 1.24,
+      "e": 1.47
+    },
+    {
+      "w": "game",
+      "s": 1.47,
+      "e": 1.78
+    },
+    {
+      "w": "and",
+      "s": 1.78,
+      "e": 2.01
+    },
+    {
+      "w": "make",
+      "s": 2.01,
+      "e": 2.32
+    },
+    {
+      "w": "money",
+      "s": 2.32,
+      "e": 2.9
+    },
+    {
+      "w": "from",
+      "s": 2.9,
+      "e": 3.02
+    },
+    {
+      "w": "it?",
+      "s": 3.02,
+      "e": 3.5
+    },
+    {
+      "w": "Here's",
+      "s": 3.5,
+      "e": 3.96
+    },
+    {
+      "w": "how",
+      "s": 3.96,
+      "e": 4.2
+    },
+    {
+      "w": "AI",
+      "s": 4.2,
+      "e": 4.41
+    },
+    {
+      "w": "can",
+      "s": 4.41,
+      "e": 4.6
+    },
+    {
+      "w": "help",
+      "s": 4.6,
+      "e": 4.91
+    },
+    {
+      "w": "you",
+      "s": 4.91,
+      "e": 5.15
+    },
+    {
+      "w": "do",
+      "s": 5.15,
+      "e": 5.37
+    },
+    {
+      "w": "it.",
+      "s": 5.37,
+      "e": 5.68
+    },
+    {
+      "w": "First,",
+      "s": 5.68,
+      "e": 6.38
+    },
+    {
+      "w": "ask",
+      "s": 6.38,
+      "e": 6.59
+    },
+    {
+      "w": "ChatGPT",
+      "s": 6.59,
+      "e": 7.12
+    },
+    {
+      "w": "to",
+      "s": 7.12,
+      "e": 7.29
+    },
+    {
+      "w": "design",
+      "s": 7.29,
+      "e": 7.87
+    },
+    {
+      "w": "a",
+      "s": 7.87,
+      "e": 7.89
+    },
+    {
+      "w": "2D",
+      "s": 7.89,
+      "e": 8.57
+    },
+    {
+      "w": "game",
+      "s": 8.57,
+      "e": 9.1
+    },
+    {
+      "w": "character.",
+      "s": 9.1,
+      "e": 9.68
+    },
+    {
+      "w": "Describe",
+      "s": 9.68,
+      "e": 10.23
+    },
+    {
+      "w": "its",
+      "s": 10.23,
+      "e": 10.39
+    },
+    {
+      "w": "appearance,",
+      "s": 10.39,
+      "e": 11.18
+    },
+    {
+      "w": "personality,",
+      "s": 11.18,
+      "e": 12.03
+    },
+    {
+      "w": "and",
+      "s": 12.03,
+      "e": 12.81
+    },
+    {
+      "w": "abilities.",
+      "s": 12.81,
+      "e": 13.06
+    },
+    {
+      "w": "Next,",
+      "s": 13.06,
+      "e": 13.45
+    },
+    {
+      "w": "give",
+      "s": 13.45,
+      "e": 13.76
+    },
+    {
+      "w": "your",
+      "s": 13.76,
+      "e": 13.97
+    },
+    {
+      "w": "character",
+      "s": 13.97,
+      "e": 14.57
+    },
+    {
+      "w": "to",
+      "s": 14.57,
+      "e": 14.7
+    },
+    {
+      "w": "Claude",
+      "s": 14.7,
+      "e": 15.14
+    },
+    {
+      "w": "and",
+      "s": 15.14,
+      "e": 15.36
+    },
+    {
+      "w": "ask",
+      "s": 15.36,
+      "e": 15.72
+    },
+    {
+      "w": "it",
+      "s": 15.72,
+      "e": 15.86
+    },
+    {
+      "w": "to",
+      "s": 15.86,
+      "e": 15.96
+    },
+    {
+      "w": "build",
+      "s": 15.96,
+      "e": 16.3
+    },
+    {
+      "w": "a",
+      "s": 16.3,
+      "e": 16.48
+    },
+    {
+      "w": "2D",
+      "s": 16.48,
+      "e": 16.59
+    },
+    {
+      "w": "game",
+      "s": 16.59,
+      "e": 16.92
+    },
+    {
+      "w": "using",
+      "s": 16.92,
+      "e": 17.25
+    },
+    {
+      "w": "Godot.",
+      "s": 17.25,
+      "e": 17.9
+    },
+    {
+      "w": "Yes,",
+      "s": 17.9,
+      "e": 18.45
+    },
+    {
+      "w": "let",
+      "s": 18.45,
+      "e": 18.67
+    },
+    {
+      "w": "AI",
+      "s": 18.67,
+      "e": 18.86
+    },
+    {
+      "w": "write",
+      "s": 18.86,
+      "e": 19.34
+    },
+    {
+      "w": "the",
+      "s": 19.34,
+      "e": 19.63
+    },
+    {
+      "w": "code.",
+      "s": 19.63,
+      "e": 20.32
+    },
+    {
+      "w": "Now",
+      "s": 20.32,
+      "e": 20.67
+    },
+    {
+      "w": "play",
+      "s": 20.67,
+      "e": 21.02
+    },
+    {
+      "w": "it.",
+      "s": 21.02,
+      "e": 21.5
+    },
+    {
+      "w": "Test",
+      "s": 21.5,
+      "e": 21.85
+    },
+    {
+      "w": "the",
+      "s": 21.85,
+      "e": 22.05
+    },
+    {
+      "w": "gameplay,",
+      "s": 22.05,
+      "e": 22.81
+    },
+    {
+      "w": "fix",
+      "s": 22.81,
+      "e": 23.1
+    },
+    {
+      "w": "bugs,",
+      "s": 23.1,
+      "e": 23.69
+    },
+    {
+      "w": "add",
+      "s": 23.69,
+      "e": 24.61
+    },
+    {
+      "w": "levels,",
+      "s": 24.61,
+      "e": 24.92
+    },
+    {
+      "w": "improve",
+      "s": 24.92,
+      "e": 25.19
+    },
+    {
+      "w": "the",
+      "s": 25.19,
+      "e": 25.36
+    },
+    {
+      "w": "graphics,",
+      "s": 25.36,
+      "e": 25.86
+    },
+    {
+      "w": "and",
+      "s": 25.86,
+      "e": 25.98
+    },
+    {
+      "w": "keep",
+      "s": 25.98,
+      "e": 26.15
+    },
+    {
+      "w": "making",
+      "s": 26.15,
+      "e": 26.4
+    },
+    {
+      "w": "it",
+      "s": 26.4,
+      "e": 26.53
+    },
+    {
+      "w": "more",
+      "s": 26.53,
+      "e": 27.23
+    },
+    {
+      "w": "fun.",
+      "s": 27.23,
+      "e": 27.84
+    },
+    {
+      "w": "Finally,",
+      "s": 28.19,
+      "e": 28.54
+    },
+    {
+      "w": "publish",
+      "s": 28.54,
+      "e": 28.91
+    },
+    {
+      "w": "it",
+      "s": 28.91,
+      "e": 29.04
+    },
+    {
+      "w": "on",
+      "s": 29.04,
+      "e": 29.17
+    },
+    {
+      "w": "Google",
+      "s": 29.17,
+      "e": 29.57
+    },
+    {
+      "w": "Play,",
+      "s": 29.57,
+      "e": 30.03
+    },
+    {
+      "w": "let",
+      "s": 30.03,
+      "e": 30.17
+    },
+    {
+      "w": "people",
+      "s": 30.17,
+      "e": 31.11
+    },
+    {
+      "w": "download",
+      "s": 31.11,
+      "e": 31.24
+    },
+    {
+      "w": "it,",
+      "s": 31.24,
+      "e": 31.51
+    },
+    {
+      "w": "and",
+      "s": 31.51,
+      "e": 31.58
+    },
+    {
+      "w": "turn",
+      "s": 31.58,
+      "e": 31.74
+    },
+    {
+      "w": "your",
+      "s": 31.74,
+      "e": 31.9
+    },
+    {
+      "w": "little",
+      "s": 31.9,
+      "e": 32.16
+    },
+    {
+      "w": "idea",
+      "s": 32.16,
+      "e": 32.48
+    },
+    {
+      "w": "into",
+      "s": 32.48,
+      "e": 32.8
+    },
+    {
+      "w": "a",
+      "s": 32.8,
+      "e": 33.15
+    },
+    {
+      "w": "real",
+      "s": 33.15,
+      "e": 33.35
+    },
+    {
+      "w": "game",
+      "s": 33.35,
+      "e": 33.71
+    },
+    {
+      "w": "business.",
+      "s": 33.71,
+      "e": 34.8
+    },
+    {
+      "w": "Your",
+      "s": 34.8,
+      "e": 35.15
+    },
+    {
+      "w": "journey",
+      "s": 35.15,
+      "e": 35.35
+    },
+    {
+      "w": "starts",
+      "s": 35.35,
+      "e": 35.65
+    },
+    {
+      "w": "today.",
+      "s": 35.65,
+      "e": 35.94
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 7 line(s) heard",
+    "problems": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "picks": {
+    "benny": 1,
+    "berry": 1
+  },
+  "at": "2026-11-16T07:32:27.010Z",
+  "files": {
+    "voices/01-benny.wav": "f2ffbe8f51c7a50810165169ff70190be742d751dcc8a78687d07244246f8b1f",
+    "voices/02-berry.wav": "f5de9d3f1413c738f48676208f38ad09f36cc6c3ef6890123f80affde2ce841c",
+    "voices/03-benny.wav": "2d05e4894e0e350326c48c51b8f50632faa4524582f4e481280bb4cab3733b6d",
+    "voices/04-benny.wav": "f8bca48fdc5b4924cb2ed655435f8c695265931902f69398d9b670493e91b12d",
+    "voices/05-berry.wav": "d86f011fb3a3e4d66b5f0d3209fb571242bcdda62877e7a24786d286b1565c6a",
+    "voices/06-benny.wav": "e4daa93081c05e007d4670fe171d3c9e9da8ecc4a43e13bfc828177c59e0397e",
+    "voices/07-benny.wav": "c5083f6ad89bdf45b4bdb21df271e3a070fee4e5dec4802f2187a42eb40ed29a",
+    "voices/08-berry.wav": "8686b3eb0461f571c8d98922809688e56f4021e28df4df42684faa620338180b",
+    "voices/09-benny.wav": "8cda7677cfc0b8e6c1fbbc1a87774dd5d945d77d50fa50e3f824a9deaa20b118",
+    "voices/10-berry.wav": "8cc3e61b1f6c72ee60737c5eca69694dc8335185ce7e2f69bc41008cb956ad37",
+    "voices/11-benny.wav": "be156bd824685cab69101471e951cb276e183e4d8a1bd0b9b24d01ab44b675c5",
+    "voices/12-berry.wav": "2d3e3fed3dfb657a24bb00b8b6498ae30341452621fe1059df1e2457ab57c855",
+    "voices/13-benny.wav": "bcd17098df8e3a41952220e0714a695e56d292b8c2a4cca5c2c77ed822849de6",
+    "voices/14-berry.wav": "32e1b2f310d48f22f75356dbfa6fe974c650009171a59f91ea0e4eddfe6b13fe",
+    "voices/15-benny.wav": "b92edbd6b9a3ba512251885886cfe00476566bc7b542e2262bed936935ef1999",
+    "voices/16-berry.wav": "bcfeac7b866a5475f6d4e5489083eeb84e5e6988edde14a89b3327869d4e0368",
+    "voices/17-benny.wav": "392e08dd33485d5a4c0faa199b5c04e718515fddae9a5d942bf11af0f470c242",
+    "dialogue.json": "4d3fb69d5fcb6ef11e15a308922e54add27209940b405b0b30710fe6224b562b"
+  }
+}

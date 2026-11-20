@@ -1,0 +1,188 @@
+{
+  "text": "تريد مساعدة؟ لا أظن أن الأبواب تفهم الأوامر. أرجوك، أبقِه في مكانه. النقلُ وحده هو العالق. كانت يداي مشغولتين، وكانت لديها يد حرة. ما زال مقعدك.",
+  "voiceId": "library:berry_ar",
+  "voiceName": "berry_ar",
+  "workerMode": "clone",
+  "engine": "audar",
+  "language": "ar",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 6572
+  },
+  "description": "A bright, youthful feminine voice with an energetic, confident, friendly, slightly tomboyish character. Use lively and expressive delivery, crisp articulation, and a naturally upbeat rhythm. Give the character a sense of courage and determination, with warmth and a hint of playful spirit. Inspired by the broad vocal qualities of an upbeat adventure-game heroine, not an exact imitation of any specific character or voice actor.",
+  "design": null,
+  "who": "berry",
+  "take": 1,
+  "mode": "clone",
+  "seed": 6572,
+  "key": "69e0449a0f449f55",
+  "lines": [
+    {
+      "index": 1,
+      "text": "تريد مساعدة؟"
+    },
+    {
+      "index": 6,
+      "text": "لا أظن أن الأبواب تفهم الأوامر."
+    },
+    {
+      "index": 10,
+      "text": "أرجوك، أبقِه في مكانه."
+    },
+    {
+      "index": 14,
+      "text": "النقلُ وحده هو العالق."
+    },
+    {
+      "index": 17,
+      "text": "كانت يداي مشغولتين، وكانت لديها يد حرة."
+    },
+    {
+      "index": 21,
+      "text": "ما زال مقعدك."
+    }
+  ],
+  "seconds": 90.4,
+  "audio": "7d85687f2aa85a26bbc55b830a8f4d03db6505181422f9296bfb9cb19ca43d5d",
+  "duration": 14.72,
+  "heard": [
+    {
+      "w": "تريد",
+      "s": 0.11,
+      "e": 0.45
+    },
+    {
+      "w": "مساعدة؟",
+      "s": 0.45,
+      "e": 1.69
+    },
+    {
+      "w": "لا",
+      "s": 1.69,
+      "e": 1.85
+    },
+    {
+      "w": "أظن",
+      "s": 1.85,
+      "e": 2.12
+    },
+    {
+      "w": "أن",
+      "s": 2.12,
+      "e": 2.31
+    },
+    {
+      "w": "الأبواب",
+      "s": 2.31,
+      "e": 2.95
+    },
+    {
+      "w": "تفهم",
+      "s": 2.95,
+      "e": 3.31
+    },
+    {
+      "w": "الأوامر",
+      "s": 3.31,
+      "e": 4.04
+    },
+    {
+      "w": "أرجوك",
+      "s": 4.04,
+      "e": 5.08
+    },
+    {
+      "w": "أبقه",
+      "s": 5.08,
+      "e": 5.73
+    },
+    {
+      "w": "في",
+      "s": 5.73,
+      "e": 5.86
+    },
+    {
+      "w": "مكانه",
+      "s": 5.86,
+      "e": 6.56
+    },
+    {
+      "w": "النقل",
+      "s": 6.56,
+      "e": 7.24
+    },
+    {
+      "w": "وحده",
+      "s": 7.24,
+      "e": 7.91
+    },
+    {
+      "w": "هو",
+      "s": 7.91,
+      "e": 8.25
+    },
+    {
+      "w": "العالق",
+      "s": 8.25,
+      "e": 8.7
+    },
+    {
+      "w": "كانت",
+      "s": 8.7,
+      "e": 9.2
+    },
+    {
+      "w": "يداي",
+      "s": 9.2,
+      "e": 9.69
+    },
+    {
+      "w": "مشغولتين",
+      "s": 9.69,
+      "e": 10.74
+    },
+    {
+      "w": "وكانت",
+      "s": 10.74,
+      "e": 11.41
+    },
+    {
+      "w": "لديها",
+      "s": 11.41,
+      "e": 12.04
+    },
+    {
+      "w": "يد",
+      "s": 12.04,
+      "e": 12.3
+    },
+    {
+      "w": "حرة",
+      "s": 12.3,
+      "e": 12.72
+    },
+    {
+      "w": "ما",
+      "s": 12.72,
+      "e": 13.05
+    },
+    {
+      "w": "زال",
+      "s": 13.05,
+      "e": 13.53
+    },
+    {
+      "w": "مقعدك",
+      "s": 13.53,
+      "e": 14.4
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 6 line(s) heard",
+    "problems": []
+  }
+}

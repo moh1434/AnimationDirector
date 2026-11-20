@@ -1,0 +1,333 @@
+{
+  "text": "Before anyone says anything, I respect privacy. Which proves I was busy doing something completely normal. Cherry has scissors. Case closed. That's exactly what somebody with scissors would say. Could've been a very determined breeze. An indoor breeze. Rare, but ambitious. That's... decorative. I wanted to know if you'd remembered my birthday.",
+  "voiceId": "library:benny_en",
+  "voiceName": "benny_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 1234
+  },
+  "description": "A warm, youthful masculine voice with a charismatic, adventurous, and confident personality. Use expressive, natural delivery with clear articulation and a relaxed, engaging rhythm. Give the character a sense of courage and determination, with a friendly warmth and a subtle hint of humor. The voice should feel approachable yet strong, balancing youthful enthusiasm with a touch of maturity. Inspired by the broad vocal qualities of a charming adventure-game protagonist, not an exact imitation of any specific character or voice actor.",
+  "design": null,
+  "who": "benny",
+  "take": 1,
+  "mode": "clone",
+  "seed": 1234,
+  "key": "df1d0244cdd5a7e0",
+  "lines": [
+    {
+      "index": 1,
+      "text": "Before anyone says anything, I respect privacy."
+    },
+    {
+      "index": 5,
+      "text": "Which proves I was busy doing something completely normal."
+    },
+    {
+      "index": 8,
+      "text": "Cherry has scissors. Case closed."
+    },
+    {
+      "index": 10,
+      "text": "That's exactly what somebody with scissors would say."
+    },
+    {
+      "index": 13,
+      "text": "Could've been a very determined breeze."
+    },
+    {
+      "index": 15,
+      "text": "An indoor breeze. Rare, but ambitious."
+    },
+    {
+      "index": 17,
+      "text": "That's... decorative."
+    },
+    {
+      "index": 19,
+      "text": "I wanted to know if you'd remembered my birthday."
+    }
+  ],
+  "seconds": 122.3,
+  "audio": "634bd4be45edf53942768591032e5a2bb388cb5f821993e3273328731c811e9d",
+  "duration": 20.16,
+  "heard": [
+    {
+      "w": "Before",
+      "s": 0.03,
+      "e": 0.43
+    },
+    {
+      "w": "anyone",
+      "s": 0.43,
+      "e": 0.86
+    },
+    {
+      "w": "says",
+      "s": 0.86,
+      "e": 1.15
+    },
+    {
+      "w": "anything,",
+      "s": 1.15,
+      "e": 1.91
+    },
+    {
+      "w": "I",
+      "s": 1.91,
+      "e": 2
+    },
+    {
+      "w": "respect",
+      "s": 2,
+      "e": 2.74
+    },
+    {
+      "w": "privacy,",
+      "s": 2.74,
+      "e": 3.59
+    },
+    {
+      "w": "which",
+      "s": 3.59,
+      "e": 3.82
+    },
+    {
+      "w": "proves",
+      "s": 3.82,
+      "e": 4.09
+    },
+    {
+      "w": "I",
+      "s": 4.09,
+      "e": 4.13
+    },
+    {
+      "w": "was",
+      "s": 4.13,
+      "e": 4.33
+    },
+    {
+      "w": "busy",
+      "s": 4.33,
+      "e": 4.48
+    },
+    {
+      "w": "doing",
+      "s": 4.48,
+      "e": 4.72
+    },
+    {
+      "w": "something",
+      "s": 4.72,
+      "e": 5.04
+    },
+    {
+      "w": "completely",
+      "s": 5.04,
+      "e": 5.5
+    },
+    {
+      "w": "normal.",
+      "s": 5.5,
+      "e": 6.52
+    },
+    {
+      "w": "Cherry",
+      "s": 6.52,
+      "e": 6.83
+    },
+    {
+      "w": "has",
+      "s": 6.83,
+      "e": 6.87
+    },
+    {
+      "w": "scissors.",
+      "s": 6.87,
+      "e": 7.4
+    },
+    {
+      "w": "Case",
+      "s": 7.4,
+      "e": 7.76
+    },
+    {
+      "w": "closed.",
+      "s": 7.76,
+      "e": 8.53
+    },
+    {
+      "w": "That's",
+      "s": 8.53,
+      "e": 9.04
+    },
+    {
+      "w": "exactly",
+      "s": 9.04,
+      "e": 9.28
+    },
+    {
+      "w": "what",
+      "s": 9.28,
+      "e": 9.52
+    },
+    {
+      "w": "somebody",
+      "s": 9.52,
+      "e": 9.94
+    },
+    {
+      "w": "with",
+      "s": 9.94,
+      "e": 10.16
+    },
+    {
+      "w": "scissors",
+      "s": 10.16,
+      "e": 10.66
+    },
+    {
+      "w": "would",
+      "s": 10.66,
+      "e": 11
+    },
+    {
+      "w": "say.",
+      "s": 11,
+      "e": 11.22
+    },
+    {
+      "w": "Could",
+      "s": 11.52,
+      "e": 11.55
+    },
+    {
+      "w": "have",
+      "s": 11.55,
+      "e": 11.79
+    },
+    {
+      "w": "been",
+      "s": 11.79,
+      "e": 12.04
+    },
+    {
+      "w": "a",
+      "s": 12.04,
+      "e": 12.1
+    },
+    {
+      "w": "very",
+      "s": 12.1,
+      "e": 12.35
+    },
+    {
+      "w": "determined",
+      "s": 12.35,
+      "e": 12.99
+    },
+    {
+      "w": "breeze,",
+      "s": 12.99,
+      "e": 13.49
+    },
+    {
+      "w": "an",
+      "s": 13.49,
+      "e": 13.61
+    },
+    {
+      "w": "indoor",
+      "s": 13.61,
+      "e": 14.01
+    },
+    {
+      "w": "breeze,",
+      "s": 14.01,
+      "e": 14.49
+    },
+    {
+      "w": "rare,",
+      "s": 14.49,
+      "e": 15.05
+    },
+    {
+      "w": "but",
+      "s": 15.05,
+      "e": 15.06
+    },
+    {
+      "w": "ambitious.",
+      "s": 15.06,
+      "e": 15.9
+    },
+    {
+      "w": "That's",
+      "s": 16.5,
+      "e": 16.53
+    },
+    {
+      "w": "decorative.",
+      "s": 16.53,
+      "e": 17.18
+    },
+    {
+      "w": "I",
+      "s": 17.18,
+      "e": 17.24
+    },
+    {
+      "w": "wanted",
+      "s": 17.24,
+      "e": 17.65
+    },
+    {
+      "w": "to",
+      "s": 17.65,
+      "e": 17.83
+    },
+    {
+      "w": "know",
+      "s": 17.83,
+      "e": 18.05
+    },
+    {
+      "w": "if",
+      "s": 18.05,
+      "e": 18.38
+    },
+    {
+      "w": "you'd",
+      "s": 18.38,
+      "e": 18.51
+    },
+    {
+      "w": "remembered",
+      "s": 18.51,
+      "e": 19.19
+    },
+    {
+      "w": "my",
+      "s": 19.19,
+      "e": 19.31
+    },
+    {
+      "w": "birthday,",
+      "s": 19.31,
+      "e": 19.96
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "1 line(s) to listen to",
+    "problems": [
+      "line 5 missing: couldve"
+    ]
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "text": "Maybe it read your building inspection.\nTechnically, so would a thick hat.\nThe hill. It's already built.\nHighest spot around. No assembly required.\nI carried it all this way.\nI thought falling was fairly self-explanatory.\nIts reflection?\nWe've been solving the wrong problem. Very enthusiastically.",
+  "voiceId": "library:benny_en",
+  "voiceName": "benny_en",
+  "workerMode": "clone",
+  "engine": "qwen3",
+  "language": "en",
+  "settings": {
+    "temperature": 0.75,
+    "topK": 40,
+    "topP": 0.9,
+    "repeatPenalty": 1.1,
+    "seed": 1234
+  },
+  "description": "A warm, youthful masculine voice with a charismatic, adventurous, and confident personality. Use expressive, natural delivery with clear articulation and a relaxed, engaging rhythm. Give the character a sense of courage and determination, with a friendly warmth and a subtle hint of humor. The voice should feel approachable yet strong, balancing youthful enthusiasm with a touch of maturity. Inspired by the broad vocal qualities of a charming adventure-game protagonist, not an exact imitation of any specific character or voice actor.",
+  "design": null,
+  "who": "benny",
+  "take": 1,
+  "mode": "clone",
+  "seed": 1234,
+  "key": "13b85e51f94d7783",
+  "lines": [
+    {
+      "index": 1,
+      "text": "Maybe it read your building inspection."
+    },
+    {
+      "index": 5,
+      "text": "Technically, so would a thick hat."
+    },
+    {
+      "index": 7,
+      "text": "The hill. It's already built."
+    },
+    {
+      "index": 8,
+      "text": "Highest spot around. No assembly required."
+    },
+    {
+      "index": 11,
+      "text": "I carried it all this way."
+    },
+    {
+      "index": 15,
+      "text": "I thought falling was fairly self-explanatory."
+    },
+    {
+      "index": 18,
+      "text": "Its reflection?"
+    },
+    {
+      "index": 21,
+      "text": "We've been solving the wrong problem. Very enthusiastically."
+    }
+  ],
+  "seconds": 194.9,
+  "audio": "06a1479d3096f9a4b7ba29e79d5350bafe2eed6ca9f1cf0c25c89ea94bd7a986",
+  "duration": 19.49,
+  "heard": [
+    {
+      "w": "Maybe",
+      "s": 0.06,
+      "e": 0.23
+    },
+    {
+      "w": "it",
+      "s": 0.23,
+      "e": 0.32
+    },
+    {
+      "w": "read",
+      "s": 0.32,
+      "e": 0.52
+    },
+    {
+      "w": "your",
+      "s": 0.52,
+      "e": 0.68
+    },
+    {
+      "w": "building",
+      "s": 0.68,
+      "e": 1.05
+    },
+    {
+      "w": "inspection.",
+      "s": 1.05,
+      "e": 1.68
+    },
+    {
+      "w": "Technically",
+      "s": 1.68,
+      "e": 2.51
+    },
+    {
+      "w": "so",
+      "s": 2.51,
+      "e": 2.66
+    },
+    {
+      "w": "would",
+      "s": 2.66,
+      "e": 2.97
+    },
+    {
+      "w": "a",
+      "s": 2.97,
+      "e": 3.04
+    },
+    {
+      "w": "thick",
+      "s": 3.04,
+      "e": 3.4
+    },
+    {
+      "w": "hat.",
+      "s": 3.4,
+      "e": 3.84
+    },
+    {
+      "w": "The",
+      "s": 3.84,
+      "e": 4.33
+    },
+    {
+      "w": "hill.",
+      "s": 4.33,
+      "e": 4.75
+    },
+    {
+      "w": "It's",
+      "s": 4.75,
+      "e": 5.48
+    },
+    {
+      "w": "already",
+      "s": 5.48,
+      "e": 5.76
+    },
+    {
+      "w": "built.",
+      "s": 5.76,
+      "e": 6.41
+    },
+    {
+      "w": "Highest",
+      "s": 6.41,
+      "e": 6.98
+    },
+    {
+      "w": "spot",
+      "s": 6.98,
+      "e": 7.34
+    },
+    {
+      "w": "around,",
+      "s": 7.34,
+      "e": 8.07
+    },
+    {
+      "w": "no",
+      "s": 8.07,
+      "e": 8.13
+    },
+    {
+      "w": "assembly",
+      "s": 8.13,
+      "e": 8.79
+    },
+    {
+      "w": "required.",
+      "s": 8.79,
+      "e": 9.82
+    },
+    {
+      "w": "I",
+      "s": 9.82,
+      "e": 10.09
+    },
+    {
+      "w": "carried",
+      "s": 10.09,
+      "e": 10.25
+    },
+    {
+      "w": "it",
+      "s": 10.25,
+      "e": 10.37
+    },
+    {
+      "w": "all",
+      "s": 10.37,
+      "e": 10.53
+    },
+    {
+      "w": "this",
+      "s": 10.53,
+      "e": 10.98
+    },
+    {
+      "w": "way.",
+      "s": 10.98,
+      "e": 11.23
+    },
+    {
+      "w": "I",
+      "s": 11.23,
+      "e": 11.28
+    },
+    {
+      "w": "thought",
+      "s": 11.28,
+      "e": 11.83
+    },
+    {
+      "w": "falling",
+      "s": 11.83,
+      "e": 12.42
+    },
+    {
+      "w": "was",
+      "s": 12.42,
+      "e": 12.6
+    },
+    {
+      "w": "fairly",
+      "s": 12.6,
+      "e": 12.96
+    },
+    {
+      "w": "self-explanatory.",
+      "s": 12.96,
+      "e": 14.1
+    },
+    {
+      "w": "Its",
+      "s": 14.1,
+      "e": 14.73
+    },
+    {
+      "w": "reflection?",
+      "s": 14.73,
+      "e": 15.32
+    },
+    {
+      "w": "We've",
+      "s": 15.32,
+      "e": 15.76
+    },
+    {
+      "w": "been",
+      "s": 15.76,
+      "e": 15.91
+    },
+    {
+      "w": "solving",
+      "s": 15.91,
+      "e": 16.6
+    },
+    {
+      "w": "the",
+      "s": 16.6,
+      "e": 16.75
+    },
+    {
+      "w": "wrong",
+      "s": 16.75,
+      "e": 16.94
+    },
+    {
+      "w": "problem.",
+      "s": 16.94,
+      "e": 17.74
+    },
+    {
+      "w": "Very",
+      "s": 17.74,
+      "e": 18.44
+    },
+    {
+      "w": "enthusiastically.",
+      "s": 18.44,
+      "e": 19.34
+    }
+  ],
+  "check": {
+    "checked": true,
+    "summary": "all 8 line(s) heard",
+    "problems": []
+  }
+}
