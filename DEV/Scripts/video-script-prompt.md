@@ -9,43 +9,33 @@ so it decides whether they stay.
 
 ## 1. The show
 
-The four main characters live on the same street. Benny's juice stand is where they meet, and
-Wendy's garage, next door, is where she makes her video games. Each has their own age, so their
-problems and the way they argue differ.
+Benny and Berry live with their children, Wendy and Cherry. Wendy makes indie games in the garage. The stories take place in the present day. Benny owns a café. Berry teaches art. A short-lived juice stand at a festival is one possible episode idea.
 
+| Character | Age | Family role |
+| --- | --- | --- |
+| Benny (`benny`) | 31 | Father of Wendy and Cherry. Full of big ideas and quick to draw conclusions. |
+| Berry (`berry`) | 30 | Mother of Wendy and Cherry. Full of big ideas and quick to draw conclusions. |
+| Wendy (`wendy`) | 18 | Finished high school and works as an indie game developer. Calm. Usually the first to spot a weak argument. |
+| Cherry (`cherry`) | About 10 | Wendy's younger sister, in elementary school. Keeps a diary and plays games with her friends and Wendy. Wendy sometimes asks her to test a game because Cherry notices things she missed. |
 
-| Character             | Age                   | In one line                                                                                       |
-| --------------------- | --------------------- | ------------------------------------------------------------------------------------------------- |
-| **Berry** (`berry`)   | kid, about 10         | Curious, confident, quick, a little too sure of herself                                           |
-| **Cherry** (`cherry`) | teen, about 15        | Sharp, dry and sceptical; she counts things                                                       |
-| **Wendy** (`wendy`)   | about 18              | The wise one: a calm indie game developer who spots most bad reasoning, often by testing the idea |
-| **Benny** (`benny`)   | young adult, about 20 | Warm, funny, full of big ideas, and the quickest to a bad conclusion; runs the juice stand        |
+Benny often tries a warm joke when things get awkward. Berry is direct: she acknowledges what happened and gives the other person room to speak. For example, after missing a school pickup, Benny might offer Cherry a mango juice and say, "Okay, you can be mad and drink it." Berry might say, "You waited twenty minutes. I should have called. Tell me what happened."
 
-- **Berry** is the main character and is in every video. A girl of about ten with berry-pink hair in
-  two buns and a star clip, a yellow pinafore. She decides fast and explains things by doing them, not
-  by lecturing. She is often the one who jumps to a conclusion, and also the one who asks the blunt
-  "Why?" that grown-ups avoid. Speaks in short, excited, bossy lines.
-- **Cherry** is about fifteen: a dark brown high ponytail with a cherry clip, a red hoodie and a black
-  skirt. She helps at Benny's stand on weekends and keeps the money and the receipts. Practical and
-  hard to fool, but once she has been fooled she tends to trust nobody, which is its own mistake. Dry,
-  short sentences and deadpan questions.
-- **Wendy** is about eighteen and makes indie video games in her garage: a dark purple bob with a high
+Family arguments can be unfair. Benny and Berry make most of the flawed arguments. Side characters can make them too. Anyone can challenge one, and Wendy does so most often. Either parent can use any fallacy, with anyone, including the other parent. Usually the parent believes the argument at first. Knowingly using an unfair argument is an exception for either parent. When the issue concerns Cherry, she answers first. Either daughter may speak up politely in company or wait for a private moment. If a parent knowingly uses an unfair argument, Cherry can call that out directly. Cherry learns by hearing Wendy respond. Several episodes later she can recognize the same reasoning in a new situation and use Wendy's words or her own. Benny can take either side when Berry and a daughter disagree. Once a daughter shows why the argument was unfair, the parent admits it. The child may freely agree to help, or the parent may agree to what the child wanted.
+- **Wendy** is the main character, about eighteen and makes indie video games in her garage: a dark purple bob with a high
   side ponytail and a big yellow bow, a purple cardigan over a white collared shirt, a dark purple
   skirt. Wise beyond her years because she playtests everything. She is the one who usually spots where
   an argument goes wrong, and she fixes it the way she fixes a bug: she asks a question, checks what
   actually happened, or suggests a small test and lets everyone watch the result. She never lectures
-  or names the mistake; one well-placed question or test is enough. Rarely, she trusts her own tests or
-  plans too much and is the one who gets it wrong. Calm, few words, a dry sense of humour.
+  or names the mistake; she can explain the flaw in one everyday sentence. Calm, few words, a dry sense of humour.
   Her props: a laptop and a game controller.
-- **Benny** is about twenty: shaggy brown hair, a yellow hoodie, grey cargo trousers and yellow
-  sneakers. He grows mint and lemons and sells juice from his stand. Warm, funny, generous, and full of
-  big plans, he makes more reasoning mistakes than anyone: he trusts a friendly face or a good story,
+- **Benny** is thirty-one: shaggy brown hair, a yellow hoodie, grey cargo trousers and yellow
+  sneakers. Warm, funny, generous, and full of
+  big plans, he can make any reasoning mistake: he trusts a friendly face or a good story,
   takes one lucky day as a rule, decides first and finds reasons after, and won't give up on a plan
   he has already paid for. His mistakes always sound reasonable when he says them, and he says them
-  with total confidence, which is where the comedy comes from. He is never stupid or mean, takes being
-  caught well, and doesn't make the same mistake twice in the same way. Friendly, rambling, jokey.
+  with total confidence, which is where the comedy comes from. He is never stupid or mean, can be challenged by either child. Friendly, rambling, jokey.
 - Other people when the story needs them: a chef, a scientist, a
-  policeman, a thief, a king, a wizard, a farmer, a grandpa, a schoolgirl, a robot; a dog, a cat or
+  policeman, a thief, a mayor, a governor, a farmer, a grandpa, a schoolgirl, a robot; a dog, a cat or
   a bird. Give each a short lower-case id (`chef`, `dog`).
 
 Use **three speakers or fewer** (unless you really need more). Every extra voice costs clarity.
@@ -129,7 +119,7 @@ Each voice has its own speed, measured from its recordings:
 | Berry     |                2.92 |               1.85 |
 | Cherry    |                2.89 |               1.95 |
 
-**Quick estimate.** With the usual short gaps between lines, a script mixing the three friends runs at
+**Quick estimate.** With the usual short gaps between lines, a script mixing the three measured voices runs at
 about **2.5 words a second in English** and **1.7 in Arabic**. Count your words:
 
 

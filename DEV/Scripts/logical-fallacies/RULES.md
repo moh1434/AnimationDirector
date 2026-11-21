@@ -23,17 +23,16 @@ What stays: **no narrator**, ever. Everything is told through what the character
 
 ## 1. The series in one sentence
 
-Someone reasons badly, acts on it, and somebody notices. The viewer laughs and learns to notice too.
+A character makes a flawed argument, someone acts on it, and somebody notices. The viewer laughs and learns to notice too.
 
 - **For a general audience**, kids and adults together.
-- **The setting may be fantastical** if the idea needs that (kings, treasure, magic, talking animals, a village with a dragon
-  problem). **The reasoning must feel familiar**: the kind people use with a friend, a business
+- **Set episodes in the present day.** The family can meet a mayor or governor. Use the drafts as dialogue models. **The reasoning must feel familiar**: the kind people use with a friend, a business
   partner, a family, a group chat or a town meeting.
 - **A story first, a lesson second.** If the episode would still work with the lesson cut out, good.
   If it is only a lesson in costume, rewrite it.
 
 **The one hard rule:** the fallacy's name is never spoken, never captioned, never in the title, and
-never written on a sign or object. It appears only in `#` lines, which are never voiced or shown. I want the audience know the
+never written on a sign or object. It appears only in `#` lines, which are never voiced or shown. Give viewers a chance to recognize the move and hear a response they can use when someone tries it on them.
 
 ## 2. From the idea to the plan
 
@@ -91,14 +90,14 @@ for example: "Just because two things happen one after another doesn't mean one 
 
 ## 4. The catch
 
-The catch hands the viewer the missing piece. It never gives a lecture. Choose the kind that suits
+Use the mayor in the Strange Trial draft as a dialogue model for Wendy, Cherry or another responder. Let them say plainly why the argument fails, without speaking its formal name: "Just because two things happen one after another doesn't mean one caused the other." When the reply already states the takeaway, count it once and move on. The catch hands the viewer the missing piece. It never gives a lecture. Choose the kind that suits
 the character and the scene:
 
 
 | Kind                                  | Example                                                                              |
 | ------------------------------------- | ------------------------------------------------------------------------------------ |
 | **The awkward question**              | "What were his exact words?"                                                         |
-| **Check what actually happened**      | Count the coins. Open the ledger. Go and ask the king.                               |
+| **Check what actually happened**      | Count the coins. Open the ledger. Go and ask the mayor.                               |
 | **Run the test**                      | Try it again, changing one thing.                                                    |
 | **The counterexample in plain sight** | Something already on screen breaks the rule (planted earlier).                       |
 | **The self-catch**                    | The one who was wrong hears themselves: "...Did I just say fire trucks cause fires?" |
@@ -108,12 +107,12 @@ the character and the scene:
 Rules for the catch:
 
 - **The catch is specific; the takeaway is general.** The catch works on this situation: a question,
-  a check, a test. The general rule comes once, afterwards, as the takeaway (section 3). Neither one
+  a check, a test. The general rule comes once, in the reply or immediately afterwards, as the takeaway (section 3). Neither one
   explains the flaw at length.
 - **Play fair.** Anything the catch depends on should be seen or heard before the catch, so a viewer
   who rewinds can find it.
 - **A bad argument does not make its conclusion false.** Catching the flaw is not proof of the
-  opposite. Sam's reason for refusing the fire truck is bad, but that alone doesn't prove the
+  opposite. Benny's reason for refusing the fire truck is bad, but that alone doesn't prove the
   village needs one; the mayor's evidence does. Don't let the catcher make a new mistake, unless
   that is the joke and someone notices.
 - **Don't teach cynicism.** The lesson is about one step of reasoning, not "trust nobody". Trust is a
@@ -131,40 +130,18 @@ Rules for the catch:
 
 ## 6. Characters
 
-- **Berry (kid, about 10), Cherry (teen, about 15), Wendy (about 18) and Benny (about 20)** are as
-  described in `video-script-prompt.md` section 1. **Benny makes most of the bad steps, and Wendy
-  catches most of them**: as a guide, Benny reasons badly in about two episodes out of three and Wendy
-  makes about two catches out of three. The rest keeps the series from becoming predictable: Berry or
-  Cherry falls for it, Berry, Cherry or even Benny catches it, and once in a while Wendy is the one who
-  is wrong. Their ages give each a natural kind of mistake and a natural kind of catch:
+Either parent may use any fallacy with anyone, including the other parent. Benny and Berry make most of the flawed arguments. Side characters can make them too. Anyone present can catch one. Wendy does so most often. Choose the speaker from what they want in this scene. For example, Berry might accept a customer's promise because he once helped the family fix their cart. Wendy usually spots bad reasoning, and Cherry can catch a parent herself. Let Cherry answer first when the issue concerns her. Either daughter can reply politely in front of others or wait until later, depending on the situation. If the scene establishes that a parent knows the argument is unfair, Cherry can address that directly: "Dad, you know I care. Why are you making me prove it?" Either daughter can acknowledge a shared value and state a competing commitment: "Mom, I care about our family. I also promised my friend I would be there Saturday." Usually the parent believes the argument at first. Deliberate unfair pressure is an exception. Benny can take either side. When a daughter shows the argument is unfair, the parent admits it. Then show what they decide. The child may freely agree to help, or the parent may honour what the child wanted.
 
-
-  |        | Tends to fall for                                                                                                 | Tends to catch it by                                                                        |
-  | ------ | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-  | Berry  | jumping to conclusions, after-this-so-because-of-this, one example for everyone                                   | a blunt "Why?", trying it right away                                                        |
-  | Cherry | trusting nobody after being fooled, "everyone at school says so"                                                  | counting, checking the receipts and the record                                              |
-  | Wendy  | trusting her own tests and plans too much (rarely)                                                                | most catches: a question, checking what actually happened, or a small test everyone watches |
-  | Benny  | most mistakes: trusting a friendly face or a good story, one lucky day as a rule, deciding first, sunk cost, pity | now and then, a strange question that breaks the argument by accident                       |
-
-  The ages also choose the stakes: pocket money and school for Berry, fairness and reputation for
-  Cherry, a release or a playtest for Wendy, the juice stand's money and partners for Benny.
-- **Side characters**: reuse the ones in `SERIES_LOG.md` or create new ones (a king, a mayor, a
+- **Side characters**: reuse the ones in `SERIES_LOG.md` or create new ones (a governor, a mayor, a
   merchant, a stubborn villager). Give each a short lower-case id and one clear want.
-- **Benny is the one who usually reasons badly.** Keep him likeable: his bad step must sound
-  reasonable, he says it with full confidence, and he takes being caught with good humour. He learns:
-  he doesn't fall for the same fallacy in the same way twice (check `SERIES_LOG.md`), so give him a new
-  mistake each time.
 - **Wendy is the wise character and the usual catcher.** She catches the flaw the way she fixes a bug:
   one question, a look at what actually happened, or a small test the others watch. She never lectures
-  and never names the fallacy. She speaks less than the others, so her one line lands. Wise is not the
-  same as never wrong: now and then an episode catches her out. Don't invent another recurring mentor.
-- **Placeholders** in the user's drafts ("Character A") are cast from the trio or the side characters.
+  and never names the fallacy. She speaks less than the others, so her one line lands. Don't invent another recurring mentor.
+- **Placeholders** in the user's drafts ("Character A") are cast from the family or the side characters.
 - **Speakers:** three or fewer when possible. A town-sized story (a trial, a meeting) may use four or
   five. Silent characters cost nothing.
-- **Characters remember.** Someone who learned a lesson on screen doesn't fall for the same
-  fallacy in the same way. They may fall for its mirror image instead: fooled once, now they trust
-  nobody, which is its own flaw and makes a good payoff.
-
+- **Check recent examples.** Before writing, check the previous 10 approved episodes in `SERIES_LOG.md`. A fallacy can recur, even for the same speaker. Give them a different argument or situation if they used essentially the same example in that window. Changing only the names or props counts as a repeat. Respect what each character learned in approved episodes.
+- Include one history row per fallacy in the proposed `# LOG UPDATE`, with the episode, speaker, fallacy and concrete example. Enter it in the log on approval.
 ## 7. Standalone episodes and arcs
 
 Mark every episode as one of these:
@@ -176,6 +153,8 @@ Mark every episode as one of these:
   promise, a record ("Benny gave the coin back. Twice.").
 - **Payoff**: a problem that tests what was planted: what someone learned or believed, or the trust
   they earned. Give a new viewer a one-line reminder inside natural dialogue, never "Remember when...".
+
+**Cherry learns from Wendy.** Let Cherry hear Wendy answer a flawed argument during a real conversation. Several episodes later, give Cherry a different situation where she recognizes the same reasoning and answers for herself. She may quote Wendy exactly or put the idea in her own words. The ten-episode check applies to the flawed example a speaker uses. Cherry can reuse the reply while that window is still open. In each proposed `# LOG UPDATE`, record the relevant setup or payoff in the learning history, including the spoken line and the episode it connects to.
 
 Every plant goes into the `# LOG UPDATE` block (section 9). A plant doesn't have to pay off soon,
 but it must never be forgotten or contradicted.
@@ -251,7 +230,7 @@ The script is never sent to the voices straight away. The user reviews it first.
 
 1. When the script passes the checklist (section 10), save it as `episodes/NN-short-title.txt` in this
    folder: `NN` is the next free number (`01`, `02`, ...), the title in lower-case words joined by
-   hyphens, for example `episodes/01-the-king-said-so.txt`. The first line is `# STATUS: draft`.
+   hyphens, for example `episodes/01-the-mayor-said-so.txt`. The first line is `# STATUS: draft`.
 2. Tell the user the file's path and stop. Don't make voices, a project or a storyboard yet.
 3. The user reads it and edits the file directly, or asks for changes. For a change, read the file
    again first (the user may have edited it), change only what was asked, and keep `# STATUS: draft`.
@@ -288,24 +267,24 @@ don't reuse its lines.
 
 ```text
 # HOOK OPTIONS
-# 1. The king said I get the crown.
-# 2. Why is Benny wearing the king's crown?
+# 1. The mayor said I get the crown.
+# 2. Why is Benny wearing the mayor's crown?
 # 3. Benny never lies. That's the problem.
 # CHOSEN (by the user): 1, a confident claim the viewer instantly wants checked, and the crown is on screen.
 
 # STATUS: draft
-# TITLE: The King Said So
+# TITLE: The Mayor Said So
 # ARC: payoff of Benny's honest reputation
 # LENGTH: about 57 s, 133 spoken words
-# WANT: the friends found treasure and must decide who gets the best pieces
-# FALLACY 1: Past honesty treated as proof (a kind of appeal to authority) | "If Benny says the king said it, the king said it."
+# WANT: the family must find out who gets the festival prizes
+# FALLACY 1: Past honesty treated as proof (a kind of appeal to authority) | "If Benny says the mayor said it, the mayor said it."
 # TAKEAWAY 1: wendy | "Honest people can still tell a story wrong."
 # REAL LIFE: believing a reliable friend's summary of what the boss said, instead of the boss's own words
-# CAST: benny, berry, wendy, king
-# PLACE: ruins, day
+# CAST: benny, berry, wendy, mayor
+# PLACE: town festival, day
 
-# SEE: Benny sits on a pile of treasure in the ruins, wearing a crown. Berry and Wendy walk in.
-benny: The king said I get the crown.
+# SEE: Benny sits on a stack of festival prize boxes, wearing a crown. Berry and Wendy walk in.
+benny: The mayor said I get the crown.
 berry: He did?
 benny: And the gem. He said it's my reward.
 
@@ -314,30 +293,30 @@ berry: Well, Benny never lies.
 berry: He found a coin in the fountain and gave it back. Twice.
 wendy: He told me he ate my sandwich before I even noticed.
 benny: It was a very good sandwich.
-berry: So if Benny says the king said it, the king said it.
+berry: So if Benny says the mayor said it, the mayor said it.
 
 # SEE: Benny pulls a golden cup, a shield and a lamp onto his pile.
 benny: Oh, and the cup. And the shield. And the lamp.
 berry: Of course.
 
 # SEE: Wendy picks up the lamp, turns it over, and looks at Benny.
-wendy: Benny... what were the king's exact words?
-benny: His exact words were... Benny, keep an eye on the treasure.
+wendy: Benny... what were the mayor's exact words?
+benny: His exact words were... Benny, keep an eye on the prizes.
 # SEE: Silence. Berry stares. Benny straightens the crown.
 berry: Keep an eye on it.
 benny: I'm keeping two eyes on it. /** Fallacy 1: Past honesty treated as proof */
-wendy: Honest people can still tell a story wrong. Next time, we ask the king.
+wendy: Honest people can still tell a story wrong. Next time, we ask the mayor.
 
-# SEE: The king is standing behind them, arms crossed.
-king: Ask the king what?
+# SEE: The mayor is standing behind them, arms crossed.
+mayor: Ask the mayor what?
 # SEE: Benny slowly takes off the crown and holds it out.
-benny: Your Majesty. I was keeping an eye on it.
-king: With your head?
+benny: Mayor. I was keeping an eye on it.
+mayor: With your head?
 
 # LOG UPDATE
-# - Benny: honest reputation (the fountain coin, twice; confessed to eating Wendy's sandwich). Stretched the king's words once, got caught.
+# - Benny: honest reputation (the fountain coin, twice; confessed to eating Wendy's sandwich). Stretched the mayor's words once, got caught.
 # - Berry: learned to check the source's own words, not a friend's summary.
-# - king (id king): rules the land; asked Benny to watch the treasure from the ruins.
+# - mayor (id mayor): asked Benny to watch the festival prizes.
 # - Running joke: "I'm keeping an eye on it."
 ```
 
@@ -352,7 +331,7 @@ way a character can notice it.
 | False cause (after this, so because of this)                   | "He got a fire truck, then his house burned. Fire trucks bring fires." | Same logic, sillier case; or check the order of events.      |
 | Ad hominem (attack the person)                                 | "You can't even fix the road, so you're wrong about the truck."        | "Okay. And the fire truck?"                                  |
 | Appeal to tradition                                            | "We've never had one and we've been fine."                             | Something from the past that everyone now agrees was bad.    |
-| Appeal to authority (unchecked)                                | "The king said so."                                                    | Ask the authority, or ask for their exact words.             |
+| Appeal to authority (unchecked)                                | "The mayor said so."                                                    | Ask the authority, or ask for their exact words.             |
 | Past record treated as proof                                   | "He's always been honest, so this is true."                            | A cheap check of this particular claim.                      |
 | Halo effect (a bias: good at one thing, so good at everything) | "He's great in the garden, so he'll be a great business partner."      | "Who's counting the money?"                                  |
 | Hasty generalization                                           | "One merchant cheated me. All merchants cheat."                        | The next merchant gives back too much change.                |

@@ -7,9 +7,10 @@ below and add it to the table.
 
 ## Episodes
 
-| # | Title | Arc | Fallacies | Status |
-|---|---|---|---|---|
-| (none yet) | | | | |
+
+| #          | Title | Arc | Fallacies | Status |
+| ---------- | ----- | --- | --------- | ------ |
+| (none yet) |       |     |           |        |
 
 The drafts in `drafts/` are ideas only, not part of the story yet.
 
@@ -17,38 +18,54 @@ The drafts in `drafts/` are ideas only, not part of the story yet.
 
 Starting facts (from `../video-script-prompt.md` section 1); add what happens in approved episodes below them.
 
-### Berry (`berry`)
-- Kid, about 10. Lives on the street; often at Benny's juice stand.
+### Benny (`benny`) and Berry (`berry`)
 
-### Cherry (`cherry`)
-- Teen, about 15. Helps at Benny's stand on weekends and keeps the money and receipts.
+Benny, 31, is the father. Berry, 30, is the mother. Both have big ideas and jump to conclusions. Either may use any fallacy on anyone, including each other. Benny and Berry make most of the flawed arguments. Side characters can make them too. Anyone can answer, and Wendy does so most often.
 
-### Wendy (`wendy`): the wise character
-- About 18. Makes indie video games in her garage next door; playtests everything.
+### Wendy (`wendy`) and Cherry (`cherry`)
 
-### Benny (`benny`)
-- Young adult, about 20. Grows mint and lemons and runs the juice stand.
-
+Wendy, 18, has finished high school and works as an indie game developer who usually spots bad reasoning. Cherry is her younger sister, about 10 and in elementary school. Cherry keeps a diary and plays games with her friends and Wendy. Wendy sometimes lets Cherry playtest her games because Cherry notices things she missed. Both live with their parents and can recognize when a parent tries to trick them.
 ### Side characters
+
+
 | id | Who they are | First episode |
-|---|---|---|
-| | | |
+| -- | ------------ | ------------- |
+|    |              |               |
+
+## Fallacy example history
+
+Add one row per example when an episode is approved. Record the actual claim and what the speaker used it to justify. Before writing, check the previous 10 approved episodes for that speaker using essentially the same example.
+
+| Episode | Speaker ID | Fallacy | Concrete argument and situation |
+| --- | --- | --- | --- |
+
+## What Cherry learns from Wendy
+
+Cherry hears Wendy respond and, several episodes later, uses the idea herself in a new situation. She can repeat the line exactly or adapt it. Add the setup when approved and fill in the payoff when its episode is approved.
+
+| Fallacy | Episode Cherry heard Wendy | Situation and Wendy's words | Episode Cherry used it | New situation and Cherry's words |
+| --- | --- | --- | --- | --- |
 
 ## Planted, waiting for a payoff
 
+
 | What was planted | Episode | Idea for the payoff |
-|---|---|---|
-| | | |
+| ---------------- | ------- | ------------------- |
+|                  |         |                     |
 
 ## Paid off
 
+
 | What was planted | Planted in | Paid off in |
-|---|---|---|
-| | | |
+| ---------------- | ---------- | ----------- |
+|                  |            |             |
 
 ## Running jokes
+
 - (none yet)
 
 ## The world
-Places, who rules where, how the world works (magic, talking animals, ...).
-- The four live on the same street: Benny's juice stand is the meeting place, Wendy's garage studio is next door.
+
+Recurring places and people in the present-day town.
+
+- The family shares a home. Wendy makes games in the garage. The stories take place in the present day. Benny owns a café and Berry is an art teacher. A temporary festival juice stand is an episode idea. No stand has been established in an approved story.
