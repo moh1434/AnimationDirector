@@ -1,0 +1,41 @@
+# STATUS: draft
+# TITLE: One Empty Hook
+# ARC: standalone
+# LENGTH: about 46 s, 123 spoken words
+# WANT: Berry needs a place for a guest painting at the school show.
+# FALLACY 1: False dilemma | Berry presents taking down Cherry's painting and leaving the guest painting packed as the only choices.
+# TAKEAWAY 1: berry | I gave you two choices before checking what else would work.
+# REAL LIFE: Being rushed into choosing between two unnecessary losses.
+# CAST: berry, cherry
+# PLACE: school art room, afternoon
+
+# HOOK OPTIONS
+# 1. Which picture comes down, yours or mine? — Must either come down?
+# 2. One hook. Two paintings. — Where can the second go?
+# 3. I promised both of you this wall. — Can Berry keep her word?
+# CHOSEN: 1 (writer's pick for batch review).
+
+# SEE: Berry holds a painting beside Cherry's framed penguin; an easel holds Berry's coat.
+berry: Which picture comes down, yours or mine?
+cherry: Yours is still in the box, Mom.
+berry: It's from the class next door. I promised we'd show it.
+berry: One hook. Either your penguin comes down or their picture stays packed.
+
+# SEE: Cherry lifts her penguin from the hook.
+cherry: They carried theirs here in the rain. I'll take mine home.
+berry: I'm sorry, sweetheart. He looked good up there.
+
+# SEE: Cherry reaches for her coat and lifts Berry's coat by mistake.
+cherry: Mom? What's your coat painting?
+berry: My coat? I wondered where I'd left that.
+berry: Oh. I put it there while I was hanging the frames.
+cherry: Could the easel hold their picture as well as it holds your coat? /** Fallacy 1: False dilemma */
+berry: I gave you two choices before checking what else would work.
+
+# SEE: Berry props the guest painting on the easel; Cherry rehangs the penguin.
+berry: There. Two artists in the show. Where do I put this coat?
+cherry: Wear it. The penguin brought his own.
+
+# LOG UPDATE
+# Example history | 02 | berry | False dilemma | Berry presents taking down Cherry's painting and leaving the guest painting packed as the only choices.
+# Cherry speaks up for both classes. Berry displays both paintings.

@@ -1,0 +1,39 @@
+# STATUS: draft
+# TITLE: Room for a Wheel
+# ARC: standalone
+# LENGTH: about 53 s, 121 spoken words
+# WANT: A customer wants space for her shopping trolley beside the café door.
+# FALLACY 1: Straw man | Benny turns a request to move one chair into a proposal to remove all the seats.
+# TAKEAWAY 1: ruth | Can we try what I actually asked for?
+# REAL LIFE: Having a modest request rejected as if it were a much bigger demand.
+# CAST: ruth, benny
+# PLACE: café doorway, morning
+
+# HOOK OPTIONS
+# 1. Could this chair move six inches? — Why object to six inches?
+# 2. My trolley's eating your cushion. — What blocks the door?
+# 3. Which chairs did I ask for? — What did Benny hear?
+# CHOSEN: 1 (writer's pick for batch review).
+
+# SEE: A trolley wheel catches on the cushion of a chair by the café door.
+ruth: Could this chair move six inches?
+benny: Ruth, that's my aunt's favourite spot. She likes to watch the street.
+ruth: So do I. Usually from the other side of that door.
+benny: First morning I've had all the seats full. People need somewhere to sit.
+
+# SEE: Benny picks up the chair and points at the row behind it.
+benny: If we take away all the seats, what sort of café is left?
+ruth: I didn't ask for all the seats. I didn't even ask for this one. /** Fallacy 1: Straw man */
+ruth: Can we try what I actually asked for?
+
+# SEE: Ruth points to a patch of floor; Benny slides the chair across.
+benny: Six inches toward the window. Go on, try the trolley now.
+ruth: Look at that. Both wheels inside and your aunt can still sit down.
+benny: You're right. I argued with somebody who wasn't here.
+
+# SEE: Ruth retrieves the cushion from her trolley.
+ruth: Good. When she gets here, tell her I saved her seat.
+
+# LOG UPDATE
+# Example history | 06 | benny | Straw man | Benny turns a request to move one chair into a proposal to remove all the seats.
+# Ruth | café customer with a shopping trolley | 06. Benny moves one chair and keeps every seat.

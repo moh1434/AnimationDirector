@@ -1,0 +1,42 @@
+# STATUS: draft
+# TITLE: The Frog Gets a Vote
+# ARC: standalone
+# LENGTH: about 47 s, 129 spoken words
+# WANT: Cherry wants her paper frog included in Berry's tabletop puppet show.
+# FALLACY 1: Moving the goalposts | Berry promises a place if the puppet stands unaided, then adds new tests after each success.
+# TAKEAWAY 1: cherry | He passed the test we picked. Why does the test keep changing?
+# REAL LIFE: Someone changing the terms of an agreement after you meet them.
+# CAST: cherry, berry
+# PLACE: school art room, afternoon
+
+# HOOK OPTIONS
+# 1. He's been standing since breakfast. — Why hasn't the frog earned his place?
+# 2. Does a frog need eyebrows? — What will Berry ask for next?
+# 3. You promised him a spot. — Which promise does Cherry mean?
+# CHOSEN: 1 (writer's pick for batch review).
+
+# SEE: Cherry's paper frog stands beside a row of puppets; Berry holds the curtain.
+cherry: He's been standing since breakfast.
+berry: Those folded feet worked! But can they see his face from the back?
+cherry: You said if he stood up on his own, he could be in the show.
+berry: Just check the face for me. I'd hate for people to miss his smile.
+
+# SEE: Cherry carries the frog to the far end; Berry squints and smiles back.
+berry: Yes, I can see him. Now, does he have a voice?
+cherry: He does. But before he speaks, can I ask something?
+
+# SEE: Cherry sets him beside the curtain and lets go.
+cherry: He passed the test we picked. Why does the test keep changing? /** Fallacy 1: Moving the goalposts */
+berry: Because I'm nervous about my show. That isn't his fault. Or yours.
+berry: I promised him a spot. Would he like to open the curtain?
+
+# SEE: Berry makes room; Cherry stands the frog in the front row.
+cherry: He'd love to. Do you still want to hear his voice?
+berry: Very much.
+
+# SEE: Cherry hides behind the curtain and holds up the frog.
+cherry: I've been on my feet since breakfast. Somebody get me a chair.
+
+# LOG UPDATE
+# Example history | 10 | berry | Moving the goalposts | Berry promises a place if the puppet stands unaided, then adds new tests after each success.
+# Berry honours the agreed condition. Cherry's freestanding paper frog opens the puppet show.

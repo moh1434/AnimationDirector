@@ -1,0 +1,42 @@
+# STATUS: draft
+# TITLE: A Vote for Soup
+# ARC: standalone
+# LENGTH: about 47 s, 118 spoken words
+# WANT: Benny must pick the soup for Friday's lunch.
+# FALLACY 1: Hasty generalization | Benny treats three enthusiastic votes from his chili club as the whole lunch crowd's taste.
+# TAKEAWAY 1: berry | Three people can tell you what they like. They can't speak for everybody.
+# REAL LIFE: Using feedback from a narrow group to speak for all customers.
+# CAST: benny, berry
+# PLACE: café, morning
+
+# HOOK OPTIONS
+# 1. Unanimous. We're serving fire soup. — Who voted?
+# 2. How many spoons melted? — Who tasted lunch?
+# 3. Three bowls came back empty. — Does everybody want this?
+# CHOSEN: 1 (writer's pick for batch review).
+
+# SEE: Benny tips three voting beans out of a cup beside a pot of red soup.
+benny: Unanimous. We're serving fire soup.
+berry: Those are the three beans from your chili club.
+benny: Every single taster wanted it hotter. Friday's crowd is going to love it.
+
+# SEE: Benny lifts a pepper over the pot; Berry cups a hand underneath.
+berry: Before you drop that, what happened to the mild soup?
+benny: Nobody voted for it. I even gave them bread between bowls.
+berry: Good test. Who tries the samples tomorrow?
+benny: Tomorrow? I thought we were finished.
+
+# SEE: Berry puts the three beans on three saucers at one table.
+berry: All three votes came from the table that brings its own hot sauce. /** Fallacy 1: Hasty generalization */
+berry: Three people can tell you what they like. They can't speak for everybody.
+
+# SEE: Benny puts the pepper down and takes out two little pots.
+benny: Fair. Tomorrow I'll offer both at lunch and see who picks what.
+berry: Save me a mild one. What did the club call that?
+
+# SEE: Benny checks behind him before answering.
+benny: They were very polite. They called it water.
+
+# LOG UPDATE
+# Example history | 05 | benny | Hasty generalization | Benny treats three enthusiastic votes from his chili club as the whole lunch crowd's taste.
+# Berry challenges Benny's sample. Benny plans to offer mild and hot samples to lunch customers.
