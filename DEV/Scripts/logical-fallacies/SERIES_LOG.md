@@ -24,7 +24,7 @@ Benny, 31, is the father. Berry, 30, is the mother. Both have big ideas and jump
 
 ### Wendy (`wendy`) and Cherry (`cherry`)
 
-Wendy, 18, has finished high school and works as an indie game developer who usually spots bad reasoning. Cherry is her younger sister, about 10 and in elementary school. Cherry keeps a diary and plays games with her friends and Wendy. Wendy sometimes lets Cherry playtest her games because Cherry notices things she missed. Both live with their parents and can recognize when a parent tries to trick them.
+Wendy, 18, has finished high school and works as an indie game developer who usually spots bad reasoning. Cherry is her younger sister, about 10 and in elementary school. Cherry plays games with her friends and Wendy. Her diary covers ordinary life and important things that happened in the previous days. Sometimes she writes down something Wendy said. Writing can help her spot an unfair argument she initially accepted and bring it up with the parent later. Wendy sometimes lets Cherry playtest her games because Cherry notices things she missed. Both live with their parents and can recognize when a parent tries to trick them.
 ### Side characters
 
 

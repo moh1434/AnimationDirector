@@ -76,7 +76,7 @@ growing bigger, never the same idea twice. Escalate, like three tries to convinc
 person. Each one needs room to land, so as a rough guide: about one per 20–30 seconds, and up to
 3 in an episode unless the user asks for more.
 
-**The takeaway.** Once per fallacy, after its catch, one character says the general rule in everyday
+**The takeaway.** Once per fallacy, in the catch or immediately after it, one character says the general rule in everyday
 words: a sentence the viewer can reuse the next time they hear the same reasoning. After a false cause,
 for example: "Just because two things happen one after another doesn't mean one caused the other."
 
@@ -84,9 +84,8 @@ for example: "Just because two things happen one after another doesn't mean one 
   realisation), never a speech to the camera.
 - Best from the one who was wrong, as they realise it, or from Wendy. Vary who says it.
 - Never the fallacy's name, and never "I learned that...", "The lesson is..." or "The moral is...".
-- It confirms what the viewer has already seen in the catch; it doesn't explain it. If the episode
-  only makes sense once the takeaway is said, the catch is not clear enough: fix the catch.
-- With several fallacies, each gets its own takeaway, right after its own catch.
+- Tie the takeaway to the specific claim the viewer just heard. A clear reply can both catch the flaw and state the takeaway.
+- With several fallacies, each gets its own takeaway, in or immediately after its own catch.
 
 ## 4. The catch
 
@@ -130,7 +129,7 @@ Rules for the catch:
 
 ## 6. Characters
 
-Either parent may use any fallacy with anyone, including the other parent. Benny and Berry make most of the flawed arguments. Side characters can make them too. Anyone present can catch one. Wendy does so most often. Choose the speaker from what they want in this scene. For example, Berry might accept a customer's promise because he once helped the family fix their cart. Wendy usually spots bad reasoning, and Cherry can catch a parent herself. Let Cherry answer first when the issue concerns her. Either daughter can reply politely in front of others or wait until later, depending on the situation. If the scene establishes that a parent knows the argument is unfair, Cherry can address that directly: "Dad, you know I care. Why are you making me prove it?" Either daughter can acknowledge a shared value and state a competing commitment: "Mom, I care about our family. I also promised my friend I would be there Saturday." Usually the parent believes the argument at first. Deliberate unfair pressure is an exception. Benny can take either side. When a daughter shows the argument is unfair, the parent admits it. Then show what they decide. The child may freely agree to help, or the parent may honour what the child wanted.
+Either parent may use any fallacy with anyone, including the other parent. Benny and Berry make most of the flawed arguments. Side characters can make them too. Anyone present can catch one. Wendy does so most often. Choose the speaker from what they want in this scene. For example, Berry might accept a customer's promise because he once helped the family fix their cart. Wendy usually spots bad reasoning, and Cherry can catch a parent herself. Let Cherry answer first when the issue concerns her. If she misses the flaw, she usually agrees to what the parent wants. Give her a later moment to work it out while writing about her day or with help from Wendy. She can reopen the conversation. Save hesitation about an argument she cannot quite explain for occasional use. If something important is at stake, a parent may get mildly annoyed. Either daughter can reply politely in front of others or wait until later, depending on the situation. If the scene establishes that a parent knows the argument is unfair, Cherry can address that directly: "Dad, you know I care. Why are you making me prove it?" Either daughter can acknowledge a shared value and state a competing commitment: "Mom, I care about our family. I also promised my friend I would be there Saturday." Usually the parent believes the argument at first. Deliberate unfair pressure is an exception. Benny can take either side. When a daughter shows the argument is unfair, the parent admits it. Then show what they decide. The child may freely agree to help, or the parent may honour what the child wanted.
 
 - **Side characters**: reuse the ones in `SERIES_LOG.md` or create new ones (a governor, a mayor, a
   merchant, a stubborn villager). Give each a short lower-case id and one clear want.
@@ -248,10 +247,10 @@ Fix the script until every answer is yes:
 - Within the first two lines, does the viewer have a question (a want, a problem or a strange claim),
   and is the first line short enough to say in one breath?
 - Would a viewer half-believe the bad step when they first hear it?
-- Can the viewer see where the reasoning went wrong from the catch alone, before the takeaway is said?
+- Can the viewer see where the reasoning went wrong from the exchange itself?
 - Does each catch fit the character and the scene: a question, a check, a test, a self-catch?
 - Is the fallacy's name kept out of every spoken line, the title and every object on screen?
-- Is there one takeaway per fallacy: one everyday sentence, said in character after its catch, with no
+- Is there one takeaway per fallacy: one everyday sentence, said in character during or just after its catch, with no
   fallacy name and no "I learned"?
 - Does the episode end on the button (a joke), not on the takeaway? Is there no narrator?
 - Does the person who was wrong stay likeable?
