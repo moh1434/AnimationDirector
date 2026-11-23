@@ -1,0 +1,59 @@
+# STATUS: approved
+# TITLE: The Long Way Home
+# ARC: standalone
+# LENGTH: about 100 s, 175 spoken words
+# WANT: Berry has been looking forward to a little time alone before the girls get home.
+# CAST: berry, benny
+# PLACE: the car on the way home from buying groceries, the kitchen, then the front step that evening
+
+# SEE: From the passenger seat, Berry watches their usual turn slip past.
+berry: That was our street.
+benny: I know. Thought we'd go by the swings.
+berry: What for?
+benny: Nothing. It's been a while.
+
+# SEE: The swings come into view. For two seconds Berry watches a father lift a sleeping child from one.
+berry: You used to duck driving past here.
+benny: Cherry could spot those swings dead asleep.
+berry: And there you'd be, pushing her in her pajamas.
+benny: You always said one more push.
+berry: She had the hiccups from laughing. I liked that.
+
+# SEE: Berry smiles until she catches sight of the dashboard clock.
+benny: We could go round by the school, too.
+berry: Benny, could you take this next left?
+benny: Yeah. Sure.
+
+# SEE: He signals. Hold on Berry for three seconds as she turns to say something and he concentrates on the turn.
+
+# SEE: Cut to the kitchen. Benny puts apples in the bowl while Berry stands with her coat still on.
+berry: I did like going past the swings.
+
+# SEE: Benny puts the last apple in the bowl. Give him two quiet seconds before he looks up.
+benny: I should've asked.
+benny: I just miss talking in the car.
+berry: I've been thinking about that front step since lunch.
+benny: The step?
+berry: It's still warm around now. The girls won't be back till five.
+berry: I wanted to take my shoes off and sit there.
+benny: Oh. And I drove right past it.
+berry: Twice, if you'd had your way.
+
+# SEE: That gets a little laugh. Benny takes the milk from her and Berry leaves her shoes by the door.
+
+# SEE: Cut to dusk. The girls' shoes are beside Berry's now. Benny opens the door and holds out Berry's sweater.
+benny: Thought you might want this.
+berry: Get yours too?
+
+# SEE: Berry pulls on her sweater. When Benny comes back wearing his, she shifts over. Give them four seconds to settle side by side.
+berry: You know what I miss about those drives?
+benny: What?
+berry: We used to pick a house we'd buy.
+benny: Little green one with the crooked porch?
+berry: You picked that one every time.
+
+# SEE: Hold for three seconds as they look across the street together, Berry's shoulder resting against his.
+
+# LOG UPDATE
+# Benny and Berry used to take longer drives when the girls were small and pick out houses together. Benny usually chose a green house with a crooked porch.
+# Berry tells Benny she sometimes counts on sitting alone on the warm front step before the girls come home.
