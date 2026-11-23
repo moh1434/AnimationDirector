@@ -1310,14 +1310,14 @@ export const Character: React.FC<CharacterProps> = (p) => {
       })}
       <g transform={`translate(0 ${bodyY + breath * 0.4}) rotate(${lean} 0 ${legTop})`}>
         {look.hair === "long" && !hasWrap && (
-          <g transform={`translate(0 ${headY + breath - m * 5}) rotate(${headTilt}) scale(${HEAD})`}>
+          <g transform={`translate(0 ${headY + breath * 0.35}) rotate(${headTilt}) scale(${HEAD})`}>
             <g transform={`rotate(${-headTilt * 0.35 + Math.sin(t * 1.7 + seed) * 0.9} 0 -40)`} filter={`url(#${celHair})`}>
               <HairBehind look={look} />
             </g>
           </g>
         )}
         {/* the neck, from under the collar to under the chin (older builds) */}
-        {B.neck && tube(`M0 ${top + 14} L0 ${headY + breath - m * 5 + HEAD * 70}`, skin, 26, "neck")}
+        {B.neck && tube(`M0 ${top + 14} L0 ${headY + breath * 0.35 + HEAD * 70}`, skin, 26, "neck")}
         <g transform={`translate(0 ${breath * 0.3})`} filter={`url(#${celBody})`}>
           <ExtrasBack look={look} top={top} />
           <g transform={`scale(${B.wide} 1)`}><Torso look={look} top={top} bottom={legTop} /></g>
@@ -1327,7 +1327,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
           <ExtrasFront look={look} top={top} />
           <Accessory look={look} top={top} t={t} />
         </g>
-        <g transform={`translate(0 ${headY + breath - m * 5}) rotate(${headTilt}) scale(${HEAD})`}>
+        <g transform={`translate(0 ${headY + breath * 0.35}) rotate(${headTilt}) scale(${HEAD})`}>
           {/* the hair behind the head lags a little behind the head's tilt */}
           {!hasWrap && (
             <g transform={`rotate(${-headTilt * 0.35 + Math.sin(t * 1.7 + seed) * 0.9} 0 -40)`} filter={`url(#${celHair})`}>

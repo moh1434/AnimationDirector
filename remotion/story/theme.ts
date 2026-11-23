@@ -96,7 +96,7 @@ export const PRESETS: Record<string, Look> = {
   policeman: {skin:"#ffffff", hair:"none", hat:"police_cap", hatColor:"#315486", outfit:"police_uniform", shirt:"#315486", pants:"#243955", accent:"#ffc83d"},
   // Berry, the channel's leader. Berry-pink "star buns" hair with light pink ends, a springy curl and a star clip, freckles,
   // a sunny pinafore over a white tee, coral shoes. Original design.
-  berry: { skin: "#ffffff", hair: "starbuns", hairColor: "#b04a78", hairTips: "#ffc0d0", outfit: "pinafore", shirt: "#ffc83d", accent: "#ff6b5e", shoes: "#ff6b5e", blush: true, freckles: true, lashes: true, build: "kid", head: "bean", eyes: "flick" },
+  berry: { skin: "#ffffff", hair: "starbuns", hairColor: "#b04a78", hairTips: "#ffc0d0", outfit: "pinafore", shirt: "#ffc83d", accent: "#ff6b5e", shoes: "#ff6b5e", blush: true, freckles: true, lashes: true, build: "adult", head: "round", eyes: "flick", height: 0.97 },
   // From the user's character sheet: plum curls with a big side puff and a coral bow, freckles,
   // yellow tee under teal short dungarees with a heart pocket, coral sneakers.
   curly_girl: { skin: "#ffe8cf", hands: "#ffe8cf", hair: "curlypuff", hairColor: "#7a2a55", hatColor: "#ff6b5e", outfit: "dungarees", shirt: "#ffc83d", pants: "#7cc4ad", accent: "#ff6b5e", shoes: "#ff6b5e", freckles: true, lashes: true, build: "teen", height: 0.93 },
