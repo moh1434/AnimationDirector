@@ -2,6 +2,7 @@ import React, { useId } from "react";
 import { Face, EXPR, isBlinking } from "./Face";
 import type { Expression } from "./Face";
 import { PropArt } from "./Props";
+import { turnOf } from "./motion";
 import { Emote } from "./Character";
 import type { CharacterProps } from "./Character";
 import { INK } from "./theme";
@@ -177,12 +178,12 @@ export const Animal: React.FC<AnimalProps> = (p) => {
   const kind: AnimalKind = p.kind === "cat" || p.kind === "bird" ? p.kind : "dog";
   const moving = !!p.walking;
   const pose = moving ? (p.pose === "run" ? "run" : "walk") : p.pose ?? (p.talking ? "talk" : "idle");
-  const dir = p.motion ? Math.max(-1, Math.min(1, p.motion[7])) : p.facing === "left" ? -1 : 1;
+  const { sx: dir, sy: dip } = turnOf(p.motion ? p.motion[7] : p.facing === "left" ? -1 : 1);
   const hs = p.look?.height ?? 1;
   const emoteX = kind === "bird" ? 150 : 250, emoteY = kind === "bird" ? -400 : pose === "sleep" ? -230 : -470;
   const uid = sid(useId());
   // the same light as the human actors: a cel shade on the body and a soft shadow on the ground
-  return <g transform={`scale(${hs}) scale(${dir} 1)`}>
+  return <g transform={`scale(${hs}) scale(${dir} ${dip})`}>
     <defs><CelFilter id={`an${uid}`} depth={16} opacity={0.2} /></defs>
     <GroundShadow id={`ag${uid}`} x={12} y={2} rx={kind === "bird" ? 110 : 215} ry={kind === "bird" ? 16 : 22} opacity={pose === "fly" ? 0.14 : 0.32} />
     <g filter={`url(#an${uid})`}>{kind === "bird" ? <Bird {...p} pose={pose} moving={moving} /> : <Pet {...p} kind={kind} pose={pose} moving={moving} />}</g>

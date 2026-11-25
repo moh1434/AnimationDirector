@@ -1,0 +1,204 @@
+{
+  "language": "en",
+  "takes": 1,
+  "voices": {
+    "cherry": {
+      "library": "cherry",
+      "chunkPerLine": true
+    },
+    "benny": {
+      "library": "benny",
+      "chunkPerLine": true
+    },
+    "berry": {
+      "library": "berry",
+      "chunkPerLine": true
+    },
+    "wendy": {
+      "library": "wendy",
+      "chunkPerLine": true
+    }
+  },
+  "lines": [
+    {
+      "who": "cherry",
+      "text": "How long have you been open?"
+    },
+    {
+      "who": "benny",
+      "text": "Since ten."
+    },
+    {
+      "who": "cherry",
+      "text": "It's four."
+    },
+    {
+      "who": "benny",
+      "text": "People get hungry at different times."
+    },
+    {
+      "who": "berry",
+      "text": "I've done ribbons for twelve boxes."
+    },
+    {
+      "who": "benny",
+      "text": "See? We're ready."
+    },
+    {
+      "who": "benny",
+      "text": "Was that..."
+    },
+    {
+      "who": "cherry",
+      "text": "It was!"
+    },
+    {
+      "who": "benny",
+      "text": "Order! One order of noodles!"
+    },
+    {
+      "who": "benny",
+      "text": "I'm telling them twenty minutes."
+    },
+    {
+      "who": "berry",
+      "text": "Benny, do noodles take twenty minutes?"
+    },
+    {
+      "who": "benny",
+      "text": "They do now."
+    },
+    {
+      "who": "cherry",
+      "text": "Dad, the address is..."
+    },
+    {
+      "who": "benny",
+      "text": "One second, sweetheart."
+    },
+    {
+      "who": "berry",
+      "text": "This box needs the yellow ribbon."
+    },
+    {
+      "who": "benny",
+      "text": "Berry, it's noodles."
+    },
+    {
+      "who": "berry",
+      "text": "It's the first noodles."
+    },
+    {
+      "who": "benny",
+      "text": "Yellow, then."
+    },
+    {
+      "who": "cherry",
+      "text": "Mom, it says..."
+    },
+    {
+      "who": "berry",
+      "text": "Put your finger on the knot, honey."
+    },
+    {
+      "who": "benny",
+      "text": "It's getting cold! Go!"
+    },
+    {
+      "who": "benny",
+      "text": "Look at that. Off to a total stranger."
+    },
+    {
+      "who": "cherry",
+      "text": "Dad."
+    },
+    {
+      "who": "benny",
+      "text": "Let me have this, Cherry."
+    },
+    {
+      "who": "benny",
+      "text": "Did he forget something?"
+    },
+    {
+      "who": "wendy",
+      "text": "Eighteen minutes. Not bad."
+    },
+    {
+      "who": "benny",
+      "text": "Wendy?"
+    },
+    {
+      "who": "wendy",
+      "text": "That's mine, Dad. I ordered it."
+    },
+    {
+      "who": "cherry",
+      "text": "It's our address. I kept saying."
+    },
+    {
+      "who": "wendy",
+      "text": "Nobody ordered all day. I thought your page was broken."
+    },
+    {
+      "who": "wendy",
+      "text": "So I tested it."
+    },
+    {
+      "who": "benny",
+      "text": "Well. It works great."
+    },
+    {
+      "who": "benny",
+      "text": "And I got to yell \"order.\" I've always wanted to yell that."
+    },
+    {
+      "who": "wendy",
+      "text": "I should've told you."
+    },
+    {
+      "who": "benny",
+      "text": "I just really thought it was somebody."
+    },
+    {
+      "who": "wendy",
+      "text": "It was somebody. I was hungry."
+    },
+    {
+      "who": "cherry",
+      "text": "Do we get to rate it?"
+    },
+    {
+      "who": "wendy",
+      "text": "Four stars."
+    },
+    {
+      "who": "benny",
+      "text": "Four?"
+    },
+    {
+      "who": "wendy",
+      "text": "The ribbon slowed it down."
+    },
+    {
+      "who": "berry",
+      "text": "The ribbon was perfect."
+    },
+    {
+      "who": "benny",
+      "text": "Not you?"
+    },
+    {
+      "who": "wendy",
+      "text": "Not me."
+    },
+    {
+      "who": "cherry",
+      "text": "Dad. It's across town."
+    },
+    {
+      "who": "benny",
+      "text": "Order!"
+    }
+  ]
+}

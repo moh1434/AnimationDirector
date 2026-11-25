@@ -59,6 +59,7 @@ export type Look = {
   shirtSymbol?: "star" | "heart";
   head?: "round" | "egg" | "wide" | "bean" | "oval" | "square"; // bean: fuller at the back of the jaw · oval: longer than egg · square: soft rounded corners
   build?: "kid" | "teen" | "adult"; // proportions and height: kid about 2 heads tall and shorter, teen about 2.5, adult about 2.7 and a little taller (default adult). Nobody has a neck
+  faceY?: number; // moves the whole face (eyes, brows, mouth, blush, freckles, glasses) down the head by this much; left out, long heads (oval, egg) get 12 and the others 0
   eyes?: "big" | "halfshut" | "iris" | "flick"; // eye style (Face.tsx EyeStyle); default big
   irisColor?: string; // iris colour for eyes "iris" (default warm brown)
   hair?: string; // none|tuft|spiky|curly|long|bob|bun|side|messy|wavy|ponytail|flowing|sideponytail|curlytop|starbuns|curlypuff|highponytail|schoolbob|sidebob|shaggy|quiff|bobponytail
@@ -96,8 +97,8 @@ export const PRESETS: Record<string, Look> = {
   schoolgirl: { skin: "#ffffff", hair: "schoolbob", hairColor: "#4a4158", hatColor: "#e0445a", outfit: "sailor", shirt: "#4055a0", accent: "#e0445a", socks: "#4055a0", shoes: "#7a4f3a", extras: ["backpack"], blush: true, lashes: true, build: "teen", height: 0.93 },
   policeman: {skin:"#ffffff", hair:"none", hat:"police_cap", hatColor:"#315486", outfit:"police_uniform", shirt:"#315486", pants:"#243955", accent:"#ffc83d"},
   // Berry, the channel's leader. Berry-pink "star buns" hair with light pink ends, a springy curl and a star clip, freckles,
-  // a blush blouse with a star brooch, a long sunny skirt with a coral sash, coral shoes. Original design.
-  berry: { skin: "#ffffff", hair: "starbuns", hairColor: "#b04a78", hairTips: "#ffc0d0", outfit: "blouseskirt", shirt: "#ffd6d2", pants: "#ffc83d", skirt: "midi", accent: "#ff6b5e", shoes: "#ff6b5e", blush: true, freckles: true, lashes: true, build: "adult", head: "round", eyes: "big", height: 0.97 },
+  // a blush blouse with a star brooch, a long rose-pink skirt with a berry sash, berry shoes. Original design.
+  berry: { skin: "#ffffff", hair: "starbuns", hairColor: "#b04a78", hairTips: "#ffc0d0", outfit: "blouseskirt", shirt: "#ffd6d2", pants: "#e695ab", skirt: "midi", accent: "#b04a78", shoes: "#b04a78", blush: true, freckles: true, lashes: true, build: "adult", head: "round", eyes: "big", height: 0.97 },
   // From the user's character sheet: plum curls with a big side puff and a coral bow, freckles,
   // yellow tee under teal short dungarees with a heart pocket, coral sneakers.
   curly_girl: { skin: "#ffe8cf", hands: "#ffe8cf", hair: "curlypuff", hairColor: "#7a2a55", hatColor: "#ff6b5e", outfit: "dungarees", shirt: "#ffc83d", pants: "#7cc4ad", accent: "#ff6b5e", shoes: "#ff6b5e", freckles: true, lashes: true, build: "teen", height: 0.93 },

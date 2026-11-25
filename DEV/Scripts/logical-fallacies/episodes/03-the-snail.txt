@@ -1,0 +1,86 @@
+# STATUS: approved
+# TITLE: The Snail
+# ARC: standalone
+# LENGTH: about 110 s, 209 spoken words
+# WANT: Wendy is counting on her sister to enjoy the game she has been building.
+# CAST: wendy, cherry, benny
+# PLACE: the garage where Wendy works, in the afternoon, then the hallway outside the garage door and the garage again that evening
+
+# SEE: Wendy and Cherry sit side by side in the garage, facing us, lit by a screen we see from behind. Cherry holds a controller. Wendy holds a clipboard.
+wendy: Just play. Pretend I'm not here.
+
+# SEE: Cherry plays. Wendy leans in until their heads nearly touch.
+cherry: You're breathing on me.
+wendy: Sorry. Is the jump too high?
+cherry: It's good.
+wendy: Too low?
+cherry: It's good, Wendy.
+
+# SEE: Wendy writes it down. Benny leans in at the door, holding out a spoon.
+benny: Taste this. More salt?
+cherry: It's good.
+
+# SEE: Benny leaves happy. Wendy turns and looks at Cherry.
+wendy: You didn't even taste it.
+cherry: He looked hopeful.
+
+# SEE: Wendy looks down at her clipboard. Hold for two seconds.
+wendy: Are you doing that to me?
+
+# SEE: Cherry looks harder at the screen and does not answer.
+wendy: The tower's the other way. Where are you going?
+cherry: Back to the snail.
+wendy: What snail?
+cherry: By the wall. If you walk slowly, it comes with you.
+wendy: That's a bug. I'm taking it out tonight.
+
+# SEE: Cherry puts the controller in her lap.
+wendy: The tower is the game. Do you like the tower?
+cherry: It feels like homework.
+
+# SEE: Wendy lowers the clipboard. Hold for three seconds.
+wendy: I've worked on that since March.
+cherry: You asked if it was good. It is good.
+cherry: You didn't ask if I liked it.
+wendy: Okay. I need to work now.
+cherry: Are you mad?
+wendy: I'm working.
+
+# SEE: Cut to the hallway. Cherry stands facing the closed garage door. Hold for two seconds. She sits down on the floor beside it.
+
+# SEE: Cut to the garage, darker now. Wendy sits alone with the controller. Her face slowly softens. She leans to one side, as if leading something around a corner. Hold for three seconds.
+wendy: Come on. This way.
+
+# SEE: Cut to the hallway. Wendy opens the door and finds Cherry on the floor.
+wendy: How long have you been there?
+cherry: A while. You were working.
+wendy: I was walking a snail.
+
+# SEE: Cherry looks up at her. Hold for two seconds.
+cherry: Did you take it out?
+wendy: No. It was supposed to be a rock.
+wendy: I don't know why it follows you.
+cherry: Maybe it likes you.
+
+# SEE: Wendy sits down on the floor next to her.
+wendy: It stung, the homework thing.
+cherry: I know. That's why I said good.
+wendy: I can be stung. I still want to know.
+
+# SEE: Wendy holds out the controller. Cherry does not take it yet.
+cherry: Is this testing?
+
+# SEE: Wendy looks at the clipboard in her other hand and puts it down on the hallway floor. Hold for two seconds.
+wendy: No. I just want to see where you take it.
+
+# SEE: Cut to the garage. The sisters sit shoulder to shoulder in the light of the screen, both leaning the same way. Benny leans in with the spoon again. This time Cherry tastes it.
+cherry: Too salty.
+benny: You said it was good!
+
+# SEE: Wendy and Cherry look at each other and laugh. Hold for two seconds.
+
+# LOG UPDATE
+# Wendy's game has a tower she has worked on since March and a snail that follows the player by mistake. She kept the snail.
+# Wendy learned that Cherry says "it's good" to protect people, and told her she would rather know.
+# Cherry waited outside the closed garage door until Wendy came out.
+# The spoon habit continues: Cherry says what she thinks of the taste only when she feels free to.

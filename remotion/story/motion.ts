@@ -24,6 +24,15 @@ export function sampleTrack(initial: number[], events: { at: number; value: numb
   }
   return evaluate(time).value;
 }
+/**
+ * A change of facing, from the facing channel (1 = right, -1 = left, easing between them). The drawing is mirrored in one
+ * step at the middle, while the actor blinks and dips a little: it is never squeezed thin on the way round.
+ * `k` is 0 at rest and 1 at the middle of the turn.
+ */
+export const turnOf = (facing: number) => {
+  const v = Math.max(-1, Math.min(1, facing)), k = 1 - Math.abs(v), dir = v < 0 ? -1 : 1;
+  return { sx: dir * (1 - 0.06 * k), sy: 1 - 0.035 * k, k, shut: smooth((k - 0.3) / 0.35) };
+};
 export function speechEnvelope(samples: number[], frame: number, fps: number) {
   const radius = Math.max(1, Math.round(fps * MOTION.speech));
   let sum = 0, weight = 0;

@@ -10,7 +10,8 @@ export const Pop: React.FC<{
   x: number; y: number; t: number; at?: number; out?: number; enter?: Enter; rotate?: number; children: React.ReactNode; z?: number; anchor?: "center" | "bottom";
 }> = ({ x, y, t, at = 0, out, enter = "pop", rotate = 0, children, z = 1, anchor = "center" }) => {
   const e = enterStyle(t, at, enter);
-  const o = exitStyle(t, out);
+  // what appears at once also leaves at once: a swap (one drawing out, the next one in) must not show the old one shrinking
+  const o = enter === "none" ? (out !== undefined && t >= out ? 0 : 1) : exitStyle(t, out);
   if (e.opacity <= 0 || o <= 0) return null;
   return (
     <div

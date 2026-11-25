@@ -19,7 +19,7 @@ import { MOTION, sampleTrack, speechEnvelope } from "./motion";
 import { mouthShapeAt } from "./viseme";
 import { LightBehind, Grade, moodFor } from "./light";
 
-const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["living_room", "house_exterior", "park", "farm", "schoolyard", "street", "car", "car_park", "village", "ruins", "hilltop", "office", "airport", "forest", "garden", "kitchen", "workshop", "space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
+const bgOf = (b: Scene["bg"]): BgSpec => (typeof b === "string" ? { type: ["living_room", "house_exterior", "park", "farm", "schoolyard", "street", "car", "car_park", "garage", "hallway", "home_kitchen", "village", "ruins", "hilltop", "office", "airport", "forest", "garden", "kitchen", "workshop", "space", "night", "sky", "desert", "sea", "city", "room", "lab", "classroom", "burst", "grid", "underground", "paper", "dark", "gradient", "stage", "desk"].includes(b) ? b : "solid", color: b } : b ?? { type: "solid", color: "mint" });
 
 /** Where something is at time t after its moves, and what it is doing. */
 function travel(from: { x: number; y: number }, moves: Move[] | undefined, t: number, W: number, H: number) {

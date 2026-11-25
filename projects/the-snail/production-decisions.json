@@ -1,0 +1,31 @@
+{
+  "adobeEnhancement": false,
+  "decisionSource": "User, 2026-11-25, asked before the first render of episodes 1-3: no enhancement for all three",
+  "voiceTakes": "1 per character (the user asked for a single take per character per episode)",
+  "series": "Benny and Berry family series, episode 03",
+  "format": "shorts",
+  "manualRecut": {
+    "when": "2026-11-25",
+    "why": "voice-pick cut these lines inside the speech.",
+    "how": "Re-cut from the same take at the digital silence between its lines; nothing stretched.",
+    "clips": {
+      "voices/31-wendy.wav": [
+        40.832,
+        42.48
+      ],
+      "voices/33-wendy.wav": [
+        43.139,
+        45.039
+      ],
+      "voices/35-wendy.wav": [
+        45.832,
+        48.538
+      ],
+      "voices/37-wendy.wav": [
+        49.232,
+        51.45
+      ]
+    },
+    "backup": "voice-takes/en/<who>/miscut-backup/"
+  }
+}

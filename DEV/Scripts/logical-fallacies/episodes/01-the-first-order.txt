@@ -1,0 +1,90 @@
+# STATUS: approved
+# TITLE: The First Order
+# ARC: Benny's cloud restaurant opens
+# LENGTH: about 105 s, 193 spoken words
+# WANT: Benny is counting on one person ordering his food on the first day.
+# CAST: benny, berry, cherry, wendy
+# PLACE: the kitchen in the late afternoon, in front of the house, then the kitchen table that evening
+
+# SEE: Benny stares at his phone on the kitchen counter. Cherry watches it too, chin on her hands. Behind them Berry ties a ribbon on the last of a tall stack of empty food boxes.
+cherry: How long have you been open?
+benny: Since ten.
+cherry: It's four.
+benny: People get hungry at different times.
+berry: I've done ribbons for twelve boxes.
+benny: See? We're ready.
+
+# SEE: The phone buzzes. All three freeze. Hold for two seconds.
+benny: Was that...
+cherry: It was!
+benny: Order! One order of noodles!
+benny: I'm telling them twenty minutes.
+berry: Benny, do noodles take twenty minutes?
+benny: They do now.
+
+# SEE: Benny rushes between the fridge and the stove. Cherry picks up the phone and reads it. She frowns.
+cherry: Dad, the address is...
+benny: One second, sweetheart.
+berry: This box needs the yellow ribbon.
+benny: Berry, it's noodles.
+berry: It's the first noodles.
+
+# SEE: Benny looks at the box in her hands. Hold for two seconds. He smiles.
+benny: Yellow, then.
+cherry: Mom, it says...
+berry: Put your finger on the knot, honey.
+
+# SEE: Cherry puts one finger on the knot and looks at the phone in her other hand.
+
+# SEE: Cut to the front of the house. The delivery guy waits on his motorcycle with the food loaded. Benny waves both arms at him. The delivery guy stays where he is. Hold for two seconds.
+benny: It's getting cold! Go!
+
+# SEE: The motorcycle rides out of the picture. Benny, Berry and Cherry stand together and watch it leave.
+benny: Look at that. Off to a total stranger.
+cherry: Dad.
+benny: Let me have this, Cherry.
+
+# SEE: Hold on the empty street for two seconds. The motorcycle rides back in and stops exactly where it was.
+benny: Did he forget something?
+
+# SEE: Wendy walks in from the garage, hands in her pockets.
+wendy: Eighteen minutes. Not bad.
+benny: Wendy?
+wendy: That's mine, Dad. I ordered it.
+cherry: It's our address. I kept saying.
+
+# SEE: Benny, the yellow-ribboned box now in his hands, looks from Cherry to Wendy.
+wendy: Nobody ordered all day. I thought your page was broken.
+wendy: So I tested it.
+
+# SEE: Benny's smile stays on a moment too long. Hold for two seconds.
+benny: Well. It works great.
+benny: And I got to yell "order." I've always wanted to yell that.
+wendy: I should've told you.
+benny: I just really thought it was somebody.
+wendy: It was somebody. I was hungry.
+
+# SEE: Benny looks at her. Hold for two seconds. He laughs, and Berry leans against him.
+
+# SEE: Cut to the kitchen table that evening. All four are eating, with the open box and the yellow ribbon in the middle.
+cherry: Do we get to rate it?
+wendy: Four stars.
+benny: Four?
+wendy: The ribbon slowed it down.
+berry: The ribbon was perfect.
+
+# SEE: The phone buzzes on the counter. Everybody stops. Three faces turn to Wendy. She holds up both empty hands. Hold for two seconds.
+benny: Not you?
+wendy: Not me.
+
+# SEE: Cherry is already at the phone.
+cherry: Dad. It's across town.
+
+# SEE: Cut to the same table, four empty chairs and the half-eaten noodles. Hold for two seconds. Benny's voice comes from off screen.
+benny: Order!
+
+# LOG UPDATE
+# Benny's cloud restaurant opened. Its first order was Wendy's test. A real order from across town came that evening.
+# Wendy knows how much Benny was counting on a stranger ordering. She told him she should have said it was a test.
+# Habits: Benny yells "Order!" when one comes in. Berry ties ribbons on the boxes.
+# The delivery guy with the orange helmet and blue motorcycle carries Benny's orders. He has not spoken.

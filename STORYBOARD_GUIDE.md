@@ -91,9 +91,13 @@ facing the viewer (on a step or bench seen from the front). Family props: `front
 line), `fruit_bowl`, `fruit_bowl_partial`, `apple_red`, `milk`, `grocery_bag`, `shoes` (color), `sweater` (color),
 `swing_set`, `green_house`. The delivery guy on his motorcycle (facing right, `"flip": true` for left; wheels
 turn by themselves; `color` = motorcycle, `color2` = jacket, helmet and food box): `delivery_rider` (Benny's food),
-`delivery_rider_art` (Berry's painting and jewelry), `delivery_motorcycle` (parked, nobody on it). For a cut scene use
+`delivery_rider_art` (Berry's painting and jewelry), `delivery_motorcycle` (parked, nobody on it); `delivery_rider_waiting` and `delivery_rider_art_waiting` are the same, stopped (swap them with `at`/`out`). For a cut scene use
 `"anchor": "bottom"`, `"motion": "none"`, size 0.7: alone on a plain `bg`, or crossing `street` at y 0.97 with
-`"x": -0.5, "move": [{"at": 0, "duration": 4, "x": 1.5, "ease": "linear"}]` (from 1.5 to -0.5 when flipped). An actor who `move`s walks, so don't move a seated actor: cut to a new shot with them in place.
+`"x": -0.5, "move": [{"at": 0, "duration": 4, "x": 1.5, "ease": "linear"}]` (from 1.5 to -0.5 when flipped).
+The family's home: settings `home_kitchen`, `garage` (Wendy's workshop) and `hallway` (the garage door on the right; `open_doorway` at x 0.779,
+y 0.834, size 0.55 opens it), each with `"time"`. Home props: `kitchen_table` (x 0.5, y 0.955, size 0.5, zIndex 6: actors stand behind it at
+y 0.885; its top is 108 of 200 units up), `kitchen_chair`, `food_boxes`, `food_box` (color = ribbon), `noodle_box`, `noodle_pan`,
+`ribbon_bow`, `cooking_spoon`, `easel` (seen from behind), `paintbrush`, `paper_bag`, `sandwich`, `pouf` (a seat for `sit_front`), `screen_back`. An actor who `move`s walks, so don't move a seated actor: cut to a new shot with them in place.
 
 ```json
 "cast": {
@@ -127,7 +131,7 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
   his old names `host` and `narrator` still select him), `scientist`, `student`, `girl`, `woman`,
   `kid`, `king`, `sage`, `soldier`, `worker`, `boss`, `explorer`, `pharaoh`, `bedouin`, `chef`,
   `wizard`, `grandpa`, `robotguy`, `berry` (the channel's leader: berry-pink bun hair with light pink ends, a springy curl
-  and a star clip, freckles, blush blouse with a star brooch, long yellow skirt; also `leader`, `main_female`), `curly_girl` (plum curls with a big side puff and a coral bow, freckles,
+  and a star clip, freckles, blush blouse with a star brooch, long rose-pink skirt; also `leader`, `main_female`), `curly_girl` (plum curls with a big side puff and a coral bow, freckles,
   yellow tee, teal short dungarees with a heart pocket), and the user's own designs: `adventurer` (explorer girl with a safari
   hat and backpack), `ponytail_girl` (one high pink ponytail with a bow, frilled dress), `buddy` (spiky orange
   hair, blue shirt, red scarf), `bookworm` (curly hair, round glasses, sweater vest), `cherry` (dark brown high ponytail with a cherry
@@ -147,6 +151,7 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
     a neck: the head sits on the collar in every build. `size` is a teen's height, so a kid and an adult at the same `size` stand
     shorter and taller than a teen. `height` still fine-tunes one character.
   * head: round egg wide bean oval square (`bean` is fuller at the back of the jaw, `oval` is longer than `egg`, `square` has soft corners)
+  * faceY: moves the whole face down the head. Leave it out: long heads (`oval`, `egg`) already get 12, the others 0
   * eyes: `big` (the large white eye, default) · `halfshut` (a heavy upper lid, a dry and knowing look) · `iris` (a smaller eye with a coloured iris; set `"irisColor"`) ·
     `flick` (a thick lash line that flicks out at the corner; it replaces `lashes`). Expressions work with every style.
   * **One design per character.** `build`, `head` and `eyes` are part of who a character is: presets already have theirs, so
@@ -167,6 +172,9 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
     `"hairClip": "cherry"` (cherries in `hatColor` instead of the `highponytail` bow)
 * **pose** – idle talk explain point point_up point_down wave think shrug celebrate cheer hips scared
   present cross hold hold_up facepalm walk run bow fist write phone
+* **facing or lookAt?** To glance at someone, move the eyes: `"lookAt": {"x": -0.6, "y": 0}` (x is relative to the way the actor faces:
+  positive looks ahead, negative looks back). Change `facing` only when the whole body turns and stays turned: it mirrors the drawing
+  (a ponytail jumps to the other side), masked by a blink. Best of all, change it on a camera cut or a new scene.
 * **expression** – neutral happy excited laughing proud sad crying angry determined surprised shocked
   confused thinking worried smug scared sleepy love dizzy disgusted
 * **emote** (above the head) – idea question exclaim sweat anger love sparkle zzz music dizzy
@@ -224,6 +232,8 @@ name anywhere a prop name goes (`{"name": "game-engine"}`, `{"prop": "game-engin
 `props: [{ name, at, out, face, label, motion, color, color2, size, x, y, rotate, flip, enter, talking }]`
 * `face`: an expression name (or `true`) — personify it. `talking: true` makes the prop lip-sync.
 * `motion`: float (default) spin pulse shake bounce orbit none.
+* `out`: when it leaves. It shrinks away, except with `"enter": "none"`, which leaves at once: use that to swap one drawing for
+  another (`out` on the first and `at` on the second, the same time).
 * `label`: a short tag under it. Keep labels to 1–3 words.
 
 ## Text

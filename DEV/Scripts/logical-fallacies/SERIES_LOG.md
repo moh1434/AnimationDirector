@@ -4,16 +4,19 @@ Use this log to remember what happened between people and what it might mean the
 
 ## Where the story starts
 
-Benny and Berry live with their daughters Wendy and Cherry in the present day. Benny is a chef with a cloud restaurant: he cooks at home, gets customers through his social media page, and a delivery guy he knows takes the food to them on a motorcycle. Berry is an independent artist and creative entrepreneur: she makes oil paintings and handmade jewelry at home and sells them online through her social media page. Wendy has finished high school and makes games in the garage. Cherry attends elementary school, plays with her friends and Wendy, and keeps a diary about her days. Sometimes Wendy asks her to playtest. No festival stand or recurring side character has been established on screen.
+Benny and Berry live with their daughters Wendy and Cherry in the present day. Benny is a chef whose cloud restaurant opens on the day the series starts: he cooks at home, gets customers through his social media page, and a delivery guy he knows takes the food to them on a motorcycle. Berry is an independent artist and creative entrepreneur: she makes oil paintings and handmade jewelry at home and sells them online through her social media page. Wendy has finished high school and makes games in the garage. Cherry attends elementary school, plays with her friends and Wendy, and keeps a diary about her days. Sometimes Wendy asks her to playtest. No festival stand has been established on screen.
 
 ## Approved episodes
 
-None yet. The series starts again from a new episode 01. The earlier pilot, The Long Way Home, is retired (`../old/`): nothing in it happened.
+The earlier pilot, The Long Way Home, is retired (`../old/`): nothing in it happened.
 
 The three demo batches, rough ideas, pilot pitches and scripts under review are outside approved history.
 
 | Episode | Title | Whose experience we followed | What happened between them | Lasting change, if any |
 | --- | --- | --- | --- | --- |
+| 01 | [The First Order](episodes/01-the-first-order.txt) | Benny | On opening day nobody orders until four. The family rushes out the first order, which turns out to be Wendy testing the page. | Benny's cloud restaurant is open. A real order from across town came that evening. |
+| 02 | [Real Five Minutes](episodes/02-real-five-minutes.txt) | Cherry | Cherry waits past dark for a picnic while Berry keeps repainting a finished picture she has sold. Berry tells her why and apologizes. | Cherry gives Berry a "painting five" the next morning, when the picture leaves. |
+| 03 | [The Snail](episodes/03-the-snail.txt) | Wendy | Cherry calls Wendy's tower homework. Wendy shuts herself in to work, then plays with the snail Cherry liked and opens the door. | Wendy keeps the snail and tells Cherry she would rather know what she thinks. |
 
 ## What people remember
 
@@ -21,6 +24,10 @@ Record a specific action, who saw or heard it, and what that person now has reas
 
 | Episode | People involved | What happened or was said | Who knows | Later development and episode |
 | --- | --- | --- | --- | --- |
+| 01 | Benny, Wendy, Berry and Cherry | Wendy says she should have told him it was a test. Benny says he really thought it was somebody. | All four | |
+| 02 | Berry and Cherry | Berry admits the painting was finished and that she did not want it to go. | Berry and Cherry | |
+| 03 | Wendy and Cherry | Cherry says "it's good" so people are not hurt. Wendy says it stung and that she still wants to know. | Wendy and Cherry | |
+| 03 | Wendy and Cherry | Cherry sat outside the closed garage door until Wendy opened it. | Wendy and Cherry | |
 
 ## Promises and unfinished business
 
@@ -33,6 +40,12 @@ Add recurring people (with their speaker IDs), places, rituals and private jokes
 
 | First episode | Person, place or habit | Established detail | Later change |
 | --- | --- | --- | --- |
+| 01 | "Order!" | Benny yells it when an order comes in. | |
+| 01 | Ribbons | Berry ties ribbons on the food boxes. The first one was yellow. | |
+| 01 | The delivery guy | Carries Benny's orders on a blue motorcycle, in an orange helmet and jacket. He has not spoken and has no name or speaker ID. | 02: he also carries Berry's orders. |
+| 02 | "Real five or painting five?" | Cherry asks it when Berry says five minutes. | |
+| 02 | Benny's spoon | He brings a spoon to whoever is working and asks them to taste. | 03: Cherry says "it's good" without tasting, then later tells him it is too salty. |
+| 03 | Wendy's game | It has a tower she has worked on since March and a snail that follows the player by mistake. | |
 
 ## Reasoning examples, when relevant
 

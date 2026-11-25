@@ -1,0 +1,78 @@
+# STATUS: approved
+# TITLE: Real Five Minutes
+# ARC: standalone
+# LENGTH: about 80 s, 155 spoken words
+# WANT: Cherry is counting on a picnic in the park with her mom before dark.
+# CAST: cherry, berry, benny
+# PLACE: the corner of the living room where Berry paints, from late afternoon to dark, then the front of the house the next morning
+
+# SEE: Berry paints at her easel. Her canvas faces away from us. Cherry stands behind her in her coat and backpack, holding a paper bag.
+cherry: Dad made us two sandwiches.
+berry: Lovely. I'm almost finished.
+cherry: How almost?
+berry: Five minutes.
+cherry: Real five or painting five?
+berry: Real five.
+
+# SEE: Cherry sits down on the floor, very straight, the bag on her knees. Hold for two seconds.
+
+# SEE: Cut to the same spot. The light has turned orange. The backpack is off. Cherry is eating a sandwich. Berry has not moved.
+cherry: I'm only having half of mine.
+berry: Mm-hm.
+
+# SEE: Benny walks in with a spoon held out for Berry. He sees Cherry's coat and stops.
+benny: Weren't you two going to the park?
+cherry: In five minutes.
+benny: Since when?
+cherry: Since sandwiches.
+
+# SEE: Benny looks at Berry's back. He gives Cherry the spoon instead. She tastes it.
+cherry: More salt.
+
+# SEE: Cut to the same spot. The window is dark and the lamp is on. Cherry sits against the wall in her coat. Berry puts her brush down and steps back, pleased.
+berry: There. Get your...
+
+# SEE: Berry sees the window. Then she sees Cherry. Hold for three seconds.
+berry: Oh, Cherry.
+cherry: I ate mine. I saved yours.
+
+# SEE: Cherry holds out the paper bag. Berry comes over and does not take it yet.
+berry: Tomorrow we'll have a big one. Blanket, cake, everything.
+cherry: I didn't want a big one.
+
+# SEE: Berry sits down on the floor beside her. Hold for two seconds. Cherry looks up at the easel.
+cherry: It looked finished when I still had my backpack on.
+berry: It was.
+cherry: Then what were you doing?
+berry: The leaves. Then the same leaves.
+berry: Somebody bought it. It goes away in the morning.
+cherry: And you don't want it to.
+berry: Not very much.
+
+# SEE: Berry and Cherry both look at the easel. Hold for two seconds.
+cherry: You could've said that. I'd have taken my coat off.
+berry: I'm sorry. I gave you painting five.
+cherry: You gave me painting two hours.
+
+# SEE: Berry takes the sandwich out, breaks it in two and gives Cherry half. They eat on the floor, side by side. Hold for two seconds.
+
+# SEE: Cut to the front of the house the next morning. The delivery guy waits on his motorcycle, the wrapped painting on the back. Berry and Cherry sit on the front step in their coats, a new paper bag between them.
+berry: He can't go yet. I should check the ribbon.
+cherry: Mom.
+berry: Real one minute.
+
+# SEE: Cherry takes her mother's hand. Hold for two seconds. The motorcycle rides out of the picture. Berry keeps watching the place where it was.
+berry: Okay. Park?
+
+# SEE: Cherry looks at her mother's face. She stays sitting and rests her head on Berry's shoulder.
+cherry: In five minutes.
+berry: Real five?
+
+# SEE: Hold on the two of them for two seconds.
+cherry: Painting five.
+
+# LOG UPDATE
+# Berry kept Cherry waiting past dark because she did not want to let a sold painting go. She told Cherry why and apologized.
+# Shared words: "Real five or painting five?" The next morning Cherry offered Berry a painting five.
+# Habit: Benny brings a spoon to whoever is working and asks them to taste.
+# The delivery guy also carries Berry's orders.

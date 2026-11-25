@@ -56,6 +56,10 @@ punchline or an aside) · `none` (no lighting layers; `image` backgrounds use th
 - **Head shapes** (`look.head`): round, egg, wide, bean, oval, square. Hair is drawn for a round head,
   so a new shape must stay inside the hair's outline at the top (the soft square is rounder at the top
   than at the jaw for this reason).
+- **Face position on a long head**: a head clearly longer than wide (`oval`, `egg`) must carry its eyes, brows, mouth and blush
+  lower, or the chin looks empty (the user has corrected this twice). `faceYOf` in `Character.tsx` does it for every
+  long head, so never draw or move those features by hand. A new head shape goes in `HEAD_SIZE`, which also decides this.
+  After designing such a character, look at it happy and shocked: no empty chin, and the open mouth stays above the chin line.
 - **Eye styles** (`look.eyes`, `Face.tsx`): `big`, `halfshut`, `iris`, `flick`. The expression still
   picks the lid shape (narrow, sad, half, wide); the style decides how the eye is drawn. Give each main
   character a different style so their faces are told apart at a glance.

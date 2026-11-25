@@ -127,18 +127,18 @@ const rider = (kit: string, t: number, nod: number) => <g {...line}>
 
 // the box's bottom edge is the ground; the small shift right centres the parcels, the wheels and the visor in it
 const stage = (n: React.ReactNode) => <g transform="translate(6 100) scale(.375)">{n}</g>;
-const riding = (t: number, o: O, cargo: (kit: string) => React.ReactNode) => {
-  const kit = o.color2 ?? KIT, bob = Math.sin(t * 15) * 2.5, spin = t * 420;
+const riding = (t: number, o: O, cargo: (kit: string) => React.ReactNode, waiting = false) => {
+  const kit = o.color2 ?? KIT, bob = Math.sin(t * (waiting ? 11 : 15)) * (waiting ? 0.8 : 2.5), spin = waiting ? 20 : t * 420;
   return stage(<>
     {/* the road rushing past */}
-    <g stroke="#fff" strokeWidth={10} strokeLinecap="round" opacity={0.8}>
+    {!waiting && <g stroke="#fff" strokeWidth={10} strokeLinecap="round" opacity={0.8}>
       {[[-352, 0], [-182, 0.4], [-66, 0.75]].map(([y, p], i) => {
         const k = (t * 1.7 + p) % 1;
         return <path key={i} d={`M${-316 - k * 90} ${y} h${-60 * Math.sin(Math.PI * k)}`} opacity={Math.sin(Math.PI * k)} />;
       })}
-    </g>
-    <g transform={`translate(0 ${bob}) rotate(${Math.sin(t * 7.5) * 0.5})`}>
-      {rack}{cargo(kit)}{bike(o.color ?? BIKE, spin)}{rider(kit, t, Math.sin(t * 7.5 + 1) * 1.6)}
+    </g>}
+    <g transform={`translate(0 ${bob}) rotate(${waiting ? 0 : Math.sin(t * 7.5) * 0.5})`}>
+      {rack}{cargo(kit)}{bike(o.color ?? BIKE, spin)}{rider(kit, t, waiting ? Math.sin(t * 1.4) * 2 : Math.sin(t * 7.5 + 1) * 1.6)}
     </g>
   </>);
 };
@@ -148,6 +148,9 @@ export const DELIVERY_PROPS: Record<string, Art> = {
   delivery_rider: { aliases: ["delivery_guy", "delivery_rider_food"], draw: (t, o) => riding(t, o, foodBox) },
   // riding with Berry's paintings and jewelry
   delivery_rider_art: { aliases: ["delivery_guy_art", "delivery_rider_parcels"], draw: (t, o) => riding(t, o, () => artParcels) },
+  // the same, stopped at the door with the engine running (wheels still, no speed lines)
+  delivery_rider_waiting: { aliases: ["delivery_guy_waiting"], draw: (t, o) => riding(t, o, foodBox, true) },
+  delivery_rider_art_waiting: { aliases: ["delivery_guy_art_waiting"], draw: (t, o) => riding(t, o, () => artParcels, true) },
   // parked, with nobody on it
   delivery_motorcycle: {
     aliases: ["motorcycle", "motorbike"],

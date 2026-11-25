@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { sampleTrack, speechEnvelope } from '../remotion/story/motion.ts';
+import { sampleTrack, speechEnvelope, turnOf } from '../remotion/story/motion.ts';
 
 test('interrupted gestures preserve position and velocity', () => {
   const events = [{at:0,value:[100]}, {at:0.2,value:[-20]}];
@@ -22,4 +22,10 @@ test('speech smoothing suppresses spikes without moving the peak', () => {
   assert.ok(speechEnvelope(samples,15,30) < 0.5);
   assert.ok(speechEnvelope(samples,15,30) > speechEnvelope(samples,14,30));
   assert.equal(speechEnvelope(samples,14,30),speechEnvelope(samples,16,30));
+});
+
+test('a turn mirrors in one step and is never squeezed thin', () => {
+  for (let v = -1; v <= 1; v += 0.01) assert.ok(Math.abs(turnOf(v).sx) >= 0.9);
+  assert.equal(turnOf(1).sx, 1); assert.equal(turnOf(-1).sx, -1);
+  assert.equal(turnOf(1).shut, 0); assert.equal(turnOf(0).shut, 1); // the eyes are shut while it mirrors
 });

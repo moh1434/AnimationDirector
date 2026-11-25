@@ -7,6 +7,7 @@ import { STORY_PROPS } from "./StoryProps";
 import { HISTORY_PROPS } from "./HistoryProps";
 import { FAMILY_PROPS } from "./FamilyProps";
 import { DELIVERY_PROPS } from "./DeliveryProps";
+import { HOME_PROPS } from "./HomeProps";
 import { INK } from "./theme";
 import { CelFilter, sid } from "./shade";
 import { Face, Expression } from "./Face";
@@ -46,7 +47,7 @@ export const PROPS: Record<string, Art> = {
   ...MECHANISM_PROPS,
   ...STORY_PROPS,
   ...HISTORY_PROPS,
-  ...FAMILY_PROPS, ...DELIVERY_PROPS,
+  ...FAMILY_PROPS, ...DELIVERY_PROPS, ...HOME_PROPS,
   ...EVERYDAY_PROPS,
   ...STAGING_PROPS,
   ...LIFE_PROPS,

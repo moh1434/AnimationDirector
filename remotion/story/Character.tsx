@@ -2,6 +2,7 @@ import React, { useId } from "react";
 import { Face, Expression, EXPR, blinkAmount, type MouthShape } from "./Face";
 import { INK, Look } from "./theme";
 import { PropArt } from "./Props";
+import { turnOf } from "./motion";
 import { rand } from "./anim";
 import { CelFilter, ShadowFilter, GroundShadow, SHADE, sid } from "./shade";
 
@@ -1108,6 +1109,18 @@ export const heightOf = (look?: Look) => (look?.height ?? 1) * (BUILDS[look?.bui
 /** Where the face is, as a fraction of the staged size above the feet (the camera's `on` aims here). */
 export const faceAim = (look?: Look) => (({ kid: 0.72, teen: 0.74, adult: 0.76 })[look?.build ?? "adult"] ?? 0.76) * heightOf(look);
 
+/** Half-width and half-height of each head shape (round is the rest). A new shape goes here. */
+export const HEAD_SIZE: Record<string, readonly [number, number]> = { round: [100, 100], egg: [92, 108], wide: [108, 94], bean: [98, 104], oval: [87, 110], square: [95, 102] };
+/**
+ * How far the whole face (eyes, brows, mouth, blush) is drawn down the head. A head clearly longer than it is wide
+ * leaves an empty chin when the face sits where a round head has it, so it comes down by itself; 12 is as low as a
+ * wide-open mouth allows. `look.faceY` overrides it.
+ */
+export const faceYOf = (look: Look) => {
+  const [rx, ry] = HEAD_SIZE[look.head ?? "round"] ?? HEAD_SIZE.round;
+  return look.faceY ?? (ry / rx > 1.15 ? 12 : 0);
+};
+
 /** The outline of the head for a head shape, centred at (0,0) with half-width rx and half-height ry. */
 const headPath = (shape: string | undefined, rx: number, ry: number) => {
   if (shape === "square") {
@@ -1268,12 +1281,13 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const dartAt = (n: number) => ({ x: (rand(seed, n) - 0.5) * 0.26, y: (rand(seed, n + 500) - 0.5) * 0.14 });
   const dartP = Math.min(1, ((dartClock - dartN) * 1.9) / 0.1), d0 = dartAt(dartN - 1), d1 = dartAt(dartN);
   const pupilLook = { x: Math.max(-1, Math.min(1, gaze.x + lerp(d0.x, d1.x, dartP))), y: Math.max(-1, Math.min(1, gaze.y + lerp(d0.y, d1.y, dartP))) };
-  const closed = blinkAmount(p.frame, p.fps, seed); // 0 open .. 1 shut, so lids close and open over a few frames
+  const turn = turnOf(p.motion ? p.motion[7] : facing);
+  const closed = Math.max(blinkAmount(p.frame, p.fps, seed), turn.shut); // 0 open .. 1 shut, so lids close and open over a few frames
   const blink = closed > 0.75;
   const hasWrap = ["headscarf", "keffiyeh", "pharaoh"].includes(look.hat ?? ""); // hair is hidden under these
   const fullWrap = look.hat === "headscarf"; // the cloth frames the whole face, which is drawn a little smaller
-  const headRx = ({ egg: 92, wide: 108, bean: 98, oval: 87, square: 95 } as Record<string, number>)[look.head ?? ""] ?? 100;
-  const headRy = ({ egg: 108, wide: 94, bean: 104, oval: 110, square: 102 } as Record<string, number>)[look.head ?? ""] ?? 100;
+  const [headRx, headRy] = HEAD_SIZE[look.head ?? "round"] ?? HEAD_SIZE.round;
+  const faceY = faceYOf(look);
   // older builds have smaller heads; keep the head's outline about as thick as the body's
   const headStroke = 7 * Math.max(1, 1.1 / HEAD);
   const emoteScale = 1.32 / HEAD; // emotes keep their size on a smaller head
@@ -1286,7 +1300,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
   const squash = kk < 1 ? Math.sin(kk * Math.PI * 2) * Math.sin(kk * Math.PI) * 0.024 : 0;
 
   return (
-    <g transform={`scale(${hs}) scale(${p.motion ? Math.max(-1, Math.min(1, p.motion[7])) : facing} 1)`}>
+    <g transform={`scale(${hs}) scale(${turn.sx} ${turn.sy})`}>
       <defs>
         <CelFilter id={celHead} depth={17} opacity={0.17} />
         <CelFilter id={celBody} depth={13} opacity={0.2} />
@@ -1368,6 +1382,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
               </g>
             </g>
           )}
+          <g transform={`translate(0 ${faceY})`}>
           {look.blush && (
             <g fill="#ff8fa3" opacity={0.55}>
               <ellipse cx={-56} cy={26} rx={16} ry={9} />
@@ -1386,10 +1401,11 @@ export const Character: React.FC<CharacterProps> = (p) => {
           </g>
           {look.facial === "mustache" && <Facial look={{ ...look }} />}
           <Glasses kind={look.accessory} />
+          </g>
           {!hasWrap && <g filter={`url(#${celHair})`}><HairFront look={look} t={t} bounce={m} /></g>}
           {hasWrap && !fullWrap && <g filter={`url(#${celHair})`}><WrapFront look={look} /></g>}
           {/* a low fringe would hide the eyebrows, so they are drawn again over it */}
-          {((!hasWrap && ["starbuns", "curlypuff", "flowing", "highponytail", "schoolbob", "shaggy"].includes(look.hair ?? "")) || (hasWrap && !fullWrap)) && <Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} />}
+          {((!hasWrap && ["starbuns", "curlypuff", "flowing", "highponytail", "schoolbob", "shaggy"].includes(look.hair ?? "")) || (hasWrap && !fullWrap)) && <g transform={`translate(0 ${faceY})`}><Face part="brows" weights={p.motion?.slice(10,10+Object.keys(EXPR).length)} expression={p.expression} blink={blink} /></g>}
           <g filter={`url(#${celHair})`}><Hat look={hatLook} facing={1} /></g>
           {p.emote && (
             <g transform={`translate(${100 + 55 * emoteScale} -70)`}>

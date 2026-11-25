@@ -1,6 +1,6 @@
 # Benny, Berry, Wendy and Cherry
 
-They share a home in the present day. Benny is a chef who runs a cloud restaurant from their kitchen, Berry is an independent artist who runs her own small creative business from home, Wendy makes indie games in the garage, and Cherry goes to elementary school. Work and family share the same rooms, so one gets into the other in small ways. The family story lives in what happens between them over the meal, on the way to school, or while someone waits outside the garage.
+They share a home in the present day. The series starts on the day Benny opens his restaurant. Benny is a chef who runs a cloud restaurant from their kitchen, Berry is an independent artist who runs her own small creative business from home, Wendy makes indie games in the garage, and Cherry goes to elementary school. Work and family share the same rooms, so one gets into the other in small ways. The family story lives in what happens between them over the meal, on the way to school, or while someone waits outside the garage.
 
 The relationships below guide new writing. Small moments offered as examples are possibilities for a scene. Only the [series log](SERIES_LOG.md) records which events have happened on screen.
 

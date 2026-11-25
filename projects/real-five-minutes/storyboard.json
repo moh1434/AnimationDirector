@@ -1,0 +1,1494 @@
+{
+  "version": 1,
+  "title": "Real Five Minutes",
+  "language": "en",
+  "fps": 30,
+  "directedBy": "claude",
+  "duration": 91.39,
+  "endHold": 3,
+  "sfxDensity": "sparse",
+  "cast": {
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "cherry": {
+      "preset": "cherry",
+      "name": "Cherry"
+    },
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    }
+  },
+  "scenes": [
+    {
+      "id": "real-five",
+      "start": 0,
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.41,
+          "y": 0.9,
+          "size": 0.45,
+          "pose": "hold",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "paintbrush",
+          "lookAt": {
+            "x": 0.6,
+            "y": -0.1
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.72,
+          "y": 0.9,
+          "size": 0.45,
+          "pose": "hold",
+          "expression": "excited",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "paper_bag",
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#3ea89a",
+            "accent": "#ffffff",
+            "extras": [
+              "backpack"
+            ]
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "easel",
+          "x": 0.2,
+          "y": 0.93,
+          "size": 0.36,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.12
+        ],
+        "focus": {
+          "x": 0.48,
+          "y": 0.87
+        },
+        "moves": [
+          {
+            "at": "clip:3",
+            "zoom": 1.16,
+            "focus": {
+              "x": 0.6,
+              "y": 0.87
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:4",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.46,
+              "y": 0.87
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:5",
+            "zoom": 1.16,
+            "focus": {
+              "x": 0.6,
+              "y": 0.87
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:6",
+            "zoom": 1.14,
+            "focus": {
+              "x": 0.44,
+              "y": 0.87
+            },
+            "duration": 0.55
+          }
+        ]
+      },
+      "light": "warm",
+      "actions": [
+        {
+          "at": "clip:2",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "happy",
+          "lookAt": {
+            "x": 0.6,
+            "y": -0.2
+          }
+        },
+        {
+          "at": "clip:3",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "thinking"
+        },
+        {
+          "at": "clip:4",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "proud"
+        },
+        {
+          "at": "clip:5",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:6",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "happy",
+          "lookAt": {
+            "x": -0.7,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:6:end+0.2",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "thinking",
+          "lookAt": {
+            "x": 0.6,
+            "y": -0.1
+          }
+        },
+        {
+          "at": "clip:6:end+0.1",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "waiting",
+      "start": "clip:6:end+0.7",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "day"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.41,
+          "y": 0.9,
+          "size": 0.45,
+          "pose": "hold",
+          "expression": "thinking",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "paintbrush",
+          "lookAt": {
+            "x": 0.6,
+            "y": -0.1
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.67,
+          "y": 0.925,
+          "size": 0.45,
+          "pose": "sit_front",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#3ea89a",
+            "accent": "#ffffff",
+            "extras": [
+              "backpack"
+            ]
+          },
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "easel",
+          "x": 0.2,
+          "y": 0.93,
+          "size": 0.36,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "pouf",
+          "x": 0.67,
+          "y": 0.915,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "paper_bag",
+          "x": 0.88,
+          "y": 0.93,
+          "size": 0.08,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.12
+        ],
+        "focus": {
+          "x": 0.48,
+          "y": 0.87
+        }
+      },
+      "light": "warm"
+    },
+    {
+      "id": "half",
+      "start": "clip:6:end+2.9",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "dusk"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.41,
+          "y": 0.9,
+          "size": 0.45,
+          "pose": "hold",
+          "expression": "thinking",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "paintbrush",
+          "lookAt": {
+            "x": 0.6,
+            "y": -0.1
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.67,
+          "y": 0.925,
+          "size": 0.45,
+          "pose": "sit_front",
+          "expression": "neutral",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#3ea89a",
+            "accent": "#ffffff"
+          },
+          "holding": "sandwich",
+          "lookAt": {
+            "x": 0.3,
+            "y": 0.5
+          }
+        },
+        {
+          "who": "benny",
+          "x": 1.2,
+          "y": 0.9,
+          "size": 0.45,
+          "pose": "hold",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 6,
+          "holding": "cooking_spoon",
+          "move": [
+            {
+              "at": "clip:8:end+0.2",
+              "duration": 1.3,
+              "x": 0.88,
+              "y": 0.88
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "easel",
+          "x": 0.2,
+          "y": 0.93,
+          "size": 0.36,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "pouf",
+          "x": 0.67,
+          "y": 0.915,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "backpack",
+          "x": 0.52,
+          "y": 0.955,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "color": "#a9713f"
+        },
+        {
+          "name": "paper_bag",
+          "x": 0.9,
+          "y": 0.965,
+          "size": 0.07,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.12
+        ],
+        "focus": {
+          "x": 0.48,
+          "y": 0.87
+        },
+        "moves": [
+          {
+            "at": "clip:7",
+            "zoom": 1.14,
+            "focus": {
+              "x": 0.6,
+              "y": 0.87
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:8",
+            "zoom": 1.14,
+            "focus": {
+              "x": 0.44,
+              "y": 0.87
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:8:end+0.4",
+            "zoom": 1,
+            "focus": {
+              "x": 0.5,
+              "y": 0.87
+            },
+            "duration": 0.55
+          }
+        ]
+      },
+      "light": "dusk",
+      "actions": [
+        {
+          "at": "clip:7",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "neutral",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:8",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "thinking"
+        },
+        {
+          "at": "clip:8:end+1.4",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "surprised",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0.3
+          }
+        },
+        {
+          "at": "clip:9",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "confused"
+        },
+        {
+          "at": "clip:10",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "neutral",
+          "lookAt": {
+            "x": -0.5,
+            "y": -0.4
+          }
+        },
+        {
+          "at": "clip:11",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:12",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "sleepy"
+        },
+        {
+          "at": "clip:12:end+0.3",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "thinking",
+          "lookAt": {
+            "x": 0.9,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:12:end+1",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "happy",
+          "holding": "",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0.4
+          }
+        },
+        {
+          "at": "clip:12:end+1",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "thinking",
+          "holding": "cooking_spoon"
+        },
+        {
+          "at": "clip:13",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "disgusted"
+        },
+        {
+          "at": "clip:13:end+0.1",
+          "who": "benny",
+          "pose": "facepalm",
+          "expression": "worried"
+        }
+      ]
+    },
+    {
+      "id": "there",
+      "start": "clip:13:end+0.9",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "night"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.41,
+          "y": 0.9,
+          "size": 0.45,
+          "pose": "hold",
+          "expression": "proud",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "paintbrush",
+          "lookAt": {
+            "x": 0.6,
+            "y": -0.1
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.67,
+          "y": 0.925,
+          "size": 0.45,
+          "pose": "sit_front",
+          "expression": "sleepy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#3ea89a",
+            "accent": "#ffffff"
+          },
+          "lookAt": {
+            "x": 0.2,
+            "y": 0.5
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "easel",
+          "x": 0.2,
+          "y": 0.93,
+          "size": 0.36,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "pouf",
+          "x": 0.67,
+          "y": 0.915,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "paper_bag",
+          "x": 0.88,
+          "y": 0.945,
+          "size": 0.08,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "out": "clip:16"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.12
+        ],
+        "focus": {
+          "x": 0.48,
+          "y": 0.87
+        },
+        "moves": [
+          {
+            "at": "clip:14",
+            "zoom": 1.16,
+            "focus": {
+              "x": 0.4,
+              "y": 0.87
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:14:end+0.9",
+            "zoom": 1.24,
+            "focus": {
+              "x": 0.66,
+              "y": 0.88
+            },
+            "duration": 0
+          },
+          {
+            "at": "clip:15",
+            "zoom": 1.08,
+            "focus": {
+              "x": 0.5,
+              "y": 0.87
+            },
+            "duration": 0
+          },
+          {
+            "at": "clip:16",
+            "zoom": 1.18,
+            "focus": {
+              "x": 0.62,
+              "y": 0.88
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:17",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.5,
+              "y": 0.87
+            },
+            "duration": 0.55
+          }
+        ]
+      },
+      "light": "warm",
+      "actions": [
+        {
+          "at": "clip:14-0.6",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "proud",
+          "holding": ""
+        },
+        {
+          "at": "clip:14:end+0.1",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "surprised",
+          "lookAt": {
+            "x": 0.5,
+            "y": -0.7
+          }
+        },
+        {
+          "at": "clip:14:end+0.65",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "shocked",
+          "facing": "right",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0.2
+          }
+        },
+        {
+          "at": "clip:14:end+1.2",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:15",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "sad"
+        },
+        {
+          "at": "clip:16",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "holding": "paper_bag"
+        },
+        {
+          "at": "clip:17",
+          "who": "berry",
+          "pose": "explain",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:18",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.3,
+            "y": 0.5
+          }
+        },
+        {
+          "at": "clip:18:end+0.1",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.3,
+            "y": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "the-leaves",
+      "start": "clip:18:end+0.8",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "night"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.41,
+          "y": 0.925,
+          "size": 0.45,
+          "pose": "sit_front",
+          "expression": "sad",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.5,
+            "y": 0.2
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.67,
+          "y": 0.925,
+          "size": 0.45,
+          "pose": "sit_front",
+          "expression": "sad",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#3ea89a",
+            "accent": "#ffffff"
+          },
+          "lookAt": {
+            "x": 0.4,
+            "y": 0.3
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "easel",
+          "x": 0.2,
+          "y": 0.93,
+          "size": 0.36,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "pouf",
+          "x": 0.41,
+          "y": 0.915,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "pouf",
+          "x": 0.67,
+          "y": 0.915,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "paper_bag",
+          "x": 0.88,
+          "y": 0.945,
+          "size": 0.08,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.12
+        ],
+        "focus": {
+          "x": 0.48,
+          "y": 0.87
+        },
+        "moves": [
+          {
+            "at": "clip:19",
+            "zoom": 1.16,
+            "focus": {
+              "x": 0.58,
+              "y": 0.88
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:22",
+            "zoom": 1.18,
+            "focus": {
+              "x": 0.5,
+              "y": 0.88
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:24",
+            "zoom": 1.2,
+            "focus": {
+              "x": 0.62,
+              "y": 0.88
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:25:end+0.2",
+            "zoom": 1.12,
+            "focus": {
+              "x": 0.46,
+              "y": 0.87
+            },
+            "duration": 0.9
+          },
+          {
+            "at": "clip:26",
+            "zoom": 1.18,
+            "focus": {
+              "x": 0.58,
+              "y": 0.88
+            },
+            "duration": 0.55
+          }
+        ]
+      },
+      "light": "warm",
+      "actions": [
+        {
+          "at": "clip:19-0.8",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "thinking",
+          "lookAt": {
+            "x": 0.8,
+            "y": -0.3
+          }
+        },
+        {
+          "at": "clip:20",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "lookAt": {
+            "x": -0.8,
+            "y": -0.2
+          }
+        },
+        {
+          "at": "clip:21",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "confused",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:22",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "neutral",
+          "lookAt": {
+            "x": -0.8,
+            "y": -0.2
+          }
+        },
+        {
+          "at": "clip:23",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "sad"
+        },
+        {
+          "at": "clip:24",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "surprised",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:25",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.4,
+            "y": 0.3
+          }
+        },
+        {
+          "at": "clip:25:end+0.2",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "lookAt": {
+            "x": -0.8,
+            "y": -0.2
+          }
+        },
+        {
+          "at": "clip:25:end+0.2",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "neutral",
+          "lookAt": {
+            "x": 0.8,
+            "y": -0.2
+          }
+        },
+        {
+          "at": "clip:26",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "neutral",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:27",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:28",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "smug",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:28:end+0.1",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "laughing",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "halves",
+      "start": "clip:28:end+0.9",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "living_room",
+        "time": "night"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.41,
+          "y": 0.925,
+          "size": 0.45,
+          "pose": "sit_front",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "sandwich",
+          "lookAt": {
+            "x": 0.7,
+            "y": -0.2
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.67,
+          "y": 0.925,
+          "size": 0.45,
+          "pose": "sit_front",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#3ea89a",
+            "accent": "#ffffff"
+          },
+          "holding": "sandwich",
+          "lookAt": {
+            "x": 0.7,
+            "y": -0.2
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "easel",
+          "x": 0.2,
+          "y": 0.93,
+          "size": 0.36,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "pouf",
+          "x": 0.41,
+          "y": 0.915,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "pouf",
+          "x": 0.67,
+          "y": 0.915,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.1,
+          1.14
+        ],
+        "focus": {
+          "x": 0.48,
+          "y": 0.87
+        }
+      },
+      "light": "warm"
+    },
+    {
+      "id": "the-morning",
+      "start": "clip:28:end+3.3",
+      "layout": "story",
+      "speaker": "none",
+      "bg": "house_exterior",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.21,
+          "y": 0.85,
+          "size": 0.4,
+          "pose": "sit_front",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#d9774e",
+            "accent": "#ffffff",
+            "pants": "#e695ab"
+          },
+          "lookAt": {
+            "x": 0.8,
+            "y": 0
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.42,
+          "y": 0.85,
+          "size": 0.4,
+          "pose": "sit_front",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#3ea89a",
+            "accent": "#ffffff"
+          },
+          "lookAt": {
+            "x": 0.7,
+            "y": 0
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "front_step",
+          "x": 0.36,
+          "y": 0.83,
+          "size": 0.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "paper_bag",
+          "x": 0.315,
+          "y": 0.857,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "delivery_rider_art_waiting",
+          "x": 0.755,
+          "y": 0.975,
+          "size": 0.4,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "out": "clip:31:end+1.9"
+        },
+        {
+          "name": "delivery_rider_art",
+          "x": 0.755,
+          "y": 0.975,
+          "size": 0.4,
+          "at": "clip:31:end+1.9",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6,
+          "move": [
+            {
+              "at": "clip:31:end+1.95",
+              "duration": 1.4,
+              "x": 1.5,
+              "y": 0.975,
+              "ease": "power2.in"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.02
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.87
+        },
+        "moves": [
+          {
+            "at": "clip:31:end+3.2",
+            "zoom": 1.18,
+            "focus": {
+              "x": 0.32,
+              "y": 0.85
+            },
+            "duration": 0.8
+          }
+        ]
+      },
+      "light": "day",
+      "sfx": [
+        {
+          "at": "clip:31:end+2",
+          "name": "whoosh"
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:29",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "worried",
+          "lookAt": {
+            "x": 0.8,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:30",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "neutral",
+          "lookAt": {
+            "x": -0.7,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:31",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "sad"
+        },
+        {
+          "at": "clip:31:end+0.4",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "happy",
+          "lookAt": {
+            "x": -0.6,
+            "y": 0.2
+          }
+        },
+        {
+          "at": "clip:31:end+1",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.8,
+            "y": 0.1
+          }
+        },
+        {
+          "at": "clip:31:end+1.9",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "neutral",
+          "lookAt": {
+            "x": 0.7,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:31:end+3.4",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "neutral",
+          "lookAt": {
+            "x": -0.7,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:32",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "happy",
+          "lookAt": {
+            "x": 0.4,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:32:end+0.2",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "thinking",
+          "lookAt": {
+            "x": -0.7,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:32:end+0.6",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.8,
+            "y": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "painting-five",
+      "start": "clip:33-0.3",
+      "layout": "story",
+      "speaker": "none",
+      "bg": "house_exterior",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.3,
+          "y": 0.85,
+          "size": 0.4,
+          "pose": "sit_front",
+          "expression": "sad",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#d9774e",
+            "accent": "#ffffff",
+            "pants": "#e695ab"
+          },
+          "lookAt": {
+            "x": 0.4,
+            "y": 0.2
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.43,
+          "y": 0.85,
+          "size": 0.4,
+          "pose": "sit_front",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 6,
+          "look": {
+            "outfit": "cardiganskirt",
+            "shirt": "#3ea89a",
+            "accent": "#ffffff"
+          },
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "front_step",
+          "x": 0.36,
+          "y": 0.83,
+          "size": 0.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "paper_bag",
+          "x": 0.19,
+          "y": 0.857,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.2,
+          1.24
+        ],
+        "focus": {
+          "x": 0.37,
+          "y": 0.85
+        }
+      },
+      "light": "day",
+      "actions": [
+        {
+          "at": "clip:34",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "happy",
+          "facing": "right",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:35-0.6",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:35",
+          "who": "cherry",
+          "pose": "sit_front",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:35:end+0.2",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "love"
+        },
+        {
+          "at": "clip:35:end+1.2",
+          "who": "berry",
+          "pose": "sit_front",
+          "expression": "happy",
+          "lookAt": {
+            "x": 0.3,
+            "y": 0
+          }
+        }
+      ]
+    }
+  ]
+}

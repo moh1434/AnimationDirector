@@ -2,6 +2,7 @@ import { CelFilter } from "./shade";
 import React from "react";
 import { StorySetting } from "./StorySettings";
 import { CarSetting } from "./CarSetting";
+import { HomeSetting } from "./HomeSetting";
 import { LifeBackground, LIFE_BACKGROUNDS } from "./LifeBackgrounds";
 import { EverydayBackground, EVERYDAY_BACKGROUNDS } from "./EverydayBackgrounds";
 import { FarmBackground } from "./FarmBackground";
@@ -57,6 +58,9 @@ export const Background: React.FC<{ spec: BgSpec; W: number; H: number; t: numbe
       break;
     case "car": case "car_park":
       content = <CarSetting type={type} W={W} H={H} t={t} />;
+      break;
+    case "garage": case "hallway": case "home_kitchen":
+      content = <HomeSetting type={type} W={W} H={H} color={spec.color === type ? undefined : spec.color} color2={spec.color2} time={spec.time} />;
       break;
     case "village": case "ruins": case "hilltop":
       content = <StoryBackground type={type} W={W} H={H} color={spec.color} color2={spec.color2}/>;

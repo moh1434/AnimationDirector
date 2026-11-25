@@ -1,0 +1,1794 @@
+{
+  "version": 1,
+  "title": "The First Order",
+  "language": "en",
+  "fps": 30,
+  "directedBy": "claude",
+  "duration": 110.732,
+  "endHold": 1.6,
+  "sfxDensity": "sparse",
+  "cast": {
+    "benny": {
+      "preset": "benny",
+      "name": "Benny"
+    },
+    "berry": {
+      "preset": "berry",
+      "name": "Berry"
+    },
+    "cherry": {
+      "preset": "cherry",
+      "name": "Cherry"
+    },
+    "wendy": {
+      "preset": "wendy",
+      "name": "Wendy"
+    }
+  },
+  "scenes": [
+    {
+      "id": "no-orders",
+      "start": 0,
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "home_kitchen"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.22,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.5,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "think",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.4,
+            "y": 0.6
+          }
+        },
+        {
+          "who": "benny",
+          "x": 0.79,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.5,
+            "y": 0.7
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "kitchen_table",
+          "x": 0.5,
+          "y": 0.955,
+          "size": 0.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "food_boxes",
+          "x": 0.08,
+          "y": 0.809125,
+          "size": 0.13,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "phone",
+          "x": 0.64,
+          "y": 0.809125,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "food_box",
+          "x": 0.27,
+          "y": 0.809125,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "color": "#ff6b8b"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.06
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.86
+        },
+        "moves": [
+          {
+            "at": "clip:2",
+            "zoom": 1.08,
+            "focus": {
+              "x": 0.53,
+              "y": 0.86
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:5",
+            "zoom": 1.08,
+            "focus": {
+              "x": 0.47,
+              "y": 0.86
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:6",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.5,
+              "y": 0.86
+            },
+            "duration": 0.55
+          }
+        ]
+      },
+      "light": "warm",
+      "actions": [
+        {
+          "at": "clip:1",
+          "who": "cherry",
+          "pose": "talk",
+          "expression": "confused",
+          "facing": "right",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:2",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "neutral",
+          "lookAt": {
+            "x": 0.4,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:3",
+          "who": "cherry",
+          "pose": "idle",
+          "expression": "neutral"
+        },
+        {
+          "at": "clip:4",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "proud"
+        },
+        {
+          "at": "clip:5",
+          "who": "berry",
+          "pose": "present",
+          "expression": "proud"
+        },
+        {
+          "at": "clip:6",
+          "who": "benny",
+          "pose": "point",
+          "expression": "excited",
+          "facing": "left",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "the-buzz",
+      "start": "clip:6:end+0.45",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "home_kitchen"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.22,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "surprised",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.8,
+            "y": 0.5
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.5,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "idle",
+          "expression": "surprised",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.6,
+            "y": 0.7
+          }
+        },
+        {
+          "who": "benny",
+          "x": 0.79,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "scared",
+          "expression": "shocked",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.5,
+            "y": 0.7
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "kitchen_table",
+          "x": 0.5,
+          "y": 0.955,
+          "size": 0.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "food_boxes",
+          "x": 0.08,
+          "y": 0.809125,
+          "size": 0.13,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "phone",
+          "x": 0.64,
+          "y": 0.809125,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "shake",
+          "zIndex": 7,
+          "out": "clip:7"
+        },
+        {
+          "name": "phone",
+          "x": 0.64,
+          "y": 0.809125,
+          "size": 0.085,
+          "at": "clip:7",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "out": "clip:9"
+        },
+        {
+          "name": "food_box",
+          "x": 0.27,
+          "y": 0.809125,
+          "size": 0.1,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "color": "#ff6b8b"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.05,
+          1.1
+        ],
+        "focus": {
+          "x": 0.52,
+          "y": 0.86
+        },
+        "moves": [
+          {
+            "at": "clip:8",
+            "zoom": 1.06,
+            "focus": {
+              "x": 0.5,
+              "y": 0.86
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:11",
+            "zoom": 1.08,
+            "focus": {
+              "x": 0.48,
+              "y": 0.86
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:12",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.52,
+              "y": 0.86
+            },
+            "duration": 0.55
+          }
+        ]
+      },
+      "light": "warm",
+      "sfx": [
+        {
+          "at": 0.05,
+          "name": "ding"
+        },
+        {
+          "at": 0.9,
+          "name": "ding"
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:7",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "shocked"
+        },
+        {
+          "at": "clip:8",
+          "who": "cherry",
+          "pose": "celebrate",
+          "expression": "excited"
+        },
+        {
+          "at": "clip:9",
+          "who": "benny",
+          "pose": "hold_up",
+          "expression": "excited",
+          "holding": "phone"
+        },
+        {
+          "at": "clip:9",
+          "who": "berry",
+          "pose": "cheer",
+          "expression": "excited"
+        },
+        {
+          "at": "clip:10",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:10",
+          "who": "cherry",
+          "pose": "idle",
+          "expression": "happy"
+        },
+        {
+          "at": "clip:11",
+          "who": "berry",
+          "pose": "shrug",
+          "expression": "confused"
+        },
+        {
+          "at": "clip:12",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "determined"
+        }
+      ]
+    },
+    {
+      "id": "the-rush",
+      "start": "clip:13-0.8",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "home_kitchen"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.22,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "thinking",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.3,
+            "y": 0.7
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.5,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "confused",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "phone",
+          "lookAt": {
+            "x": 0.3,
+            "y": 0.5
+          }
+        },
+        {
+          "who": "benny",
+          "x": 0.79,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "determined",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "noodle_pan",
+          "lookAt": {
+            "x": -0.3,
+            "y": 0.6
+          }
+        }
+      ],
+      "props": [
+        {
+          "name": "kitchen_table",
+          "x": 0.5,
+          "y": 0.955,
+          "size": 0.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "food_boxes",
+          "x": 0.07,
+          "y": 0.809125,
+          "size": 0.13,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "food_box",
+          "x": 0.25,
+          "y": 0.809125,
+          "size": 0.14,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "color": "#ff6b8b",
+          "out": "clip:18-0.2"
+        },
+        {
+          "name": "food_box",
+          "x": 0.25,
+          "y": 0.809125,
+          "size": 0.14,
+          "at": "clip:18-0.2",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.06
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.86
+        },
+        "moves": [
+          {
+            "at": "clip:14",
+            "zoom": 1.08,
+            "focus": {
+              "x": 0.52,
+              "y": 0.86
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:15",
+            "zoom": 1.08,
+            "focus": {
+              "x": 0.48,
+              "y": 0.86
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:16",
+            "zoom": 1.05,
+            "focus": {
+              "x": 0.5,
+              "y": 0.86
+            },
+            "duration": 0.55
+          },
+          {
+            "at": "clip:17:end+0.2",
+            "zoom": 1.1,
+            "focus": {
+              "x": 0.52,
+              "y": 0.86
+            },
+            "duration": 0.55
+          }
+        ]
+      },
+      "light": "warm",
+      "actions": [
+        {
+          "at": "clip:13",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "confused",
+          "lookAt": {
+            "x": 0.7,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:14",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "happy",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:15",
+          "who": "berry",
+          "pose": "present",
+          "expression": "determined",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:16",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "confused",
+          "facing": "left",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:17",
+          "who": "berry",
+          "pose": "hold",
+          "expression": "proud",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:17+0.3",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:17:end+0.3",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "neutral",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0.4
+          }
+        },
+        {
+          "at": "clip:17:end+1.3",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "love",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0.2
+          }
+        },
+        {
+          "at": "clip:18",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "the-knot",
+      "start": "clip:19-0.25",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "home_kitchen"
+      },
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.28,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "lookAt": {
+            "x": 0.3,
+            "y": 0.6
+          }
+        },
+        {
+          "who": "cherry",
+          "x": 0.6,
+          "y": 0.885,
+          "size": 0.46,
+          "pose": "hold",
+          "expression": "worried",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "phone"
+        }
+      ],
+      "props": [
+        {
+          "name": "kitchen_table",
+          "x": 0.5,
+          "y": 0.955,
+          "size": 0.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "food_boxes",
+          "x": 0.07,
+          "y": 0.809125,
+          "size": 0.13,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "food_box",
+          "x": 0.45,
+          "y": 0.809125,
+          "size": 0.11,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "phone",
+          "x": 0.78,
+          "y": 0.809125,
+          "size": 0.075,
+          "at": "clip:20+0.7",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.12,
+          1.16
+        ],
+        "focus": {
+          "x": 0.46,
+          "y": 0.86
+        }
+      },
+      "light": "warm",
+      "actions": [
+        {
+          "at": "clip:19",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "confused",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:20",
+          "who": "berry",
+          "pose": "point_down",
+          "expression": "happy",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0.2
+          }
+        },
+        {
+          "at": "clip:20+0.7",
+          "who": "cherry",
+          "pose": "point_down",
+          "expression": "worried",
+          "facing": "left",
+          "holding": "",
+          "lookAt": {
+            "x": 0.4,
+            "y": 0.7
+          }
+        },
+        {
+          "at": "clip:20:end+0.2",
+          "who": "cherry",
+          "expression": "confused",
+          "lookAt": {
+            "x": 0.2,
+            "y": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "go",
+      "start": "clip:20:end+0.6",
+      "layout": "story",
+      "speaker": "none",
+      "bg": "house_exterior",
+      "characters": [
+        {
+          "who": "benny",
+          "x": 0.2,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "celebrate",
+          "expression": "excited",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "delivery_rider_waiting",
+          "x": 0.77,
+          "y": 0.915,
+          "size": 0.37,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4,
+          "out": "clip:21+1.1"
+        },
+        {
+          "name": "delivery_rider",
+          "x": 0.77,
+          "y": 0.915,
+          "size": 0.37,
+          "at": "clip:21+1.1",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4,
+          "move": [
+            {
+              "at": "clip:21+1.15",
+              "duration": 1.5,
+              "x": 1.5,
+              "y": 0.915,
+              "ease": "power2.in"
+            }
+          ]
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.12
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.88
+        }
+      },
+      "light": "day",
+      "sfx": [
+        {
+          "at": "clip:21+1.2",
+          "name": "whoosh"
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:21",
+          "who": "benny",
+          "pose": "point",
+          "expression": "excited",
+          "facing": "right"
+        },
+        {
+          "at": "clip:21:end+0.3",
+          "who": "benny",
+          "pose": "wave",
+          "expression": "happy",
+          "facing": "right"
+        }
+      ]
+    },
+    {
+      "id": "watching",
+      "start": "clip:22-0.3",
+      "layout": "story",
+      "speaker": "none",
+      "bg": "house_exterior",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.22,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "idle",
+          "expression": "worried",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.44,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.68,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "hips",
+          "expression": "proud",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [],
+      "camera": {
+        "zoom": [
+          1.08,
+          1.1
+        ],
+        "focus": {
+          "x": 0.46,
+          "y": 0.89
+        }
+      },
+      "light": "day",
+      "actions": [
+        {
+          "at": "clip:22",
+          "who": "benny",
+          "pose": "present",
+          "expression": "proud",
+          "facing": "right"
+        },
+        {
+          "at": "clip:23",
+          "who": "cherry",
+          "pose": "talk",
+          "expression": "worried",
+          "facing": "right"
+        },
+        {
+          "at": "clip:24",
+          "who": "benny",
+          "pose": "hips",
+          "expression": "love",
+          "facing": "right"
+        },
+        {
+          "at": "clip:24+0.2",
+          "who": "cherry",
+          "pose": "facepalm",
+          "expression": "sleepy"
+        }
+      ]
+    },
+    {
+      "id": "empty-street",
+      "start": "clip:24:end+0.35",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "street"
+      },
+      "characters": [],
+      "props": [],
+      "camera": {
+        "zoom": [
+          1.06,
+          1.08
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.85
+        }
+      },
+      "light": "day"
+    },
+    {
+      "id": "back-again",
+      "start": "clip:24:end+2.2",
+      "layout": "story",
+      "speaker": "none",
+      "bg": "house_exterior",
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.15,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "cross",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.28,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.42,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "hips",
+          "expression": "proud",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "wendy",
+          "x": 1.15,
+          "y": 0.955,
+          "size": 0.36,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 6,
+          "move": [
+            {
+              "at": "clip:25:end+0.1",
+              "duration": 1.5,
+              "x": 0.62,
+              "y": 0.955
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "name": "delivery_rider",
+          "x": 1.5,
+          "y": 0.915,
+          "size": 0.37,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4,
+          "flip": true,
+          "out": "clip:25-0.5",
+          "move": [
+            {
+              "at": "clip:24:end+2.3",
+              "duration": 1.5,
+              "x": 0.77,
+              "y": 0.915,
+              "ease": "power2.out"
+            }
+          ]
+        },
+        {
+          "name": "delivery_rider_waiting",
+          "x": 0.77,
+          "y": 0.915,
+          "size": 0.37,
+          "at": "clip:25-0.5",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 4,
+          "flip": true
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.02
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.88
+        }
+      },
+      "light": "day",
+      "actions": [
+        {
+          "at": "clip:24:end+3",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "surprised",
+          "facing": "right"
+        },
+        {
+          "at": "clip:24:end+3",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "confused"
+        },
+        {
+          "at": "clip:25",
+          "who": "benny",
+          "pose": "think",
+          "expression": "confused"
+        },
+        {
+          "at": "clip:26",
+          "who": "wendy",
+          "pose": "idle",
+          "expression": "smug",
+          "facing": "left"
+        },
+        {
+          "at": "clip:27",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "shocked"
+        },
+        {
+          "at": "clip:28",
+          "who": "wendy",
+          "pose": "hips",
+          "expression": "neutral",
+          "facing": "left"
+        },
+        {
+          "at": "clip:28+0.6",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "surprised"
+        },
+        {
+          "at": "clip:29",
+          "who": "cherry",
+          "pose": "cross",
+          "expression": "angry"
+        },
+        {
+          "at": "clip:29",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "surprised",
+          "lookAt": {
+            "x": -0.7,
+            "y": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "testing",
+      "start": "clip:30-0.5",
+      "layout": "story",
+      "speaker": "none",
+      "bg": "house_exterior",
+      "characters": [
+        {
+          "who": "berry",
+          "x": 0.15,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.37,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "hold",
+          "expression": "surprised",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5,
+          "holding": "food_box"
+        },
+        {
+          "who": "wendy",
+          "x": 0.62,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "cherry",
+          "x": 0.83,
+          "y": 0.93,
+          "size": 0.36,
+          "pose": "idle",
+          "expression": "neutral",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [],
+      "camera": {
+        "zoom": [
+          1,
+          1.03
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.89
+        }
+      },
+      "light": "day",
+      "actions": [
+        {
+          "at": "clip:30",
+          "who": "wendy",
+          "pose": "explain",
+          "expression": "neutral"
+        },
+        {
+          "at": "clip:31",
+          "who": "wendy",
+          "pose": "shrug",
+          "expression": "neutral"
+        },
+        {
+          "at": "clip:31+0.3",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "happy",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:31:end+1.3",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "worried",
+          "lookAt": {
+            "x": 0.2,
+            "y": 0.6
+          }
+        },
+        {
+          "at": "clip:32",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "happy",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:33",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "laughing"
+        },
+        {
+          "at": "clip:33+0.8",
+          "who": "wendy",
+          "pose": "idle",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:33:end+0.1",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.2,
+            "y": 0.6
+          }
+        },
+        {
+          "at": "clip:34",
+          "who": "wendy",
+          "pose": "idle",
+          "expression": "sad"
+        },
+        {
+          "at": "clip:35",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "sad",
+          "lookAt": {
+            "x": 0.3,
+            "y": 0.3
+          }
+        },
+        {
+          "at": "clip:35",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "worried"
+        },
+        {
+          "at": "clip:36",
+          "who": "wendy",
+          "pose": "shrug",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:36:end+0.9",
+          "who": "benny",
+          "pose": "hold",
+          "expression": "laughing",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:36:end+1.2",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "laughing"
+        },
+        {
+          "at": "clip:36:end+1.3",
+          "who": "cherry",
+          "pose": "idle",
+          "expression": "laughing"
+        },
+        {
+          "at": "clip:36:end+1.4",
+          "who": "wendy",
+          "pose": "idle",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "four-stars",
+      "start": "clip:36:end+2.9",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "home_kitchen",
+        "time": "dusk"
+      },
+      "characters": [
+        {
+          "who": "cherry",
+          "x": 0.18,
+          "y": 0.885,
+          "size": 0.4,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "benny",
+          "x": 0.4,
+          "y": 0.885,
+          "size": 0.4,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "right",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "wendy",
+          "x": 0.64,
+          "y": 0.885,
+          "size": 0.4,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        },
+        {
+          "who": "berry",
+          "x": 0.86,
+          "y": 0.885,
+          "size": 0.4,
+          "pose": "idle",
+          "expression": "happy",
+          "facing": "left",
+          "enter": "none",
+          "zIndex": 5
+        }
+      ],
+      "props": [
+        {
+          "name": "kitchen_table",
+          "x": 0.5,
+          "y": 0.955,
+          "size": 0.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "noodle_box",
+          "x": 0.5,
+          "y": 0.809125,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "ribbon_bow",
+          "x": 0.68,
+          "y": 0.809125,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "phone",
+          "x": 0.05,
+          "y": 0.809125,
+          "size": 0.075,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "out": "clip:41:end+0.6"
+        },
+        {
+          "name": "phone",
+          "x": 0.05,
+          "y": 0.809125,
+          "size": 0.08,
+          "at": "clip:41:end+0.6",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "shake",
+          "zIndex": 7,
+          "out": "clip:41:end+2.2"
+        },
+        {
+          "name": "phone",
+          "x": 0.05,
+          "y": 0.809125,
+          "size": 0.075,
+          "at": "clip:41:end+2.2",
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7,
+          "out": "clip:44-0.4"
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1,
+          1.02
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.87
+        }
+      },
+      "light": "dusk",
+      "sfx": [
+        {
+          "at": "clip:41:end+0.65",
+          "name": "ding"
+        },
+        {
+          "at": "clip:41:end+1.5",
+          "name": "ding"
+        }
+      ],
+      "actions": [
+        {
+          "at": "clip:37",
+          "who": "cherry",
+          "pose": "talk",
+          "expression": "excited"
+        },
+        {
+          "at": "clip:38",
+          "who": "wendy",
+          "pose": "idle",
+          "expression": "smug"
+        },
+        {
+          "at": "clip:39",
+          "who": "benny",
+          "pose": "explain",
+          "expression": "shocked"
+        },
+        {
+          "at": "clip:40",
+          "who": "wendy",
+          "pose": "shrug",
+          "expression": "neutral"
+        },
+        {
+          "at": "clip:41",
+          "who": "berry",
+          "pose": "hips",
+          "expression": "determined"
+        },
+        {
+          "at": "clip:41+0.5",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "laughing"
+        },
+        {
+          "at": "clip:41:end+0.65",
+          "who": "cherry",
+          "pose": "idle",
+          "expression": "surprised",
+          "lookAt": {
+            "x": -0.5,
+            "y": 0.6
+          }
+        },
+        {
+          "at": "clip:41:end+0.65",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "shocked",
+          "lookAt": {
+            "x": -0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:41:end+0.65",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "surprised",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:41:end+0.65",
+          "who": "wendy",
+          "pose": "idle",
+          "expression": "surprised",
+          "lookAt": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:41:end+1.5",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "thinking",
+          "facing": "right",
+          "lookAt": {
+            "x": 0.8,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:41:end+1.7",
+          "who": "berry",
+          "pose": "idle",
+          "expression": "thinking",
+          "facing": "left",
+          "lookAt": {
+            "x": 0.8,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:41:end+1.9",
+          "who": "cherry",
+          "pose": "idle",
+          "expression": "thinking",
+          "facing": "right",
+          "lookAt": {
+            "x": 0.8,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:41:end+2.2",
+          "who": "wendy",
+          "pose": "shrug",
+          "expression": "neutral",
+          "lookAt": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:42",
+          "who": "benny",
+          "pose": "idle",
+          "expression": "surprised"
+        },
+        {
+          "at": "clip:43",
+          "who": "wendy",
+          "pose": "shrug",
+          "expression": "neutral"
+        },
+        {
+          "at": "clip:44-0.4",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "surprised",
+          "holding": "phone",
+          "lookAt": {
+            "x": 0.2,
+            "y": 0.5
+          }
+        },
+        {
+          "at": "clip:44",
+          "who": "cherry",
+          "pose": "hold",
+          "expression": "excited",
+          "lookAt": {
+            "x": 0.6,
+            "y": 0
+          }
+        },
+        {
+          "at": "clip:44:end+0.1",
+          "who": "benny",
+          "pose": "celebrate",
+          "expression": "excited"
+        },
+        {
+          "at": "clip:44:end+0.1",
+          "who": "berry",
+          "pose": "cheer",
+          "expression": "excited"
+        },
+        {
+          "at": "clip:44:end+0.2",
+          "who": "wendy",
+          "pose": "idle",
+          "expression": "happy"
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "start": "clip:44:end+1",
+      "layout": "story",
+      "speaker": "none",
+      "bg": {
+        "type": "home_kitchen",
+        "time": "dusk"
+      },
+      "characters": [],
+      "props": [
+        {
+          "name": "kitchen_chair",
+          "x": 0.13,
+          "y": 0.93,
+          "size": 0.32,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "kitchen_chair",
+          "x": 0.38,
+          "y": 0.93,
+          "size": 0.32,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "kitchen_chair",
+          "x": 0.63,
+          "y": 0.93,
+          "size": 0.32,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "kitchen_chair",
+          "x": 0.87,
+          "y": 0.93,
+          "size": 0.32,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "kitchen_table",
+          "x": 0.5,
+          "y": 0.955,
+          "size": 0.5,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 6
+        },
+        {
+          "name": "noodle_box",
+          "x": 0.5,
+          "y": 0.809125,
+          "size": 0.15,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        },
+        {
+          "name": "ribbon_bow",
+          "x": 0.68,
+          "y": 0.809125,
+          "size": 0.085,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
+          "zIndex": 7
+        }
+      ],
+      "camera": {
+        "zoom": [
+          1.04,
+          1.1
+        ],
+        "focus": {
+          "x": 0.5,
+          "y": 0.88
+        }
+      },
+      "light": "dusk",
+      "sfx": [
+        {
+          "at": 0.1,
+          "name": "whoosh"
+        }
+      ]
+    }
+  ]
+}

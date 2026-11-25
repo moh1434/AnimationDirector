@@ -145,11 +145,11 @@ export const FAMILY_PROPS: Record<string, Art> = {
       </g>
     ),
   },
-  // A pair of shoes side by side; `color` sets them (default Berry's coral). Several pairs: several props.
+  // A pair of shoes side by side; `color` sets them (default Berry's berry pink). Several pairs: several props.
   shoes: {
     aliases: ["pair_of_shoes", "sneakers"],
     draw: (_, o) => {
-      const c = o.color ?? "#ff6b5e";
+      const c = o.color ?? "#b04a78";
       const shoe = (x: number, k: number) => (
         <g key={k} transform={`translate(${x} 0)`} {...line}>
           <path d="M-44 96 Q-48 64 -30 60 Q-16 58 -8 70 L20 76 Q46 80 46 96Z" fill={c} />

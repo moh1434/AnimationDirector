@@ -28,6 +28,15 @@ test('everyday props and aliases resolve, with English and Arabic planning keywo
   assert.equal(bgHits(['حديقة'])[0]?.key, 'garden');
 });
 
+test('long heads carry the face lower, every other head keeps it in place', () => {
+  const { HEAD_SIZE, faceYOf } = require('../remotion/story/Character.tsx');
+  const { PRESETS } = require('../remotion/story/theme.ts');
+  for (const [head, [rx, ry]] of Object.entries(HEAD_SIZE)) assert.equal(faceYOf({ head }), ry / rx > 1.15 ? 12 : 0, head);
+  assert.equal(faceYOf(PRESETS.cherry), 12);
+  for (const [name, look] of Object.entries(PRESETS)) if (!['oval', 'egg'].includes(look.head)) assert.equal(faceYOf(look), 0, name);
+  assert.equal(faceYOf({ head: 'oval', faceY: 4 }), 4);
+});
+
 test('real registry accepts aliases/custom SVG paths and rejects unknown/prototype names', () => {
   setCustomProps({game_engine:'<svg viewBox="0 0 200 200"/>'});
   assert.equal(resolveProp('diamond'),'gem');
