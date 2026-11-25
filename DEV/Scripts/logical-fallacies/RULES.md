@@ -10,7 +10,7 @@ For a pilot selection, offer three distinct premises. Give each a viewpoint, a r
 
 Choose the moment one family member would still be thinking about later in the day. Give both sides a practical reason to be there. Think about what each already knows, what they would keep to themselves, and who has the power to change the plan. A child who says yes to a parent may need time or privacy to say what the yes cost them.
 
-Follow the consequence of a decision. For example, a parent agrees to keep Saturday free and turns down an invitation. Later they discover that “free” meant something different to their partner. The interesting scene may be the quiet one after the calendar is settled. Use everyday settings where the relationship has room to unfold. Keep café business, town spectacles and invented competitions out of the premise.
+Follow the consequence of a decision. For example, a parent agrees to keep Saturday free and turns down an invitation. Later they discover that “free” meant something different to their partner. The interesting scene may be the quiet one after the calendar is settled. Use everyday settings where the relationship has room to unfold. An episode may be about a family member’s work, or leave it out entirely; let the episode’s own idea decide, with no quota either way. Keep town spectacles and invented competitions out of the premise.
 
 Give each scene a reason to exist. Mark a cut to another time or place when the interval matters. Show what changed while we were away. For a silent reaction, describe something an animator can show and indicate a hold when its length matters. At production handoff, carry intended holds into dialogue gaps or the ending hold. A written note alone adds no time to the recording.
 

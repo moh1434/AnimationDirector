@@ -4,7 +4,7 @@ Use this log to remember what happened between people and what it might mean the
 
 ## Where the story starts
 
-Benny and Berry live with their daughters Wendy and Cherry in the present day. Benny owns a café. Berry is an art teacher. Wendy has finished high school and makes games in the garage. Cherry attends elementary school, plays with her friends and Wendy, and keeps a diary about her days. Sometimes Wendy asks her to playtest. No festival stand or recurring side character has been established on screen.
+Benny and Berry live with their daughters Wendy and Cherry in the present day. Benny is a chef with a cloud restaurant: he cooks at home, gets customers through his social media page, and a delivery guy he knows takes the food to them on a motorcycle. Berry is an independent artist and creative entrepreneur: she makes oil paintings and handmade jewelry at home and sells them online through her social media page. Wendy has finished high school and makes games in the garage. Cherry attends elementary school, plays with her friends and Wendy, and keeps a diary about her days. Sometimes Wendy asks her to playtest. No festival stand or recurring side character has been established on screen.
 
 ## Approved episodes
 
