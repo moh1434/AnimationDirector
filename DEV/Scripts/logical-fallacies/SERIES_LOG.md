@@ -8,11 +8,12 @@ Benny and Berry live with their daughters Wendy and Cherry in the present day. B
 
 ## Approved episodes
 
+None yet. The series starts again from a new episode 01. The earlier pilot, The Long Way Home, is retired (`../old/`): nothing in it happened.
+
 The three demo batches, rough ideas, pilot pitches and scripts under review are outside approved history.
 
 | Episode | Title | Whose experience we followed | What happened between them | Lasting change, if any |
 | --- | --- | --- | --- | --- |
-| 01 | [The Long Way Home](episodes/01-the-long-way-home.txt) | Berry | Benny takes their old route home. Later, Berry invites him to join her on the front step. | Benny learns why Berry wanted to get home early. |
 
 ## What people remember
 
@@ -20,7 +21,6 @@ Record a specific action, who saw or heard it, and what that person now has reas
 
 | Episode | People involved | What happened or was said | Who knows | Later development and episode |
 | --- | --- | --- | --- | --- |
-| 01 | Berry and Benny | Berry tells Benny she sometimes counts on sitting alone on the warm front step before the girls get home. | Berry and Benny | |
 
 ## Promises and unfinished business
 
@@ -33,7 +33,6 @@ Add recurring people (with their speaker IDs), places, rituals and private jokes
 
 | First episode | Person, place or habit | Established detail | Later change |
 | --- | --- | --- | --- |
-| 01 | Benny and Berry’s long drives | When the girls were small, Benny and Berry would pick out houses together on longer drives. Benny usually chose the green house with the crooked porch. | |
 
 ## Reasoning examples, when relevant
 
