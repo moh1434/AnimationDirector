@@ -94,7 +94,7 @@ turn by themselves; `color` = motorcycle, `color2` = jacket, helmet and food box
 `delivery_rider_art` (Berry's painting and jewelry), `delivery_motorcycle` (parked, nobody on it); `delivery_rider_waiting` and `delivery_rider_art_waiting` are the same, stopped (swap them with `at`/`out`). For a cut scene use
 `"anchor": "bottom"`, `"motion": "none"`, size 0.7: alone on a plain `bg`, or crossing `street` at y 0.97 with
 `"x": -0.5, "move": [{"at": 0, "duration": 4, "x": 1.5, "ease": "linear"}]` (from 1.5 to -0.5 when flipped).
-The family's home: settings `home_kitchen`, `garage` (Wendy's workshop) and `hallway` (the garage door on the right; `open_doorway` at x 0.779,
+The family's home: settings `home_kitchen`, `garage` and `hallway` (the garage door on the right; `open_doorway` at x 0.779,
 y 0.834, size 0.55 opens it), each with `"time"`. Home props: `kitchen_table` (x 0.5, y 0.955, size 0.5, zIndex 6: actors stand behind it at
 y 0.885; its top is 108 of 200 units up), `kitchen_chair`, `food_boxes`, `food_box` (color = ribbon), `noodle_box`, `noodle_pan`,
 `ribbon_bow`, `cooking_spoon`, `easel` (seen from behind), `paintbrush`, `paper_bag`, `sandwich`, `pouf` (a seat for `sit_front`), `screen_back`. An actor who `move`s walks, so don't move a seated actor: cut to a new shot with them in place.

@@ -1,0 +1,68 @@
+# STATUS: draft
+# TITLE: Every Famous Chef (version B: the delivery guy)
+# LENGTH: about 65 s with the card, 118 spoken words
+# WRONG: Benny
+# MISTAKE: Survivorship bias | probability and statistics | "Every chef who quits gets famous!"
+# TEMPTING BECAUSE: the quitters we hear about are the ones it worked for
+# REALITY: the pizza comes from a chef who quit and nobody has heard of
+# HONEST MOMENT: Benny asks the delivery guy whether he misses it
+# CARD: SURVIVORSHIP BIAS: We hear from the ones who made it. The others are too quiet to count.
+# CAST: benny, berry, wendy, cherry
+# PLACE: the kitchen in the evening, then in front of the house
+
+# SEE: The kitchen. Benny has covered the fridge with pictures of smiling chefs. A cardboard box with a frying pan stands on the table. Berry, Wendy and Cherry stare at the fridge.
+benny: Every chef who quits gets famous. Look!
+berry: Benny. Why is there a box?
+benny: Because I quit mine!
+
+# SEE: Nobody moves. Hold for two seconds.
+berry: Today?
+benny: At lunch. During lunch. Somebody's soup is still out there.
+wendy: You covered my charts.
+benny: With dreams, Wendy.
+
+# SEE: Cherry raises her hand.
+cherry: So who's cooking dinner?
+berry: Not the kitchen's newest celebrity. I ordered pizza.
+
+# SEE: Cut to the front of the house. The delivery guy waits on his motorcycle. The whole family stands in the doorway. Benny still holds one of the chef pictures.
+benny: Sir! Every chef who quits gets famous. Right?
+
+# SEE: The delivery guy says nothing. Hold for two seconds. Cherry leans sideways. A faded chef's hat hangs from the back of his food box.
+cherry: He's got a chef hat.
+benny: You were a chef?
+
+# SEE: The delivery guy blinks. Hold for two seconds.
+cherry: That's a yes.
+benny: And you quit?
+
+# SEE: He blinks again.
+cherry: Yes.
+benny: And now you're...
+
+# SEE: Everyone looks at the motorcycle. Everyone looks at the pizza. Hold for three seconds.
+benny: I didn't have your picture.
+
+# SEE: Benny lowers the paper. Berry looks at Benny, not angry any more.
+benny: Do you miss it?
+
+# SEE: The delivery guy does not move. Hold for three seconds. Then one long blink.
+cherry: That one hurt.
+berry: Oh, no.
+benny: I didn't say anything!
+berry: You've got the look. You've both got the look.
+
+# SEE: Cut to the kitchen later. The chef pictures are on the fridge, and in the middle of them hangs a new one, drawn in crayon: an orange helmet.
+wendy: He's the only one up there we've met.
+cherry: The picture was free. The frame is two dollars.
+
+# TO DRAW: a chef's hat on the food box, the pictures of chefs, the crayon picture, a longer blink.
+
+# FACTS TO CHECK
+# - The chefs in the pictures are invented.
+
+# LOG UPDATE
+# - Benny quit his job as a chef in the middle of lunch.
+# - The delivery guy used to be a chef who quit. He misses it. He has not spoken.
+# - Benny wants to cook from home, and they have met the man who could deliver it. Berry has not agreed.
+# - Mistake used: survivorship bias, Benny, quitting a job, exposed by meeting a quitter nobody had heard of.

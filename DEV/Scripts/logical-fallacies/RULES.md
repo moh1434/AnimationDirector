@@ -1,28 +1,42 @@
-# Episode rules for the family series
+# Episode rules: *It Made Sense at the Time*
 
-Read the [family bible](FAMILY_BIBLE.md) and [approved series log](SERIES_LOG.md). These rules govern episodes in this folder. The folder retains its historical name, `logical-fallacies`. Episodes about everyday life, including ones with no fallacy or argument, belong here.
+Read the [family bible](FAMILY_BIBLE.md) and the [series log](SERIES_LOG.md) first. The folder keeps its historical name, `logical-fallacies`.
+
+Every episode must, in this order: make people laugh, make them care about this family, and leave them able to spot one thinking mistake. The mistake can come from logical fallacies, critical thinking, cognitive biases, logical reasoning, probability and statistics, scientific thinking or decision making.
+
+## The mistake is the plot
+
+Remove the mistake and no story should be left. Aim for about 60–100 seconds.
+
+1. **Hook, 0–3 s.** The strangest result or claim, already happening.
+2. **The reason.** Why it makes sense to this person. It must be tempting: half the viewers should nod.
+3. **It grows.** They act on it. Somebody copies it, or fights it with a mistake of their own.
+4. **Reality answers.** Something happens that the idea can't survive. Best of all, they meet their own logic in another mouth.
+5. **Button.** They pay for it, laugh about it, or start it again in a new form. The last spoken line is a joke.
+6. **Name card, 2–3 s, silent.** The mistake's name and one plain sentence. Nobody in the story ever says the name.
+
+## Rules that keep it funny and honest
+
+- **No one is the teacher.** Who sees the mistake changes from episode to episode, and nobody is always right. An event breaks the mistake, not an explanation.
+- **Nobody is stupid.** Every mistake has a real feeling under it, and comes from who that person is.
+- **One mistake per episode** gets the card. Other characters may make small ones for color.
+- **Use the right name.** Check the mistake against a reliable source. The break must defeat the reasoning, not only one fact in it.
+- **A bad reason can reach a true answer.** Sometimes show that. Now and then, show good reasoning that only looks like the mistake.
+- **A family scene, not a debate.** At most one line may explain, and it must also be a joke or hurt.
+- **The biggest laugh is the mistake itself.** Never joke first and teach later.
+- **One honest moment,** about five seconds, never skipped and never a speech.
+- **Each episode works alone.** Show a fact on screen before relying on it. Episode 1 starts the day Benny quits.
+- **Bring mistakes back** with another person in another setting. Check the log so a mistake does not repeat within ten episodes in the same kind of situation.
+- **It must work in Arabic.** No wordplay that exists only in English. The card is translated too (`translations.json`).
+- **Light and family-safe.** Tease, don't despise. No real people, brands or living celebrities as the butt of a joke.
+
+"Spot it" quiz episodes (30–40 s) give viewers practice: new lines from the family, and which mistake is it?
 
 ## Pitching and review
 
-For a pilot selection, offer three distinct premises. Give each a viewpoint, a recognizable occasion, what the other person wants and one later action that makes the relationship clearer. Vary the pairing and emotional texture. Stop for the user's choice before writing the script. When the user has already selected a premise, work from that choice. Confirm the language or other required inputs if missing. Preserve supplied words, approved history and user edits.
+For a new idea, offer three premises: who is wrong, the mistake, why it tempts them, what reality does, and the last joke. When the user has already chosen, work from that choice. Preserve supplied words, approved history and user edits. Confirm the language if it is missing.
 
-## Building the episode
-
-Choose the moment one family member would still be thinking about later in the day. Give both sides a practical reason to be there. Think about what each already knows, what they would keep to themselves, and who has the power to change the plan. A child who says yes to a parent may need time or privacy to say what the yes cost them.
-
-Follow the consequence of a decision. For example, a parent agrees to keep Saturday free and turns down an invitation. Later they discover that “free” meant something different to their partner. The interesting scene may be the quiet one after the calendar is settled. Use everyday settings where the relationship has room to unfold. An episode may be about a family member’s work, or leave it out entirely; let the episode’s own idea decide, with no quota either way. Keep town spectacles and invented competitions out of the premise.
-
-Give each scene a reason to exist. Mark a cut to another time or place when the interval matters. Show what changed while we were away. For a silent reaction, describe something an animator can show and indicate a hold when its length matters. At production handoff, carry intended holds into dialogue gaps or the ending hold. A written note alone adds no time to the recording.
-
-Aim for 45 seconds to 3 minutes unless the user gives another target. Count spoken words and estimate pauses as described under [Estimating length](#estimating-length). Listen to the exchange at a speaking pace. Preserve the moment a child decides whether to answer or a parent realizes why the room has gone quiet. An episode can close on something the family will still have to live with tomorrow.
-
-## When reasoning matters
-
-Write the situation and the choice first. Consider the actual claim afterward. A tired refusal, a difference in taste, a broken promise or hurt feelings can be the whole conflict. A parent may have a sound reason for a decision and still owe someone a kinder explanation.
-
-When someone does make a flawed argument, let the speaker believe their reason in that moment. Show what the argument asks the other person to accept or do. A reply can be as specific as asking when they agreed to help. Someone can notice later, notice their own mistake, or change their behaviour without naming it. Finding a weakness in someone's reason leaves the underlying decision open. Give both sides what evidence they could reasonably have.
-
-Keep formal fallacy names out of titles, dialogue, captions and visible props. For a clear example use an optional numbered `# FALLACY 1:` note with the actual claim. If marking a spoken catch for production, use an inline comment such as `/** Fallacy 1: <name> */`. Include a `# TAKEAWAY 1:` note only for a line the character would already say. Skip these fields for an ordinary disagreement. Check the last ten approved episodes for substantially repeated arguments and circumstances.
+When the user asks for versions, save them as `NN-title-a.txt`, `-b`, `-c`, and stop for a choice.
 
 ## Writing for voice and picture
 
@@ -52,9 +66,13 @@ Save a selected script in `episodes/NN-short-title.txt`, using the next free num
 ```text
 # STATUS: draft
 # TITLE: <story title>
-# ARC: <standalone, or a specific continuing family thread>
 # LENGTH: about <seconds> s, <count> spoken words
-# WANT: <what the viewpoint character is counting on>
+# WRONG: <who>
+# MISTAKE: <its correct name> | <field> | "<the claim in their words>"
+# TEMPTING BECAUSE: <why a sensible person could think it>
+# REALITY: <the event that breaks it>
+# HONEST MOMENT: <the five seconds that matter>
+# CARD: <NAME>: <one plain sentence>
 # CAST: <lower-case speaker IDs>
 # PLACE: <settings and times of day>
 
@@ -68,14 +86,14 @@ id: <spoken words>
 # <proposed continuity change, or "No lasting change.">
 ```
 
-Insert optional reasoning notes in the header and `# FACTS TO CHECK` before `# LOG UPDATE` for real-world claims. Add a `# SEE:` before each distinct visual beat. A silent beat can have a note of its own. Plain dialogue uses `id: spoken words`. No narrator. Lines beginning with `#` and text within `/* ... */` are unvoiced notes. Square brackets are reserved for voice and sound cues. For English and Arabic, follow the bilingual guidance under [Writing for voice and picture](#writing-for-voice-and-picture).
+Put real-world claims under `# FACTS TO CHECK` before `# LOG UPDATE`. Add a `# SEE:` before each distinct visual beat. Plain dialogue uses `id: spoken words`. No narrator. Lines beginning with `#` and text within `/* ... */` are unvoiced. Square brackets are reserved for voice and sound cues. The card is drawn on screen after the last line and is not voiced.
 
 ## Before saving
 
-- Could this happen during an ordinary family week? Would these particular people care about the outcome?
-- Does the other person's behaviour make sense from their side, even if it hurts someone?
-- Can we follow what matters through speech and drawable action? Is there time to notice the reaction?
-- If a character explains something the audience already saw, what happens when you cut that line?
-- Does the ending show what the encounter changed, however small? Does it respect the approved history?
+**Funny:** Would a stranger laugh at least once with the sound off? Is the biggest laugh the mistake? Could you name each speaker without the label? Is there a surprise in the last ten seconds? Cut any line that only explains.
 
-Deliver the draft path and stop for review. Reread the current file before revising it. A user approval or the user's change of the first line to `# STATUS: approved` authorizes recording its proposed changes in the series log. Keep voicing, storyboarding and rendering for a separate production request. Rough ideas and rejected episodes belong in `drafts/`. Demo folders contain experiments.
+**Useful:** Without the mistake, does the plot collapse? Is it tempting? Is it the right name? Could the viewer spot it tomorrow somewhere else? Did an event, not a person, defeat the reasoning?
+
+**Believable:** Does each person act for their own reason? Can an animator draw every action? Does it respect the log?
+
+Deliver the draft path and stop for review. Reread the current file before revising it. A user approval, or the user's change of the first line to `# STATUS: approved`, authorizes recording its proposed changes in the series log. Keep voicing, storyboarding and rendering for a separate production request. Rough ideas and rejected episodes belong in `drafts/`.

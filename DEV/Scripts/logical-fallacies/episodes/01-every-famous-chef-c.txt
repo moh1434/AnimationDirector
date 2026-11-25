@@ -1,0 +1,64 @@
+# STATUS: draft
+# TITLE: Every Famous Chef (version C: everybody quits)
+# LENGTH: about 70 s with the card, 131 spoken words
+# WRONG: Benny, then everyone
+# MISTAKE: Survivorship bias | probability and statistics | "All the great ones quit!"
+# TEMPTING BECAUSE: the quitters we hear about are the ones it worked for
+# REALITY: the whole family quits everything, and the dinner that nobody makes is the answer
+# HONEST MOMENT: Berry asks Benny whether he was scared on the way home
+# CARD: SURVIVORSHIP BIAS: We hear from the ones who made it. The others are too quiet to count.
+# CAST: benny, berry, wendy, cherry
+# PLACE: the kitchen in the afternoon, then the same kitchen at night
+
+# SEE: The kitchen. Berry paints, Wendy has five college brochures in five exact piles, Cherry does homework. Benny walks in with a cardboard box, arms wide.
+benny: I'm going to be famous! I quit!
+berry: You quit the restaurant?
+benny: All the great ones quit! Marlo. Tilda. The egg guy.
+
+# SEE: Berry opens her mouth. Cherry gets there first.
+cherry: Do great ones quit homework?
+benny: Well...
+cherry: The lady who made my game quit school.
+wendy: I'm taking a year off before I even start. I'm ahead of her.
+
+# SEE: Cherry closes her homework. Wendy pushes all five brochures off the table, in order.
+berry: Nobody is quitting anything!
+cherry: Great painters quit cleaning.
+
+# SEE: Berry looks at her paintbrush. Then at the dishes. Hold for two seconds.
+berry: ...They did, didn't they?
+benny: Berry!
+berry: No great painter I know of ever washed a pan.
+
+# SEE: Cut to the kitchen at night. Dishes everywhere. The four sit in a row at the empty table. Hold for two seconds.
+cherry: I'm hungry.
+benny: All right. Who's the great one making dinner?
+
+# SEE: Nobody moves. They look at each other, left and right. Hold for three seconds.
+cherry: What happened to the ones who quit and weren't great?
+benny: I don't know. I never met one.
+
+# SEE: Four people in a row, dishes to the ceiling. Benny looks left, then right. Hold for two seconds.
+benny: Oh. It's us.
+
+# SEE: Berry picks up the frying pan from his box and puts it in front of him.
+berry: Were you scared, on the way home?
+benny: I sang the whole way. Very loudly.
+berry: So, yes.
+benny: So, yes.
+
+# SEE: Benny stands up and lights the stove. Everyone breathes in. Their faces soften. Hold for two seconds.
+cherry: I'd pay for that.
+
+# SEE: Benny turns around with the spoon in the air. Berry sees his face.
+berry: Cherry. Take it back.
+cherry: Too late. Four dollars.
+
+# FACTS TO CHECK
+# - The famous people are invented.
+
+# LOG UPDATE
+# - Benny quit his job as a chef. He was scared on the way home, and Berry knows it.
+# - Wendy is on a gap year before college and is comparing five of them.
+# - Cherry said she would pay for Benny's cooking, which gave him the idea of selling it from home.
+# - Mistake used: survivorship bias, Benny and then everyone, quitting, exposed by a night with no dinner.

@@ -1,0 +1,64 @@
+# STATUS: draft
+# TITLE: Every Famous Chef (version A: Cherry quits school)
+# LENGTH: about 75 s with the card, 146 spoken words
+# WRONG: Benny
+# MISTAKE: Survivorship bias | probability and statistics | "Every famous chef quit their job!"
+# TEMPTING BECAUSE: the quitters we hear about are the ones it worked for
+# REALITY: Cherry quits school with the same reason, and Benny hears himself answer her
+# HONEST MOMENT: Benny admits nobody at work knew the food was his
+# CARD: SURVIVORSHIP BIAS: We hear from the ones who made it. The others are too quiet to count.
+# CAST: benny, berry, wendy, cherry
+# PLACE: the kitchen, late afternoon
+
+# SEE: Wendy and Cherry sit at the kitchen table with Berry, who is threading beads for a necklace. Benny bursts in, holding a cardboard box with a frying pan sticking out.
+benny: Great news! I quit my job!
+
+# SEE: Berry's hand stops. Cherry's spoon stops. A bead rolls off the table. Hold for two seconds.
+berry: The job that pays for the house?
+benny: Chef Marlo quit his job. Famous! Chef Tilda quit hers. Famous!
+benny: Every famous chef quit their job!
+wendy: Did you read that on a mug?
+benny: On two mugs.
+
+# SEE: Cherry puts down her spoon and stands up straight.
+cherry: So famous people quit things.
+benny: Exactly!
+cherry: Great. I quit school.
+benny: What? No!
+cherry: The lady who made my game quit school. Famous!
+cherry: The man with the fast cars quit school. Famous!
+benny: That's two people! Think of all the kids who quit, and you never even...
+
+# SEE: Benny stops. The frying pan slides slowly out of the box. Hold for two seconds.
+benny: ...hear about them.
+
+# SEE: Berry puts the beads aside.
+berry: Call your boss.
+benny: I may have sung on the way out.
+berry: Sung what?
+wendy: It's online. There's dancing.
+
+# SEE: Benny sits down and puts the frying pan on the table in front of him.
+benny: Nine years, and nobody out there knew the food was mine.
+berry: You could have said that first.
+benny: The mugs were shorter.
+
+# SEE: Berry smiles a little and slides the pan back to him. Hold for two seconds.
+berry: So what's the plan?
+
+# SEE: Nobody speaks. Benny's eyes move slowly to the stove.
+berry: No.
+benny: I didn't say anything.
+berry: You looked at my kitchen.
+
+# SEE: Cherry pushes a paper covered in crayon across the table.
+cherry: Before he starts. I'd like to unquit.
+
+# FACTS TO CHECK
+# - The famous people are invented. "Every famous chef quit" is the character's mistake, not a fact.
+
+# LOG UPDATE
+# - Benny quit his job as a chef after nine years, singing and dancing on the way out. The video is online.
+# - Benny told the family that nobody outside knew the food was his.
+# - He wants to cook from the family kitchen. Berry has not agreed.
+# - Mistake used: survivorship bias, Benny, quitting a job, exposed by Cherry copying it.
