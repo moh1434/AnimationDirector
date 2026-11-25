@@ -3,8 +3,8 @@
   "background": "#e9f4ef",
   "looks": [
     {"label": "as a kid", "look": {"build": "kid", "head": "round", "eyes": "big"}},
-    {"label": "teen", "look": {}},
+    {"label": "now", "look": {}},
     {"label": "as an adult", "look": {"build": "adult"}},
-    {"label": "teen, eyes iris", "look": {"eyes": "iris"}}
+    {"label": "now, eyes iris", "look": {"eyes": "iris"}}
   ]
 }

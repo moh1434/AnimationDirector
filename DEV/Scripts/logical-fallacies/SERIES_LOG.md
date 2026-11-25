@@ -4,15 +4,16 @@ Use this log to remember what happened between people and what it might mean the
 
 ## Where the story starts
 
-Benny and Berry live with their daughters Wendy and Cherry in the present day. Benny owns a café. Berry is an art teacher. Wendy has finished high school and makes games in the garage. Cherry attends elementary school, plays with her friends and Wendy, and keeps a diary about her days. Sometimes Wendy asks her to playtest. No festival stand or recurring side character has been established on screen.
+Benny and Berry live with their daughters Wendy and Cherry in the present day. Benny is a chef with a cloud restaurant: he cooks at home, gets customers through his social media page, and a delivery guy he knows takes the food to them on a motorcycle. Berry is an independent artist and creative entrepreneur: she makes oil paintings and handmade jewelry at home and sells them online through her social media page. Wendy has finished high school and makes games in the garage. Cherry attends elementary school, plays with her friends and Wendy, and keeps a diary about her days. Sometimes Wendy asks her to playtest. No festival stand or recurring side character has been established on screen.
 
 ## Approved episodes
+
+None yet. The series starts again from a new episode 01. The earlier pilot, The Long Way Home, is retired (`../old/`): nothing in it happened.
 
 The three demo batches, rough ideas, pilot pitches and scripts under review are outside approved history.
 
 | Episode | Title | Whose experience we followed | What happened between them | Lasting change, if any |
 | --- | --- | --- | --- | --- |
-| 01 | [The Long Way Home](episodes/01-the-long-way-home.txt) | Berry | Benny takes their old route home. Later, Berry invites him to join her on the front step. | Benny learns why Berry wanted to get home early. |
 
 ## What people remember
 
@@ -20,7 +21,6 @@ Record a specific action, who saw or heard it, and what that person now has reas
 
 | Episode | People involved | What happened or was said | Who knows | Later development and episode |
 | --- | --- | --- | --- | --- |
-| 01 | Berry and Benny | Berry tells Benny she sometimes counts on sitting alone on the warm front step before the girls get home. | Berry and Benny | |
 
 ## Promises and unfinished business
 
@@ -33,7 +33,6 @@ Add recurring people (with their speaker IDs), places, rituals and private jokes
 
 | First episode | Person, place or habit | Established detail | Later change |
 | --- | --- | --- | --- |
-| 01 | Benny and Berry’s long drives | When the girls were small, Benny and Berry would pick out houses together on longer drives. Benny usually chose the green house with the crooked porch. | |
 
 ## Reasoning examples, when relevant
 

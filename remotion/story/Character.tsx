@@ -8,7 +8,7 @@ import { CelFilter, ShadowFilter, GroundShadow, SHADE, sid } from "./shade";
 export type Pose =
   | "idle" | "talk" | "explain" | "point" | "point_up" | "point_down" | "wave" | "think" | "shrug"
   | "celebrate" | "hips" | "scared" | "present" | "cross" | "hold" | "hold_up" | "facepalm"
-  | "walk" | "run" | "sit" | "bow" | "fist" | "write" | "phone" | "cheer";
+  | "walk" | "run" | "sit" | "sit_front" | "bow" | "fist" | "write" | "phone" | "cheer";
 
 // Arm angles in degrees: [upper, bend]. 0 = hanging down, +90 = straight out to that side,
 // 180 = straight up. Negative = across the body. Forearm angle = upper + bend.
@@ -37,6 +37,7 @@ export const POSES: Record<Pose, PoseSpec> = {
   walk: { l: [12, 8], r: [12, 8] },
   run: { l: [30, 80], r: [30, 80], lean: 8 },
   sit: { l: [20, 60], r: [20, 60], bodyY: 22 }, // the body drops a little, towards chair height (a floor-length robe must stay above the ground)
+  sit_front: { l: [10, -14], r: [10, -14], bodyY: 80 }, // seated facing the viewer (a step, a bench seen from the front), hands on the knees
   bow: { l: [8, 4], r: [8, 4], lean: 18 },
   fist: { l: [10, 6], r: [40, 120], hand: "fist" },
   write: { l: [10, 6], r: [16, 84] },
@@ -109,11 +110,17 @@ const Hand: React.FC<{ x: number; y: number; a: number; side: 1 | -1; kind?: str
 );
 
 /* ---------------- torso / outfit ---------------- */
-const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, top, bottom }) => {
+const Torso: React.FC<{ look: Look; top: number; bottom: number; seated?: "side" | "front" }> = ({ look, top, bottom, seated }) => {
   const c = look.shirt ?? "#ffd23f";
   const acc = look.accent ?? "#ff7a2f";
   const o = look.outfit ?? "shirt";
   const sw = 7;
+  // how far a skirt reaches below the hips: to mid-calf with look.skirt "midi" (shorter while seated), else the outfit's own length
+  const skirtDrop = (own: number) => look.skirt === "midi" ? (seated ? Math.max(own, 50) : 126) : own;
+  // a long skirt on someone seated side-on: it lies over the thighs and falls from the knees to the shins
+  const lap = look.skirt === "midi" && seated === "side"
+    ? (waist: number) => `M-52 ${waist} L-64 ${bottom + 28} Q-65 ${bottom + 42} -50 ${bottom + 42} H40 Q50 ${bottom + 42} 51 ${bottom + 54} L52 ${bottom + 86} Q53 ${bottom + 98} 66 ${bottom + 98} H112 Q124 ${bottom + 98} 123 ${bottom + 84} L119 ${bottom + 18} Q117 ${bottom - 8} 92 ${bottom - 10} L58 ${bottom - 18} L52 ${waist}Z`
+    : null;
   const body = (b: number, wTop = 54, wBot = 66) =>
     `M${-wTop} ${top + 18} Q${-wTop} ${top} ${-wTop + 22} ${top} L${wTop - 22} ${top} Q${wTop} ${top} ${wTop} ${top + 18} L${wBot} ${b - 12} Q${wBot} ${b} ${wBot - 14} ${b} L${-wBot + 14} ${b} Q${-wBot} ${b} ${-wBot} ${b - 12}Z`;
   switch (o) {
@@ -162,14 +169,28 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
           <path d={`M-24 ${top + 1} L-6 ${top + 80} M24 ${top + 1} L6 ${top + 80}`} stroke={INK} strokeWidth={5} />
         </g>
       );
+    case "blouseskirt": { // a grown-up's blouse (shirt colour) with a rounded white collar and a star brooch (hatColor), tucked into a high-waisted skirt (pants) with a sash (accent)
+      const sk = look.pants ?? "#ffc83d";
+      const waist = top + 104, hem = bottom + skirtDrop(64);
+      return (
+        <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
+          <path d={body(waist + 12, 54, 52)} fill={c} strokeWidth={sw} />
+          <path d={lap?.(waist) ?? `M-50 ${waist} Q-74 ${(waist + hem) / 2} -82 ${hem - 12} Q-85 ${hem} -72 ${hem} Q0 ${hem + 9} 72 ${hem} Q85 ${hem} 82 ${hem - 12} Q74 ${(waist + hem) / 2} 50 ${waist}Z`} fill={sk} strokeWidth={sw} />
+          {!lap && <path d={`M-26 ${waist + 30} Q-36 ${(waist + hem) / 2 + 20} -38 ${hem - 14} M26 ${waist + 30} Q36 ${(waist + hem) / 2 + 20} 38 ${hem - 14}`} fill="none" strokeWidth={4} opacity={0.28} />}
+          <path d={`M-53 ${waist - 9} H53 V${waist + 11} H-53Z`} fill={acc} strokeWidth={5.5} />
+          <path d={`M0 ${top + 12} Q-16 ${top - 4} -38 ${top + 2} Q-40 ${top + 26} -20 ${top + 33} Q-6 ${top + 30} 0 ${top + 12}Z M0 ${top + 12} Q16 ${top - 4} 38 ${top + 2} Q40 ${top + 26} 20 ${top + 33} Q6 ${top + 30} 0 ${top + 12}Z`} fill="#ffffff" strokeWidth={4.5} />
+          <path transform={`translate(0 ${top + 60}) scale(.3)`} d="M0 -55 L17 -17 L59 -17 L25 9 L38 50 L0 25 L-38 50 L-25 9 L-59 -17 L-17 -17Z" fill={look.hatColor ?? "#ffd23f"} strokeWidth={14} />
+        </g>
+      );
+    }
     case "cardiganskirt": { // an open cardigan to the hips (shirt colour) with flap pockets, a white collared shirt (accent), an A-line skirt to the knee (pants)
       const sk = look.pants ?? "#5b4472";
-      const waist = top + 112, hem = bottom + 64, cHem = bottom + 10;
+      const waist = top + 112, hem = bottom + skirtDrop(64), cHem = bottom + 10;
       const panel = (side: number) =>
         `M${side * 54} ${top + 18} Q${side * 54} ${top} ${side * 32} ${top} L${side * 14} ${top} L${side * 22} ${top + 70} L${side * 18} ${cHem} L${side * 58} ${cHem} Q${side * 70} ${cHem} ${side * 70} ${cHem - 12} L${side * 66} ${bottom - 12}Z`;
       return (
         <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
-          <path d={`M-56 ${waist} L-84 ${hem - 10} Q-86 ${hem} -72 ${hem} L72 ${hem} Q86 ${hem} 84 ${hem - 10} L56 ${waist}Z`} fill={sk} strokeWidth={sw} />
+          <path d={lap?.(waist) ?? `M-56 ${waist} L-84 ${hem - 10} Q-86 ${hem} -72 ${hem} L72 ${hem} Q86 ${hem} 84 ${hem - 10} L56 ${waist}Z`} fill={sk} strokeWidth={sw} />
           <path d={body(waist + 6, 54, 60)} fill={acc} strokeWidth={sw} />
           {[-1, 1].map((side) => (
             <g key={side}>
@@ -281,12 +302,12 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
     }
     case "hoodieskirt": { // a roomy hoodie (shirt colour) with white drawstrings over a white tee hem, and a short pleated skirt (pants colour) with a light stripe
       const sk = look.pants ?? "#2b2430";
-      const waist = top + 112, hem = bottom + 36;
+      const waist = top + 112, hem = bottom + skirtDrop(36);
       return (
         <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
-          <path d={`M-58 ${waist} L-90 ${hem - 10} Q-92 ${hem} -78 ${hem} L78 ${hem} Q92 ${hem} 90 ${hem - 10} L58 ${waist}Z`} fill={sk} strokeWidth={sw} />
-          <path d={`M-48 ${waist + 8} L-60 ${hem - 4} M-24 ${waist + 8} L-30 ${hem - 2} M0 ${waist + 8} V${hem - 2} M24 ${waist + 8} L30 ${hem - 2} M48 ${waist + 8} L60 ${hem - 4}`} fill="none" stroke="#ffffff" strokeWidth={3.5} opacity={0.18} />
-          <path d={`M-84 ${hem - 15} Q0 ${hem - 9} 84 ${hem - 15}`} fill="none" stroke="#e6e2ea" strokeWidth={6} />
+          <path d={lap?.(waist) ?? `M-58 ${waist} L-90 ${hem - 10} Q-92 ${hem} -78 ${hem} L78 ${hem} Q92 ${hem} 90 ${hem - 10} L58 ${waist}Z`} fill={sk} strokeWidth={sw} />
+          {!lap && <path d={`M-48 ${waist + 8} L-60 ${hem - 4} M-24 ${waist + 8} L-30 ${hem - 2} M0 ${waist + 8} V${hem - 2} M24 ${waist + 8} L30 ${hem - 2} M48 ${waist + 8} L60 ${hem - 4}`} fill="none" stroke="#ffffff" strokeWidth={3.5} opacity={0.18} />}
+          {!lap && <path d={`M-84 ${hem - 15} Q0 ${hem - 9} 84 ${hem - 15}`} fill="none" stroke="#e6e2ea" strokeWidth={6} />}
           <path d={`M-58 ${waist - 14} H58 V${waist + 4} H-58Z`} fill="#ffffff" strokeWidth={5} />
           <path d={body(waist - 10, 56, 64)} fill={c} strokeWidth={sw} />
           <path d={`M-62 ${waist - 30} Q0 ${waist - 24} 62 ${waist - 30}`} fill="none" strokeWidth={4} opacity={0.35} />
@@ -346,12 +367,12 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
         </g>
       );
     }
-    case "pinafore": { // white tee with a round collar under a bib dress: straps, two buttons, a star, a flared skirt
+    case "pinafore": { // white tee with a round neckline under a bib dress: straps, two buttons, a star, a flared skirt
       const waist = top + 94, hem = bottom + 40, bib = top + 46;
       return (
         <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
           <path d={body(waist + 12, 54, 56)} fill="#ffffff" strokeWidth={sw} />
-          <path d={`M-3 ${top + 12} Q-30 ${top + 6} -36 ${top + 24} Q-22 ${top + 42} -3 ${top + 26}Z M3 ${top + 12} Q30 ${top + 6} 36 ${top + 24} Q22 ${top + 42} 3 ${top + 26}Z`} fill="#ffffff" strokeWidth={4.5} />
+          <path d={`M-20 ${top + 1} Q0 ${top + 20} 20 ${top + 1}`} fill="none" strokeWidth={4.5} />
           {[-1, 1].map((s) => (
             <g key={s}>
               <path d={`M${s * 42} ${top + 3} L${s * 30} ${bib + 8}`} strokeWidth={24} fill="none" />
@@ -1069,23 +1090,23 @@ export const Emote: React.FC<{ kind: string; t: number }> = ({ kind, t }) => {
 
 /* ---------------- builds and head shapes ---------------- */
 /**
- * Body proportions and height. An older build has a smaller head, a neck, broader shoulders, longer arms
- * and longer legs, and stands taller: scale is the height next to a teen (kids are shorter, adults a little
- * taller). The drawing coordinates are always CHAR_HEIGHT tall; scale is applied on top, like look.height.
- * A look with no build is an adult.
- * head: head scale (radius 100 × head) · headY: head centre · top: shoulders · legTop: hips ·
- * sx: shoulder half-width · up/fore: arm lengths · wide: torso width · neck: a visible neck.
+ * Body proportions and height, for every character (a new one gets them too: a look with no build is an adult).
+ * House rule: the head is big and sits on the collar, so nobody has a neck; the body is narrow. Older builds have
+ * a somewhat smaller head and longer limbs, and stand taller: scale is the height next to a teen. The drawing
+ * coordinates are always CHAR_HEIGHT tall; scale is applied on top, like look.height.
+ * head: head scale (radius 100 × head) · headY: head centre (keep headY + 100 × head about 13 below top, so the
+ * chin covers the collar) · top: shoulders · legTop: hips · sx: shoulder half-width · up/fore: arm lengths · wide: torso width.
  */
 export const BUILDS = {
-  kid: { scale: 0.84, head: 1.32, headY: -436, top: -322, legTop: -150, sx: 56, up: 86, fore: 82, wide: 1, neck: false },
-  teen: { scale: 1, head: 0.92, headY: -468, top: -360, legTop: -200, sx: 61, up: 94, fore: 88, wide: 1.1, neck: true },
-  adult: { scale: 1.06, head: 0.87, headY: -473, top: -372, legTop: -216, sx: 66, up: 98, fore: 92, wide: 1.24, neck: true },
+  kid: { scale: 0.84, head: 1.32, headY: -436, top: -322, legTop: -150, sx: 56, up: 86, fore: 82, wide: 1 },
+  teen: { scale: 1, head: 1.14, headY: -448, top: -347, legTop: -182, sx: 56, up: 90, fore: 85, wide: 1 },
+  adult: { scale: 1.06, head: 1.04, headY: -458, top: -367, legTop: -198, sx: 57, up: 94, fore: 89, wide: 1.05 },
 } as const;
 export type Build = keyof typeof BUILDS;
 /** How tall the character stands, relative to its staged size: look.height × the build's scale. */
 export const heightOf = (look?: Look) => (look?.height ?? 1) * (BUILDS[look?.build ?? "adult"] ?? BUILDS.adult).scale;
 /** Where the face is, as a fraction of the staged size above the feet (the camera's `on` aims here). */
-export const faceAim = (look?: Look) => (({ kid: 0.72, teen: 0.78, adult: 0.8 })[look?.build ?? "adult"] ?? 0.8) * heightOf(look);
+export const faceAim = (look?: Look) => (({ kid: 0.72, teen: 0.74, adult: 0.76 })[look?.build ?? "adult"] ?? 0.76) * heightOf(look);
 
 /** The outline of the head for a head shape, centred at (0,0) with half-width rx and half-height ry. */
 const headPath = (shape: string | undefined, rx: number, ry: number) => {
@@ -1165,7 +1186,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
     );
   };
   const skin = look.skin ?? "#fff";
-  const bareLegs = ["dress", "frilldress", "pinafore", "tunic", "belted", "dungarees", "robe", "sailor", "hoodieskirt", "cardiganskirt"].includes(look.outfit ?? "");
+  const bareLegs = ["dress", "frilldress", "pinafore", "tunic", "belted", "dungarees", "robe", "sailor", "hoodieskirt", "cardiganskirt", "blouseskirt"].includes(look.outfit ?? "");
   const legColour = bareLegs ? look.tights ?? skin : look.pants && look.pants !== INK ? look.pants : "#3b3f5c";
   const shoeColour = look.shoes ?? "#2c2a36";
   const ankle = look.hightops ? 38 : 24; // high-tops reach over the ankle, sneakers stop below it
@@ -1220,7 +1241,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
     );
   };
 
-  const shortSleeve = puffSleeve ?? (["shirt", "striped", "overalls", "sweatervest", "vest", "police_uniform", "dress", "frilldress", "belted", "sailor"].includes(look.outfit ?? "shirt") ? (look.outfit === "vest" ? "#fbfbfb" : look.outfit === "sailor" ? "#ffffff" : look.shirt ?? "#ffd23f") : null);
+  const shortSleeve = puffSleeve ?? (["shirt", "striped", "overalls", "sweatervest", "vest", "police_uniform", "dress", "frilldress", "belted", "sailor", "blouseskirt"].includes(look.outfit ?? "shirt") ? (look.outfit === "vest" ? "#fbfbfb" : look.outfit === "sailor" ? "#ffffff" : look.shirt ?? "#ffd23f") : null);
   const arm = (a: ReturnType<typeof armPoints>, side: 1 | -1, hand?: string) => {
     // one smooth curve through the elbow (a soft "rubber hose" arm)
     const x0 = side * sx, y0 = sy;
@@ -1229,7 +1250,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
     return (
       <g>
         {tube(d, look.hands ?? skin, 13)}
-        {sleeve ? tube(d, sleeveColor, 22, "s", longSleeve ? 0.88 : 0.72) : shortSleeve ? tube(d, shortSleeve, 24, "s", puffSleeve ? 0.2 : 0.26) : null}
+        {sleeve ? tube(d, sleeveColor, 22, "s", longSleeve ? 0.88 : 0.72) : shortSleeve ? tube(d, shortSleeve, 24, "s", puffSleeve ? 0.2 : look.outfit === "blouseskirt" ? 0.5 : 0.26) : null}
         {side === 1 && !p.holding && look.extras?.includes("notebook") && (
           <g transform={`translate(${a.hx} ${a.hy}) rotate(${a.a2 - 24})`} stroke={INK} strokeLinecap="round">
             <rect x={-31} y={-48} width={37} height={56} rx={6} fill={look.shoes ?? "#735183"} strokeWidth={6} />
@@ -1276,19 +1297,20 @@ export const Character: React.FC<CharacterProps> = (p) => {
       {/* soft ground shadow, leaning away from the light */}
       <GroundShadow id={`gs${uid}`} x={14} y={2} rx={118 * (1 + jumpY / 80)} ry={20 * (1 + jumpY / 80)} />
       <g transform={`translate(0 ${stepBob + jumpY}) scale(${1 + squash} ${1 - squash})`}>
-      {poseName !== "sit" ? [leg(-1), leg(1)] : [-1, 1].map((side) => {
+      {poseName !== "sit" && poseName !== "sit_front" ? [leg(-1), leg(1)] : [-1, 1].map((side) => {
         // seated: thighs forward, shins down
         // Seen from the side: two parallel legs, thighs forward from under the hem, shins down to the floor.
         // The far leg (drawn first) sits a little behind the near one, so both read as legs.
         const far = side === -1;
         // The chef's coat and shoulders face the camera: use a matching frontal seat,
         // with separate knees, rather than hiding both hips under one side of the coat.
-        const frontSeat = look.hat === "chef";
-        const hx = frontSeat ? side * 27 : side * 13 - 2;
+        const low = poseName === "sit_front"; // a low seat seen from the front: the thighs come towards the viewer, so they look short
+        const frontSeat = look.hat === "chef" || low;
+        const hx = frontSeat ? side * 22 : side * 13 - 2;
         const hy = legTop + bodyY - (frontSeat ? 8 : -12 + (far ? 5 : 0));
-        const kx = frontSeat ? side * 51 : hx + (far ? 72 : 88);
-        const ky = hy + (frontSeat ? 48 : 4);
-        const fx = frontSeat ? side * 54 : kx + 4;
+        const kx = low ? side * 34 : frontSeat ? side * 51 : hx + (far ? 72 : 88);
+        const ky = hy + (low ? 18 : frontSeat ? 48 : 4);
+        const fx = low ? side * 38 : frontSeat ? side * 54 : kx + 4;
         return (
           <g key={side}>
             {tube(frontSeat ? `M${hx} ${hy} Q${kx} ${hy + 18} ${kx} ${ky} L${fx} -14` : `M${hx} ${hy} L${kx} ${ky} L${fx} -14`, legColour, 15)}
@@ -1304,6 +1326,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
               );
             })()}
             {look.socks && bareLegs && tube(`M${lerp(kx, fx, 0.25)} ${lerp(ky, -14, 0.25)} L${fx} -14`, look.socks, 15, "sock")}
+            {low && <ellipse cx={kx} cy={ky - 3} rx={17} ry={14} fill={legColour} stroke={INK} strokeWidth={7} />}
             {shoe(fx, -9, frontSeat ? side : 1)}
           </g>
         );
@@ -1316,11 +1339,9 @@ export const Character: React.FC<CharacterProps> = (p) => {
             </g>
           </g>
         )}
-        {/* the neck, from under the collar to under the chin (older builds) */}
-        {B.neck && tube(`M0 ${top + 14} L0 ${headY + breath * 0.35 + HEAD * 70}`, skin, 26, "neck")}
         <g transform={`translate(0 ${breath * 0.3})`} filter={`url(#${celBody})`}>
           <ExtrasBack look={look} top={top} />
-          <g transform={`scale(${B.wide} 1)`}><Torso look={look} top={top} bottom={legTop} /></g>
+          <g transform={`scale(${B.wide} 1)`}><Torso look={look} top={top} bottom={legTop} seated={poseName === "sit" ? "side" : poseName === "sit_front" ? "front" : undefined} /></g>
           {/* the head's shadow on the chest */}
           <ellipse cx={5} cy={top + 13} rx={44} ry={15} fill={SHADE} opacity={0.2} />
           {look.shirtSymbol && <g transform={`translate(0 ${top+68}) scale(.35)`} fill={look.accent??"#ffc83d"} stroke={INK} strokeWidth={6}>{look.shirtSymbol === "heart" ? <path d="M0 45 C-90 -10 -35 -70 0 -30 C35 -70 90 -10 0 45Z"/> : <path d="M0 -55 L17 -17 L59 -17 L25 9 L38 50 L0 25 L-38 50 L-25 9 L-59 -17 L-17 -17Z"/>}</g>}

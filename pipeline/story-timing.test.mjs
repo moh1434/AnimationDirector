@@ -130,6 +130,14 @@ test("validation warns about actors out of scale and props covering a face", () 
   assert.doesNotMatch(warned({ bg: "park", characters: [{ who: "bob", x: 0.4, size: 0.4, emote: "dizzy" }], props: [{ name: "broken_pot", x: 0.4, y: 0.87, zIndex: 4 }] }), /cover its emote/);
 });
 
+test("validation rejects layers that are not whole numbers, which the browser would ignore", () => {
+  const errors = (scene) => validateStoryboard(story([{ start: 0, layout: "story", bg: "park", ...scene }]), { words, duration: 8 }).errors.join(" | ");
+  assert.match(errors({ characters: [{ who: "bob", zIndex: 4.8 }] }), /characters\[0\]\.zIndex: 4\.8 is not a whole number/);
+  assert.match(errors({ props: [{ name: "broken_pot", zIndex: 4.5 }] }), /props\[0\]\.zIndex: 4\.5 is not a whole number/);
+  assert.match(errors({ props: [{ name: "broken_pot", zIndex: "4" }] }), /props\[0\]\.zIndex/);
+  assert.doesNotMatch(errors({ characters: [{ who: "bob", zIndex: 5 }, { who: "dog" }], props: [{ name: "broken_pot", zIndex: 0 }, { name: "broken_pot", zIndex: -1 }] }), /zIndex/);
+});
+
 test("a sound clip is heard but not captioned", () => {
   assert.ok(isSoundLabel("[bark]"));
   assert.ok(isSoundLabel(" [dog barks] "));

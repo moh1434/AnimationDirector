@@ -2,7 +2,7 @@
 
 Write short, voice-led cartoons about a present-day family. The pleasure is in recognizing something people do with those closest to them. Start with one person's experience. Give the person across from them a life of their own.
 
-Read [the family bible](logical-fallacies/FAMILY_BIBLE.md) for the cast and relationships. For the continuing series, read [the episode rules](logical-fallacies/RULES.md) and [approved history](logical-fallacies/SERIES_LOG.md). The episode rules govern its file format and review process.
+Read [the family bible](../logical-fallacies/FAMILY_BIBLE.md) for the cast and relationships. For the continuing series, read [the episode rules](../logical-fallacies/RULES.md) and [approved history](../logical-fallacies/SERIES_LOG.md). The episode rules govern its file format and review process.
 
 ## Finding the story
 

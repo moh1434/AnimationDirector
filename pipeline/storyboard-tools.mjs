@@ -121,6 +121,10 @@ export function validateStoryboard(sb, { words = [], voiced = [], duration, proj
       if (value && value !== "none" && !names.includes(value)) E(`${where}.${key}`, `"${value}" has no drawing.${hint(value, names)}`);
     }
   };
+  /** The browser ignores a z-index that is not a whole number (4.5), so the thing would fall behind every layer. */
+  const checkLayer = (zIndex, where) => {
+    if (zIndex !== undefined && zIndex !== null && !Number.isInteger(zIndex)) E(`${where}.zIndex`, `${JSON.stringify(zIndex)} is not a whole number, so the layer is ignored and it falls behind the others. Use whole numbers (STORY_MODE.md: 3–4 behind the actors, 5 actors, 6 in front of them); to fit something between two layers, move the others apart.`);
+  };
   const poseProblem = (who, pose) => {
     const pool = isAnimal(sb.cast?.[who]) ? c.animalPoses : c.poses;
     return pool.includes(pose) ? null : `pose "${pose}" does not exist for ${who}.${hint(pose, pool)}`;
@@ -188,6 +192,7 @@ export function validateStoryboard(sb, { words = [], voiced = [], duration, proj
       else if (!castIds.has(ch.who)) E(w, `who "${ch.who}" is not in "cast". Add it to cast (e.g. "${ch.who}": {"preset": "${closest(ch.who, c.presets, 1)[0] ?? "student"}"}) or use: ${[...castIds].join(", ")}.`);
       if (ch.pose && poseProblem(ch.who, ch.pose)) E(w, poseProblem(ch.who, ch.pose));
       checkLook(ch.look, `${w}.look`);
+      checkLayer(ch.zIndex, w);
       (ch.move ?? []).forEach((m, k) => { isAt(m.at, sceneWords, `${w}.move[${k}].at`); isAt(m.until, sceneWords, `${w}.move[${k}].until`); });
       if (ch.expression && !c.expressions.includes(ch.expression)) E(w, `expression "${ch.expression}" does not exist.${hint(ch.expression, c.expressions)}`);
       if (ch.emote && !c.emotes.includes(ch.emote)) E(w, `emote "${ch.emote}" does not exist.${hint(ch.emote, c.emotes)}`);
@@ -214,6 +219,7 @@ export function validateStoryboard(sb, { words = [], voiced = [], duration, proj
       const w = `${at}, props[${j}]`;
       if (!p.name) E(w, `needs "name" (a drawing from the list)`);
       else if (!isProp(p.name)) E(`${w}.name`, `"${p.name}" is not a drawing.${propHint(p.name, c, customProps)} Or draw it as projects/<name>/props/${String(p.name).toLowerCase().replace(/\s+/g, "-")}.svg`);
+      checkLayer(p.zIndex, w);
       if (p.face && p.face !== true && !c.expressions.includes(p.face)) E(`${w}.face`, `"${p.face}" is not an expression.${hint(p.face, c.expressions)}`);
       if (p.motion && !c.motions.includes(p.motion)) E(`${w}.motion`, `"${p.motion}" does not exist.${hint(p.motion, c.motions)}`);
       if (p.enter && !c.enters.includes(p.enter)) E(`${w}.enter`, `"${p.enter}" does not exist.${hint(p.enter, c.enters)}`);

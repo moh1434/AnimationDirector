@@ -1,6 +1,6 @@
 # Character design upgrade: less childish, more varied
 
-Goal: the main cast reads as their ages (Berry a kid, Cherry a teen, Wendy and Benny adults), every character has a face of their own, and the acting
+Goal: the main cast reads as their ages (Berry, Wendy and Benny adults, Cherry a teen), every character has a face of their own, and the acting
 feels less like a children's cartoon. Keep the house style: flat fills, thick ink outline, the renderer's
 lighting (see `ART_STYLE.md`).
 
@@ -8,12 +8,12 @@ lighting (see `ART_STYLE.md`).
 
 | Change | Where |
 |---|---|
-| `look.build`: `kid` (about 2 heads tall, 0.84 × a teen's height), `teen` (about 3 heads), `adult` (about 3.3 heads, 1.06 × a teen; the default). Older builds get a smaller head, a neck, wider shoulders, longer arms and legs. Every preset has a build; the old per-preset heights that faked children are gone. | `BUILDS`, `heightOf` in `remotion/story/Character.tsx`; `PRESETS` in `theme.ts` |
+| `look.build`: `kid` (about 2 heads tall, 0.84 × a teen's height), `teen` (about 2.5 heads), `adult` (about 2.7 heads, 1.06 × a teen; the default). Nobody has a neck: the first version's small heads and necks were removed at the user's request. Every preset has a build. | `BUILDS`, `heightOf` in `remotion/story/Character.tsx`; `PRESETS` in `theme.ts` |
 | Camera `on` aims at the face height of each build | `faceAim` in `Character.tsx`, used in `Scene.tsx` |
 | Head shapes `bean`, `oval`, `square` (soft corners), beside round, egg and wide | `headPath` in `Character.tsx` |
 | Eye styles `big`, `halfshut`, `iris` (+ `irisColor`), `flick` | `Eye` in `remotion/story/Face.tsx` |
 | Emotes keep their size on smaller heads; the head outline stays about as thick as the body's | `Character.tsx` |
-| Berry: teen, bean head, flick eyes · Benny: teen, soft square head, brown iris eyes · Cherry: teen, oval head, half-shut eyes | `PRESETS` in `remotion/story/theme.ts` |
+| Berry: adult, round head, big eyes, long skirt and blouse · Benny: adult, soft square head, brown iris eyes · Cherry: teen, oval head, half-shut eyes | `PRESETS` in `remotion/story/theme.ts` |
 
 These choices per character are a first pass: swap them freely in `theme.ts`.
 
