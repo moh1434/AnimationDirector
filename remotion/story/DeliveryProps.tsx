@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useId } from "react";
 import type { Art } from "./Props";
 import { Face, isBlinking } from "./Face";
 import { INK } from "./theme";
+import { sid } from "./shade";
 
 // The delivery guy and his motorcycle, facing right (use "flip" to ride left). Drawn at the characters' own
 // scale (560 units tall, ground at y = 0) and shrunk into the 200-unit prop box, so his outline has the same
@@ -12,7 +13,7 @@ const line = { stroke: INK, strokeWidth: 7, strokeLinecap: "round" as const, str
 const BIKE = "#3b8df0", KIT = "#ff7a1a", METAL = "#b0bec5", DARK = "#30343f", TROUSERS = "#37477a";
 
 /** The helmet's face opening (and the face in it). */
-const FACE_HOLE = "M-36 20 C-36 -30 -4 -52 40 -52 H98 Q111 -10 108 20 C106 62 78 92 37 92 C-6 92 -36 62 -36 20Z";
+const FACE_HOLE = "M-44 18 C-44 -30 -12 -52 26 -52 H78 Q94 -20 93 14 C91 54 64 86 24 86 C-14 86 -44 56 -44 18Z";
 
 /** A limb: a thick stroke with an outline, like the characters' arms and legs. */
 const tube = (d: string, w: number, fill: string) => <>
@@ -82,6 +83,21 @@ const artParcels = <g {...line}>
   <path d="M-276 -276 H-200" stroke={INK} strokeWidth={5} />
 </g>;
 
+const JACKET = "M-122 -206 Q-128 -290 -78 -338 H10 Q44 -318 34 -272 Q14 -222 -4 -196 Q-70 -184 -122 -206Z";
+const STRIPE = "M-150 -242 Q-60 -220 50 -238";
+/** The jacket, with a reflective stripe clipped to it so it ends exactly at the outline. */
+const Jacket: React.FC<{ kit: string }> = ({ kit }) => {
+  const id = "jk" + sid(useId());
+  return <g {...line}>
+    <clipPath id={id}><path d={JACKET} /></clipPath>
+    <path d={JACKET} fill={kit} stroke="none" />
+    <g clipPath={`url(#${id})`} fill="none">
+      <path d={STRIPE} strokeWidth={24} /><path d={STRIPE} stroke="#fff9df" strokeWidth={15} />
+    </g>
+    <path d={JACKET} fill="none" />
+  </g>;
+};
+
 const rider = (kit: string, t: number, nod: number) => <g {...line}>
   {/* far leg and far arm */}
   <g transform="translate(18 4)">{tube("M-52 -214 Q62 -232 72 -190 L52 -104", 38, "#2b3864")}</g>
@@ -90,10 +106,7 @@ const rider = (kit: string, t: number, nod: number) => <g {...line}>
   {tube("M-64 -210 Q50 -226 56 -182 L34 -100", 44, TROUSERS)}
   <path d="M4 -92 Q6 -112 34 -110 Q52 -108 58 -94 Q88 -90 88 -70 H2 Q0 -82 4 -92Z" fill="#fff" /><path d="M2 -72 H88" strokeWidth={9} />
   <path d="M-18 -60 H60" strokeWidth={11} />
-  {/* jacket */}
-  <path d="M-122 -206 Q-128 -290 -78 -338 H10 Q44 -318 34 -272 Q14 -222 -4 -196 Q-70 -184 -122 -206Z" fill={kit} />
-  <path d="M-124 -226 Q-60 -206 8 -220" fill="none" stroke="#fff9df" strokeWidth={14} />
-  <path d="M-124 -236 Q-60 -216 13 -231 M-122 -214 Q-60 -194 3 -209" fill="none" strokeWidth={4} />
+  <Jacket kit={kit} />
   {/* near arm and hand */}
   {tube("M-34 -306 Q-16 -232 88 -286", 36, kit)}
   <ellipse cx={96} cy={-290} rx={21} ry={19} fill="#fff" /><path d="M94 -300 q14 2 14 12" fill="none" strokeWidth={4} />
@@ -102,11 +115,13 @@ const rider = (kit: string, t: number, nod: number) => <g {...line}>
     <circle r={109} fill={kit} />
     <path d={FACE_HOLE} fill={DARK} transform="translate(-7 0)" />
     <path d={FACE_HOLE} fill="#fff" />
-    <g transform="translate(42 25) scale(.79)"><Face expression="happy" eyeStyle="big" blink={isBlinking(Math.round(t * 60), 60, 11)} look={{ x: 0.3, y: 0.05 }} stroke={8} /></g>
+    <g transform="translate(29 22) scale(.77)"><Face expression="happy" eyeStyle="big" blink={isBlinking(Math.round(t * 60), 60, 11)} look={{ x: 0.3, y: 0.05 }} stroke={8} /></g>
     <path d="M-85 -27 Q-66 -80 -6 -90" fill="none" stroke="#fff" strokeWidth={11} />
+    <g transform="translate(-8 0)">
     <path d="M-14 -37 Q42 -68 104 -60 Q113 -53 111 -43 Q130 -38 138 -24 Q140 -14 104 -15 Q50 -32 -2 -14 Q-18 -14 -14 -33Z" fill={DARK} />
     <path d="M-2 -15 Q52 -42 111 -42" fill="none" strokeWidth={5} />
     <circle cx={2} cy={-30} r={5} fill="#fff" stroke="none" /><circle cx={98} cy={-50} r={5} fill="#fff" stroke="none" />
+    </g>
   </g>
 </g>;
 
