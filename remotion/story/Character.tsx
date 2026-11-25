@@ -8,7 +8,7 @@ import { CelFilter, ShadowFilter, GroundShadow, SHADE, sid } from "./shade";
 export type Pose =
   | "idle" | "talk" | "explain" | "point" | "point_up" | "point_down" | "wave" | "think" | "shrug"
   | "celebrate" | "hips" | "scared" | "present" | "cross" | "hold" | "hold_up" | "facepalm"
-  | "walk" | "run" | "sit" | "bow" | "fist" | "write" | "phone" | "cheer";
+  | "walk" | "run" | "sit" | "sit_front" | "bow" | "fist" | "write" | "phone" | "cheer";
 
 // Arm angles in degrees: [upper, bend]. 0 = hanging down, +90 = straight out to that side,
 // 180 = straight up. Negative = across the body. Forearm angle = upper + bend.
@@ -37,6 +37,7 @@ export const POSES: Record<Pose, PoseSpec> = {
   walk: { l: [12, 8], r: [12, 8] },
   run: { l: [30, 80], r: [30, 80], lean: 8 },
   sit: { l: [20, 60], r: [20, 60], bodyY: 22 }, // the body drops a little, towards chair height (a floor-length robe must stay above the ground)
+  sit_front: { l: [10, -14], r: [10, -14], bodyY: 80 }, // seated facing the viewer (a step, a bench seen from the front), hands on the knees
   bow: { l: [8, 4], r: [8, 4], lean: 18 },
   fist: { l: [10, 6], r: [40, 120], hand: "fist" },
   write: { l: [10, 6], r: [16, 84] },
@@ -346,12 +347,12 @@ const Torso: React.FC<{ look: Look; top: number; bottom: number }> = ({ look, to
         </g>
       );
     }
-    case "pinafore": { // white tee with a round collar under a bib dress: straps, two buttons, a star, a flared skirt
+    case "pinafore": { // white tee with a round neckline under a bib dress: straps, two buttons, a star, a flared skirt
       const waist = top + 94, hem = bottom + 40, bib = top + 46;
       return (
         <g stroke={INK} strokeLinejoin="round" strokeLinecap="round">
           <path d={body(waist + 12, 54, 56)} fill="#ffffff" strokeWidth={sw} />
-          <path d={`M-3 ${top + 12} Q-30 ${top + 6} -36 ${top + 24} Q-22 ${top + 42} -3 ${top + 26}Z M3 ${top + 12} Q30 ${top + 6} 36 ${top + 24} Q22 ${top + 42} 3 ${top + 26}Z`} fill="#ffffff" strokeWidth={4.5} />
+          <path d={`M-20 ${top + 1} Q0 ${top + 20} 20 ${top + 1}`} fill="none" strokeWidth={4.5} />
           {[-1, 1].map((s) => (
             <g key={s}>
               <path d={`M${s * 42} ${top + 3} L${s * 30} ${bib + 8}`} strokeWidth={24} fill="none" />
@@ -1276,19 +1277,20 @@ export const Character: React.FC<CharacterProps> = (p) => {
       {/* soft ground shadow, leaning away from the light */}
       <GroundShadow id={`gs${uid}`} x={14} y={2} rx={118 * (1 + jumpY / 80)} ry={20 * (1 + jumpY / 80)} />
       <g transform={`translate(0 ${stepBob + jumpY}) scale(${1 + squash} ${1 - squash})`}>
-      {poseName !== "sit" ? [leg(-1), leg(1)] : [-1, 1].map((side) => {
+      {poseName !== "sit" && poseName !== "sit_front" ? [leg(-1), leg(1)] : [-1, 1].map((side) => {
         // seated: thighs forward, shins down
         // Seen from the side: two parallel legs, thighs forward from under the hem, shins down to the floor.
         // The far leg (drawn first) sits a little behind the near one, so both read as legs.
         const far = side === -1;
         // The chef's coat and shoulders face the camera: use a matching frontal seat,
         // with separate knees, rather than hiding both hips under one side of the coat.
-        const frontSeat = look.hat === "chef";
-        const hx = frontSeat ? side * 27 : side * 13 - 2;
+        const low = poseName === "sit_front"; // a low seat seen from the front: the thighs come towards the viewer, so they look short
+        const frontSeat = look.hat === "chef" || low;
+        const hx = frontSeat ? side * 22 : side * 13 - 2;
         const hy = legTop + bodyY - (frontSeat ? 8 : -12 + (far ? 5 : 0));
-        const kx = frontSeat ? side * 51 : hx + (far ? 72 : 88);
-        const ky = hy + (frontSeat ? 48 : 4);
-        const fx = frontSeat ? side * 54 : kx + 4;
+        const kx = low ? side * 34 : frontSeat ? side * 51 : hx + (far ? 72 : 88);
+        const ky = hy + (low ? 18 : frontSeat ? 48 : 4);
+        const fx = low ? side * 38 : frontSeat ? side * 54 : kx + 4;
         return (
           <g key={side}>
             {tube(frontSeat ? `M${hx} ${hy} Q${kx} ${hy + 18} ${kx} ${ky} L${fx} -14` : `M${hx} ${hy} L${kx} ${ky} L${fx} -14`, legColour, 15)}
@@ -1304,6 +1306,7 @@ export const Character: React.FC<CharacterProps> = (p) => {
               );
             })()}
             {look.socks && bareLegs && tube(`M${lerp(kx, fx, 0.25)} ${lerp(ky, -14, 0.25)} L${fx} -14`, look.socks, 15, "sock")}
+            {low && <ellipse cx={kx} cy={ky - 3} rx={17} ry={14} fill={legColour} stroke={INK} strokeWidth={7} />}
             {shoe(fx, -9, frontSeat ? side : 1)}
           </g>
         );

@@ -82,7 +82,7 @@ function keepIn(cx: number, cy: number, left: number, right: number, up: number,
 
 /** Where each drawn floor meets the wall, as a fraction of the background's height. */
 const FLOOR: Record<string, number> = {
-  living_room: 0.82, house_exterior: 0.82, park: 0.82, schoolyard: 0.82, street: 0.82, classroom: 0.82,
+  living_room: 0.82, house_exterior: 0.82, park: 0.82, schoolyard: 0.82, street: 0.82, classroom: 0.82, car: 0.97, car_park: 0.97,
   office: 0.83, lab: 0.83, forest: 0.83, garden: 0.83, kitchen: 0.83, workshop: 0.83,
   farm: 0.84, village: 0.84, ruins: 0.84, hilltop: 0.84, room: 0.8, city: 0.78,
 };

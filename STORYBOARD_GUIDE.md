@@ -84,6 +84,12 @@ Word references keep things in sync with the voice, so prefer them.
 See [STORY_MODE.md](STORY_MODE.md) for the complete supplied-voice workflow.
 `layout: "story"` stages actors on a shared floor. New locations: `living_room`, `house_exterior`,
 `park`, `schoolyard`, `street`, each with `"time": "day" | "dusk" | "night"`; existing `office`, `farm`, `classroom`, etc. remain available.
+`car` and `car_park` are the inside of a car seen through the windscreen (passenger left, driver right; the street or the
+park with the swings slides past the rear window): stand the actors at y 0.97, size 0.5, and put the `car_dash` prop (or
+`car_dash_turn`, whose wheel turns) in front of them at x 0.5, y 1, size 0.5, zIndex 6. Pose `sit_front` sits an actor
+facing the viewer (on a step or bench seen from the front). Family props: `front_step` (put it against a house's wall
+line), `fruit_bowl`, `fruit_bowl_partial`, `apple_red`, `milk`, `grocery_bag`, `shoes` (color), `sweater` (color),
+`swing_set`, `green_house`. An actor who `move`s walks, so don't move a seated actor: cut to a new shot with them in place.
 
 ```json
 "cast": {

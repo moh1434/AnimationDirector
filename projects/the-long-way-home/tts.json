@@ -1,0 +1,128 @@
+{
+  "language": "en",
+  "takes": 1,
+  "voices": {
+    "berry": {
+      "library": "berry",
+      "chunkPerLine": true
+    },
+    "benny": {
+      "library": "benny",
+      "chunkPerLine": true
+    }
+  },
+  "lines": [
+    {
+      "who": "berry",
+      "text": "That was our street."
+    },
+    {
+      "who": "benny",
+      "text": "I know. Thought we'd go by the swings."
+    },
+    {
+      "who": "berry",
+      "text": "What for?"
+    },
+    {
+      "who": "benny",
+      "text": "Nothing. It's been a while."
+    },
+    {
+      "who": "berry",
+      "text": "You used to duck driving past here."
+    },
+    {
+      "who": "benny",
+      "text": "Cherry could spot those swings dead asleep."
+    },
+    {
+      "who": "berry",
+      "text": "And there you'd be, pushing her in her pajamas."
+    },
+    {
+      "who": "benny",
+      "text": "You always said one more push."
+    },
+    {
+      "who": "berry",
+      "text": "She had the hiccups from laughing. I liked that."
+    },
+    {
+      "who": "benny",
+      "text": "We could go round by the school, too."
+    },
+    {
+      "who": "berry",
+      "text": "Benny, could you take this next left?"
+    },
+    {
+      "who": "benny",
+      "text": "Yeah. Sure."
+    },
+    {
+      "who": "berry",
+      "text": "I did like going past the swings."
+    },
+    {
+      "who": "benny",
+      "text": "I should've asked."
+    },
+    {
+      "who": "benny",
+      "text": "I just miss talking in the car."
+    },
+    {
+      "who": "berry",
+      "text": "I've been thinking about that front step since lunch."
+    },
+    {
+      "who": "benny",
+      "text": "The step?"
+    },
+    {
+      "who": "berry",
+      "text": "It's still warm around now. The girls won't be back till five."
+    },
+    {
+      "who": "berry",
+      "text": "I wanted to take my shoes off and sit there."
+    },
+    {
+      "who": "benny",
+      "text": "Oh. And I drove right past it."
+    },
+    {
+      "who": "berry",
+      "text": "Twice, if you'd had your way."
+    },
+    {
+      "who": "benny",
+      "text": "Thought you might want this."
+    },
+    {
+      "who": "berry",
+      "text": "Get yours too?"
+    },
+    {
+      "who": "berry",
+      "text": "You know what I miss about those drives?"
+    },
+    {
+      "who": "benny",
+      "text": "What?"
+    },
+    {
+      "who": "berry",
+      "text": "We used to pick a house we'd buy."
+    },
+    {
+      "who": "benny",
+      "text": "Little green one with the crooked porch?"
+    },
+    {
+      "who": "berry",
+      "text": "You picked that one every time."
+    }
+  ]
+}

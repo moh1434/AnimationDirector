@@ -1,0 +1,36 @@
+{
+  "adobeEnhancement": false,
+  "decisionSource": "User, 2026-11-24, asked before the first render of The Long Way Home: no enhancement",
+  "voicePicks": {
+    "berry": 1,
+    "benny": 1
+  },
+  "voiceTakes": "1 per character (the user asked for a single take per voice)",
+  "series": "Benny and Berry family series, episode 01-the-long-way-home",
+  "format": "shorts",
+  "manualRecut": {
+    "when": "2026-11-24",
+    "why": "voice-pick cut Berry's take 1 inside two phrases: line 3 got only 'What' (its 'for?' opened line 5), and line 11 lost the end of 'left?' to line 13. Reported by the user at 0:04 / 0:09.",
+    "how": "Re-cut from voice-takes/en/berry/take-1.wav at the real pauses (ffmpeg silencedetect, -45 dB, 0.3 s), 0.1 s margin each side, 10 ms fades, resampled to 48 kHz like the other clips. Same take, nothing stretched or re-timed.",
+    "clips": {
+      "03-berry.wav": [
+        1.87,
+        2.61
+      ],
+      "05-berry.wav": [
+        3.3,
+        5.23
+      ],
+      "11-berry.wav": [
+        11.79,
+        14.04
+      ],
+      "13-berry.wav": [
+        14.46,
+        16.38
+      ]
+    },
+    "backup": "voice-takes/en/berry/miscut-backup/",
+    "note": "These four files no longer match the hashes in voice-takes/en/picked.json, so voice-pick will refuse to overwrite them unless run with --replace."
+  }
+}
