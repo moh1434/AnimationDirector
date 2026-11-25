@@ -103,6 +103,8 @@ A kid stands at 0.84 of that and an adult at 1.06 (`look.build`), so give everyo
 | Things that hide an actor on purpose: a cupboard they run behind, a car they stand behind | 6 |
 | Effects that belong on top: slobber, an alarm light | 7 |
 
+- **Whole numbers only.** The browser ignores a layer like 4.5, and the thing falls behind everything; `pnpm video validate`
+  reports it as an error. To fit something between two layers, move the others apart.
 - **The main actor's face is never covered**, unless the point of the shot is that they are hidden.
 - **An emote belongs to its actor's layer.** Stars, sweat and "Zz" go behind anything with a higher `zIndex`,
   so put objects the actor lands on *behind* the actor. Bob lands in the pot: pot at 4, Bob at 5, and his stars show.

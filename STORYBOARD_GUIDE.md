@@ -123,7 +123,7 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
   his old names `host` and `narrator` still select him), `scientist`, `student`, `girl`, `woman`,
   `kid`, `king`, `sage`, `soldier`, `worker`, `boss`, `explorer`, `pharaoh`, `bedouin`, `chef`,
   `wizard`, `grandpa`, `robotguy`, `berry` (the channel's leader: berry-pink bun hair with light pink ends, a springy curl
-  and a star clip, freckles, yellow pinafore; also `leader`, `main_female`), `curly_girl` (plum curls with a big side puff and a coral bow, freckles,
+  and a star clip, freckles, blush blouse with a star brooch, long yellow skirt; also `leader`, `main_female`), `curly_girl` (plum curls with a big side puff and a coral bow, freckles,
   yellow tee, teal short dungarees with a heart pocket), and the user's own designs: `adventurer` (explorer girl with a safari
   hat and backpack), `ponytail_girl` (one high pink ponytail with a bow, frilled dress), `buddy` (spiky orange
   hair, blue shirt, red scarf), `bookworm` (curly hair, round glasses, sweater vest), `cherry` (dark brown high ponytail with a cherry
@@ -138,9 +138,10 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
     the wrap hats `headscarf`, `keffiyeh` and `pharaoh`. `keffiyeh`: `hatColor` is the cloth, `accent` its patterned edge.
     `pharaoh`: `accent` is the cloth and the gold band, `hatColor` the stripes)
   * hat: cap grad crown turban helmet hardhat tophat beret wizard chef fez headscarf keffiyeh pharaoh safari bow
-  * build: `kid` (about 2 heads tall, 0.84 × a teen's height; Berry) · `teen` (about 3 heads, a neck, longer arms and legs; Cherry and the
-    other young presets) · `adult` (about 3.3 heads, 1.06 × a teen; Wendy, Benny, and the default when a look has no build). `size` is a
-    teen's height, so a kid and an adult at the same `size` stand shorter and taller than a teen. `height` still fine-tunes one character.
+  * build: `kid` (about 2 heads tall, 0.84 × a teen's height) · `teen` (about 2.5 heads; Cherry and the other young presets) ·
+    `adult` (about 2.7 heads, 1.06 × a teen, longer arms and legs; Berry, Wendy, Benny, and the default when a look has no build). Nobody has
+    a neck: the head sits on the collar in every build. `size` is a teen's height, so a kid and an adult at the same `size` stand
+    shorter and taller than a teen. `height` still fine-tunes one character.
   * head: round egg wide bean oval square (`bean` is fuller at the back of the jaw, `oval` is longer than `egg`, `square` has soft corners)
   * eyes: `big` (the large white eye, default) · `halfshut` (a heavy upper lid, a dry and knowing look) · `iris` (a smaller eye with a coloured iris; set `"irisColor"`) ·
     `flick` (a thick lash line that flicks out at the corner; it replaces `lashes`). Expressions work with every style.
@@ -149,11 +150,12 @@ selection. Gaps, narrator and none are silent visually. Do not fabricate the gen
     (`kid` or `teen` for young people, `adult` for grown-ups), and a head and eye style that tell it apart from the others
     on screen. Keep them the same for the whole video (never change them in `characters[].look` or `actions[].look`),
     and keep them for a character who comes back in later videos.
-  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie ziphoodie armor tunic belted frilldress sweatervest pinafore dungarees sailor chefcoat hoodieskirt
+  * facial: beard longbeard goatee mustache · outfit: shirt vest coat suit robe dress hoodie ziphoodie armor tunic belted frilldress sweatervest pinafore dungarees sailor chefcoat hoodieskirt cardiganskirt blouseskirt
     (`dungarees`: `shirt` is the tee, `pants` the dungarees, `accent` the heart; `chefcoat` is a white chef's jacket: `accent` colours the neckerchief, `pants` the trousers;
     `sailor` is a school uniform:
     `shirt` colours the collar and pleated skirt, `accent` the ribbon, the blouse is white; add `"socks"` for knee socks;
-    `hoodieskirt` is a roomy hoodie (`shirt`) with white drawstrings over a short pleated skirt (`pants`); `ziphoodie` uses `accent` for the zipper)
+    `hoodieskirt` is a roomy hoodie (`shirt`) with white drawstrings over a short pleated skirt (`pants`); `cardiganskirt` is an open cardigan (`shirt`) over a collared shirt (`accent`) and a skirt (`pants`);
+    `blouseskirt` is a collared blouse (`shirt`) tucked into a skirt (`pants`) with a sash (`accent`); `"skirt":"midi"` makes these three skirts mid-calf, for grown-ups; `ziphoodie` uses `accent` for the zipper)
   * accessory: glasses sunglasses monocle scarf tie bowtie medal neckerchief · extras: `["backpack", "flower_necklace", "notebook"]`. The notebook follows the hand and gives way to a scene's `holding` prop.
   * small details: `"freckles": true`, `"lashes": true`, `"shoes": "#ff6b6b"` (shoe colour), `"socks": "#4055a0"` (knee socks, with bare-leg outfits), `"hands": "#ffe8cf"` (hand colour, to match a non-white `skin`),
     `"tights": "#2b2430"` (full tights, with bare-leg outfits), `"hightops": true` (high-top sneakers in the `shoes` colour), `"sneakers": true` (low canvas sneakers),

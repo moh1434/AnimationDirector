@@ -43,12 +43,16 @@ punchline or an aside) · `none` (no lighting layers; `image` backgrounds use th
 - The face shifts slightly with the gaze, so the head reads as a ball.
 - Feet at y = 0, about 560 units tall, the same poses for everyone.
 - **Builds** (`look.build`) set the proportions and the height: `kid` is about 2 heads tall (head scale
-  1.32, no neck) and 0.84 × a teen's height; `teen` about 3 heads (head 0.92, a short neck, wider
-  shoulders, longer arms and legs); `adult` about 3.3 heads (head 0.87, broader torso) and 1.06 × a
-  teen. A look with no build is an adult. The main cast spans the builds: Berry is a kid, Cherry a teen,
-  Wendy and Benny adults; the other young presets are teens.
+  1.32) and 0.84 × a teen's height; `teen` about 2.5 heads (head 1.14); `adult` about 2.7 heads (head
+  1.04) and 1.06 × a teen, with longer arms and legs. A look with no build is an adult.
+  **Nobody has a neck**, now or in a new character: the big head sits on the collar and the body is narrow.
+  Age shows in height, limbs and clothes, not in a neck or a small head. Cherry is a teen; Berry, Wendy
+  and Benny are adults; the other young presets are teens.
   The numbers live in `BUILDS` in `Character.tsx`; `heightOf` gives the drawn height and the camera's
   `on` aims at each build's face (`faceAim`).
+- **Skirts**: Berry's is long in every outfit (`look.skirt: "midi"`, mid-calf; works with `blouseskirt`,
+  `cardiganskirt` and `hoodieskirt`). Use it for other grown-up women; bib dresses and short flared skirts
+  are for the young. Wendy (18) keeps the knee-length skirt of her design.
 - **Head shapes** (`look.head`): round, egg, wide, bean, oval, square. Hair is drawn for a round head,
   so a new shape must stay inside the hair's outline at the top (the soft square is rounder at the top
   than at the jaw for this reason).

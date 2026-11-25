@@ -62,9 +62,10 @@ const BENNY_SWEATER = { shirt: "#7fae7a" };
 const STEP = { type: "house_exterior", time: "dusk" };
 const STEP_Y = 0.83, STEP_W = 0.5, STEP_TOP = STEP_Y - (44 / 200) * STEP_W * 1080 / 1920;
 const SEAT_Y = 0.85, STEP_S = 0.4;
-const step = () => prop("front_step", 0.5, STEP_Y, STEP_W, { zIndex: 4 });
-const shoes = (x, color) => prop("shoes", x, STEP_TOP + 0.004, 0.06, { zIndex: 4.5, ...(color ? { color } : {}) });
-const SHOES_ON_STEP = [step(), shoes(0.27), shoes(0.69, "#d8283c"), shoes(0.76, "#b26fd6")]; // the step; Berry's, Cherry's, Wendy's shoes
+// layers (whole numbers only: CSS ignores a z-index like 4.5): step 3, shoes and Benny standing on it 4, seated actors 5, Berry leaning in front 6
+const step = () => prop("front_step", 0.5, STEP_Y, STEP_W, { zIndex: 3 });
+const shoes = (x, color) => prop("shoes", x, STEP_TOP - 0.004, 0.055, { zIndex: 4, ...(color ? { color } : {}) });
+const SHOES_ON_STEP = [step(), shoes(0.275), shoes(0.683, "#d8283c"), shoes(0.731, "#b26fd6")]; // the step; Berry's, Cherry's, Wendy's shoes
 
 const sb = existsSync(new URL("storyboard.json", dir)) ? read("storyboard.json") : { version: 1 };
 const analysis = existsSync(new URL("build/analysis.json", dir)) ? read("build/analysis.json") : {};
@@ -99,7 +100,7 @@ sb.scenes = [
   scene("the-swings", c(4, ":end+0.25"), "park",
     // the child sleeps sitting on the right-hand swing's seat; the father leans in and lifts
     [actor("dad", 0.5, 0.9, 0.42, "hold", "happy", { facing: "right" }),
-     actor("little", 0.7, 0.875, 0.42, "sit", "sleepy", { facing: "left", zIndex: 4.5 })],
+     actor("little", 0.7, 0.875, 0.42, "sit", "sleepy", { facing: "left", zIndex: 5 })],
     [prop("swing_set", 0.62, 0.88, 0.42, { zIndex: 4 })],
     { zoom: [1.12, 1.2], focus: { x: 0.52, y: 0.82 } },
     { light: "warm", actions: [act(c(4, ":end+1.3"), "dad", "hold_up", "happy")] }),
@@ -153,10 +154,10 @@ sb.scenes = [
     [actor("berry", 0.32, 0.88, 0.48, "idle", "sad", { look: COAT, holding: "milk", facing: "right" }),
      actor("benny", 0.6, 0.88, 0.48, "hold", "neutral", { facing: "right", holding: "apple_red", lookAt: { x: 0.6, y: 0.5 } })],
     // the table stands by the stove; its top is at y 0.804 (table art: top 90 of 200 units up, size 0.38)
-    [prop("table", 0.84, 0.9, 0.38, { zIndex: 4 }),
-     prop("fruit_bowl_partial", 0.8, 0.804, 0.12, { zIndex: 4.5, out: c(13, ":end+1.2") }),
-     prop("fruit_bowl", 0.8, 0.804, 0.12, { zIndex: 4.5, at: c(13, ":end+1.2") }),
-     prop("grocery_bag", 0.92, 0.804, 0.12, { zIndex: 4.5 }),
+    [prop("table", 0.84, 0.9, 0.38, { zIndex: 3 }),
+     prop("fruit_bowl_partial", 0.8, 0.804, 0.12, { zIndex: 4, out: c(13, ":end+1.2") }),
+     prop("fruit_bowl", 0.8, 0.804, 0.12, { zIndex: 4, at: c(13, ":end+1.2") }),
+     prop("grocery_bag", 0.92, 0.804, 0.12, { zIndex: 4 }),
      prop("shoes", 0.1, 0.92, 0.07, { zIndex: 6, at: c(21, ":end+2.0"), enter: "fade" })],
     { zoom: [1.2, 1.2], focus: { x: 0.5, y: 0.87 }, moves: [
       mv(c(14), 1.28, 0.6, 0.82),                 // closer on Benny as he looks up
@@ -183,10 +184,11 @@ sb.scenes = [
 
   // S7: dusk on the front step. The girls' shoes are next to Berry's now. Benny brings her sweater.
   scene("the-sweater", c(22, "-1.4"), STEP,
-    [actor("berry", 0.4, SEAT_Y, STEP_S, "sit_front", "neutral", { facing: "right", lookAt: { x: 0, y: 0.1 } }),
-     actor("benny", 0.56, STEP_TOP + 0.004, STEP_S, "present", "happy", { facing: "left", holding: "sweater", zIndex: 4.8,
+    // Benny stands far enough right that the sweater he holds out hangs clear of her hair
+    [actor("berry", 0.36, SEAT_Y, STEP_S, "sit_front", "neutral", { facing: "right", lookAt: { x: 0, y: 0.1 } }),
+     actor("benny", 0.66, STEP_TOP + 0.004, STEP_S, "present", "happy", { facing: "left", holding: "sweater", zIndex: 4,
        out: c(23, ":end+1.4"),
-       move: [{ at: c(23, ":end+0.3"), duration: 1.0, x: 0.5, y: STEP_TOP + 0.004, ease: "sine.inOut" }] })],
+       move: [{ at: c(23, ":end+0.3"), duration: 1.0, x: 0.53, y: STEP_TOP + 0.004, ease: "sine.inOut" }] })],
     [...SHOES_ON_STEP],
     { zoom: [1.18, 1.2], focus: { x: 0.5, y: 0.84 } },
     { light: "dusk", actions: [
@@ -198,9 +200,9 @@ sb.scenes = [
   // S8: he comes back in his sweater; she shifts over; four seconds to settle side by side; the house game
   scene("side-by-side", c(23, ":end+1.5"), STEP,
     // she has already shifted over to make room (an actor who moves would get up and walk)
-    [actor("berry", 0.4, SEAT_Y, STEP_S, "sit_front", "happy", { facing: "right", look: BERRY_SWEATER }),
-     actor("benny", 0.5, STEP_TOP + 0.004, STEP_S, "idle", "happy", { facing: "left", look: BENNY_SWEATER, zIndex: 4.8,
-       move: [{ at: c(23, ":end+1.7"), duration: 1.2, x: 0.58, y: SEAT_Y, ease: "sine.inOut" }] })],
+    [actor("berry", 0.36, SEAT_Y, STEP_S, "sit_front", "happy", { facing: "right", look: BERRY_SWEATER }),
+     actor("benny", 0.53, STEP_TOP + 0.004, STEP_S, "idle", "happy", { facing: "left", look: BENNY_SWEATER, zIndex: 4,
+       move: [{ at: c(23, ":end+1.7"), duration: 1.2, x: 0.59, y: SEAT_Y, ease: "sine.inOut" }] })],
     [...SHOES_ON_STEP],
     { zoom: [1.18, 1.2], focus: { x: 0.5, y: 0.84 }, moves: [mv(c(24), 1.2, 0.49, 0.85)] },
     { light: "dusk", actions: [
@@ -220,8 +222,8 @@ sb.scenes = [
   // S10: "You picked that one every time." Her shoulder against his; hold while they look across the street
   scene("every-time", c(28, "-0.1"), STEP,
     // her shoulder against his: Berry is drawn in front, leaning in
-    [actor("berry", 0.44, SEAT_Y, STEP_S, "sit_front", "happy", { facing: "right", look: BERRY_SWEATER, lookAt: { x: 0, y: 0 }, zIndex: 5.5 }),
-     actor("benny", 0.57, SEAT_Y, STEP_S, "sit_front", "laughing", { facing: "left", look: BENNY_SWEATER, lookAt: { x: 0, y: 0 } })],
+    [actor("berry", 0.42, SEAT_Y, STEP_S, "sit_front", "happy", { facing: "right", look: BERRY_SWEATER, lookAt: { x: 0, y: 0 }, zIndex: 6 }),
+     actor("benny", 0.58, SEAT_Y, STEP_S, "sit_front", "laughing", { facing: "left", look: BENNY_SWEATER, lookAt: { x: 0, y: 0 } })],
     [...SHOES_ON_STEP],
     { zoom: [1.2, 1.24], focus: { x: 0.5, y: 0.85 } },
     { light: "dusk", actions: [

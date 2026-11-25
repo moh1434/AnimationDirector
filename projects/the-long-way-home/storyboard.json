@@ -203,7 +203,7 @@
           "expression": "sleepy",
           "facing": "left",
           "enter": "none",
-          "zIndex": 4.5
+          "zIndex": 5
         }
       ],
       "props": [
@@ -677,7 +677,7 @@
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4
+          "zIndex": 3
         },
         {
           "name": "fruit_bowl_partial",
@@ -688,7 +688,7 @@
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5,
+          "zIndex": 4,
           "out": "clip:13:end+1.2"
         },
         {
@@ -700,7 +700,7 @@
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5
+          "zIndex": 4
         },
         {
           "name": "grocery_bag",
@@ -711,7 +711,7 @@
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5
+          "zIndex": 4
         },
         {
           "name": "shoes",
@@ -890,7 +890,7 @@
       "characters": [
         {
           "who": "berry",
-          "x": 0.4,
+          "x": 0.36,
           "y": 0.85,
           "size": 0.4,
           "pose": "sit_front",
@@ -905,21 +905,21 @@
         },
         {
           "who": "benny",
-          "x": 0.56,
+          "x": 0.66,
           "y": 0.772125,
           "size": 0.4,
           "pose": "present",
           "expression": "happy",
           "facing": "left",
           "enter": "none",
-          "zIndex": 4.8,
+          "zIndex": 4,
           "holding": "sweater",
           "out": "clip:23:end+1.4",
           "move": [
             {
               "at": "clip:23:end+0.3",
               "duration": 1,
-              "x": 0.5,
+              "x": 0.53,
               "y": 0.772125,
               "ease": "sine.inOut"
             }
@@ -936,41 +936,41 @@
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "shoes",
+          "x": 0.275,
+          "y": 0.7641249999999999,
+          "size": 0.055,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
           "zIndex": 4
         },
         {
           "name": "shoes",
-          "x": 0.27,
-          "y": 0.772125,
-          "size": 0.06,
+          "x": 0.683,
+          "y": 0.7641249999999999,
+          "size": 0.055,
           "at": 0,
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5
-        },
-        {
-          "name": "shoes",
-          "x": 0.69,
-          "y": 0.772125,
-          "size": 0.06,
-          "at": 0,
-          "anchor": "bottom",
-          "enter": "none",
-          "motion": "none",
-          "zIndex": 4.5,
+          "zIndex": 4,
           "color": "#d8283c"
         },
         {
           "name": "shoes",
-          "x": 0.76,
-          "y": 0.772125,
-          "size": 0.06,
+          "x": 0.731,
+          "y": 0.7641249999999999,
+          "size": 0.055,
           "at": 0,
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5,
+          "zIndex": 4,
           "color": "#b26fd6"
         }
       ],
@@ -1028,7 +1028,7 @@
       "characters": [
         {
           "who": "berry",
-          "x": 0.4,
+          "x": 0.36,
           "y": 0.85,
           "size": 0.4,
           "pose": "sit_front",
@@ -1044,14 +1044,14 @@
         },
         {
           "who": "benny",
-          "x": 0.5,
+          "x": 0.53,
           "y": 0.772125,
           "size": 0.4,
           "pose": "idle",
           "expression": "happy",
           "facing": "left",
           "enter": "none",
-          "zIndex": 4.8,
+          "zIndex": 4,
           "look": {
             "shirt": "#7fae7a"
           },
@@ -1059,7 +1059,7 @@
             {
               "at": "clip:23:end+1.7",
               "duration": 1.2,
-              "x": 0.58,
+              "x": 0.59,
               "y": 0.85,
               "ease": "sine.inOut"
             }
@@ -1076,41 +1076,41 @@
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "shoes",
+          "x": 0.275,
+          "y": 0.7641249999999999,
+          "size": 0.055,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
           "zIndex": 4
         },
         {
           "name": "shoes",
-          "x": 0.27,
-          "y": 0.772125,
-          "size": 0.06,
+          "x": 0.683,
+          "y": 0.7641249999999999,
+          "size": 0.055,
           "at": 0,
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5
-        },
-        {
-          "name": "shoes",
-          "x": 0.69,
-          "y": 0.772125,
-          "size": 0.06,
-          "at": 0,
-          "anchor": "bottom",
-          "enter": "none",
-          "motion": "none",
-          "zIndex": 4.5,
+          "zIndex": 4,
           "color": "#d8283c"
         },
         {
           "name": "shoes",
-          "x": 0.76,
-          "y": 0.772125,
-          "size": 0.06,
+          "x": 0.731,
+          "y": 0.7641249999999999,
+          "size": 0.055,
           "at": 0,
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5,
+          "zIndex": 4,
           "color": "#b26fd6"
         }
       ],
@@ -1226,14 +1226,14 @@
       "characters": [
         {
           "who": "berry",
-          "x": 0.44,
+          "x": 0.42,
           "y": 0.85,
           "size": 0.4,
           "pose": "sit_front",
           "expression": "happy",
           "facing": "right",
           "enter": "none",
-          "zIndex": 5.5,
+          "zIndex": 6,
           "look": {
             "outfit": "hoodieskirt",
             "shirt": "#9cc3e8",
@@ -1246,7 +1246,7 @@
         },
         {
           "who": "benny",
-          "x": 0.57,
+          "x": 0.58,
           "y": 0.85,
           "size": 0.4,
           "pose": "sit_front",
@@ -1273,41 +1273,41 @@
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
+          "zIndex": 3
+        },
+        {
+          "name": "shoes",
+          "x": 0.275,
+          "y": 0.7641249999999999,
+          "size": 0.055,
+          "at": 0,
+          "anchor": "bottom",
+          "enter": "none",
+          "motion": "none",
           "zIndex": 4
         },
         {
           "name": "shoes",
-          "x": 0.27,
-          "y": 0.772125,
-          "size": 0.06,
+          "x": 0.683,
+          "y": 0.7641249999999999,
+          "size": 0.055,
           "at": 0,
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5
-        },
-        {
-          "name": "shoes",
-          "x": 0.69,
-          "y": 0.772125,
-          "size": 0.06,
-          "at": 0,
-          "anchor": "bottom",
-          "enter": "none",
-          "motion": "none",
-          "zIndex": 4.5,
+          "zIndex": 4,
           "color": "#d8283c"
         },
         {
           "name": "shoes",
-          "x": 0.76,
-          "y": 0.772125,
-          "size": 0.06,
+          "x": 0.731,
+          "y": 0.7641249999999999,
+          "size": 0.055,
           "at": 0,
           "anchor": "bottom",
           "enter": "none",
           "motion": "none",
-          "zIndex": 4.5,
+          "zIndex": 4,
           "color": "#b26fd6"
         }
       ],

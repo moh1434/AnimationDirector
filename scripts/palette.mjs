@@ -79,7 +79,9 @@ const rolesOf = (look) => {
   if (look.hat && look.hat !== "none") add("hat", look.hatColor, look.hat === "bow" ? 0.03 : 0.15);
   else if (look.hatColor) add("hair clip", look.hatColor, 0.02);
   const twoPiece = ["overalls", "dungarees"].includes(look.outfit ?? "");
-  add(twoPiece ? "top" : "outfit", look.shirt ?? "#ffd23f", twoPiece ? 0.08 : 0.3);
+  const skirt = ["blouseskirt", "cardiganskirt", "hoodieskirt"].includes(look.outfit ?? ""); // the skirt takes the pants colour
+  add(twoPiece ? "top" : "outfit", look.shirt ?? "#ffd23f", twoPiece ? 0.08 : skirt ? 0.15 : 0.3);
+  if (skirt) add("skirt", look.pants, look.skirt === "midi" ? 0.2 : 0.12);
   if (twoPiece) add("dungarees", look.pants, 0.25);
   add("accent", look.accent, 0.04);
   add("shoes", look.shoes, 0.03);

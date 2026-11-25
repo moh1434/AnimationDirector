@@ -80,8 +80,8 @@ const Eye: React.FC<{
   const kind = blink ? "closed" : spec.eyes;
   const lashes = lashesIn && style !== "flick"; // the flick line replaces the little lash ticks
   const small = style === "iris" || style === "flick";
-  const rx = (kind === "wide" ? 23 : 20) * (small ? 0.88 : style === "halfshut" ? 0.95 : 1);
-  const ry = (kind === "wide" ? 29 : 25) * (small ? 0.84 : style === "halfshut" ? 0.9 : 1) * Math.max(0.3, Math.min(1, open));
+  const rx = (kind === "wide" ? 23 : 20) * (small ? 0.96 : 1);
+  const ry = (kind === "wide" ? 29 : 25) * (small ? 0.94 : style === "halfshut" ? 0.96 : 1) * Math.max(0.3, Math.min(1, open));
   const lash = (d: string) => lashes ? <path d={d} stroke={INK} strokeWidth={sw * 0.8} fill="none" strokeLinecap="round" /> : null;
   // the thick upper lash line of the "flick" style: along the top of the eye (or along a lowered lid),
   // flicking up past the outer corner
@@ -125,8 +125,8 @@ const Eye: React.FC<{
     return <path d={`M${cx} ${cy} m-3 0 a3 3 0 1 1 6 0 a7 7 0 1 1 -14 0 a11 11 0 1 1 22 0 a15 15 0 1 1 -30 0`} stroke={INK} strokeWidth={sw * 0.6} fill="none" />;
   }
   // iris style: a coloured iris that keeps its size, with the pupil inside it shrinking for shock
-  const ir = style === "iris" ? 11.5 : 0;
-  const pr = style === "iris" ? 5.2 * (spec.pupil ?? 1) : (style === "big" ? 11 : 10) * (spec.pupil ?? 1);
+  const ir = style === "iris" ? 12.5 : 0;
+  const pr = style === "iris" ? 5.8 * (spec.pupil ?? 1) : (style === "big" ? 11 : 10) * (spec.pupil ?? 1);
   const reach = Math.max(ir, pr);
   const px = cx + look.x * (rx - reach - 3);
   const py = cy + look.y * (ry - reach - 4) + 2;
