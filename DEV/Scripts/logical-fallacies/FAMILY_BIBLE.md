@@ -9,7 +9,7 @@ The relationships below guide new writing. Small moments offered as examples are
 - **Benny, chef with a cloud restaurant.** He cooks at home for delivery only, so there is no dining room. Customers find him through his social media page. A delivery guy he knows takes the food to them on a delivery motorcycle.
 - **Berry, independent artist and creative entrepreneur.** She makes original oil paintings (portraits, landscapes and decorative pieces) and designs handmade jewelry: necklaces, bracelets, earrings and unique accessories. She sells them online through her own social media page.
 
-The delivery guy has no name, look or voice yet. Establish them only if an approved episode brings him on screen.
+The delivery guy has no name or voice yet. He wears an orange jacket and an orange helmet and rides a blue motorcycle (props `delivery_rider` with Benny's food, `delivery_rider_art` with Berry's parcels). Record him in the series log once an approved episode shows him.
 
 ## The four voices
 

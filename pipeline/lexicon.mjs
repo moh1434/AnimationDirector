@@ -14,6 +14,8 @@ export const PROP_WORDS = {
   loot_bag: ["stolen bag", "sack", "كيس"],
   tool_bag: ["tools", "toolbox", "tool bag", "ادوات", "أدوات"],
   alarm_light: ["alarm", "siren", "انذار", "إنذار"],
+  delivery_rider: ["delivery guy", "delivery rider", "courier", "عامل توصيل"],
+  delivery_motorcycle: ["motorcycle", "motorbike", "دراجة نارية"],
   school_bus: ["school bus", "bus", "حافلة"],
   hay_bale: ["hay", "قش"],
   monster: ["monster", "creature", "وحش"],

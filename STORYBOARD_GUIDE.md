@@ -89,7 +89,11 @@ park with the swings slides past the rear window): stand the actors at y 0.97, s
 `car_dash_turn`, whose wheel turns) in front of them at x 0.5, y 1, size 0.5, zIndex 6. Pose `sit_front` sits an actor
 facing the viewer (on a step or bench seen from the front). Family props: `front_step` (put it against a house's wall
 line), `fruit_bowl`, `fruit_bowl_partial`, `apple_red`, `milk`, `grocery_bag`, `shoes` (color), `sweater` (color),
-`swing_set`, `green_house`. An actor who `move`s walks, so don't move a seated actor: cut to a new shot with them in place.
+`swing_set`, `green_house`. The delivery guy on his motorcycle (facing right, `"flip": true` for left; wheels
+turn by themselves; `color` = motorcycle, `color2` = jacket, helmet and food box): `delivery_rider` (Benny's food),
+`delivery_rider_art` (Berry's painting and jewelry), `delivery_motorcycle` (parked, nobody on it). For a cut scene use
+`"anchor": "bottom"`, `"motion": "none"`, size 0.7: alone on a plain `bg`, or crossing `street` at y 0.97 with
+`"x": -0.5, "move": [{"at": 0, "duration": 4, "x": 1.5, "ease": "linear"}]` (from 1.5 to -0.5 when flipped). An actor who `move`s walks, so don't move a seated actor: cut to a new shot with them in place.
 
 ```json
 "cast": {
