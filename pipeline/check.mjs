@@ -128,7 +128,7 @@ export function checkFrames(sb) {
   return out;
 }
 
-export async function runCheck({ dir, build, props, format, renderStills }) {
+export async function runCheck({ dir, build, props, format, renderStills, compositionId }) {
   const sb = props.storyboard;
   const captionsOn = sb.captions?.enabled ?? format !== "youtube";
   const frames = checkFrames(sb);
@@ -137,7 +137,7 @@ export async function runCheck({ dir, build, props, format, renderStills }) {
   for (const f of readdirSync(odir)) if (f.startsWith(format + "-")) { try { unlinkSync(join(odir, f)); } catch {} }
   const audits = new Map();
   await renderStills({
-    publicDir: build, inputProps: { ...props, audit: true }, frames: frames.map((f) => f.frame), outPattern: join(odir, `${format}-{f}.jpg`), scale: 0.5,
+    publicDir: build, compositionId, inputProps: { ...props, audit: true }, frames: frames.map((f) => f.frame), outPattern: join(odir, `${format}-{f}.jpg`), scale: 0.5,
     onLog: (text, f) => { if (text.startsWith("LAYOUT_AUDIT ")) audits.set(f, JSON.parse(text.slice(13))); },
   });
   const report = [];

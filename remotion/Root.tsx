@@ -10,6 +10,7 @@ import { HistoryAssetLibrary } from "./story/HistoryAssetLibrary";
 import { Library } from "./story/Library";
 import type { RenderProps } from "./story/types";
 import { DEMO_PROPS } from "./story/demo";
+import { ExplainerVideo } from "./explainer/ExplainerVideo";
 
 // StoryVideo is the voice-led cartoon pipeline. `node pipeline/cli.mjs make <project>`
 // builds its props (storyboard + word timings + lip-sync) and renders it.
@@ -53,6 +54,9 @@ export const RemotionRoot = () => {
         defaultProps={{ ...DEMO_PROPS, format: "shorts" } as any}
         calculateMetadata={meta as any}
       />
+      {/* explainer mode (video.json "mode": "explainer"): one narrator explains a topic; shares the characters and drawings */}
+      <Composition id="ExplainerVideo" component={ExplainerVideo as any} durationInFrames={600} fps={60} width={1920} height={1080} defaultProps={DEMO_PROPS as any} calculateMetadata={meta as any} />
+      <Composition id="ExplainerVideoShorts" component={ExplainerVideo as any} durationInFrames={600} fps={60} width={1080} height={1920} defaultProps={{ ...DEMO_PROPS, format: "shorts" } as any} calculateMetadata={meta as any} />
       <Composition id="Library" component={Library as any} durationInFrames={240} fps={30} width={1920} height={1080} defaultProps={{ page: "props" }} />
       <Composition id="LibraryCharacters" component={Library as any} durationInFrames={240} fps={30} width={1920} height={1080} defaultProps={{ page: "characters" }} />
       <Composition id="LibraryCharacter" component={Library as any} durationInFrames={240} fps={30} width={1080} height={1080} defaultProps={{ page: "character", name: "farmer", pose: "talk", expression: "laughing" }} />

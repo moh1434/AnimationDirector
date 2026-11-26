@@ -135,9 +135,13 @@ command). `pnpm video doctor` shows what was found. To work without whisper, set
 ## Folders
 
 ```
-projects/<name>/        voice.wav, script.txt, video.json, storyboard.json (yours to edit), props/*.svg (optional), out/ (videos)
-projects/<name>/build/  generated: cleaned voice, analysis, score.mid, spotting.json, music/sfx stems, mix.wav
-remotion/story/         the cartoon library: Character, Face, Props, Backgrounds, Scene layouts, captions
+projects/family/<name>/     the family series (story mode); projects/README.md explains the folders
+projects/explainer/<name>/  explainer videos (video.json "mode": "explainer", EXPLAINER_MODE.md)
+projects/samples/, old/     test projects, and retired videos (old/ is not in git)
+projects/.../<name>/        voice.wav, script.txt, video.json, storyboard.json (yours to edit), props/*.svg (optional), out/ (videos)
+projects/.../<name>/build/  generated: cleaned voice, analysis, score.mid, spotting.json, music/sfx stems, mix.wav
+remotion/story/         the cartoon library: Character, Face, Props, Backgrounds, Scene layouts, captions (shared by both modes)
+remotion/explainer/     explainer mode's own video, scenes, layout and captions; draws with remotion/story
 pipeline/               cli.mjs (all commands), parse, director, lexicon, compile, renderers, Tone.js
 audio/                  analyze_voice.py, compose_music.py, mix.py (+ the original make_jingle.py)
 assets/                 bundled fonts (Baloo Bhaijaan 2, Lalezar — OFL) and paper grain

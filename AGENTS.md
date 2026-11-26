@@ -10,6 +10,7 @@ Start here for a production request. The target is a voice-led, illustrated 9:16
 | A story or several recorded speakers | Read [Story mode](STORY_MODE.md). Use the supplied `dialogue.json` and `voices/` for dialogue. |
 | Text only, or a new speaking character without a take | Read [TTS](TTS.md) and the guide for each engine used. Check the voice library first. |
 | A second narration in Arabic | Follow [Arabic localization](README.md#arabic-or-another-language-version). Translate on-screen labels in `translations.json`. Preserve the supplied narration. |
+| An explainer video (Wendy explains a topic) | Read [Explainer mode](EXPLAINER_MODE.md). Projects live in `projects/explainer/`. |
 | A new script or episode of the Berry and Benny family series | Read `DEV/Scripts/logical-fallacies/RULES.md`, then `SERIES_LOG.md` in the same folder. Save the finished script in its `episodes/` folder and stop for the user's review. |
 | Voicing a saved episode script | Only when the file's first line is `# STATUS: approved`. Read it as it is now (the user may have edited it) and follow [TTS](TTS.md). |
 

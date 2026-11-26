@@ -339,6 +339,6 @@ pnpm video voice-ref my-story ali=2 [--lang ar] [--save ali] [--overwrite]   # a
 
 ## Sample projects
 
-`projects/voice-test` and `projects/cosy-test` were made with the earlier engines (VoxCPM2,
+`projects/samples/voice-test` and `projects/cosy-test` were made with the earlier engines (VoxCPM2,
 CosyVoice3), which are no longer installed in this pipeline. Their recordings still work in a video;
 to make new takes, change their `tts.json` voices to the engines above.

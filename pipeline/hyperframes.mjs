@@ -9,6 +9,7 @@ import { ROOT, IS_WIN, binOf } from "./env.mjs";
 const FORMATS = { youtube: [1920, 1080], shorts: [1080, 1920], square: [1080, 1080] };
 
 export async function exportHyperframes(dir, { format = "youtube", render = false, props }) {
+  // HyperFrames export follows the story engine (remotion/story); explainer-mode projects render with Remotion only.
   const name = basename(dir);
   const build = join(dir, "build");
   const out = join(build, `hyperframes-${format}`);

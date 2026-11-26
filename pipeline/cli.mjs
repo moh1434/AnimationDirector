@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Story video pipeline — voice-led cartoon explainers in the style of the reference videos.
 //
-//   node pipeline/cli.mjs new <name>                 create projects/<name> with templates
+//   node pipeline/cli.mjs new <name> [--explainer]   create projects/<name> (with --explainer: projects/explainer/<name>, mode "explainer")
 //   node pipeline/cli.mjs make <name> [options]      plan (if needed) + audio + render
 //   node pipeline/cli.mjs plan <name> [--replan]     analyse voice, write storyboard.json
 //   node pipeline/cli.mjs audio <name>               music (pretty_midi + Tone.js) + SFX + mix (pedalboard)
@@ -28,6 +28,7 @@ import { spawnSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { ROOT, IS_WIN, findPython, findFfmpeg, findChrome, binOf } from "./env.mjs";
 import { parseScript, detectLanguage } from "./parse.mjs";
+import { MODES, modeOf, compositionFor } from "./modes.mjs";
 import { direct } from "./director.mjs";
 import { dialogueStale, isSoundLabel, loadTimeline, missingClips, prepareDialogue, readDialogue } from "./dialogue.mjs";
 import { ENGINES, makeReference, makeTakes, parsePicks, pickTakes, ttsSettings } from "./tts.mjs";
@@ -60,7 +61,7 @@ const writeJson = (p, o) => writeFileSync(p, JSON.stringify(o, null, 2), "utf8")
 
 function projectDir(name) {
   if (!name) die("Give a project name, e.g.  make-video.bat my-video");
-  const cands = [resolve(name), join(ROOT, "projects", name)];
+  const cands = [resolve(name), join(ROOT, "projects", name), ...Object.values(MODES).map((m) => join(ROOT, "projects", m.folder, name))];
   const d = cands.find((c) => existsSync(c) && statSync(c).isDirectory());
   if (!d) die(`Project not found: ${name}\nCreate it with:  new-video.bat ${name}`);
   return d;
@@ -90,7 +91,8 @@ const py = (script, args) => run(findPython(), [join(ROOT, "audio", script), ...
 
 function settingsOf(dir) {
   const s = readJson(join(dir, "video.json"), {});
-  return { title: basename(dir), language: "auto", formats: ["shorts"], captions: "auto", music: "auto", host: "host", sfx: true, fps: videoFps(), ...s }; // fps: VIDEO_FPS in .env unless video.json sets it
+  const mode = s.mode ?? "story";
+  return { title: basename(dir), language: "auto", formats: ["shorts"], captions: "auto", music: "auto", host: MODES[mode]?.host ?? "host", sfx: true, fps: videoFps(), ...s, mode: modeOf({ mode }) }; // fps: VIDEO_FPS in .env unless video.json sets it
 }
 
 function formatsOf(settings) {
@@ -435,7 +437,7 @@ async function render(dir, ctx) {
     // render to a fresh temp name, then swap it in: on Windows the old video cannot be replaced
     // while it is open in a player, and the finished render must not be lost because of that
     const tmp = file.replace(/\.mp4$/, `.rendering-${process.pid}.mp4`);
-    await renderVideo({ publicDir: build, inputProps: props, out: tmp, draft, gpu, onGpuFailed: (e) => warn(`GPU render failed, rendering on the CPU instead (${e.message.split("\n")[0]})`), concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
+    await renderVideo({ publicDir: build, inputProps: props, out: tmp, draft, gpu, compositionId: compositionFor(settings), onGpuFailed: (e) => warn(`GPU render failed, rendering on the CPU instead (${e.message.split("\n")[0]})`), concurrency: flags.concurrency ? Number(flags.concurrency) : undefined, onProgress: (p) => { const k = Math.floor(p * 20); if (k !== last) { last = k; process.stdout.write(`\r  ${"█".repeat(k)}${"░".repeat(20 - k)} ${Math.round(p * 100)}%`); } } });
     process.stdout.write(`\r  done in ${Math.round((Date.now() - t0) / 1000)}s${" ".repeat(30)}\n`);
     const saved = replaceFile(tmp, file);
     if (saved !== file) {
@@ -496,7 +498,7 @@ async function check(dir) {
     const { props, storyboard } = renderProps(dir, fmt);
     copyUserImages(dir, build, storyboard);
     log(`Checking the ${fmt} layout (${storyboard.scenes.length} scenes)…`);
-    const r = await runCheck({ dir, build, props, format: fmt, renderStills });
+    const r = await runCheck({ dir, build, props, format: fmt, renderStills, compositionId: compositionFor(settings) });
     total += r.errors;
     log(`  ${r.errors} errors, ${r.warns} warnings → ${r.file}`);
   }
@@ -515,7 +517,7 @@ async function stills(dir) {
   const frames = flags.frames ? String(flags.frames).split(",").map(Number) : storyboard.scenes.map((s) => Math.round((s.start + Math.min(s.end - s.start - 0.1, Math.max(1.4, (s.end - s.start) * 0.7))) * fps));
   const odir = join(dir, "out", "stills");
   mkdirSync(odir, { recursive: true });
-  const outs = await renderStills({ publicDir: build, inputProps: props, frames, outPattern: join(odir, `${fmt}-{f}.jpg`), scale: 0.5 });
+  const outs = await renderStills({ publicDir: build, inputProps: props, frames, outPattern: join(odir, `${fmt}-{f}.jpg`), scale: 0.5, compositionId: compositionFor(settings) });
   const ff = findFfmpeg();
   if (ff && outs.length) {
     const cols = fmt === "shorts" ? 6 : 4;
@@ -540,10 +542,25 @@ function studio(dir) {
 
 function newProject(name) {
   if (!name) die("Usage: new <name>");
-  const d = join(ROOT, "projects", name);
-  if (existsSync(d)) die(`projects/${name} already exists`);
+  const explainer = !!flags.explainer;
+  const rel = explainer && !/[\\/]/.test(name) ? `${MODES.explainer.folder}/${name}` : name;
+  const d = join(ROOT, "projects", rel);
+  if (existsSync(d)) die(`projects/${rel} already exists`);
+  mkdirSync(dirname(d), { recursive: true });
   cpSync(join(ROOT, "projects", "_template"), d, { recursive: true });
+  if (explainer) {
+    // one narrator who is also on screen: Wendy, with her saved voice
+    writeJson(join(d, "video.json"), { ...readJson(join(d, "video.json"), {}), title: basename(name), mode: "explainer", host: MODES.explainer.host });
+  }
   log(`Created ${d}`);
+  if (explainer && flags.tts) {
+    rmSync(join(d, "script.txt"), { force: true });
+    writeJson(join(d, "tts.json"), { language: "en", takes: 1, voices: { wendy: { library: "wendy" } }, lines: [{ who: "wendy", text: "The exact words of the script, one entry per sentence or two." }] });
+    log("Now: fill in tts.json from the script (EXPLAINER_MODE.md), then run:");
+    log(`  pnpm video voices ${rel}`);
+    log(`  pnpm video voice-pick ${rel} wendy=1`);
+    return;
+  }
   if (flags.tts) {
     rmSync(join(d, "script.txt"), { force: true }); // tts.json holds the script; voice-pick writes the recordings
     writeJson(join(d, "tts.json"), {
@@ -590,7 +607,7 @@ async function localize(srcDir, lang) {
   const srcCtx = await plan(srcDir);
   // 2. the target project
   const name = `${basename(srcDir)}-${lang}`;
-  const dst = join(ROOT, "projects", name);
+  const dst = join(dirname(srcDir), name);
   mkdirSync(dst, { recursive: true });
   if (multiVoice) {
     const manifest = readDialogue(srcDir, dialogueFile);

@@ -13,9 +13,10 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 
-projects/*/voice.wav
-projects/*/voices*/
-projects/*/voice-takes/
+projects/**/voice.wav
+projects/**/voice-??.wav
+projects/**/voices*/
+projects/**/voice-takes/
 projects/old/*
 # ---------- Render output & caches ----------
 out/
