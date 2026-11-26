@@ -1,10 +1,10 @@
 # STATUS: draft
-# TITLE: Every Famous Chef (version A: Cherry quits school)
-# LENGTH: about 75 s with the card, 146 spoken words
+# TITLE: Every Famous Chef
+# LENGTH: about 120 s with the card, 244 spoken words
 # WRONG: Benny
-# MISTAKE: Survivorship bias | probability and statistics | "Every famous chef quit their job!"
+# MISTAKE: Survivorship bias | probability and statistics | "Everyone famous quit something!"
 # TEMPTING BECAUSE: the quitters we hear about are the ones it worked for
-# REALITY: Cherry quits school with the same reason, and Benny hears himself answer her
+# REALITY: Cherry quits school for the same reason, and Benny hears himself answer her
 # HONEST MOMENT: Benny admits nobody at work knew the food was his
 # CARD: SURVIVORSHIP BIAS: We hear from the ones who made it. The others are too quiet to count.
 # CAST: benny, berry, wendy, cherry
@@ -15,8 +15,9 @@ benny: Great news! I quit my job!
 
 # SEE: Berry's hand stops. Cherry's spoon stops. A bead rolls off the table. Hold for two seconds.
 berry: The job that pays for the house?
-benny: Chef Marlo quit his job. Famous! Chef Tilda quit hers. Famous!
-benny: Every famous chef quit their job!
+benny: Jeff Bezos quit his job. Famous!
+benny: Gordon Ramsay quit football. Famous!
+benny: Everyone famous quit something!
 wendy: Did you read that on a mug?
 benny: On two mugs.
 
@@ -25,18 +26,19 @@ cherry: So famous people quit things.
 benny: Exactly!
 cherry: Great. I quit school.
 benny: What? No!
-cherry: The lady who made my game quit school. Famous!
-cherry: The man with the fast cars quit school. Famous!
-benny: That's two people! Think of all the kids who quit, and you never even...
+cherry: The man who made Minecraft never finished high school. Famous!
+cherry: Billie Eilish never went to college. Famous!
+benny: That's two people!
+benny: What about all the kids who dropped out and failed?
+benny: Nobody ever hears about them.
 
-# SEE: Benny stops. The frying pan slides slowly out of the box. Hold for two seconds.
-benny: ...hear about them.
+# SEE: Benny stops. He hears what he just said. Hold for two seconds.
+cherry: Okay. Quitting school is risky. I won't do it.
 
 # SEE: Berry puts the beads aside.
-berry: Call your boss.
-benny: I may have sung on the way out.
-berry: Sung what?
-wendy: It's online. There's dancing.
+berry: Can you get your job back?
+benny: I told the whole kitchen I'm going to be famous.
+wendy: So that's a no.
 
 # SEE: Benny sits down and puts the frying pan on the table in front of him.
 benny: Nine years, and nobody out there knew the food was mine.
@@ -50,15 +52,40 @@ berry: So what's the plan?
 berry: No.
 benny: I didn't say anything.
 berry: You looked at my kitchen.
+benny: A restaurant, right here. No tables, no rent, no boss.
+benny: People order on their phones, and somebody delivers.
+berry: Somebody?
+benny: We'll find somebody.
+benny: All I need now is someone to build the app.
+
+# SEE: Everyone looks at Wendy.
+wendy: I like this idea.
+wendy: I just finished school, so I'm taking a gap year before university.
+berry: Since when?
+wendy: Since March. I made a chart.
+wendy: I'll build you a page first. The app comes when you have customers.
+benny: See? I have a team!
 
 # SEE: Cherry pushes a paper covered in crayon across the table.
-cherry: Before he starts. I'd like to unquit.
+cherry: Then I want a job too. Taster. One dessert a day.
+
+# SEE: Benny signs it at once.
+berry: You didn't even read it.
+benny: Every famous chef signs fast!
+
+# SEE: Berry closes her eyes. Cherry folds the contract into her pocket. Hold for two seconds.
 
 # FACTS TO CHECK
-# - The famous people are invented. "Every famous chef quit" is the character's mistake, not a fact.
+# - "Everyone famous quit something" is Benny's mistake, not a fact.
+# - Jeff Bezos left a finance job in 1994 to start Amazon. Check before voicing.
+# - Gordon Ramsay's football career ended with a knee injury in the mid-1980s; he then trained as a chef. "Quit" is Benny's word for it.
+# - Markus Persson, who made Minecraft, never finished high school (Wikipedia, Biography.com).
+# - Billie Eilish was homeschooled and has said she never went to school; no source says she went to college.
 
 # LOG UPDATE
-# - Benny quit his job as a chef after nine years, singing and dancing on the way out. The video is online.
+# - Benny quit his job as a chef after nine years and told the whole kitchen he is going to be famous, so he can't ask for it back.
 # - Benny told the family that nobody outside knew the food was his.
-# - He wants to cook from the family kitchen. Berry has not agreed.
+# - Plan: a cloud restaurant from the family kitchen, orders by phone, "somebody" to deliver. Berry hasn't said yes, but slid him the pan.
+# - Wendy has finished school and is taking a gap year before university (planned since March, with a chart). She will build a page first and the app later.
+# - Cherry is the official taster: one dessert a day, in a crayon contract Benny signed without reading.
 # - Mistake used: survivorship bias, Benny, quitting a job, exposed by Cherry copying it.

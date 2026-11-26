@@ -1,6 +1,6 @@
 # STATUS: draft
 # TITLE: Every Famous Chef (version C: everybody quits)
-# LENGTH: about 70 s with the card, 131 spoken words
+# LENGTH: about 75 s with the card, 137 spoken words
 # WRONG: Benny, then everyone
 # MISTAKE: Survivorship bias | probability and statistics | "All the great ones quit!"
 # TEMPTING BECAUSE: the quitters we hear about are the ones it worked for
@@ -13,7 +13,7 @@
 # SEE: The kitchen. Berry paints, Wendy has five college brochures in five exact piles, Cherry does homework. Benny walks in with a cardboard box, arms wide.
 benny: I'm going to be famous! I quit!
 berry: You quit the restaurant?
-benny: All the great ones quit! Marlo. Tilda. The egg guy.
+benny: All the great ones quit! Gordon Ramsay quit his job. Famous! Jeff Bezos quit hers. Famous!
 
 # SEE: Berry opens her mouth. Cherry gets there first.
 cherry: Do great ones quit homework?
